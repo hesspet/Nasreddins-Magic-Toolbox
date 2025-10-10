@@ -1,6 +1,8 @@
 @page "/tarot"
+@using System.Collections.Generic
 @using System.Linq
 @using System.IO
+@using System.Reflection
 
 <PageTitle>@DisplayTexts.TarotPageTitle</PageTitle>
 
@@ -17,6 +19,18 @@
            placeholder="@DisplayTexts.TarotSearchPlaceholder" />
 </div>
 
+<div class="tarot-search">
+    <label class="form-label" for="deckSelection">@DisplayTexts.TarotDeckSelectionLabel</label>
+    <select id="deckSelection"
+            class="form-select"
+            @bind="SelectedDeck">
+        @foreach (var option in DeckOptions)
+        {
+            <option value="@option.DeckName">@option.DisplayName</option>
+        }
+    </select>
+</div>
+
 @if (HasSearched && selectedCard is null)
 {
     <p class="text-danger">@DisplayTexts.TarotSearchNotFound</p>
@@ -25,13 +39,18 @@
 @if (selectedCard is not null)
 {
     <figure class="tarot-card">
-        <img src="@selectedCard.ImagePath" alt="@selectedCard.DisplayName" class="img-fluid" />
+        <img src="@selectedCard.ImageDataUrl" alt="@selectedCard.DisplayName" class="img-fluid" />
         <figcaption>@selectedCard.DisplayName</figcaption>
     </figure>
 }
 
 @code {
+    private static readonly Assembly ResourceAssembly = typeof(TarotCard).Assembly;
+    private static readonly string ImageResourcePrefix = $"{typeof(DisplayTexts).Namespace}.Images.";
+    private static readonly TarotDeckCollection DeckCollection = LoadDeckCollection();
+
     private string searchTerm = string.Empty;
+    private string selectedDeck = DeckCollection.DefaultDeck;
     private TarotCardInfo? selectedCard;
     private bool HasSearched => !string.IsNullOrWhiteSpace(searchTerm);
 
@@ -50,33 +69,77 @@
         }
     }
 
-    private static readonly IReadOnlyList<TarotCardInfo> Cards = LoadCards();
-
-    private static IReadOnlyList<TarotCardInfo> LoadCards()
+    private string SelectedDeck
     {
-        var imagesRoot = Path.Combine(AppContext.BaseDirectory, "wwwroot", "images");
-        if (!Directory.Exists(imagesRoot))
+        get => selectedDeck;
+        set
         {
-            return Array.Empty<TarotCardInfo>();
-        }
+            var newValue = string.IsNullOrWhiteSpace(value) ? DeckCollection.DefaultDeck : value;
+            if (selectedDeck == newValue)
+            {
+                return;
+            }
 
-        return Directory.EnumerateDirectories(imagesRoot, "*", SearchOption.TopDirectoryOnly)
-                        .SelectMany(deckDirectory => LoadDeck(deckDirectory))
-                        .OrderBy(card => card.DisplayName)
-                        .ToList();
+            selectedDeck = newValue;
+            UpdateSelection();
+        }
     }
 
-    private static IEnumerable<TarotCardInfo> LoadDeck(string deckDirectory)
+    private IEnumerable<TarotDeckOption> DeckOptions => DeckCollection.Options;
+
+    protected override void OnInitialized()
     {
-        var deckName = Path.GetFileName(deckDirectory);
-        return Directory.EnumerateFiles(deckDirectory, "*.jpg", SearchOption.TopDirectoryOnly)
-                        .Select(filePath =>
-                        {
-                            var fileName = Path.GetFileName(filePath);
-                            var displayName = CreateDisplayName(deckName, fileName);
-                            var key = CreateKey(deckName, fileName);
-                            return new TarotCardInfo(displayName, deckName, fileName, key);
-                        });
+        if (string.IsNullOrWhiteSpace(selectedDeck))
+        {
+            selectedDeck = DeckCollection.DefaultDeck;
+        }
+    }
+
+    private static TarotDeckCollection LoadDeckCollection()
+    {
+        var cards = ResourceAssembly.GetManifestResourceNames()
+                                    .Where(IsImageResource)
+                                    .Select(CreateCardInfo)
+                                    .OfType<TarotCardInfo>()
+                                    .ToList();
+
+        var cardsByDeck = cards.GroupBy(card => card.DeckName)
+                               .ToDictionary(group => group.Key,
+                                             group => (IReadOnlyList<TarotCardInfo>)group.OrderBy(card => card.DisplayName)
+                                                                                         .ToList(),
+                                             StringComparer.OrdinalIgnoreCase);
+
+        var defaultDeck = cardsByDeck.Keys.OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
+                                          .FirstOrDefault()
+                           ?? string.Empty;
+
+        return new TarotDeckCollection(cardsByDeck, defaultDeck);
+    }
+
+    private static bool IsImageResource(string resourceName) =>
+        resourceName.StartsWith(ImageResourcePrefix, StringComparison.OrdinalIgnoreCase)
+        && (resourceName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase)
+            || resourceName.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase));
+
+    private static TarotCardInfo? CreateCardInfo(string resourceName)
+    {
+        if (!resourceName.StartsWith(ImageResourcePrefix, StringComparison.Ordinal))
+        {
+            return null;
+        }
+
+        var relativeName = resourceName[ImageResourcePrefix.Length..];
+        var segments = relativeName.Split('.', StringSplitOptions.RemoveEmptyEntries);
+        if (segments.Length < 2)
+        {
+            return null;
+        }
+
+        var deckName = segments[0];
+        var fileName = string.Join('.', segments.Skip(1));
+        var displayName = CreateDisplayName(deckName, fileName);
+        var key = CreateKey(deckName, fileName);
+        return new TarotCardInfo(displayName, deckName, fileName, key, resourceName);
     }
 
     private static string CreateDisplayName(string deckName, string fileName)
@@ -94,6 +157,8 @@
         return string.Concat(filtered);
     }
 
+    private static string CreateDeckDisplayName(string deckName) => deckName.Replace('_', ' ');
+
     private void UpdateSelection()
     {
         selectedCard = null;
@@ -104,7 +169,9 @@
             return;
         }
 
-        selectedCard = Cards.FirstOrDefault(card => card.ComparisonKey.Contains(normalized, StringComparison.OrdinalIgnoreCase));
+        var deckToSearch = string.IsNullOrWhiteSpace(selectedDeck) ? DeckCollection.DefaultDeck : selectedDeck;
+        var candidates = DeckCollection.GetCards(deckToSearch);
+        selectedCard = candidates.FirstOrDefault(card => card.ComparisonKey.Contains(normalized, StringComparison.OrdinalIgnoreCase));
     }
 
     private static string NormalizeForComparison(string value)
@@ -119,9 +186,44 @@
         return string.Concat(filtered);
     }
 
-    private sealed record TarotCardInfo(string DisplayName, string DeckName, string FileName, string Key)
+    private sealed record TarotCardInfo(string DisplayName, string DeckName, string FileName, string Key, string ResourceName)
     {
-        public string ImagePath => $"images/{DeckName}/{FileName}";
+        private string? imageDataUrl;
+
+        public string ImageDataUrl => imageDataUrl ??= LoadImageData(ResourceName);
         public string ComparisonKey => NormalizeForComparison(Key);
+
+        private static string LoadImageData(string resourceName)
+        {
+            using var stream = ResourceAssembly.GetManifestResourceStream(resourceName);
+            if (stream is null)
+            {
+                return string.Empty;
+            }
+
+            using var memoryStream = new MemoryStream();
+            stream.CopyTo(memoryStream);
+            var base64 = Convert.ToBase64String(memoryStream.ToArray());
+            return $"data:image/jpeg;base64,{base64}";
+        }
     }
+
+    private sealed record TarotDeckCollection(IReadOnlyDictionary<string, IReadOnlyList<TarotCardInfo>> CardsByDeck, string DefaultDeck)
+    {
+        public IEnumerable<TarotDeckOption> Options => CardsByDeck.Keys
+                                                                   .OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
+                                                                   .Select(name => new TarotDeckOption(name, CreateDeckDisplayName(name)));
+
+        public IReadOnlyList<TarotCardInfo> GetCards(string deckName)
+        {
+            if (CardsByDeck.TryGetValue(deckName, out var cards))
+            {
+                return cards;
+            }
+
+            return Array.Empty<TarotCardInfo>();
+        }
+    }
+
+    private sealed record TarotDeckOption(string DeckName, string DisplayName);
 }
