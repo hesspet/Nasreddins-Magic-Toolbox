@@ -54,34 +54,43 @@
 
     private static IReadOnlyList<TarotCardInfo> LoadCards()
     {
-        var imagesDirectory = Path.Combine(AppContext.BaseDirectory, "wwwroot", "images", "TarotDeck_Wikipedia");
-        if (!Directory.Exists(imagesDirectory))
+        var imagesRoot = Path.Combine(AppContext.BaseDirectory, "wwwroot", "images");
+        if (!Directory.Exists(imagesRoot))
         {
             return Array.Empty<TarotCardInfo>();
         }
 
-        return Directory.EnumerateFiles(imagesDirectory, "*.jpg", SearchOption.TopDirectoryOnly)
-                        .Select(filePath =>
-                        {
-                            var fileName = Path.GetFileName(filePath);
-                            var displayName = CreateDisplayName(fileName);
-                            var key = CreateKey(fileName);
-                            return new TarotCardInfo(displayName, fileName, key);
-                        })
+        return Directory.EnumerateDirectories(imagesRoot, "*", SearchOption.TopDirectoryOnly)
+                        .SelectMany(deckDirectory => LoadDeck(deckDirectory))
                         .OrderBy(card => card.DisplayName)
                         .ToList();
     }
 
-    private static string CreateDisplayName(string fileName)
+    private static IEnumerable<TarotCardInfo> LoadDeck(string deckDirectory)
     {
-        var nameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
-        return nameWithoutExtension.Replace('_', ' ');
+        var deckName = Path.GetFileName(deckDirectory);
+        return Directory.EnumerateFiles(deckDirectory, "*.jpg", SearchOption.TopDirectoryOnly)
+                        .Select(filePath =>
+                        {
+                            var fileName = Path.GetFileName(filePath);
+                            var displayName = CreateDisplayName(deckName, fileName);
+                            var key = CreateKey(deckName, fileName);
+                            return new TarotCardInfo(displayName, deckName, fileName, key);
+                        });
     }
 
-    private static string CreateKey(string fileName)
+    private static string CreateDisplayName(string deckName, string fileName)
     {
         var nameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
-        var filtered = nameWithoutExtension.Where(ch => ch != ' ' && ch != '_');
+        var cardName = nameWithoutExtension.Replace('_', ' ');
+        var friendlyDeckName = deckName.Replace('_', ' ');
+        return $"{friendlyDeckName}: {cardName}";
+    }
+
+    private static string CreateKey(string deckName, string fileName)
+    {
+        var composite = string.Concat(deckName, "_", Path.GetFileNameWithoutExtension(fileName));
+        var filtered = composite.Where(char.IsLetterOrDigit);
         return string.Concat(filtered);
     }
 
@@ -110,9 +119,9 @@
         return string.Concat(filtered);
     }
 
-    private sealed record TarotCardInfo(string DisplayName, string FileName, string Key)
+    private sealed record TarotCardInfo(string DisplayName, string DeckName, string FileName, string Key)
     {
-        public string ImagePath => $"images/TarotDeck_Wikipedia/{FileName}";
+        public string ImagePath => $"images/{DeckName}/{FileName}";
         public string ComparisonKey => NormalizeForComparison(Key);
     }
 }
