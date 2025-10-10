@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="HomePageTitle" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="HomeWelcomeTitle" xml:space="preserve">
+    <value>Willkommen in Nasreddins Magic Toolbox</value>
+  </data>
+  <data name="HomeWelcomeDescription" xml:space="preserve">
+    <value>Entdecke die digitale Tarot-Sammlung und lass dir jede Karte samt Illustration anzeigen. Nutze das Menü, um direkt zur Tarotkarten-Ansicht zu wechseln, oder gib unten einen Namen ein.</value>
+  </data>
+  <data name="HomeTarotOverviewButton" xml:space="preserve">
+    <value>Zur Tarotübersicht</value>
+  </data>
+  <data name="TarotPageTitle" xml:space="preserve">
+    <value>Tarotkarten</value>
+  </data>
+  <data name="TarotHeader" xml:space="preserve">
+    <value>Tarotkarte anzeigen</value>
+  </data>
+  <data name="TarotSearchInstructions" xml:space="preserve">
+    <value>Gib den Namen einer Karte ein, zum Beispiel &lt;em&gt;Fool&lt;/em&gt;, &lt;em&gt;Arcane Major 07 Chariot&lt;/em&gt; oder &lt;em&gt;Cups05&lt;/em&gt;. Die passende Illustration wird automatisch geladen.</value>
+  </data>
+  <data name="TarotSearchLabel" xml:space="preserve">
+    <value>Kartennamen</value>
+  </data>
+  <data name="TarotSearchPlaceholder" xml:space="preserve">
+    <value>Kartennamen eingeben</value>
+  </data>
+  <data name="TarotSearchNotFound" xml:space="preserve">
+    <value>Keine Karte gefunden. Überprüfe die Schreibweise.</value>
+  </data>
+  <data name="NavigationBrand" xml:space="preserve">
+    <value>Toolbox</value>
+  </data>
+  <data name="NavigationToggleTitle" xml:space="preserve">
+    <value>Navigationsmenü</value>
+  </data>
+  <data name="NavigationHome" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="NavigationTarotCards" xml:space="preserve">
+    <value>Tarotkarten</value>
+  </data>
+  <data name="MainLayoutAboutLink" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="NotFoundPageTitle" xml:space="preserve">
+    <value>Nicht gefunden</value>
+  </data>
+  <data name="NotFoundMessage" xml:space="preserve">
+    <value>Entschuldigung, unter dieser Adresse befindet sich nichts.</value>
+  </data>
+</root>
