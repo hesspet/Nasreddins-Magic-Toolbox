@@ -1,5 +1,6 @@
 @page "/tarot"
 @using System.Linq
+@using System.IO
 
 <PageTitle>Tarotkarten</PageTitle>
 
@@ -49,87 +50,40 @@
         }
     }
 
-    private static readonly IReadOnlyList<TarotCardInfo> Cards = new List<TarotCardInfo>
+    private static readonly IReadOnlyList<TarotCardInfo> Cards = LoadCards();
+
+    private static IReadOnlyList<TarotCardInfo> LoadCards()
     {
-        new TarotCardInfo("Arcane Major 00 Fool", "Arcane_Major_00_Fool.jpg"),
-        new TarotCardInfo("Arcane Major 01 Magician", "Arcane_Major_01_Magician.jpg"),
-        new TarotCardInfo("Arcane Major 02 High Priestess", "Arcane_Major_02_High_Priestess.jpg"),
-        new TarotCardInfo("Arcane Major 03 Empress", "Arcane_Major_03_Empress.jpg"),
-        new TarotCardInfo("Arcane Major 04 Emperor", "Arcane_Major_04_Emperor.jpg"),
-        new TarotCardInfo("Arcane Major 05 Hierophant", "Arcane_Major_05_Hierophant.jpg"),
-        new TarotCardInfo("Arcane Major 06 Lovers", "Arcane_Major_06_Lovers.jpg"),
-        new TarotCardInfo("Arcane Major 07 Chariot", "Arcane_Major_07_Chariot.jpg"),
-        new TarotCardInfo("Arcane Major 08 Strength", "Arcane_Major_08_Strength.jpg"),
-        new TarotCardInfo("Arcane Major 09 Hermit", "Arcane_Major_09_Hermit.jpg"),
-        new TarotCardInfo("Arcane Major 10 Wheel of Fortune", "Arcane_Major_10_Wheel_of_Fortune.jpg"),
-        new TarotCardInfo("Arcane Major 11 Justice", "Arcane_Major_11_Justice.jpg"),
-        new TarotCardInfo("Arcane Major 12 Hanged Man", "Arcane_Major_12_Hanged_Man.jpg"),
-        new TarotCardInfo("Arcane Major 13 Death", "Arcane_Major_13_Death.jpg"),
-        new TarotCardInfo("Arcane Major 14 Temperance", "Arcane_Major_14_Temperance.jpg"),
-        new TarotCardInfo("Arcane Major 15 Devil", "Arcane_Major_15_Devil.jpg"),
-        new TarotCardInfo("Arcane Major 16 Tower", "Arcane_Major_16_Tower.jpg"),
-        new TarotCardInfo("Arcane Major 17 Star", "Arcane_Major_17_Star.jpg"),
-        new TarotCardInfo("Arcane Major 18 Moon", "Arcane_Major_18_Moon.jpg"),
-        new TarotCardInfo("Arcane Major 19 Sun", "Arcane_Major_19_Sun.jpg"),
-        new TarotCardInfo("Arcane Major 20 Judgement", "Arcane_Major_20_Judgement.jpg"),
-        new TarotCardInfo("Arcane Major 21 World", "Arcane_Major_21_World.jpg"),
-        new TarotCardInfo("Cups01", "Cups01.jpg"),
-        new TarotCardInfo("Cups02", "Cups02.jpg"),
-        new TarotCardInfo("Cups03", "Cups03.jpg"),
-        new TarotCardInfo("Cups04", "Cups04.jpg"),
-        new TarotCardInfo("Cups05", "Cups05.jpg"),
-        new TarotCardInfo("Cups06", "Cups06.jpg"),
-        new TarotCardInfo("Cups07", "Cups07.jpg"),
-        new TarotCardInfo("Cups08", "Cups08.jpg"),
-        new TarotCardInfo("Cups09", "Cups09.jpg"),
-        new TarotCardInfo("Cups10", "Cups10.jpg"),
-        new TarotCardInfo("Cups11", "Cups11.jpg"),
-        new TarotCardInfo("Cups12", "Cups12.jpg"),
-        new TarotCardInfo("Cups13", "Cups13.jpg"),
-        new TarotCardInfo("Cups14", "Cups14.jpg"),
-        new TarotCardInfo("Pents01", "Pents01.jpg"),
-        new TarotCardInfo("Pents02", "Pents02.jpg"),
-        new TarotCardInfo("Pents03", "Pents03.jpg"),
-        new TarotCardInfo("Pents04", "Pents04.jpg"),
-        new TarotCardInfo("Pents05", "Pents05.jpg"),
-        new TarotCardInfo("Pents06", "Pents06.jpg"),
-        new TarotCardInfo("Pents07", "Pents07.jpg"),
-        new TarotCardInfo("Pents08", "Pents08.jpg"),
-        new TarotCardInfo("Pents09", "Pents09.jpg"),
-        new TarotCardInfo("Pents10", "Pents10.jpg"),
-        new TarotCardInfo("Pents11", "Pents11.jpg"),
-        new TarotCardInfo("Pents12", "Pents12.jpg"),
-        new TarotCardInfo("Pents13", "Pents13.jpg"),
-        new TarotCardInfo("Pents14", "Pents14.jpg"),
-        new TarotCardInfo("Swords01", "Swords01.jpg"),
-        new TarotCardInfo("Swords02", "Swords02.jpg"),
-        new TarotCardInfo("Swords03", "Swords03.jpg"),
-        new TarotCardInfo("Swords04", "Swords04.jpg"),
-        new TarotCardInfo("Swords05", "Swords05.jpg"),
-        new TarotCardInfo("Swords06", "Swords06.jpg"),
-        new TarotCardInfo("Swords07", "Swords07.jpg"),
-        new TarotCardInfo("Swords08", "Swords08.jpg"),
-        new TarotCardInfo("Swords09", "Swords09.jpg"),
-        new TarotCardInfo("Swords10", "Swords10.jpg"),
-        new TarotCardInfo("Swords11", "Swords11.jpg"),
-        new TarotCardInfo("Swords12", "Swords12.jpg"),
-        new TarotCardInfo("Swords13", "Swords13.jpg"),
-        new TarotCardInfo("Swords14", "Swords14.jpg"),
-        new TarotCardInfo("Wands01", "Wands01.jpg"),
-        new TarotCardInfo("Wands02", "Wands02.jpg"),
-        new TarotCardInfo("Wands03", "Wands03.jpg"),
-        new TarotCardInfo("Wands04", "Wands04.jpg"),
-        new TarotCardInfo("Wands05", "Wands05.jpg"),
-        new TarotCardInfo("Wands06", "Wands06.jpg"),
-        new TarotCardInfo("Wands07", "Wands07.jpg"),
-        new TarotCardInfo("Wands08", "Wands08.jpg"),
-        new TarotCardInfo("Wands09", "Wands09.jpg"),
-        new TarotCardInfo("Wands10", "Wands10.jpg"),
-        new TarotCardInfo("Wands11", "Wands11.jpg"),
-        new TarotCardInfo("Wands12", "Wands12.jpg"),
-        new TarotCardInfo("Wands13", "Wands13.jpg"),
-        new TarotCardInfo("Wands14", "Wands14.jpg"),
-    };
+        var imagesDirectory = Path.Combine(AppContext.BaseDirectory, "wwwroot", "images", "TarotDeck_Wikipedia");
+        if (!Directory.Exists(imagesDirectory))
+        {
+            return Array.Empty<TarotCardInfo>();
+        }
+
+        return Directory.EnumerateFiles(imagesDirectory, "*.jpg", SearchOption.TopDirectoryOnly)
+                        .Select(filePath =>
+                        {
+                            var fileName = Path.GetFileName(filePath);
+                            var displayName = CreateDisplayName(fileName);
+                            var key = CreateKey(fileName);
+                            return new TarotCardInfo(displayName, fileName, key);
+                        })
+                        .OrderBy(card => card.DisplayName)
+                        .ToList();
+    }
+
+    private static string CreateDisplayName(string fileName)
+    {
+        var nameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
+        return nameWithoutExtension.Replace('_', ' ');
+    }
+
+    private static string CreateKey(string fileName)
+    {
+        var nameWithoutExtension = Path.GetFileNameWithoutExtension(fileName);
+        var filtered = nameWithoutExtension.Where(ch => ch != ' ' && ch != '_');
+        return string.Concat(filtered);
+    }
 
     private void UpdateSelection()
     {
@@ -156,9 +110,9 @@
         return string.Concat(filtered);
     }
 
-    private sealed record TarotCardInfo(string DisplayName, string FileName)
+    private sealed record TarotCardInfo(string DisplayName, string FileName, string Key)
     {
         public string ImagePath => $"images/TarotDeck_Wikipedia/{FileName}";
-        public string ComparisonKey => NormalizeForComparison(DisplayName);
+        public string ComparisonKey => NormalizeForComparison(Key);
     }
 }
