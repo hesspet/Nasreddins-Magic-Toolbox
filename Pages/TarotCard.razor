@@ -2,24 +2,24 @@
 @using System.Linq
 @using System.IO
 
-<PageTitle>Tarotkarten</PageTitle>
+<PageTitle>@DisplayTexts.TarotPageTitle</PageTitle>
 
-<h1>Tarotkarte anzeigen</h1>
+<h1>@DisplayTexts.TarotHeader</h1>
 
-<p>Gib den Namen einer Karte ein, zum Beispiel <em>Fool</em>, <em>Arcane Major 07 Chariot</em> oder <em>Cups05</em>. Die passende Illustration wird automatisch geladen.</p>
+<p>@(new MarkupString(DisplayTexts.TarotSearchInstructions))</p>
 
 <div class="tarot-search">
-    <label class="form-label" for="cardNameInput">Kartennamen</label>
+    <label class="form-label" for="cardNameInput">@DisplayTexts.TarotSearchLabel</label>
     <input id="cardNameInput"
            class="form-control"
            @bind="SearchTerm"
            @bind:event="oninput"
-           placeholder="Kartennamen eingeben" />
+           placeholder="@DisplayTexts.TarotSearchPlaceholder" />
 </div>
 
 @if (HasSearched && selectedCard is null)
 {
-    <p class="text-danger">Keine Karte gefunden. Überprüfe die Schreibweise.</p>
+    <p class="text-danger">@DisplayTexts.TarotSearchNotFound</p>
 }
 
 @if (selectedCard is not null)
