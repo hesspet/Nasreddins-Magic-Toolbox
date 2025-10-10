@@ -2,14 +2,14 @@
 using System.Globalization;
 using System.Resources;
 
-namespace Nasreddins_Magic_Toolbox.Resources;
+namespace Toolbox.Resources;
 
 /// <summary>
 /// Stellt zentral verwaltete Anzeigetexte bereit.
 /// </summary>
 public static class DisplayTexts
 {
-    private static readonly ResourceManager ResourceManager = new("Nasreddins_Magic_Toolbox.Resources.DisplayTexts", typeof(DisplayTexts).Assembly);
+    private static readonly ResourceManager ResourceManager = new("Toolbox.Resources.DisplayTexts", typeof(DisplayTexts).Assembly);
 
     private static string GetString(string resourceKey) => ResourceManager.GetString(resourceKey, CultureInfo.CurrentUICulture) ?? string.Empty;
 
