@@ -49,3 +49,13 @@
     margin-top: 0.75rem;
     font-weight: 600;
 }
+
+.tarot-card-description {
+    max-width: 48rem;
+    margin: 2rem auto 0;
+    line-height: 1.6;
+}
+
+.tarot-card-description-content :deep(p) {
+    margin-bottom: 1rem;
+}

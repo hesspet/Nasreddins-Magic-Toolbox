@@ -3,6 +3,10 @@
 @using System.Linq
 @using System.IO
 @using System.Reflection
+@using System.Threading
+@using Markdig
+@implements IDisposable
+@inject HttpClient HttpClient
 
 <PageTitle>@DisplayTexts.TarotPageTitle</PageTitle>
 
@@ -43,6 +47,21 @@
             <img src="@selectedCard.ImageDataUrl" alt="@selectedCard.DisplayName" class="img-fluid" />
             <figcaption>@selectedCard.DisplayName</figcaption>
         </figure>
+
+        <section class="tarot-card-description" aria-live="polite">
+            @if (isDescriptionLoading)
+            {
+                <p>@DisplayTexts.TarotDescriptionLoading</p>
+            }
+            else if (!string.IsNullOrEmpty(descriptionError))
+            {
+                <p class="text-danger">@descriptionError</p>
+            }
+            else if (!string.IsNullOrEmpty(selectedCardDescriptionHtml))
+            {
+                <div class="tarot-card-description-content">@((MarkupString)selectedCardDescriptionHtml)</div>
+            }
+        </section>
     }
 </div>
 
@@ -77,6 +96,11 @@
     private TarotCardInfo? selectedCard;
     private int selectedCardIndex = -1;
     private bool HasSearched => !string.IsNullOrWhiteSpace(searchTerm);
+    private readonly Dictionary<string, string> cardDescriptionCache = new(StringComparer.OrdinalIgnoreCase);
+    private CancellationTokenSource? descriptionCts;
+    private string? selectedCardDescriptionHtml;
+    private bool isDescriptionLoading;
+    private string? descriptionError;
 
     private string SearchTerm
     {
@@ -195,6 +219,7 @@
         {
             selectedCard = null;
             selectedCardIndex = -1;
+            ClearSelectedCardDescription();
             return;
         }
 
@@ -222,6 +247,7 @@
         {
             selectedCard = null;
             selectedCardIndex = -1;
+            ClearSelectedCardDescription();
         }
     }
 
@@ -245,12 +271,14 @@
         {
             selectedCard = null;
             selectedCardIndex = -1;
+            ClearSelectedCardDescription();
             return;
         }
 
         var normalizedIndex = ((index % candidates.Count) + candidates.Count) % candidates.Count;
         selectedCardIndex = normalizedIndex;
         selectedCard = candidates[normalizedIndex];
+        PrepareCardDescription(selectedCard);
     }
 
     private void ShowNextCard()
@@ -289,12 +317,96 @@
         return string.Concat(filtered);
     }
 
+    private void PrepareCardDescription(TarotCardInfo card)
+    {
+        descriptionCts?.Cancel();
+        descriptionCts?.Dispose();
+
+        if (cardDescriptionCache.TryGetValue(card.MarkdownRelativePath, out var cachedHtml))
+        {
+            selectedCardDescriptionHtml = cachedHtml;
+            descriptionError = null;
+            isDescriptionLoading = false;
+            descriptionCts = null;
+            return;
+        }
+
+        descriptionError = null;
+        selectedCardDescriptionHtml = null;
+        isDescriptionLoading = true;
+
+        var cts = new CancellationTokenSource();
+        descriptionCts = cts;
+        _ = LoadDescriptionCoreAsync(card, cts.Token);
+    }
+
+    private async Task LoadDescriptionCoreAsync(TarotCardInfo card, CancellationToken token)
+    {
+        try
+        {
+            var markdown = await HttpClient.GetStringAsync(card.MarkdownRelativePath, token);
+            var html = Markdown.ToHtml(markdown);
+            cardDescriptionCache[card.MarkdownRelativePath] = html;
+
+            if (token.IsCancellationRequested || selectedCard?.Key != card.Key)
+            {
+                return;
+            }
+
+            selectedCardDescriptionHtml = html;
+            descriptionError = null;
+        }
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        catch
+        {
+            if (token.IsCancellationRequested || selectedCard?.Key != card.Key)
+            {
+                return;
+            }
+
+            descriptionError = DisplayTexts.TarotDescriptionLoadError;
+            selectedCardDescriptionHtml = null;
+        }
+        finally
+        {
+            if (token.IsCancellationRequested || selectedCard?.Key != card.Key)
+            {
+                return;
+            }
+
+            isDescriptionLoading = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private void ClearSelectedCardDescription()
+    {
+        descriptionCts?.Cancel();
+        descriptionCts?.Dispose();
+        descriptionCts = null;
+        selectedCardDescriptionHtml = null;
+        descriptionError = null;
+        isDescriptionLoading = false;
+    }
+
     private sealed record TarotCardInfo(string DisplayName, string DeckName, string FileName, string Key, string ResourceName)
     {
         private string? imageDataUrl;
 
         public string ImageDataUrl => imageDataUrl ??= LoadImageData(ResourceName);
         public string ComparisonKey => NormalizeForComparison(Key);
+        public string MarkdownRelativePath
+        {
+            get
+            {
+                var markdownFileName = Path.ChangeExtension(FileName, ".md") ?? string.Empty;
+                var combined = Path.Combine("Resources", "Images", DeckName, markdownFileName);
+                return combined.Replace('\\', '/');
+            }
+        }
 
         private static string LoadImageData(string resourceName)
         {
@@ -329,4 +441,10 @@
     }
 
     private sealed record TarotDeckOption(string DeckName, string DisplayName);
+
+    public void Dispose()
+    {
+        descriptionCts?.Cancel();
+        descriptionCts?.Dispose();
+    }
 }
