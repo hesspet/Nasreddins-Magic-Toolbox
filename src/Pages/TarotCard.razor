@@ -3,6 +3,8 @@
 @using System.Linq
 @using System.IO
 @using System.Reflection
+@using System.Text
+@using System.Text.RegularExpressions
 
 <PageTitle>@DisplayTexts.TarotPageTitle</PageTitle>
 
@@ -198,8 +200,8 @@
             return;
         }
 
-        var normalized = NormalizeForComparison(searchTerm);
-        if (normalized.Length == 0)
+        var normalizedPattern = NormalizeSearchPattern(searchTerm);
+        if (normalizedPattern.Length == 0)
         {
             if (selectedCardIndex < 0 || selectedCardIndex >= candidates.Count)
             {
@@ -213,7 +215,7 @@
             return;
         }
 
-        var matchingIndex = FindMatchingCardIndex(candidates, normalized);
+        var matchingIndex = FindMatchingCardIndex(candidates, normalizedPattern);
         if (matchingIndex >= 0)
         {
             ShowCardAtIndex(matchingIndex, candidates);
@@ -225,17 +227,29 @@
         }
     }
 
-    private static int FindMatchingCardIndex(IReadOnlyList<TarotCardInfo> candidates, string normalizedSearch)
+    private static int FindMatchingCardIndex(IReadOnlyList<TarotCardInfo> candidates, string normalizedPattern)
     {
+        var wildcardRegex = CreateWildcardRegex(normalizedPattern);
         for (var index = 0; index < candidates.Count; index++)
         {
-            if (candidates[index].ComparisonKey.Contains(normalizedSearch, StringComparison.OrdinalIgnoreCase))
+            if (wildcardRegex.IsMatch(candidates[index].ComparisonKey))
             {
                 return index;
             }
         }
 
         return -1;
+    }
+
+    private static Regex CreateWildcardRegex(string pattern)
+    {
+        if (string.IsNullOrEmpty(pattern))
+        {
+            return new Regex("^$");
+        }
+
+        var escaped = Regex.Escape(pattern).Replace("\\*", ".*");
+        return new Regex($"^{escaped}$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
     }
 
     private void ShowCardAtIndex(int index, IReadOnlyList<TarotCardInfo>? candidates = null)
@@ -287,6 +301,48 @@
         var filtered = value.Where(char.IsLetterOrDigit)
                             .Select(char.ToLowerInvariant);
         return string.Concat(filtered);
+    }
+
+    private static string NormalizeSearchPattern(string value)
+    {
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            return string.Empty;
+        }
+
+        var builder = new StringBuilder();
+        foreach (var character in value)
+        {
+            if (char.IsLetterOrDigit(character))
+            {
+                builder.Append(char.ToLowerInvariant(character));
+            }
+            else if (character == '*')
+            {
+                if (builder.Length == 0 || builder[^1] != '*')
+                {
+                    builder.Append('*');
+                }
+            }
+        }
+
+        var normalized = builder.ToString();
+        if (normalized.Length == 0)
+        {
+            return string.Empty;
+        }
+
+        if (normalized[0] != '*')
+        {
+            normalized = string.Concat('*', normalized);
+        }
+
+        if (normalized[^1] != '*')
+        {
+            normalized = string.Concat(normalized, '*');
+        }
+
+        return normalized;
     }
 
     private sealed record TarotCardInfo(string DisplayName, string DeckName, string FileName, string Key, string ResourceName)
