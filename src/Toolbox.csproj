@@ -13,6 +13,7 @@
     <Company>Nasreddins Magic Toolbox</Company>
     <Product>Nasreddins Magic Toolbox</Product>
     <AssemblyTitle>Nasreddins Magic Toolbox</AssemblyTitle>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
   </PropertyGroup>
 
   <ItemGroup>
