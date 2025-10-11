@@ -229,7 +229,7 @@
     {
         for (var index = 0; index < candidates.Count; index++)
         {
-            if (candidates[index].ComparisonKey.Contains(normalizedSearch, StringComparison.OrdinalIgnoreCase))
+            if (candidates[index].MatchesSearch(normalizedSearch))
             {
                 return index;
             }
@@ -293,8 +293,23 @@
     {
         private string? imageDataUrl;
 
+        private string? comparisonKey;
+        private string? fileNameComparisonKey;
+
         public string ImageDataUrl => imageDataUrl ??= LoadImageData(ResourceName);
-        public string ComparisonKey => NormalizeForComparison(Key);
+        public string ComparisonKey => comparisonKey ??= NormalizeForComparison(Key);
+        public string FileNameComparisonKey => fileNameComparisonKey ??= NormalizeForComparison(FileName);
+
+        public bool MatchesSearch(string normalizedSearch)
+        {
+            if (string.IsNullOrEmpty(normalizedSearch))
+            {
+                return false;
+            }
+
+            return ComparisonKey.Contains(normalizedSearch, StringComparison.OrdinalIgnoreCase)
+                   || FileNameComparisonKey.Contains(normalizedSearch, StringComparison.OrdinalIgnoreCase);
+        }
 
         private static string LoadImageData(string resourceName)
         {
