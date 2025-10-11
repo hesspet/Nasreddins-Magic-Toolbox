@@ -1,0 +1,1 @@
+Arcane_Major_08_Strength.jpg

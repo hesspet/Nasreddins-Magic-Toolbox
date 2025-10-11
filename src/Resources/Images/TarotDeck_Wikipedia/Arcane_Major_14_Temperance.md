@@ -1,0 +1,1 @@
+Arcane_Major_14_Temperance.jpg
