@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-labelledby="title desc">
+  <title id="title">Platzhalter für den Splashscreen</title>
+  <desc id="desc">Ein abstraktes Bild mit geometrischen Formen als Platzhalter</desc>
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="50%" stop-color="#7c3aed" />
+      <stop offset="100%" stop-color="#f472b6" />
+    </linearGradient>
+    <linearGradient id="gradientAccent" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fcd34d" stop-opacity="0.85" />
+      <stop offset="100%" stop-color="#f97316" stop-opacity="0.85" />
+    </linearGradient>
+  </defs>
+  <rect width="640" height="480" fill="url(#gradient)" rx="48" />
+  <g fill="none" stroke="rgba(255,255,255,0.35)" stroke-width="4">
+    <path d="M80 120h480" />
+    <path d="M80 360h480" />
+    <path d="M160 60v360" />
+    <path d="M480 60v360" />
+  </g>
+  <g fill="url(#gradientAccent)">
+    <circle cx="220" cy="190" r="72" opacity="0.9" />
+    <rect x="320" y="140" width="180" height="120" rx="32" opacity="0.88" />
+    <path d="M160 300l80 100h-160z" opacity="0.75" />
+    <path d="M480 320l120 80h-160z" opacity="0.7" />
+  </g>
+  <text x="50%" y="82%" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="32" fill="rgba(255,255,255,0.95)">
+    Nasreddins Magic Toolbox
+  </text>
+</svg>
