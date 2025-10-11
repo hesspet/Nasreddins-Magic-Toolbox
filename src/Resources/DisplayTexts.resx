@@ -112,8 +112,17 @@
   <data name="NavigationTarotCards" xml:space="preserve">
     <value>Tarotkarten</value>
   </data>
+  <data name="NavigationBackupRestore" xml:space="preserve">
+    <value>Backup / Restore</value>
+  </data>
   <data name="NavigationSettings" xml:space="preserve">
     <value>Einstellungen</value>
+  </data>
+  <data name="BackupRestorePageTitle" xml:space="preserve">
+    <value>Backup / Restore</value>
+  </data>
+  <data name="BackupRestorePageHeader" xml:space="preserve">
+    <value>Backup / Restore</value>
   </data>
   <data name="SettingsPageTitle" xml:space="preserve">
     <value>Anwendungseinstellungen</value>
