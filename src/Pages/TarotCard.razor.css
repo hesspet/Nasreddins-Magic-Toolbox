@@ -8,6 +8,29 @@
     text-align: center;
 }
 
+.tarot-navigation {
+    margin-top: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.tarot-navigation .tarot-card {
+    margin: 0;
+}
+
+.tarot-navigation .btn {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    padding: 0;
+}
+
 .tarot-card img {
     max-width: min(100%, 24rem);
     height: auto;
