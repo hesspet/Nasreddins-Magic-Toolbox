@@ -101,3 +101,51 @@ a, .btn-link {
 code {
     color: #c02d76;
 }
+
+.splash-screen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top, rgba(255, 255, 255, 0.95), rgba(230, 230, 255, 0.9)), #1b6ec2;
+    z-index: 1100;
+    cursor: pointer;
+    padding: 1.5rem;
+}
+
+.splash-content {
+    background-color: rgba(255, 255, 255, 0.92);
+    border-radius: 1.5rem;
+    box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.15);
+    max-width: min(90vw, 480px);
+    width: 100%;
+    text-align: center;
+    padding: 2rem;
+}
+
+.splash-image {
+    width: min(60vw, 320px);
+    max-width: 100%;
+    margin: 0 auto 1.5rem;
+    display: block;
+}
+
+.splash-text {
+    color: #1b2a4b;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    display: grid;
+    gap: 0.4rem;
+}
+
+@media (max-width: 480px) {
+    .splash-content {
+        padding: 1.5rem 1.25rem;
+        border-radius: 1rem;
+    }
+
+    .splash-text {
+        font-size: 1rem;
+    }
+}
