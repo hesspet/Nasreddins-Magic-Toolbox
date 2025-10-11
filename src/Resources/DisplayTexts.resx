@@ -76,11 +76,8 @@
   <data name="TarotHeader" xml:space="preserve">
     <value>Tarotkarte anzeigen</value>
   </data>
-  <data name="TarotSearchInstructions" xml:space="preserve">
-    <value>Wähle ein Kartendeck aus und gib den Namen einer Karte ein, zum Beispiel &lt;em&gt;Fool&lt;/em&gt;, &lt;em&gt;Arcane Major 07 Chariot&lt;/em&gt; oder &lt;em&gt;Cups05&lt;/em&gt;. Die passende Illustration wird automatisch geladen.</value>
-  </data>
   <data name="TarotSearchLabel" xml:space="preserve">
-    <value>Kartennamen</value>
+    <value>Kartennamen (Bsp.Cups01, c10, c11, cp, fool, sun)</value>
   </data>
   <data name="TarotDeckSelectionLabel" xml:space="preserve">
     <value>Kartendeck</value>

@@ -19,7 +19,6 @@ public static class DisplayTexts
     public static string HomeTarotOverviewButton => GetString(nameof(HomeTarotOverviewButton));
     public static string TarotPageTitle => GetString(nameof(TarotPageTitle));
     public static string TarotHeader => GetString(nameof(TarotHeader));
-    public static string TarotSearchInstructions => GetString(nameof(TarotSearchInstructions));
     public static string TarotSearchLabel => GetString(nameof(TarotSearchLabel));
     public static string TarotSearchPlaceholder => GetString(nameof(TarotSearchPlaceholder));
     public static string TarotSearchNotFound => GetString(nameof(TarotSearchNotFound));
