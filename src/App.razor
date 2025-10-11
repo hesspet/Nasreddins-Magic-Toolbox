@@ -1,10 +1,11 @@
 @inject LocalStorageHelper LocalStorage
+@inject NavigationManager NavigationManager
 
 @if (isSplashVisible)
 {
     <div class="splash-screen" role="dialog" aria-modal="true" aria-live="polite" @onclick="SkipSplash">
         <div class="splash-content">
-            <img src="images/SplashNassredinUndPeter.jpg" alt="Nasreddin und Peter" class="splash-image" />
+            <img src="@SplashImageUrl" alt="Nasreddin und Peter" class="splash-image" />
             <div class="splash-text">
                 <p>Willkommen bei Nasreddins Magic Toolbox.</p>
                 <p>Mach es dir bequem und lass dich überraschen.</p>
@@ -34,6 +35,7 @@ else
 @code {
     private bool isSplashVisible = true;
     private int splashDurationSeconds = ApplicationSettings.SplashScreenDurationDefaultSeconds;
+    private string SplashImageUrl => $"{NavigationManager.BaseUri}images/SplashNassredinUndPeter.jpg";
 
     protected override async Task OnInitializedAsync()
     {
