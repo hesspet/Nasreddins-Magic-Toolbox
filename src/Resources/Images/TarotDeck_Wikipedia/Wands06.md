@@ -1,1 +1,0 @@
-Wands06.jpg

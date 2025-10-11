@@ -1,1 +1,0 @@
-Swords02.jpg

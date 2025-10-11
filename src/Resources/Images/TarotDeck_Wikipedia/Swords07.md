@@ -1,1 +1,0 @@
-Swords07.jpg

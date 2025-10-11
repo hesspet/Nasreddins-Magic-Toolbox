@@ -1,1 +1,0 @@
-Wands02.jpg

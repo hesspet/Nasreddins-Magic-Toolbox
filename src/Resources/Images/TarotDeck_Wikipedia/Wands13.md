@@ -1,1 +1,0 @@
-Wands13.jpg

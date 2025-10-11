@@ -1,1 +1,0 @@
-Wands09.jpg

@@ -1,1 +1,0 @@
-Pents05.jpg

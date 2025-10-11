@@ -1,1 +1,0 @@
-Swords06.jpg

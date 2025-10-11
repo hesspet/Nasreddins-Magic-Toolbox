@@ -1,1 +1,0 @@
-Pents12.jpg
