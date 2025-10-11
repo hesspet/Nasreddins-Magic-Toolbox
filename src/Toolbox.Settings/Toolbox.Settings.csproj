@@ -8,6 +8,11 @@
   </PropertyGroup>
 	
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.18" />
+    <PackageReference Include="Microsoft.JSInterop" Version="8.0.18" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="Resources\DisplayTexts.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>DisplayTexts.Designer.cs</LastGenOutput>
