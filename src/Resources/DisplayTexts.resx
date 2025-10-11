@@ -100,6 +100,75 @@
   <data name="TarotNextCardButton" xml:space="preserve">
     <value>Nächste Karte</value>
   </data>
+  <data name="TarotShareHeader" xml:space="preserve">
+    <value>Deck teilen</value>
+  </data>
+  <data name="TarotShareDescription" xml:space="preserve">
+    <value>Teile das aktuell ausgewählte Deck inklusive aller Bild- und Markdown-Dateien über die Web Share API.</value>
+  </data>
+  <data name="TarotShareDeckButton" xml:space="preserve">
+    <value>Deck teilen</value>
+  </data>
+  <data name="TarotCacheDeckButton" xml:space="preserve">
+    <value>Deck im Local Storage speichern</value>
+  </data>
+  <data name="TarotShareUnsupported" xml:space="preserve">
+    <value>Das Web Share API wird von diesem Gerät nicht unterstützt.</value>
+  </data>
+  <data name="TarotShareNoFiles" xml:space="preserve">
+    <value>Für dieses Deck konnten keine Dateien vorbereitet werden.</value>
+  </data>
+  <data name="TarotShareSuccess" xml:space="preserve">
+    <value>Deck &quot;{0}&quot; mit {1} Dateien freigegeben.</value>
+  </data>
+  <data name="TarotShareGenericError" xml:space="preserve">
+    <value>Beim Teilen des Decks ist ein Fehler aufgetreten: {0}</value>
+  </data>
+  <data name="TarotCacheDeckInProgress" xml:space="preserve">
+    <value>Deck wird für den Local Storage vorbereitet …</value>
+  </data>
+  <data name="TarotCacheDeckEmpty" xml:space="preserve">
+    <value>Für dieses Deck wurden keine Dateien gefunden.</value>
+  </data>
+  <data name="TarotCacheDeckSuccess" xml:space="preserve">
+    <value>Deck &quot;{0}&quot; mit {1} Dateien im Local Storage gespeichert.</value>
+  </data>
+  <data name="TarotCacheDeckError" xml:space="preserve">
+    <value>Deck konnte nicht gespeichert werden: {0}</value>
+  </data>
+  <data name="TarotImportHeader" xml:space="preserve">
+    <value>Deck-Dateien importieren</value>
+  </data>
+  <data name="TarotImportDescription" xml:space="preserve">
+    <value>Lade Kartenbilder und Beschreibungen aus Dateien und speichere sie im Local Storage.</value>
+  </data>
+  <data name="TarotImportDeckNameLabel" xml:space="preserve">
+    <value>Deckname</value>
+  </data>
+  <data name="TarotImportDeckNamePlaceholder" xml:space="preserve">
+    <value>z. B. Eigene Karten</value>
+  </data>
+  <data name="TarotImportFilesLabel" xml:space="preserve">
+    <value>Dateien auswählen</value>
+  </data>
+  <data name="TarotImportFilesCount" xml:space="preserve">
+    <value>Ausgewählte Dateien: {0}</value>
+  </data>
+  <data name="TarotImportButton" xml:space="preserve">
+    <value>In Local Storage importieren</value>
+  </data>
+  <data name="TarotImportSuccess" xml:space="preserve">
+    <value>Deck &quot;{0}&quot; mit {1} Dateien importiert.</value>
+  </data>
+  <data name="TarotImportError" xml:space="preserve">
+    <value>Import fehlgeschlagen: {0}</value>
+  </data>
+  <data name="TarotImportMissingDeckName" xml:space="preserve">
+    <value>Bitte gib einen Decknamen ein.</value>
+  </data>
+  <data name="TarotImportNoFiles" xml:space="preserve">
+    <value>Bitte wähle mindestens eine Datei aus.</value>
+  </data>
   <data name="NavigationBrand" xml:space="preserve">
     <value>Toolbox</value>
   </data>

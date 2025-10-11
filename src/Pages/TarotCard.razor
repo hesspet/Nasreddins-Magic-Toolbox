@@ -3,7 +3,9 @@
 @using System.Linq
 @using System.IO
 @using System.Reflection
+@using System.Text
 @using System.Threading
+@using System.Threading.Tasks
 @using Markdig
 @implements IDisposable
 
@@ -83,10 +85,101 @@
     </nav>
 }
 
+<section class="tarot-deck-actions">
+    <h2>@DisplayTexts.TarotShareHeader</h2>
+    <p class="text-muted">@DisplayTexts.TarotShareDescription</p>
+
+    <div class="btn-toolbar" role="toolbar" aria-label="@DisplayTexts.TarotShareHeader">
+        <div class="btn-group me-2" role="group">
+            <button type="button"
+                    class="btn btn-primary"
+                    disabled="@(!isShareSupported || isSharingDeck)"
+                    @onclick="ShareSelectedDeckAsync">
+                @DisplayTexts.TarotShareDeckButton
+            </button>
+        </div>
+
+        <div class="btn-group" role="group">
+            <button type="button"
+                    class="btn btn-outline-primary"
+                    disabled="@(isCachingDeck)"
+                    @onclick="() => RequestDeckCache(force: true)">
+                @DisplayTexts.TarotCacheDeckButton
+            </button>
+        </div>
+    </div>
+
+    @if (!isShareSupported)
+    {
+        <p class="text-warning mt-2">@DisplayTexts.TarotShareUnsupported</p>
+    }
+
+    @if (!string.IsNullOrEmpty(shareError))
+    {
+        <p class="text-danger mt-2">@shareError</p>
+    }
+
+    @if (!string.IsNullOrEmpty(cacheStatusMessage))
+    {
+        <p class="mt-2">@cacheStatusMessage</p>
+    }
+</section>
+
+<section class="tarot-import-section">
+    <h2>@DisplayTexts.TarotImportHeader</h2>
+    <p class="text-muted">@DisplayTexts.TarotImportDescription</p>
+
+    <div class="row g-3">
+        <div class="col-12 col-md-6">
+            <label class="form-label" for="importDeckName">@DisplayTexts.TarotImportDeckNameLabel</label>
+            <input id="importDeckName"
+                   class="form-control"
+                   @bind="importDeckName"
+                   placeholder="@DisplayTexts.TarotImportDeckNamePlaceholder" />
+        </div>
+
+        <div class="col-12">
+            <label class="form-label" for="deckFilesInput">@DisplayTexts.TarotImportFilesLabel</label>
+            <InputFile id="deckFilesInput"
+                       OnChange="HandleImportFilesSelected"
+                       multiple
+                       accept=".jpg,.jpeg,.md,.markdown" />
+            <div class="form-text">
+                @string.Format(DisplayTexts.TarotImportFilesCount, selectedImportFiles.Count)
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-3">
+        <button type="button"
+                class="btn btn-success"
+                disabled="@(isImporting || selectedImportFiles.Count == 0 || string.IsNullOrWhiteSpace(importDeckName))"
+                @onclick="ImportDeckAsync">
+            @DisplayTexts.TarotImportButton
+        </button>
+    </div>
+
+    @if (!string.IsNullOrEmpty(importStatusMessage))
+    {
+        <p class="mt-2">@importStatusMessage</p>
+    }
+
+    @if (!string.IsNullOrEmpty(importError))
+    {
+        <p class="text-danger mt-2">@importError</p>
+    }
+</section>
+
 @code {
     private static readonly Assembly ResourceAssembly = typeof(TarotCard).Assembly;
     private static readonly string ImageResourcePrefix = $"{typeof(DisplayTexts).Namespace}.Images.";
     private static readonly TarotDeckCollection DeckCollection = LoadDeckCollection();
+
+    [Inject]
+    private IJSRuntime JSRuntime { get; set; } = default!;
+
+    [Inject]
+    private LocalStorageHelper LocalStorage { get; set; } = default!;
 
     private string searchTerm = string.Empty;
     private string selectedDeck = DeckCollection.DefaultDeck;
@@ -98,6 +191,18 @@
     private string? selectedCardDescriptionHtml;
     private bool isDescriptionLoading;
     private string? descriptionError;
+    private IJSObjectReference? shareModule;
+    private bool isShareSupported;
+    private bool isSharingDeck;
+    private string? shareError;
+    private bool isCachingDeck;
+    private string? cacheStatusMessage;
+    private readonly HashSet<string> cachedDecks = new(StringComparer.OrdinalIgnoreCase);
+    private string importDeckName = string.Empty;
+    private List<IBrowserFile> selectedImportFiles = new();
+    private bool isImporting;
+    private string? importStatusMessage;
+    private string? importError;
 
     private string SearchTerm
     {
@@ -128,6 +233,7 @@
             selectedDeck = newValue;
             selectedCardIndex = -1;
             UpdateSelection();
+            RequestDeckCache(force: false);
         }
     }
 
@@ -141,6 +247,22 @@
         }
 
         UpdateSelection();
+        RequestDeckCache(force: false);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        shareModule = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/webShare.js");
+        if (shareModule is not null)
+        {
+            isShareSupported = await shareModule.InvokeAsync<bool>("isShareSupported");
+            await InvokeAsync(StateHasChanged);
+        }
     }
 
     private static TarotDeckCollection LoadDeckCollection()
@@ -395,6 +517,201 @@
         isDescriptionLoading = false;
     }
 
+    private void RequestDeckCache(bool force)
+    {
+        var deckToCache = string.IsNullOrWhiteSpace(selectedDeck) ? DeckCollection.DefaultDeck : selectedDeck;
+        if (string.IsNullOrWhiteSpace(deckToCache))
+        {
+            return;
+        }
+
+        if (!force && cachedDecks.Contains(deckToCache))
+        {
+            return;
+        }
+
+        _ = InvokeAsync(() => CacheDeckInLocalStorageAsync(deckToCache, force));
+    }
+
+    private async Task CacheDeckInLocalStorageAsync(string deckName, bool force)
+    {
+        if (!force && cachedDecks.Contains(deckName))
+        {
+            return;
+        }
+
+        try
+        {
+            isCachingDeck = true;
+            cacheStatusMessage = DisplayTexts.TarotCacheDeckInProgress;
+            await InvokeAsync(StateHasChanged);
+
+            var files = await BuildDeckFilesAsync(deckName);
+            if (files.Count == 0)
+            {
+                cacheStatusMessage = DisplayTexts.TarotCacheDeckEmpty;
+                return;
+            }
+
+            var payload = new DeckStoragePayload(deckName,
+                                                 DateTimeOffset.UtcNow,
+                                                 files.Select(file => new DeckFileStorage(file.FileName, file.ContentType, file.Base64Data)).ToList());
+
+            await LocalStorage.SetItemAsync($"tarotDeck:{deckName}", payload);
+            cachedDecks.Add(deckName);
+            cacheStatusMessage = string.Format(DisplayTexts.TarotCacheDeckSuccess, deckName, files.Count);
+        }
+        catch (Exception ex)
+        {
+            cacheStatusMessage = string.Format(DisplayTexts.TarotCacheDeckError, ex.Message);
+        }
+        finally
+        {
+            isCachingDeck = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private async Task<List<DeckFileShare>> BuildDeckFilesAsync(string deckName)
+    {
+        var files = new List<DeckFileShare>();
+        var cards = DeckCollection.GetCards(deckName);
+        if (cards.Count == 0)
+        {
+            return files;
+        }
+
+        foreach (var card in cards)
+        {
+            var imageDataUrl = card.ImageDataUrl;
+            var separatorIndex = imageDataUrl.IndexOf(',', StringComparison.Ordinal);
+            var imageBase64 = separatorIndex >= 0 ? imageDataUrl[(separatorIndex + 1)..] : imageDataUrl;
+            files.Add(new DeckFileShare(card.FileName, "image/jpeg", imageBase64));
+
+            using var markdownStream = ResourceAssembly.GetManifestResourceStream(card.MarkdownResourceName);
+            if (markdownStream is null)
+            {
+                continue;
+            }
+
+            using var reader = new StreamReader(markdownStream, Encoding.UTF8, leaveOpen: false);
+            var markdown = await reader.ReadToEndAsync();
+            var markdownBytes = Encoding.UTF8.GetBytes(markdown);
+            var markdownBase64 = Convert.ToBase64String(markdownBytes);
+            var markdownFileName = Path.ChangeExtension(card.FileName, ".md") ?? card.FileName + ".md";
+            files.Add(new DeckFileShare(markdownFileName, "text/markdown", markdownBase64));
+        }
+
+        return files;
+    }
+
+    private async Task ShareSelectedDeckAsync()
+    {
+        shareError = null;
+        var deckToShare = string.IsNullOrWhiteSpace(selectedDeck) ? DeckCollection.DefaultDeck : selectedDeck;
+        if (!isShareSupported)
+        {
+            shareError = DisplayTexts.TarotShareUnsupported;
+            return;
+        }
+
+        try
+        {
+            isSharingDeck = true;
+            var files = await BuildDeckFilesAsync(deckToShare);
+            if (files.Count == 0)
+            {
+                shareError = DisplayTexts.TarotShareNoFiles;
+                return;
+            }
+
+            shareModule ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/webShare.js");
+            if (shareModule is null)
+            {
+                shareError = DisplayTexts.TarotShareUnsupported;
+                return;
+            }
+
+            await shareModule.InvokeVoidAsync("shareDeck", deckToShare, files);
+            cacheStatusMessage = string.Format(DisplayTexts.TarotShareSuccess, deckToShare, files.Count);
+        }
+        catch (JSException jsEx)
+        {
+            shareError = jsEx.Message;
+        }
+        catch (Exception ex)
+        {
+            shareError = string.Format(DisplayTexts.TarotShareGenericError, ex.Message);
+        }
+        finally
+        {
+            isSharingDeck = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private void HandleImportFilesSelected(InputFileChangeEventArgs args)
+    {
+        selectedImportFiles = args.GetMultipleFiles().ToList();
+        importStatusMessage = null;
+        importError = null;
+    }
+
+    private async Task ImportDeckAsync()
+    {
+        importError = null;
+        importStatusMessage = null;
+
+        if (string.IsNullOrWhiteSpace(importDeckName))
+        {
+            importError = DisplayTexts.TarotImportMissingDeckName;
+            return;
+        }
+
+        if (selectedImportFiles.Count == 0)
+        {
+            importError = DisplayTexts.TarotImportNoFiles;
+            return;
+        }
+
+        try
+        {
+            isImporting = true;
+            await InvokeAsync(StateHasChanged);
+
+            var files = new List<DeckFileStorage>();
+            foreach (var file in selectedImportFiles)
+            {
+                var base64 = await ReadFileAsBase64Async(file);
+                files.Add(new DeckFileStorage(file.Name, file.ContentType, base64));
+            }
+
+            var payload = new DeckStoragePayload(importDeckName.Trim(), DateTimeOffset.UtcNow, files);
+            await LocalStorage.SetItemAsync($"tarotDeck:{payload.DeckName}", payload);
+            cachedDecks.Add(payload.DeckName);
+            importStatusMessage = string.Format(DisplayTexts.TarotImportSuccess, payload.DeckName, files.Count);
+        }
+        catch (Exception ex)
+        {
+            importError = string.Format(DisplayTexts.TarotImportError, ex.Message);
+        }
+        finally
+        {
+            isImporting = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private static async Task<string> ReadFileAsBase64Async(IBrowserFile file)
+    {
+        const long MaxAllowedSize = 15 * 1024 * 1024;
+        await using var stream = file.OpenReadStream(MaxAllowedSize);
+        using var memoryStream = new MemoryStream();
+        await stream.CopyToAsync(memoryStream);
+        return Convert.ToBase64String(memoryStream.ToArray());
+    }
+
+
     private sealed record TarotCardInfo(string DisplayName, string DeckName, string FileName, string Key, string ResourceName)
     {
         private string? imageDataUrl;
@@ -444,9 +761,19 @@
 
     private sealed record TarotDeckOption(string DeckName, string DisplayName);
 
+    private sealed record DeckFileShare(string FileName, string ContentType, string Base64Data);
+
+    private sealed record DeckFileStorage(string FileName, string ContentType, string Base64Data);
+
+    private sealed record DeckStoragePayload(string DeckName, DateTimeOffset CachedAt, IReadOnlyList<DeckFileStorage> Files);
+
     public void Dispose()
     {
         descriptionCts?.Cancel();
         descriptionCts?.Dispose();
+        if (shareModule is not null)
+        {
+            _ = shareModule.DisposeAsync();
+        }
     }
 }
