@@ -1,7 +1,10 @@
 {
-  "name": "Toolbox",
+  "name": "Nasreddins Toolbox",
   "short_name": "Toolbox",
+  "lang": "de-DE",
+  "description": "Die Toolbox bündelt Nasreddins praktische Helfer als installierbare Web-App.",
   "id": "./",
+  "scope": "./",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#ffffff",
@@ -9,14 +12,16 @@
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "icon-512.png",
+      "src": "images/Icon-512.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any maskable"
     },
     {
-      "src": "icon-192.png",
+      "src": "images/Icon-192.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any maskable"
     }
   ]
 }

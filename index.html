@@ -1,29 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Toolbox</title>
+    <meta name="application-name" content="Nasreddins Toolbox" />
+    <meta name="msapplication-starturl" content="/" />
+    <meta name="msapplication-TileColor" content="#03173d" />
+    <title>Nasreddins Toolbox</title>
     <base href="/" />
     <script>
         (function () {
+            var baseElement = document.querySelector("base");
+            var baseHref = baseElement?.getAttribute("href") || "/";
+
+            if (!baseHref.endsWith("/")) {
+                baseHref += "/";
+            }
+
             // Nur auf GitHub Pages den ersten Pfadteil (Repo-Name) als Base nehmen
             if (location.hostname.endsWith(".github.io")) {
                 var seg = location.pathname.split("/").filter(Boolean)[0] || "";
                 if (seg) {
-                    document.querySelector("base")?.setAttribute("href", "/" + seg + "/");
+                    baseHref = "/" + seg.replace(/\/+$/, "") + "/";
+                    baseElement?.setAttribute("href", baseHref);
                 }
             }
+
+            var combine = function (relative) {
+                var cleaned = relative.replace(/^\/+/, "");
+                return baseHref + cleaned;
+            };
+
+            document.querySelectorAll('link[data-relative-href]').forEach(function (link) {
+                var relHref = link.getAttribute('data-relative-href');
+                if (relHref) {
+                    link.setAttribute('href', combine(relHref));
+                }
+            });
         })();
     </script>
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
-    <link rel="icon" type="image/png" href="favicon.png" />
+    <link rel="icon" type="image/png" sizes="512x512" data-relative-href="images/Icon-512.png" />
+    <link rel="icon" type="image/png" sizes="192x192" data-relative-href="images/Icon-192.png" />
     <link href="Toolbox.styles.css" rel="stylesheet" />
-    <link href="manifest.webmanifest" rel="manifest" />
-    <link rel="apple-touch-icon" sizes="512x512" href="icon-512.png" />
-    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png" />
+    <link rel="manifest" data-relative-href="manifest.webmanifest" />
+    <link rel="apple-touch-icon" sizes="512x512" data-relative-href="images/Icon-512.png" />
+    <link rel="apple-touch-icon" sizes="192x192" data-relative-href="images/Icon-192.png" />
 </head>
 
 <body>
