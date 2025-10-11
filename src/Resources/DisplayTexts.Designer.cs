@@ -30,7 +30,6 @@ public static class DisplayTexts
     public static string NavigationToggleTitle => GetString(nameof(NavigationToggleTitle));
     public static string NavigationHome => GetString(nameof(NavigationHome));
     public static string NavigationTarotCards => GetString(nameof(NavigationTarotCards));
-    public static string MainLayoutAboutLink => GetString(nameof(MainLayoutAboutLink));
     public static string NotFoundPageTitle => GetString(nameof(NotFoundPageTitle));
     public static string NotFoundMessage => GetString(nameof(NotFoundMessage));
 }

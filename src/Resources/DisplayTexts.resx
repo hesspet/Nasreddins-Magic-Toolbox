@@ -109,9 +109,6 @@
   <data name="NavigationTarotCards" xml:space="preserve">
     <value>Tarotkarten</value>
   </data>
-  <data name="MainLayoutAboutLink" xml:space="preserve">
-    <value>Info</value>
-  </data>
   <data name="NotFoundPageTitle" xml:space="preserve">
     <value>Nicht gefunden</value>
   </data>
