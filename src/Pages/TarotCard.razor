@@ -6,7 +6,6 @@
 @using System.Threading
 @using Markdig
 @implements IDisposable
-@inject HttpClient HttpClient
 
 <PageTitle>@DisplayTexts.TarotPageTitle</PageTitle>
 
@@ -322,7 +321,8 @@
         descriptionCts?.Cancel();
         descriptionCts?.Dispose();
 
-        if (cardDescriptionCache.TryGetValue(card.MarkdownRelativePath, out var cachedHtml))
+        var cacheKey = card.MarkdownResourceName;
+        if (cardDescriptionCache.TryGetValue(cacheKey, out var cachedHtml))
         {
             selectedCardDescriptionHtml = cachedHtml;
             descriptionError = null;
@@ -337,16 +337,23 @@
 
         var cts = new CancellationTokenSource();
         descriptionCts = cts;
-        _ = LoadDescriptionCoreAsync(card, cts.Token);
+        _ = LoadDescriptionCoreAsync(card, cacheKey, cts.Token);
     }
 
-    private async Task LoadDescriptionCoreAsync(TarotCardInfo card, CancellationToken token)
+    private async Task LoadDescriptionCoreAsync(TarotCardInfo card, string cacheKey, CancellationToken token)
     {
         try
         {
-            var markdown = await HttpClient.GetStringAsync(card.MarkdownRelativePath, token);
+            using var stream = ResourceAssembly.GetManifestResourceStream(card.MarkdownResourceName);
+            if (stream is null)
+            {
+                throw new InvalidOperationException($"Resource '{card.MarkdownResourceName}' not found.");
+            }
+
+            using var reader = new StreamReader(stream);
+            var markdown = await reader.ReadToEndAsync(token);
             var html = Markdown.ToHtml(markdown);
-            cardDescriptionCache[card.MarkdownRelativePath] = html;
+            cardDescriptionCache[cacheKey] = html;
 
             if (token.IsCancellationRequested || selectedCard?.Key != card.Key)
             {
@@ -396,13 +403,12 @@
 
         public string ImageDataUrl => imageDataUrl ??= LoadImageData(ResourceName);
         public string ComparisonKey => NormalizeForComparison(Key);
-        public string MarkdownRelativePath
+        public string MarkdownResourceName
         {
             get
             {
-                var markdownFileName = Path.ChangeExtension(FileName, ".md") ?? string.Empty;
-                var combined = Path.Combine("Resources", "Images", DeckName, markdownFileName);
-                return combined.Replace('\\', '/');
+                var markdownResource = Path.ChangeExtension(ResourceName, ".md");
+                return string.IsNullOrEmpty(markdownResource) ? ResourceName : markdownResource;
             }
         }
 
