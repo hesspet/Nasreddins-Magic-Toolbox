@@ -91,6 +91,12 @@
   <data name="TarotSearchNotFound" xml:space="preserve">
     <value>Keine Karte gefunden. Überprüfe die Schreibweise.</value>
   </data>
+  <data name="TarotDescriptionLoading" xml:space="preserve">
+    <value>Beschreibung wird geladen …</value>
+  </data>
+  <data name="TarotDescriptionLoadError" xml:space="preserve">
+    <value>Die Beschreibung konnte nicht geladen werden.</value>
+  </data>
   <data name="TarotPreviousCardButton" xml:space="preserve">
     <value>Vorherige Karte</value>
   </data>
