@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "Toolbox",
   "resources": {
-    "hash": "sha256-5P4He26uxf5B3SSVNM7hcnxxV+cuc/O+7koYCETbEoQ=",
+    "hash": "sha256-geIdUEU8rL7+ahjt/lMfr1JvyCFCsoRmdeYnunJKBio=",
     "jsModuleNative": {
       "dotnet.native.js": "sha256-O/NCYcAN9uPocD7ns7AzF/cqx7f5vL1PTJCQs0vEXyk="
     },
@@ -45,7 +45,7 @@
       "System.Text.Json.wasm": "sha256-CwXa5miNwAM+0rjrZA0nj43JoL1UD0nPNV81Yg+d6sg=",
       "System.Text.RegularExpressions.wasm": "sha256-amyl1Zsuf+PHSXqju/cl50LQlTKfUNpDi6hcFh10yrM=",
       "System.Private.CoreLib.wasm": "sha256-41K5elLjEY3ZvymngeYmybvVSeGfUTnKRMPdpD+2p0E=",
-      "Toolbox.wasm": "sha256-ahTT1cKQ28uTxfUYqtcsVbIq1KIXmax7gsNhHDlk+Y4="
+      "Toolbox.wasm": "sha256-ANJ5jf9MzWkEkHQKYgI406pYqxyV9RPQY7qkcPy1/aM="
     }
   },
   "cacheBootResources": true,

@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "RS7x8Et/",
+  "version": "Lg+FQKEZ",
   "assets": [
     {
       "hash": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=",
@@ -130,11 +130,11 @@ self.assetsManifest = {
       "url": "_framework/System.Text.RegularExpressions.wasm"
     },
     {
-      "hash": "sha256-ahTT1cKQ28uTxfUYqtcsVbIq1KIXmax7gsNhHDlk+Y4=",
+      "hash": "sha256-ANJ5jf9MzWkEkHQKYgI406pYqxyV9RPQY7qkcPy1/aM=",
       "url": "_framework/Toolbox.wasm"
     },
     {
-      "hash": "sha256-UKEivCaJSjRvw19SSDfN/j/drHx2A4rD/MFEIeHB4K0=",
+      "hash": "sha256-7QGJaVN+w+KmiQJR5futLffgaY+2OUhoY3YIvmihuX0=",
       "url": "_framework/blazor.boot.json"
     },
     {
