@@ -1,1 +1,4 @@
-Arcane_Major_10_Wheel_of_Fortune.jpg
+**DAS RAD DES SCHICKSALS/ WHEEL OF FORTUNE**
+
+* Schicksal, Glück, Erfolg, Wohlstand.
+* **Umgekehrt:** Zunahme, Überfluss, Überflüssigkeit.

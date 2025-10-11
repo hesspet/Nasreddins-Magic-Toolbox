@@ -1,1 +1,4 @@
-Arcane_Major_06_Lovers.jpg
+**DIE LIEBENDEN/THE LOVERS**
+
+* Anziehungskraft, Liebe, Schönheit, überwundene Prüfungen. 
+* **Umgekehrt:** Scheitern, törichte Pläne.
