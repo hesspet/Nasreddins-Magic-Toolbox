@@ -1,0 +1,20 @@
+.settings-section {
+    margin-top: 1.5rem;
+    max-width: 20rem;
+}
+
+.settings-section label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.settings-section .form-select {
+    width: 100%;
+}
+
+.settings-description {
+    margin-top: 0.5rem;
+    color: #555;
+    font-size: 0.95rem;
+}

@@ -1,3 +1,5 @@
+@inject LocalStorageHelper LocalStorage
+
 @if (isSplashVisible)
 {
     <div class="splash-screen" role="dialog" aria-modal="true" aria-live="polite" @onclick="SkipSplash">
@@ -31,12 +33,27 @@ else
 
 @code {
     private bool isSplashVisible = true;
+    private int splashDurationSeconds = ApplicationSettings.SplashScreenDurationDefaultSeconds;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var storedDuration = await LocalStorage.GetItemAsync<int?>(ApplicationSettings.SplashScreenDurationKey);
+
+        if (storedDuration.HasValue && Array.IndexOf(ApplicationSettings.SplashScreenDurationOptions, storedDuration.Value) >= 0)
+        {
+            splashDurationSeconds = storedDuration.Value;
+        }
+        else
+        {
+            await LocalStorage.SetItemAsync(ApplicationSettings.SplashScreenDurationKey, splashDurationSeconds);
+        }
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            await Task.Delay(TimeSpan.FromSeconds(5));
+            await Task.Delay(TimeSpan.FromSeconds(splashDurationSeconds));
 
             if (isSplashVisible)
             {

@@ -1,0 +1,50 @@
+@page "/settings"
+@inject LocalStorageHelper LocalStorage
+
+<PageTitle>@DisplayTexts.SettingsPageTitle</PageTitle>
+
+<h1>@DisplayTexts.SettingsPageHeader</h1>
+
+<section class="settings-section" aria-labelledby="splash-duration-label">
+    <label id="splash-duration-label" for="splash-duration">@DisplayTexts.SettingsSplashDurationLabel</label>
+    <select id="splash-duration" class="form-select" @onchange="OnDurationChanged">
+        @foreach (var option in ApplicationSettings.SplashScreenDurationOptions)
+        {
+            <option value="@option" selected="@(option == selectedDuration ? "selected" : null)">@option</option>
+        }
+    </select>
+    <p class="settings-description">@DisplayTexts.SettingsSplashDurationDescription</p>
+</section>
+
+@code {
+    private int selectedDuration = ApplicationSettings.SplashScreenDurationDefaultSeconds;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var storedDuration = await LocalStorage.GetItemAsync<int?>(ApplicationSettings.SplashScreenDurationKey);
+
+        if (storedDuration.HasValue && Array.IndexOf(ApplicationSettings.SplashScreenDurationOptions, storedDuration.Value) >= 0)
+        {
+            selectedDuration = storedDuration.Value;
+        }
+        else
+        {
+            await LocalStorage.SetItemAsync(ApplicationSettings.SplashScreenDurationKey, selectedDuration);
+        }
+    }
+
+    private async Task OnDurationChanged(ChangeEventArgs args)
+    {
+        if (args.Value is null)
+        {
+            return;
+        }
+
+        if (int.TryParse(args.Value.ToString(), out var duration) && Array.IndexOf(ApplicationSettings.SplashScreenDurationOptions, duration) >= 0)
+        {
+            selectedDuration = duration;
+            await LocalStorage.SetItemAsync(ApplicationSettings.SplashScreenDurationKey, selectedDuration);
+            StateHasChanged();
+        }
+    }
+}

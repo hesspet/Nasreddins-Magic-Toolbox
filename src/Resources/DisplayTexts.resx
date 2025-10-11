@@ -109,6 +109,21 @@
   <data name="NavigationTarotCards" xml:space="preserve">
     <value>Tarotkarten</value>
   </data>
+  <data name="NavigationSettings" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="SettingsPageTitle" xml:space="preserve">
+    <value>Anwendungseinstellungen</value>
+  </data>
+  <data name="SettingsPageHeader" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="SettingsSplashDurationLabel" xml:space="preserve">
+    <value>Anzeigedauer des Splashscreens (Sekunden)</value>
+  </data>
+  <data name="SettingsSplashDurationDescription" xml:space="preserve">
+    <value>Wähle, wie lange der Splashscreen angezeigt wird. Der Wert 0 überspringt ihn sofort.</value>
+  </data>
   <data name="NotFoundPageTitle" xml:space="preserve">
     <value>Nicht gefunden</value>
   </data>
