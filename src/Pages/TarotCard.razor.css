@@ -3,24 +3,31 @@
     margin-block: 1rem;
 }
 
+.tarot-page {
+    padding-bottom: 5.5rem;
+}
+
 .tarot-card {
-    margin-top: 2rem;
+    margin: 2rem auto 0;
     text-align: center;
 }
 
-.tarot-navigation {
-    margin-top: 2rem;
+.tarot-navigation-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.75rem 1rem;
     display: flex;
-    align-items: center;
-    justify-content: center;
     gap: 1.5rem;
+    justify-content: center;
+    background-color: var(--bs-body-bg);
+    border-top: 1px solid var(--bs-border-color-translucent, rgba(0, 0, 0, 0.1));
+    box-shadow: 0 -0.5rem 1.5rem rgba(0, 0, 0, 0.15);
+    z-index: 1030;
 }
 
-.tarot-navigation .tarot-card {
-    margin: 0;
-}
-
-.tarot-navigation .btn {
+.tarot-navigation-bar .btn {
     width: 3rem;
     height: 3rem;
     border-radius: 50%;
