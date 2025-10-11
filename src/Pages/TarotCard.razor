@@ -372,13 +372,11 @@
         }
         finally
         {
-            if (token.IsCancellationRequested || selectedCard?.Key != card.Key)
+            if (!(token.IsCancellationRequested || selectedCard?.Key != card.Key))
             {
-                return;
+                isDescriptionLoading = false;
+                await InvokeAsync(StateHasChanged);
             }
-
-            isDescriptionLoading = false;
-            await InvokeAsync(StateHasChanged);
         }
     }
 
