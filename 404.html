@@ -5,7 +5,18 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Toolbox</title>
-    <base href="/Nasreddins-Magic-Toolbox/" />
+    <base href="/" />
+    <script>
+        (function () {
+            // Nur auf GitHub Pages den ersten Pfadteil (Repo-Name) als Base nehmen
+            if (location.hostname.endsWith(".github.io")) {
+                var seg = location.pathname.split("/").filter(Boolean)[0] || "";
+                if (seg) {
+                    document.querySelector("base")?.setAttribute("href", "/" + seg + "/");
+                }
+            }
+        })();
+    </script>
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
@@ -32,5 +43,4 @@
     <script src="_framework/blazor.webassembly.js"></script>
     <script>navigator.serviceWorker.register('service-worker.js');</script>
 </body>
-
 </html>
