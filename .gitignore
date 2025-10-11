@@ -2,3 +2,6 @@
 /bin
 /obj
 /.vs
+/src/Toolbox.Settings/obj/Debug/net8.0
+/src/Toolbox.Settings/bin/Debug/net8.0
+/src/Toolbox.Settings/obj

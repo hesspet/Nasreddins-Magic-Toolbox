@@ -6,7 +6,7 @@
     <RootNamespace>Toolbox</RootNamespace>
     <RazorLangVersion>8.0</RazorLangVersion>
   </PropertyGroup>
-
+	
   <ItemGroup>
     <EmbeddedResource Update="Resources\DisplayTexts.resx">
       <Generator>ResXFileCodeGenerator</Generator>
