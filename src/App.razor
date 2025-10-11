@@ -10,7 +10,7 @@
                 <p>Willkommen bei Nasreddins Magic Toolbox.</p>
                 <p>Mach es dir bequem und lass dich überraschen.</p>
                 <p>Der Start erfolgt in wenigen Augenblicken.</p>
-                <p>@SplashImageUrl</p>
+                <!-- <p>@SplashImageUrl</p> -->
                 <p>Version: @BuildInfo.Version (Build: @BuildInfo.BuildNumber)</p>
                 <p>Build vom @BuildInfo.BuildTimestamp</p>
             </div>
@@ -36,7 +36,7 @@ else
 @code {
     private bool isSplashVisible = true;
     private int splashDurationSeconds = ApplicationSettings.SplashScreenDurationDefaultSeconds;
-    private string SplashImageUrl => $"{NavigationManager.BaseUri}images/SplashNassredinUndPeter.jpg";
+    private string SplashImageUrl => $"{NavigationManager.BaseUri}images/SplashNassredinIconTrimmed.png";
 
     protected override async Task OnInitializedAsync()
     {
