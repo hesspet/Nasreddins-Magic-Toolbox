@@ -38,10 +38,28 @@
 
 @if (selectedCard is not null)
 {
-    <figure class="tarot-card">
-        <img src="@selectedCard.ImageDataUrl" alt="@selectedCard.DisplayName" class="img-fluid" />
-        <figcaption>@selectedCard.DisplayName</figcaption>
-    </figure>
+    <div class="tarot-navigation">
+        <button type="button"
+                class="btn btn-outline-secondary"
+                aria-label="@DisplayTexts.TarotPreviousCardButton"
+                title="@DisplayTexts.TarotPreviousCardButton"
+                @onclick="ShowPreviousCard">
+            &larr;
+        </button>
+
+        <figure class="tarot-card">
+            <img src="@selectedCard.ImageDataUrl" alt="@selectedCard.DisplayName" class="img-fluid" />
+            <figcaption>@selectedCard.DisplayName</figcaption>
+        </figure>
+
+        <button type="button"
+                class="btn btn-outline-secondary"
+                aria-label="@DisplayTexts.TarotNextCardButton"
+                title="@DisplayTexts.TarotNextCardButton"
+                @onclick="ShowNextCard">
+            &rarr;
+        </button>
+    </div>
 }
 
 @code {
@@ -52,6 +70,7 @@
     private string searchTerm = string.Empty;
     private string selectedDeck = DeckCollection.DefaultDeck;
     private TarotCardInfo? selectedCard;
+    private int selectedCardIndex = -1;
     private bool HasSearched => !string.IsNullOrWhiteSpace(searchTerm);
 
     private string SearchTerm
@@ -81,6 +100,7 @@
             }
 
             selectedDeck = newValue;
+            selectedCardIndex = -1;
             UpdateSelection();
         }
     }
@@ -93,6 +113,8 @@
         {
             selectedDeck = DeckCollection.DefaultDeck;
         }
+
+        UpdateSelection();
     }
 
     private static TarotDeckCollection LoadDeckCollection()
@@ -161,17 +183,93 @@
 
     private void UpdateSelection()
     {
-        selectedCard = null;
+        var deckToSearch = string.IsNullOrWhiteSpace(selectedDeck) ? DeckCollection.DefaultDeck : selectedDeck;
+        var candidates = DeckCollection.GetCards(deckToSearch);
+
+        if (candidates.Count == 0)
+        {
+            selectedCard = null;
+            selectedCardIndex = -1;
+            return;
+        }
 
         var normalized = NormalizeForComparison(searchTerm);
         if (normalized.Length == 0)
         {
+            if (selectedCardIndex < 0 || selectedCardIndex >= candidates.Count)
+            {
+                ShowCardAtIndex(0, candidates);
+            }
+            else
+            {
+                ShowCardAtIndex(selectedCardIndex, candidates);
+            }
+
             return;
         }
 
-        var deckToSearch = string.IsNullOrWhiteSpace(selectedDeck) ? DeckCollection.DefaultDeck : selectedDeck;
-        var candidates = DeckCollection.GetCards(deckToSearch);
-        selectedCard = candidates.FirstOrDefault(card => card.ComparisonKey.Contains(normalized, StringComparison.OrdinalIgnoreCase));
+        var matchingIndex = FindMatchingCardIndex(candidates, normalized);
+        if (matchingIndex >= 0)
+        {
+            ShowCardAtIndex(matchingIndex, candidates);
+        }
+        else
+        {
+            selectedCard = null;
+            selectedCardIndex = -1;
+        }
+    }
+
+    private static int FindMatchingCardIndex(IReadOnlyList<TarotCardInfo> candidates, string normalizedSearch)
+    {
+        for (var index = 0; index < candidates.Count; index++)
+        {
+            if (candidates[index].ComparisonKey.Contains(normalizedSearch, StringComparison.OrdinalIgnoreCase))
+            {
+                return index;
+            }
+        }
+
+        return -1;
+    }
+
+    private void ShowCardAtIndex(int index, IReadOnlyList<TarotCardInfo>? candidates = null)
+    {
+        candidates ??= DeckCollection.GetCards(string.IsNullOrWhiteSpace(selectedDeck) ? DeckCollection.DefaultDeck : selectedDeck);
+        if (candidates.Count == 0)
+        {
+            selectedCard = null;
+            selectedCardIndex = -1;
+            return;
+        }
+
+        var normalizedIndex = ((index % candidates.Count) + candidates.Count) % candidates.Count;
+        selectedCardIndex = normalizedIndex;
+        selectedCard = candidates[normalizedIndex];
+    }
+
+    private void ShowNextCard()
+    {
+        var candidates = DeckCollection.GetCards(string.IsNullOrWhiteSpace(selectedDeck) ? DeckCollection.DefaultDeck : selectedDeck);
+        if (candidates.Count == 0)
+        {
+            return;
+        }
+
+        var nextIndex = selectedCardIndex >= 0 ? selectedCardIndex + 1 : 0;
+        ShowCardAtIndex(nextIndex, candidates);
+    }
+
+    private void ShowPreviousCard()
+    {
+        var candidates = DeckCollection.GetCards(string.IsNullOrWhiteSpace(selectedDeck) ? DeckCollection.DefaultDeck : selectedDeck);
+        if (candidates.Count == 0)
+        {
+            return;
+        }
+
+        var previousIndex = selectedCardIndex >= 0 ? selectedCardIndex - 1 : candidates.Count - 1;
+        ShowCardAtIndex(previousIndex, candidates);
     }
 
     private static string NormalizeForComparison(string value)
