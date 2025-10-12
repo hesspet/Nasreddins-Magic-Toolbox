@@ -16,12 +16,43 @@
     <p class="settings-description">@DisplayTexts.SettingsSplashDurationDescription</p>
 </section>
 
+<section class="settings-section" aria-labelledby="webdav-url-label">
+    <label id="webdav-url-label" for="webdav-url">@DisplayTexts.SettingsWebDavUrlLabel</label>
+    <input id="webdav-url" class="form-control" type="url" autocomplete="url" value="@webDavUrl" @onchange="OnWebDavUrlChanged" />
+</section>
+
+<section class="settings-section" aria-labelledby="webdav-username-label">
+    <label id="webdav-username-label" for="webdav-username">@DisplayTexts.SettingsWebDavUsernameLabel</label>
+    <input id="webdav-username" class="form-control" type="text" autocomplete="username" value="@webDavUsername" @onchange="OnWebDavUsernameChanged" />
+</section>
+
+<section class="settings-section" aria-labelledby="webdav-password-label">
+    <label id="webdav-password-label" for="webdav-password">@DisplayTexts.SettingsWebDavPasswordLabel</label>
+    <div class="password-input-group">
+        <input id="webdav-password" class="form-control" type="@(isPasswordVisible ? "text" : "password")" autocomplete="current-password" value="@webDavPassword" @onchange="OnWebDavPasswordChanged" />
+        <button type="button"
+                class="btn btn-outline-secondary toggle-password"
+                aria-label="@DisplayTexts.SettingsWebDavPasswordToggleLabel"
+                aria-pressed="@(isPasswordVisible ? "true" : "false")"
+                @onclick="TogglePasswordVisibility">
+            <span aria-hidden="true">@(isPasswordVisible ? "🙈" : "👁")</span>
+        </button>
+    </div>
+</section>
+
 @code {
     private int selectedDuration = ApplicationSettings.SplashScreenDurationDefaultSeconds;
+    private string webDavUrl = string.Empty;
+    private string webDavUsername = string.Empty;
+    private string webDavPassword = string.Empty;
+    private bool isPasswordVisible;
 
     protected override async Task OnInitializedAsync()
     {
         var storedDuration = await LocalStorage.GetItemAsync<int?>(ApplicationSettings.SplashScreenDurationKey);
+        webDavUrl = await LocalStorage.GetItemAsync<string?>(ApplicationSettings.WebDavUrlKey) ?? string.Empty;
+        webDavUsername = await LocalStorage.GetItemAsync<string?>(ApplicationSettings.WebDavUsernameKey) ?? string.Empty;
+        webDavPassword = await LocalStorage.GetItemAsync<string?>(ApplicationSettings.WebDavPasswordKey) ?? string.Empty;
 
         if (storedDuration.HasValue && Array.IndexOf(ApplicationSettings.SplashScreenDurationOptions, storedDuration.Value) >= 0)
         {
@@ -46,5 +77,43 @@
             await LocalStorage.SetItemAsync(ApplicationSettings.SplashScreenDurationKey, selectedDuration);
             StateHasChanged();
         }
+    }
+
+    private async Task OnWebDavUrlChanged(ChangeEventArgs args)
+    {
+        if (args.Value is null)
+        {
+            return;
+        }
+
+        webDavUrl = args.Value.ToString() ?? string.Empty;
+        await LocalStorage.SetItemAsync(ApplicationSettings.WebDavUrlKey, webDavUrl);
+    }
+
+    private async Task OnWebDavUsernameChanged(ChangeEventArgs args)
+    {
+        if (args.Value is null)
+        {
+            return;
+        }
+
+        webDavUsername = args.Value.ToString() ?? string.Empty;
+        await LocalStorage.SetItemAsync(ApplicationSettings.WebDavUsernameKey, webDavUsername);
+    }
+
+    private async Task OnWebDavPasswordChanged(ChangeEventArgs args)
+    {
+        if (args.Value is null)
+        {
+            return;
+        }
+
+        webDavPassword = args.Value.ToString() ?? string.Empty;
+        await LocalStorage.SetItemAsync(ApplicationSettings.WebDavPasswordKey, webDavPassword);
+    }
+
+    private void TogglePasswordVisibility()
+    {
+        isPasswordVisible = !isPasswordVisible;
     }
 }
