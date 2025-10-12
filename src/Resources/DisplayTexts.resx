@@ -244,6 +244,12 @@
   <data name="SettingsSplashDurationDescription" xml:space="preserve">
     <value>Wähle, wie lange der Splashscreen angezeigt wird. Der Wert 0 überspringt ihn sofort.</value>
   </data>
+  <data name="SettingsCheckForUpdatesLabel" xml:space="preserve">
+    <value>Beim Start auf Update prüfen</value>
+  </data>
+  <data name="SettingsCheckForUpdatesDescription" xml:space="preserve">
+    <value>Wenn aktiviert, sucht die App beim Start automatisch nach verfügbaren Aktualisierungen.</value>
+  </data>
   <data name="NotFoundPageTitle" xml:space="preserve">
     <value>Nicht gefunden</value>
   </data>

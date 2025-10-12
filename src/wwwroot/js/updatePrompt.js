@@ -4,6 +4,23 @@
     }
 
     let hasControllerChanged = false;
+    const updateSettingKey = 'CheckForUpdatesOnStartup';
+
+    function shouldCheckForUpdatesOnStartup() {
+        try {
+            const storedValue = window.localStorage.getItem(updateSettingKey);
+
+            if (storedValue === null || storedValue === undefined) {
+                return true;
+            }
+
+            const parsedValue = JSON.parse(storedValue);
+            return parsedValue !== false;
+        } catch (error) {
+            console.warn('Konnte Einstellung für die Updateprüfung nicht auslesen:', error);
+            return true;
+        }
+    }
 
     function promptUserForUpdate(registration) {
         const waitingWorker = registration.waiting;
@@ -18,9 +35,15 @@
         }
     }
 
+    const shouldCheckForUpdates = shouldCheckForUpdatesOnStartup();
+
     navigator.serviceWorker
         .register('service-worker.js')
         .then(registration => {
+            if (!shouldCheckForUpdates) {
+                return;
+            }
+
             if (registration.waiting) {
                 promptUserForUpdate(registration);
             }
@@ -40,12 +63,14 @@
         })
         .catch(error => console.error('Service Worker Registrierung fehlgeschlagen:', error));
 
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (hasControllerChanged) {
-            return;
-        }
+    if (shouldCheckForUpdates) {
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (hasControllerChanged) {
+                return;
+            }
 
-        hasControllerChanged = true;
-        window.location.reload();
-    });
+            hasControllerChanged = true;
+            window.location.reload();
+        });
+    }
 })();
