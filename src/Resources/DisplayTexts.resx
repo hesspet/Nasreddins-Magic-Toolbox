@@ -184,6 +184,30 @@
   <data name="ImportExportDeckReportCloseButtonLabel" xml:space="preserve">
     <value>Schließen</value>
   </data>
+  <data name="ImportExportDeckLogTitle" xml:space="preserve">
+    <value>Importprotokoll</value>
+  </data>
+  <data name="ImportExportDeckLogCloseButtonLabel" xml:space="preserve">
+    <value>Protokoll schließen</value>
+  </data>
+  <data name="ImportExportDeckLogStartingFormat" xml:space="preserve">
+    <value>Import für Deck „{0}“ gestartet.</value>
+  </data>
+  <data name="ImportExportDeckLogFileImportedFormat" xml:space="preserve">
+    <value>Datei „{0}“ importiert.</value>
+  </data>
+  <data name="ImportExportDeckLogExistingDeckFound" xml:space="preserve">
+    <value>Es wurde bereits ein Deck mit diesem Namen gefunden.</value>
+  </data>
+  <data name="ImportExportDeckLogDeckDeleted" xml:space="preserve">
+    <value>Bestehendes Deck und Karten wurden gelöscht.</value>
+  </data>
+  <data name="ImportExportDeckLogDeckCreated" xml:space="preserve">
+    <value>Leeres Deck wurde neu erstellt.</value>
+  </data>
+  <data name="ImportExportDeckLogFinished" xml:space="preserve">
+    <value>Import abgeschlossen.</value>
+  </data>
   <data name="SettingsPageTitle" xml:space="preserve">
     <value>Anwendungseinstellungen</value>
   </data>

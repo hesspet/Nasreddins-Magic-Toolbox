@@ -34,6 +34,39 @@
     }
 </section>
 
+@if (showImportLog)
+{
+    <div class="deck-report-backdrop import-log-backdrop">
+        <div class="deck-report-dialog import-log-dialog" role="dialog" aria-modal="true" aria-labelledby="import-log-title">
+            <header class="deck-report-header import-log-header">
+                <h2 id="import-log-title">@DisplayTexts.ImportExportDeckLogTitle</h2>
+                <button type="button"
+                        class="btn-close deck-report-close"
+                        @onclick="CloseImportLog"
+                        aria-label="@DisplayTexts.ImportExportDeckLogCloseButtonLabel"
+                        aria-disabled="@isImporting"
+                        disabled="@isImporting">
+                </button>
+            </header>
+            <section class="deck-report-body import-log-body">
+                <ul class="import-log-list" role="log" aria-live="polite">
+                    @foreach (var entry in logEntries)
+                    {
+                        <li class="import-log-entry">@entry</li>
+                    }
+                </ul>
+                <button type="button"
+                        class="btn btn-primary import-log-close-action"
+                        @onclick="CloseImportLog"
+                        aria-disabled="@isImporting"
+                        disabled="@isImporting">
+                    @DisplayTexts.ImportExportDeckLogCloseButtonLabel
+                </button>
+            </section>
+        </div>
+    </div>
+}
+
 @if (showImportReport)
 {
     <div class="deck-report-backdrop">
@@ -78,6 +111,8 @@
     private bool isImporting;
     private string? statusMessage;
     private string statusCssClass = string.Empty;
+    private bool showImportLog;
+    private List<string> logEntries = new();
     private bool showImportReport;
     private string reportDeckName = string.Empty;
     private List<CardReportEntry> reportEntries = new();
@@ -91,8 +126,10 @@
     {
         statusMessage = null;
         statusCssClass = string.Empty;
+        showImportLog = false;
         showImportReport = false;
         reportEntries.Clear();
+        logEntries.Clear();
 
         var file = args.File;
 
@@ -118,6 +155,7 @@
         isImporting = true;
         statusMessage = DisplayTexts.ImportExportDeckImportInProgress;
         statusCssClass = "text-muted";
+        showImportLog = true;
         StateHasChanged();
 
         try
@@ -126,11 +164,13 @@
             await ShowImportReportAsync(importedDeckId);
             statusMessage = DisplayTexts.ImportExportDeckImportSuccess;
             statusCssClass = "text-success";
+            await LogImportMessageAsync(statusMessage);
         }
         catch (Exception exception)
         {
             statusMessage = string.Format(CultureInfo.CurrentCulture, DisplayTexts.ImportExportDeckImportFailedFormat, exception.Message);
             statusCssClass = "text-danger";
+            await LogImportMessageAsync(statusMessage);
         }
         finally
         {
@@ -145,8 +185,11 @@
 
         if (string.IsNullOrWhiteSpace(deckId))
         {
+            await LogImportMessageAsync(DisplayTexts.ImportExportDeckMissingDeckName);
             throw new InvalidDataException(DisplayTexts.ImportExportDeckMissingDeckName);
         }
+
+        await LogImportMessageAsync(string.Format(CultureInfo.CurrentCulture, DisplayTexts.ImportExportDeckLogStartingFormat, deckId));
 
         await using var browserFileStream = file.OpenReadStream(MaxZipFileSize);
         var memoryStreamCapacity = (int)Math.Min(file.Size, int.MaxValue);
@@ -158,6 +201,7 @@
 
         if (archive.Entries.Count == 0)
         {
+            await LogImportMessageAsync(DisplayTexts.ImportExportDeckArchiveEmpty);
             throw new InvalidDataException(DisplayTexts.ImportExportDeckArchiveEmpty);
         }
 
@@ -192,10 +236,12 @@
             if (fileName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase))
             {
                 importData.Image = await ReadEntryBytesAsync(entry);
+                await LogImportMessageAsync(string.Format(CultureInfo.CurrentCulture, DisplayTexts.ImportExportDeckLogFileImportedFormat, entry.FullName));
             }
             else if (fileName.EndsWith(".md", StringComparison.OrdinalIgnoreCase))
             {
                 importData.Description = await ReadEntryTextAsync(entry);
+                await LogImportMessageAsync(string.Format(CultureInfo.CurrentCulture, DisplayTexts.ImportExportDeckLogFileImportedFormat, entry.FullName));
             }
             else
             {
@@ -207,6 +253,7 @@
 
         if (cards.Count == 0)
         {
+            await LogImportMessageAsync(DisplayTexts.ImportExportDeckNoCardsFound);
             throw new InvalidDataException(DisplayTexts.ImportExportDeckNoCardsFound);
         }
 
@@ -214,37 +261,33 @@
         {
             if (data.Image is null)
             {
+                await LogImportMessageAsync(string.Format(CultureInfo.CurrentCulture, DisplayTexts.ImportExportDeckMissingImageFormat, cardName));
                 throw new InvalidDataException(string.Format(CultureInfo.CurrentCulture, DisplayTexts.ImportExportDeckMissingImageFormat, cardName));
             }
 
             if (data.Description is null)
             {
+                await LogImportMessageAsync(string.Format(CultureInfo.CurrentCulture, DisplayTexts.ImportExportDeckMissingDescriptionFormat, cardName));
                 throw new InvalidDataException(string.Format(CultureInfo.CurrentCulture, DisplayTexts.ImportExportDeckMissingDescriptionFormat, cardName));
             }
         }
 
-        var deck = await DbHelper.GetDeckAsync(deckId);
+        var existingDeck = await DbHelper.GetDeckAsync(deckId);
 
-        if (deck is null)
+        if (existingDeck is not null)
         {
-            await DbHelper.CreateDeckAsync(new Deck
-            {
-                Id = deckId,
-                Name = deckId
-            });
-        }
-        else
-        {
-            deck.Name = deckId;
-            await DbHelper.UpdateDeckAsync(deck);
+            await LogImportMessageAsync(DisplayTexts.ImportExportDeckLogExistingDeckFound);
+            await DbHelper.DeleteDeckAsync(deckId);
+            await LogImportMessageAsync(DisplayTexts.ImportExportDeckLogDeckDeleted);
         }
 
-        var existingCards = await DbHelper.GetCardsByDeckAsync(deckId);
-
-        foreach (var card in existingCards)
+        await DbHelper.CreateDeckAsync(new Deck
         {
-            await DbHelper.DeleteCardAsync(card.Id);
-        }
+            Id = deckId,
+            Name = deckId
+        });
+
+        await LogImportMessageAsync(DisplayTexts.ImportExportDeckLogDeckCreated);
 
         foreach (var (cardName, data) in cards)
         {
@@ -256,6 +299,8 @@
                 Description = data.Description!
             });
         }
+
+        await LogImportMessageAsync(DisplayTexts.ImportExportDeckLogFinished);
 
         return deckId;
     }
@@ -281,6 +326,27 @@
     private void CloseImportReport()
     {
         showImportReport = false;
+    }
+
+    private void CloseImportLog()
+    {
+        if (isImporting)
+        {
+            return;
+        }
+
+        showImportLog = false;
+    }
+
+    private async Task LogImportMessageAsync(string message)
+    {
+        if (string.IsNullOrWhiteSpace(message))
+        {
+            return;
+        }
+
+        logEntries.Add(message);
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task<byte[]> ReadEntryBytesAsync(ZipArchiveEntry entry)
