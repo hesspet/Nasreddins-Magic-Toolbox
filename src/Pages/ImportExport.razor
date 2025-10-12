@@ -104,8 +104,13 @@
             throw new InvalidDataException(DisplayTexts.ImportExportDeckMissingDeckName);
         }
 
-        await using var zipStream = file.OpenReadStream(MaxZipFileSize);
-        using var archive = new ZipArchive(zipStream, ZipArchiveMode.Read, leaveOpen: false);
+        await using var browserFileStream = file.OpenReadStream(MaxZipFileSize);
+        var memoryStreamCapacity = (int)Math.Min(file.Size, int.MaxValue);
+        using var memoryStream = new MemoryStream(memoryStreamCapacity);
+        await browserFileStream.CopyToAsync(memoryStream, StreamBufferSize);
+        memoryStream.Position = 0;
+
+        using var archive = new ZipArchive(memoryStream, ZipArchiveMode.Read, leaveOpen: false);
 
         if (archive.Entries.Count == 0)
         {
