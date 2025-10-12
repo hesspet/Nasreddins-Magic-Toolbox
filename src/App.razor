@@ -36,26 +36,24 @@ else
 @code {
     private bool isSplashVisible = true;
     private int splashDurationSeconds = ApplicationSettings.SplashScreenDurationDefaultSeconds;
+    private Task? initializationTask;
     private string SplashImageUrl => $"{NavigationManager.BaseUri}images/SplashNassredinIconTrimmed.png";
 
-    protected override async Task OnInitializedAsync()
+    protected override Task OnInitializedAsync()
     {
-        var storedDuration = await LocalStorage.GetItemAsync<int?>(ApplicationSettings.SplashScreenDurationKey);
-
-        if (storedDuration.HasValue && Array.IndexOf(ApplicationSettings.SplashScreenDurationOptions, storedDuration.Value) >= 0)
-        {
-            splashDurationSeconds = storedDuration.Value;
-        }
-        else
-        {
-            await LocalStorage.SetItemAsync(ApplicationSettings.SplashScreenDurationKey, splashDurationSeconds);
-        }
+        initializationTask = InitializeSplashDurationAsync();
+        return initializationTask;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
+            if (initializationTask is not null)
+            {
+                await initializationTask;
+            }
+
             await Task.Delay(TimeSpan.FromSeconds(splashDurationSeconds));
 
             if (isSplashVisible)
@@ -63,6 +61,21 @@ else
                 isSplashVisible = false;
                 StateHasChanged();
             }
+        }
+    }
+
+    private async Task InitializeSplashDurationAsync()
+    {
+        var storedDuration = await LocalStorage.GetItemAsync<int?>(ApplicationSettings.SplashScreenDurationKey);
+
+        if (storedDuration.HasValue &&
+            Array.IndexOf(ApplicationSettings.SplashScreenDurationOptions, storedDuration.Value) >= 0)
+        {
+            splashDurationSeconds = storedDuration.Value;
+        }
+        else
+        {
+            await LocalStorage.SetItemAsync(ApplicationSettings.SplashScreenDurationKey, splashDurationSeconds);
         }
     }
 
