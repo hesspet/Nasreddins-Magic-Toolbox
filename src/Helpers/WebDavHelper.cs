@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -27,7 +28,8 @@ public static class WebDavHelper
             return WebDavTestResult.Failure("Die WebDAV-URL ist ungültig.");
         }
 
-        if (uri.Scheme is not (Uri.UriSchemeHttp or Uri.UriSchemeHttps))
+        if (!string.Equals(uri.Scheme, Uri.UriSchemeHttp, StringComparison.OrdinalIgnoreCase)
+            && !string.Equals(uri.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase))
         {
             return WebDavTestResult.Failure("Die WebDAV-URL muss mit http oder https beginnen.");
         }
