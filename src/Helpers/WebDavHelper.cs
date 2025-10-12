@@ -1,6 +1,7 @@
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
@@ -95,17 +96,119 @@ public static class WebDavHelper
     private static HttpClient CreateHttpClient()
     {
 #if NET8_0_OR_GREATER
-        var handler = new WebAssemblyHttpHandler
-        {
-            DefaultBrowserRequestMode = BrowserRequestMode.Cors,
-            DefaultBrowserRequestCache = BrowserRequestCache.NoStore,
-            DefaultBrowserRequestCredentials = BrowserRequestCredentials.Include,
-        };
+        var handler = new WebAssemblyHttpHandler();
+        ConfigureBrowserRequestOptions(handler);
 
         return new HttpClient(handler);
 #else
         return new HttpClient();
 #endif
+    }
+
+    private static void ConfigureBrowserRequestOptions(WebAssemblyHttpHandler handler)
+    {
+        if (handler is null)
+        {
+            return;
+        }
+
+        if (!TryConfigureOptionsObject(handler))
+        {
+            TrySetEnumProperty(handler, "DefaultBrowserRequestMode", "Cors");
+            TrySetEnumProperty(handler, "DefaultBrowserRequestCache", "NoStore");
+            TrySetEnumProperty(handler, "DefaultBrowserRequestCredentials", "Include");
+        }
+    }
+
+    private static bool TryConfigureOptionsObject(WebAssemblyHttpHandler handler)
+    {
+        var optionsProperty = handler.GetType().GetProperty("DefaultBrowserRequestOptions", BindingFlags.Instance | BindingFlags.Public);
+        if (optionsProperty is null)
+        {
+            return false;
+        }
+
+        var optionsInstance = optionsProperty.GetValue(handler);
+        if (optionsInstance is null)
+        {
+            optionsInstance = CreateInstance(optionsProperty.PropertyType);
+            if (optionsInstance is null)
+            {
+                return false;
+            }
+
+            if (optionsProperty.CanWrite)
+            {
+                optionsProperty.SetValue(handler, optionsInstance);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        if (optionsInstance is null)
+        {
+            return false;
+        }
+
+        var configured = false;
+        configured |= TrySetEnumProperty(optionsInstance, "Mode", "Cors");
+        configured |= TrySetEnumProperty(optionsInstance, "Cache", "NoStore");
+        configured |= TrySetEnumProperty(optionsInstance, "Credentials", "Include");
+
+        if (!configured)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private static object? CreateInstance(Type type)
+    {
+        try
+        {
+            return Activator.CreateInstance(type);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private static bool TrySetEnumProperty(object target, string propertyName, string enumValueName)
+    {
+        var property = target.GetType().GetProperty(propertyName, BindingFlags.Instance | BindingFlags.Public);
+        if (property is null || !property.CanWrite)
+        {
+            return false;
+        }
+
+        object? value = null;
+
+        if (property.PropertyType.IsEnum)
+        {
+            try
+            {
+                value = Enum.Parse(property.PropertyType, enumValueName, ignoreCase: true);
+            }
+            catch
+            {
+                return false;
+            }
+        }
+        else if (property.PropertyType == typeof(string))
+        {
+            value = enumValueName;
+        }
+        else
+        {
+            return false;
+        }
+
+        property.SetValue(target, value);
+        return true;
     }
 
     private static string CreateTestFileContent()
