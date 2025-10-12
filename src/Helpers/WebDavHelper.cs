@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
 namespace Toolbox.Helpers;
 
@@ -35,7 +36,7 @@ public static class WebDavHelper
 
         var remoteFileUri = BuildRemoteFileUri(uri);
 
-        using var client = new HttpClient();
+        using var client = CreateHttpClient();
 
         if (!string.IsNullOrWhiteSpace(username))
         {
@@ -89,6 +90,22 @@ public static class WebDavHelper
         {
             return WebDavTestResult.Failure($"Beim Testen der Verbindung ist ein unbekannter Fehler aufgetreten: {ex.Message}");
         }
+    }
+
+    private static HttpClient CreateHttpClient()
+    {
+#if NET8_0_OR_GREATER
+        var handler = new WebAssemblyHttpHandler
+        {
+            DefaultBrowserRequestMode = BrowserRequestMode.Cors,
+            DefaultBrowserRequestCache = BrowserRequestCache.NoStore,
+            DefaultBrowserRequestCredentials = BrowserRequestCredentials.Include,
+        };
+
+        return new HttpClient(handler);
+#else
+        return new HttpClient();
+#endif
     }
 
     private static string CreateTestFileContent()
