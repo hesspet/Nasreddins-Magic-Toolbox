@@ -60,19 +60,33 @@ public class WebDavHelper
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        using var response = await operation(cancellationToken).ConfigureAwait(false);
+        HttpResponseMessage response;
 
-        if (response.IsSuccessStatusCode)
+        try
         {
-            return;
+            response = await operation(cancellationToken).ConfigureAwait(false);
+        }
+        catch (HttpRequestException ex)
+        {
+            throw new InvalidOperationException(
+                "Die Verbindung zum WebDAV-Server konnte nicht hergestellt werden. Bitte überprüfe die angegebene URL und deine Netzwerkverbindung.",
+                ex);
         }
 
-        var statusDescription = response.ReasonPhrase;
-        var message = string.IsNullOrWhiteSpace(statusDescription)
-            ? $"{operationName} fehlgeschlagen (Statuscode {(int)response.StatusCode})."
-            : $"{operationName} fehlgeschlagen: {statusDescription}";
+        using (response)
+        {
+            if (response.IsSuccessStatusCode)
+            {
+                return;
+            }
 
-        throw new InvalidOperationException(message);
+            var statusDescription = response.ReasonPhrase;
+            var message = string.IsNullOrWhiteSpace(statusDescription)
+                ? $"{operationName} fehlgeschlagen (Statuscode {(int)response.StatusCode})."
+                : $"{operationName} fehlgeschlagen: {statusDescription}";
+
+            throw new InvalidOperationException(message);
+        }
     }
 
     private static HttpClient CreateHttpClient(Uri baseAddress)
