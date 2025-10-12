@@ -40,6 +40,19 @@
     </div>
 </section>
 
+<section class="settings-section" aria-live="polite">
+    <button type="button"
+            class="btn btn-primary"
+            @onclick="TestWebDavConnectionAsync"
+            disabled="@isTestingConnection">
+        @(isTestingConnection ? "Prüfe Verbindung…" : "Prüfe Verbindung")
+    </button>
+    @if (!string.IsNullOrEmpty(webDavTestMessage))
+    {
+        <p class="settings-description @(webDavTestSuccessful == true ? "text-success" : "text-danger")" role="status">@webDavTestMessage</p>
+    }
+</section>
+
 @code {
     private int selectedDuration = ApplicationSettings.SplashScreenDurationDefaultSeconds;
     private string webDavUrl = string.Empty;
@@ -86,7 +99,7 @@
             return;
         }
 
-        webDavUrl = args.Value.ToString() ?? string.Empty;
+        webDavUrl = args.Value.ToString()?.Trim() ?? string.Empty;
         await LocalStorage.SetItemAsync(ApplicationSettings.WebDavUrlKey, webDavUrl);
     }
 
@@ -97,7 +110,7 @@
             return;
         }
 
-        webDavUsername = args.Value.ToString() ?? string.Empty;
+        webDavUsername = args.Value.ToString()?.Trim() ?? string.Empty;
         await LocalStorage.SetItemAsync(ApplicationSettings.WebDavUsernameKey, webDavUsername);
     }
 
@@ -115,5 +128,40 @@
     private void TogglePasswordVisibility()
     {
         isPasswordVisible = !isPasswordVisible;
+    }
+
+    private bool isTestingConnection;
+    private string? webDavTestMessage;
+    private bool? webDavTestSuccessful;
+
+    private async Task TestWebDavConnectionAsync()
+    {
+        if (isTestingConnection)
+        {
+            return;
+        }
+
+        webDavTestMessage = null;
+        webDavTestSuccessful = null;
+
+        if (string.IsNullOrWhiteSpace(webDavUrl))
+        {
+            webDavTestSuccessful = false;
+            webDavTestMessage = "Bitte geben Sie zuerst eine WebDAV-URL ein.";
+            return;
+        }
+
+        isTestingConnection = true;
+
+        try
+        {
+            var result = await WebDavHelper.TestConnectionAsync(webDavUrl, webDavUsername, webDavPassword);
+            webDavTestSuccessful = result.IsSuccessful;
+            webDavTestMessage = result.Message;
+        }
+        finally
+        {
+            isTestingConnection = false;
+        }
     }
 }
