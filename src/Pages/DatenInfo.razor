@@ -1,0 +1,144 @@
+@page "/daten-info"
+@using System.Globalization
+@using Toolbox.Models
+@inject IndexedDbHelper DbHelper
+
+<PageTitle>@DisplayTexts.DataInfoPageTitle</PageTitle>
+<h1>@DisplayTexts.DataInfoPageHeader</h1>
+
+@if (isLoadingDecks)
+{
+    <p class="text-muted">@DisplayTexts.DataInfoDeckLoading</p>
+}
+else if (decks.Count == 0)
+{
+    <p>@DisplayTexts.DataInfoNoDecksMessage</p>
+}
+else
+{
+    <section class="deck-selection" aria-labelledby="deck-selection-heading">
+        <h2 id="deck-selection-heading" class="visually-hidden">@DisplayTexts.DataInfoDeckSelectionHeading</h2>
+        <div class="mb-3">
+            <label for="deck-selection" class="form-label">@DisplayTexts.DataInfoDeckSelectionLabel</label>
+            <InputSelect id="deck-selection"
+                         class="form-select"
+                         @bind-Value="selectedDeckId"
+                         disabled="@isLoadingDecks">
+                @foreach (var deck in decks)
+                {
+                    <option value="@deck.Id">@deck.Name</option>
+                }
+            </InputSelect>
+        </div>
+        <button type="button"
+                class="btn btn-primary"
+                @onclick="ShowReportAsync"
+                disabled="@(!CanShowReport)">
+            @DisplayTexts.DataInfoShowReportButton
+        </button>
+    </section>
+
+    @if (isLoadingReport)
+    {
+        <p class="text-muted mt-3">@DisplayTexts.DataInfoReportLoading</p>
+    }
+}
+
+@if (showReport)
+{
+    <DeckReport Title="@string.Format(CultureInfo.CurrentCulture, DisplayTexts.DataInfoReportTitleFormat, reportDeckName)"
+                Entries="@reportEntries"
+                CloseButtonLabel="@DisplayTexts.DataInfoReportCloseButtonLabel"
+                CloseButtonAriaLabel="@DisplayTexts.DataInfoReportCloseButtonLabel"
+                ImageLengthLabel="@DisplayTexts.ImportExportDeckReportImageLengthLabel"
+                DescriptionLengthLabel="@DisplayTexts.ImportExportDeckReportDescriptionLengthLabel"
+                OnClose="CloseReport" />
+}
+
+@code {
+    private IReadOnlyList<Deck> decks = Array.Empty<Deck>();
+    private string? selectedDeckId;
+    private bool isLoadingDecks;
+    private bool isLoadingReport;
+    private bool showReport;
+    private string reportDeckName = string.Empty;
+    private IReadOnlyList<CardReportEntry> reportEntries = Array.Empty<CardReportEntry>();
+
+    private bool CanShowReport => !string.IsNullOrWhiteSpace(selectedDeckId) && !isLoadingDecks && !isLoadingReport;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await DbHelper.InitializeAsync();
+        await LoadDecksAsync();
+    }
+
+    private async Task LoadDecksAsync()
+    {
+        isLoadingDecks = true;
+
+        try
+        {
+            var loadedDecks = await DbHelper.GetAllDecksAsync();
+
+            decks = loadedDecks
+                .OrderBy(deck => deck.Name, StringComparer.CurrentCultureIgnoreCase)
+                .ThenBy(deck => deck.Id, StringComparer.CurrentCultureIgnoreCase)
+                .ToList();
+
+            if (decks.Count > 0)
+            {
+                selectedDeckId ??= decks[0].Id;
+            }
+        }
+        finally
+        {
+            isLoadingDecks = false;
+            showReport = false;
+            reportEntries = Array.Empty<CardReportEntry>();
+            reportDeckName = string.Empty;
+        }
+    }
+
+    private async Task ShowReportAsync()
+    {
+        if (string.IsNullOrWhiteSpace(selectedDeckId))
+        {
+            return;
+        }
+
+        isLoadingReport = true;
+        showReport = false;
+        reportEntries = Array.Empty<CardReportEntry>();
+        reportDeckName = string.Empty;
+
+        try
+        {
+            var deck = await DbHelper.GetDeckAsync(selectedDeckId);
+            reportDeckName = deck?.Name ?? selectedDeckId;
+
+            var cards = await DbHelper.GetCardsByDeckAsync(selectedDeckId);
+
+            reportEntries = cards
+                .OrderBy(card => card.Id, StringComparer.CurrentCultureIgnoreCase)
+                .Select(card => new CardReportEntry(
+                    card.Id,
+                    card.Image.Length,
+                    card.Description.Length))
+                .ToList();
+
+            showReport = true;
+        }
+        finally
+        {
+            isLoadingReport = false;
+        }
+    }
+
+    private Task CloseReport()
+    {
+        showReport = false;
+        reportEntries = Array.Empty<CardReportEntry>();
+        reportDeckName = string.Empty;
+        return Task.CompletedTask;
+    }
+}

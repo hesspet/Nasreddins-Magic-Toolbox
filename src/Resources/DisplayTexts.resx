@@ -112,8 +112,8 @@
   <data name="NavigationTarotCards" xml:space="preserve">
     <value>Tarotkarten</value>
   </data>
-  <data name="NavigationBackupRestore" xml:space="preserve">
-    <value>Backup / Restore</value>
+  <data name="NavigationDataInfo" xml:space="preserve">
+    <value>Daten-Info</value>
   </data>
   <data name="NavigationImportExport" xml:space="preserve">
     <value>Import / Export</value>
@@ -121,11 +121,35 @@
   <data name="NavigationSettings" xml:space="preserve">
     <value>Einstellungen</value>
   </data>
-  <data name="BackupRestorePageTitle" xml:space="preserve">
-    <value>Backup / Restore</value>
+  <data name="DataInfoPageTitle" xml:space="preserve">
+    <value>Daten-Info</value>
   </data>
-  <data name="BackupRestorePageHeader" xml:space="preserve">
-    <value>Backup / Restore</value>
+  <data name="DataInfoPageHeader" xml:space="preserve">
+    <value>Daten-Info</value>
+  </data>
+  <data name="DataInfoDeckSelectionHeading" xml:space="preserve">
+    <value>Deckauswahl</value>
+  </data>
+  <data name="DataInfoDeckSelectionLabel" xml:space="preserve">
+    <value>Deck auswählen</value>
+  </data>
+  <data name="DataInfoShowReportButton" xml:space="preserve">
+    <value>Report anzeigen</value>
+  </data>
+  <data name="DataInfoDeckLoading" xml:space="preserve">
+    <value>Decks werden geladen …</value>
+  </data>
+  <data name="DataInfoNoDecksMessage" xml:space="preserve">
+    <value>Es sind keine Decks vorhanden.</value>
+  </data>
+  <data name="DataInfoReportLoading" xml:space="preserve">
+    <value>Report wird vorbereitet …</value>
+  </data>
+  <data name="DataInfoReportTitleFormat" xml:space="preserve">
+    <value>Deck-Report: {0}</value>
+  </data>
+  <data name="DataInfoReportCloseButtonLabel" xml:space="preserve">
+    <value>Schließen</value>
   </data>
   <data name="ImportExportPageTitle" xml:space="preserve">
     <value>Import / Export</value>

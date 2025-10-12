@@ -1,0 +1,69 @@
+@using System.Globalization
+@using Toolbox.Models
+
+<div class="deck-report-backdrop">
+    <div class="deck-report-dialog" role="dialog" aria-modal="true" aria-labelledby="deck-report-title">
+        <header class="deck-report-header">
+            <h2 id="deck-report-title">@Title</h2>
+            <button type="button"
+                    class="btn-close deck-report-close"
+                    @onclick="OnCloseClickedAsync"
+                    aria-label="@(CloseButtonAriaLabel ?? CloseButtonLabel)">
+            </button>
+        </header>
+        <section class="deck-report-body">
+            <div class="deck-report-list" role="list">
+                @foreach (var entry in Entries)
+                {
+                    <article class="deck-report-item" role="listitem">
+                        <h3>@entry.CardName</h3>
+                        <dl>
+                            <div class="deck-report-row">
+                                <dt>@ImageLengthLabel</dt>
+                                <dd>@entry.ImageLength.ToString("N0", CultureInfo.CurrentCulture)</dd>
+                            </div>
+                            <div class="deck-report-row">
+                                <dt>@DescriptionLengthLabel</dt>
+                                <dd>@entry.DescriptionLength.ToString("N0", CultureInfo.CurrentCulture)</dd>
+                            </div>
+                        </dl>
+                    </article>
+                }
+            </div>
+            <button type="button" class="btn btn-primary deck-report-close-action" @onclick="OnCloseClickedAsync">@CloseButtonLabel</button>
+        </section>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Title { get; set; } = string.Empty;
+
+    [Parameter]
+    public IReadOnlyList<CardReportEntry> Entries { get; set; } = Array.Empty<CardReportEntry>();
+
+    [Parameter]
+    public string CloseButtonLabel { get; set; } = string.Empty;
+
+    [Parameter]
+    public string? CloseButtonAriaLabel { get; set; }
+
+    [Parameter]
+    public string ImageLengthLabel { get; set; } = string.Empty;
+
+    [Parameter]
+    public string DescriptionLengthLabel { get; set; } = string.Empty;
+
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    private Task OnCloseClickedAsync()
+    {
+        if (OnClose.HasDelegate)
+        {
+            return OnClose.InvokeAsync();
+        }
+
+        return Task.CompletedTask;
+    }
+}
