@@ -29,16 +29,16 @@ public class WebDavHelper
 
         using var client = new WebDavClient(clientParams);
 
-        await EnsureSuccessfulAsync(() => client.Propfind(string.Empty, cancellationToken: cancellationToken), "Anmeldung", cancellationToken);
+        await EnsureSuccessfulAsync(() => client.Propfind(string.Empty), "Anmeldung", cancellationToken);
 
         var fileName = $"test{DateTimeOffset.Now:yyyyMMddHHmmss}.txt";
 
         using (var contentStream = new MemoryStream(Encoding.UTF8.GetBytes(TestFileContent)))
         {
-            await EnsureSuccessfulAsync(() => client.PutFile(fileName, contentStream, "text/plain", cancellationToken), "Datei anlegen", cancellationToken);
+            await EnsureSuccessfulAsync(() => client.PutFile(fileName, contentStream, "text/plain"), "Datei anlegen", cancellationToken);
         }
 
-        await EnsureSuccessfulAsync(() => client.Delete(fileName, cancellationToken), "Datei löschen", cancellationToken);
+        await EnsureSuccessfulAsync(() => client.Delete(fileName), "Datei löschen", cancellationToken);
     }
 
     private static Uri CreateBaseAddress(string url)
