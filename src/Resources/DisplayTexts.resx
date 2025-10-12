@@ -172,6 +172,18 @@
   <data name="ImportExportDeckMissingDescriptionFormat" xml:space="preserve">
     <value>Für die Karte „{0}“ wurde keine Beschreibung gefunden.</value>
   </data>
+  <data name="ImportExportDeckReportTitleFormat" xml:space="preserve">
+    <value>Deck-Report: {0}</value>
+  </data>
+  <data name="ImportExportDeckReportImageLengthLabel" xml:space="preserve">
+    <value>Länge des Bildes</value>
+  </data>
+  <data name="ImportExportDeckReportDescriptionLengthLabel" xml:space="preserve">
+    <value>Länge der Beschreibung</value>
+  </data>
+  <data name="ImportExportDeckReportCloseButtonLabel" xml:space="preserve">
+    <value>Schließen</value>
+  </data>
   <data name="SettingsPageTitle" xml:space="preserve">
     <value>Anwendungseinstellungen</value>
   </data>
