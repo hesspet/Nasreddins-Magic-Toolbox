@@ -1,8 +1,7 @@
 using System;
-using System.IO;
-using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
-using WebDav;
 
 namespace Toolbox.Helpers;
 
@@ -34,29 +33,31 @@ public static class WebDavHelper
             return WebDavTestResult.Failure("Die WebDAV-URL muss mit http oder https beginnen.");
         }
 
-        var clientParams = new WebDavClientParams
-        {
-            BaseAddress = uri,
-            Credentials = string.IsNullOrWhiteSpace(username)
-                ? null
-                : new NetworkCredential(username.Trim(), password ?? string.Empty)
-        };
+        var remoteFileUri = BuildRemoteFileUri(uri);
 
-        var client = new WebDavClient(clientParams);
-        var remoteFileName = $"/{TestFilePrefix}{Guid.NewGuid():N}.txt";
+        using var client = new HttpClient();
+
+        if (!string.IsNullOrWhiteSpace(username))
+        {
+            var sanitizedUsername = username.Trim();
+            var credentialBytes = Encoding.UTF8.GetBytes($"{sanitizedUsername}:{password ?? string.Empty}");
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+                "Basic",
+                Convert.ToBase64String(credentialBytes));
+        }
 
         try
         {
-            using var payload = new MemoryStream(Encoding.UTF8.GetBytes(CreateTestFileContent()));
+            using var payload = new StringContent(CreateTestFileContent(), Encoding.UTF8, "text/plain");
 
-            var putResponse = await client.PutFile(remoteFileName, payload, "text/plain");
-            if (!putResponse.IsSuccessful)
+            using var putResponse = await client.PutAsync(remoteFileUri, payload);
+            if (!putResponse.IsSuccessStatusCode)
             {
                 return WebDavTestResult.Failure($"Die Testdatei konnte nicht erstellt werden: {DescribeResponse(putResponse)}");
             }
 
-            var deleteResponse = await client.Delete(remoteFileName);
-            if (!deleteResponse.IsSuccessful)
+            using var deleteResponse = await client.DeleteAsync(remoteFileUri);
+            if (!deleteResponse.IsSuccessStatusCode)
             {
                 return WebDavTestResult.Failure($"Die Testdatei konnte nicht gelöscht werden. Bitte entfernen Sie sie manuell. Details: {DescribeResponse(deleteResponse)}");
             }
@@ -95,13 +96,26 @@ public static class WebDavHelper
         return $"Nasreddins Magic Toolbox WebDAV-Verbindungstest {DateTime.UtcNow:O}";
     }
 
-    private static string DescribeResponse(WebDavResponse response)
+    private static Uri BuildRemoteFileUri(Uri baseUri)
     {
-        var description = string.IsNullOrWhiteSpace(response.Description)
-            ? string.Empty
-            : $" {response.Description}";
+        var baseUriString = baseUri.GetLeftPart(UriPartial.Authority) + baseUri.AbsolutePath;
+        if (!baseUriString.EndsWith('/'))
+        {
+            baseUriString += '/';
+        }
 
-        return $"Statuscode {response.StatusCode}.{description}".Trim();
+        var normalizedBaseUri = new Uri(baseUriString);
+        var remoteFileName = $"{TestFilePrefix}{Guid.NewGuid():N}.txt";
+        return new Uri(normalizedBaseUri, remoteFileName);
+    }
+
+    private static string DescribeResponse(HttpResponseMessage response)
+    {
+        var description = string.IsNullOrWhiteSpace(response.ReasonPhrase)
+            ? string.Empty
+            : $" {response.ReasonPhrase}";
+
+        return $"Statuscode {(int)response.StatusCode} ({response.StatusCode}).{description}".Trim();
     }
 }
 
