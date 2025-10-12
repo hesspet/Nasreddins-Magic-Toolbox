@@ -133,6 +133,45 @@
   <data name="ImportExportPageHeader" xml:space="preserve">
     <value>Import / Export</value>
   </data>
+  <data name="ImportExportDeckImportHeading" xml:space="preserve">
+    <value>Deck importieren</value>
+  </data>
+  <data name="ImportExportDeckUploadLabel" xml:space="preserve">
+    <value>ZIP-Datei mit Deck auswählen</value>
+  </data>
+  <data name="ImportExportDeckUploadHint" xml:space="preserve">
+    <value>Die ZIP-Datei muss Bilder und Beschreibungen derselben Karten enthalten. Die Datei wird nach dem Deck benannt (ohne Dateiendung).</value>
+  </data>
+  <data name="ImportExportDeckInvalidFileType" xml:space="preserve">
+    <value>Bitte wähle eine ZIP-Datei aus.</value>
+  </data>
+  <data name="ImportExportDeckFileTooLarge" xml:space="preserve">
+    <value>Die Datei ist zu groß, um importiert zu werden.</value>
+  </data>
+  <data name="ImportExportDeckImportInProgress" xml:space="preserve">
+    <value>Deck wird importiert …</value>
+  </data>
+  <data name="ImportExportDeckImportSuccess" xml:space="preserve">
+    <value>Das Deck wurde erfolgreich importiert.</value>
+  </data>
+  <data name="ImportExportDeckImportFailedFormat" xml:space="preserve">
+    <value>Import fehlgeschlagen: {0}</value>
+  </data>
+  <data name="ImportExportDeckMissingDeckName" xml:space="preserve">
+    <value>Der Deckname konnte nicht aus dem Dateinamen ermittelt werden.</value>
+  </data>
+  <data name="ImportExportDeckArchiveEmpty" xml:space="preserve">
+    <value>Die ZIP-Datei enthält keine Einträge.</value>
+  </data>
+  <data name="ImportExportDeckNoCardsFound" xml:space="preserve">
+    <value>In der ZIP-Datei wurden keine Karten gefunden.</value>
+  </data>
+  <data name="ImportExportDeckMissingImageFormat" xml:space="preserve">
+    <value>Für die Karte „{0}“ wurde kein Bild gefunden.</value>
+  </data>
+  <data name="ImportExportDeckMissingDescriptionFormat" xml:space="preserve">
+    <value>Für die Karte „{0}“ wurde keine Beschreibung gefunden.</value>
+  </data>
   <data name="SettingsPageTitle" xml:space="preserve">
     <value>Anwendungseinstellungen</value>
   </data>

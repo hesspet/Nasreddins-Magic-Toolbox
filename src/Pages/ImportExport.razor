@@ -1,5 +1,246 @@
 @page "/import-export"
+@using System
+@using System.Buffers
+@using System.Collections.Generic
+@using System.Globalization
+@using System.IO
+@using System.IO.Compression
+@using System.Text
+@using Microsoft.AspNetCore.Components.Forms
+@using Toolbox.Helpers
+@using Toolbox.Models
+@inject IndexedDbHelper DbHelper
 
 <PageTitle>@DisplayTexts.ImportExportPageTitle</PageTitle>
-
 <h1>@DisplayTexts.ImportExportPageHeader</h1>
+
+<section class="deck-import" aria-labelledby="deck-import-heading">
+    <h2 id="deck-import-heading">@DisplayTexts.ImportExportDeckImportHeading</h2>
+
+    <div class="mb-3">
+        <label for="deck-upload" class="form-label">@DisplayTexts.ImportExportDeckUploadLabel</label>
+        <InputFile id="deck-upload"
+                   class="form-control"
+                   OnChange="HandleFileSelectedAsync"
+                   accept=".zip"
+                   disabled="@isImporting" />
+        <div class="form-text">@DisplayTexts.ImportExportDeckUploadHint</div>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(statusMessage))
+    {
+        <p class="@statusCssClass" role="status">@statusMessage</p>
+    }
+</section>
+
+@code {
+    private const long MaxZipFileSize = 50 * 1024 * 1024;
+    private const int StreamBufferSize = 64 * 1024;
+
+    private bool isImporting;
+    private string? statusMessage;
+    private string statusCssClass = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await DbHelper.InitializeAsync();
+    }
+
+    private async Task HandleFileSelectedAsync(InputFileChangeEventArgs args)
+    {
+        statusMessage = null;
+        statusCssClass = string.Empty;
+
+        var file = args.File;
+
+        if (file is null)
+        {
+            return;
+        }
+
+        if (!file.Name.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
+        {
+            statusMessage = DisplayTexts.ImportExportDeckInvalidFileType;
+            statusCssClass = "text-danger";
+            return;
+        }
+
+        if (file.Size > MaxZipFileSize)
+        {
+            statusMessage = DisplayTexts.ImportExportDeckFileTooLarge;
+            statusCssClass = "text-danger";
+            return;
+        }
+
+        isImporting = true;
+        statusMessage = DisplayTexts.ImportExportDeckImportInProgress;
+        statusCssClass = "text-muted";
+        StateHasChanged();
+
+        try
+        {
+            await ImportDeckAsync(file);
+            statusMessage = DisplayTexts.ImportExportDeckImportSuccess;
+            statusCssClass = "text-success";
+        }
+        catch (Exception exception)
+        {
+            statusMessage = string.Format(CultureInfo.CurrentCulture, DisplayTexts.ImportExportDeckImportFailedFormat, exception.Message);
+            statusCssClass = "text-danger";
+        }
+        finally
+        {
+            isImporting = false;
+            StateHasChanged();
+        }
+    }
+
+    private async Task ImportDeckAsync(IBrowserFile file)
+    {
+        var deckId = Path.GetFileNameWithoutExtension(file.Name);
+
+        if (string.IsNullOrWhiteSpace(deckId))
+        {
+            throw new InvalidDataException(DisplayTexts.ImportExportDeckMissingDeckName);
+        }
+
+        await using var zipStream = file.OpenReadStream(MaxZipFileSize);
+        using var archive = new ZipArchive(zipStream, ZipArchiveMode.Read, leaveOpen: false);
+
+        if (archive.Entries.Count == 0)
+        {
+            throw new InvalidDataException(DisplayTexts.ImportExportDeckArchiveEmpty);
+        }
+
+        var cards = new Dictionary<string, CardImportData>(StringComparer.OrdinalIgnoreCase);
+
+        foreach (var entry in archive.Entries)
+        {
+            if (entry.FullName.EndsWith("/", StringComparison.Ordinal))
+            {
+                continue;
+            }
+
+            var fileName = Path.GetFileName(entry.FullName);
+
+            if (string.IsNullOrWhiteSpace(fileName))
+            {
+                continue;
+            }
+
+            var cardName = Path.GetFileNameWithoutExtension(fileName);
+
+            if (string.IsNullOrWhiteSpace(cardName))
+            {
+                continue;
+            }
+
+            if (!cards.TryGetValue(cardName, out var importData) || importData is null)
+            {
+                importData = new CardImportData();
+            }
+
+            if (fileName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase))
+            {
+                importData.Image = await ReadEntryBytesAsync(entry);
+            }
+            else if (fileName.EndsWith(".md", StringComparison.OrdinalIgnoreCase))
+            {
+                importData.Description = await ReadEntryTextAsync(entry);
+            }
+            else
+            {
+                continue;
+            }
+
+            cards[cardName] = importData;
+        }
+
+        if (cards.Count == 0)
+        {
+            throw new InvalidDataException(DisplayTexts.ImportExportDeckNoCardsFound);
+        }
+
+        foreach (var (cardName, data) in cards)
+        {
+            if (data.Image is null)
+            {
+                throw new InvalidDataException(string.Format(CultureInfo.CurrentCulture, DisplayTexts.ImportExportDeckMissingImageFormat, cardName));
+            }
+
+            if (data.Description is null)
+            {
+                throw new InvalidDataException(string.Format(CultureInfo.CurrentCulture, DisplayTexts.ImportExportDeckMissingDescriptionFormat, cardName));
+            }
+        }
+
+        var deck = await DbHelper.GetDeckAsync(deckId);
+
+        if (deck is null)
+        {
+            await DbHelper.CreateDeckAsync(new Deck
+            {
+                Id = deckId,
+                Name = deckId
+            });
+        }
+        else
+        {
+            deck.Name = deckId;
+            await DbHelper.UpdateDeckAsync(deck);
+        }
+
+        var existingCards = await DbHelper.GetCardsByDeckAsync(deckId);
+
+        foreach (var card in existingCards)
+        {
+            await DbHelper.DeleteCardAsync(card.Id);
+        }
+
+        foreach (var (cardName, data) in cards)
+        {
+            await DbHelper.CreateCardAsync(new Spielkarte
+            {
+                Id = cardName,
+                DeckId = deckId,
+                Image = data.Image!,
+                Description = data.Description!
+            });
+        }
+    }
+
+    private async Task<byte[]> ReadEntryBytesAsync(ZipArchiveEntry entry)
+    {
+        await using var entryStream = entry.Open();
+        using var memoryStream = new MemoryStream((int)Math.Min(entry.Length, int.MaxValue));
+        var buffer = ArrayPool<byte>.Shared.Rent(StreamBufferSize);
+
+        try
+        {
+            int bytesRead;
+            while ((bytesRead = await entryStream.ReadAsync(buffer, 0, buffer.Length)) > 0)
+            {
+                await memoryStream.WriteAsync(buffer, 0, bytesRead);
+            }
+        }
+        finally
+        {
+            ArrayPool<byte>.Shared.Return(buffer);
+        }
+
+        return memoryStream.ToArray();
+    }
+
+    private async Task<string> ReadEntryTextAsync(ZipArchiveEntry entry)
+    {
+        await using var entryStream = entry.Open();
+        using var reader = new StreamReader(entryStream, Encoding.UTF8, detectEncodingFromByteOrderMarks: true, bufferSize: StreamBufferSize, leaveOpen: false);
+        return await reader.ReadToEndAsync();
+    }
+
+    private sealed class CardImportData
+    {
+        public byte[]? Image { get; set; }
+        public string? Description { get; set; }
+    }
+}
