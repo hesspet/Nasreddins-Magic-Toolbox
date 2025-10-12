@@ -115,6 +115,9 @@
   <data name="NavigationBackupRestore" xml:space="preserve">
     <value>Backup / Restore</value>
   </data>
+  <data name="NavigationImportExport" xml:space="preserve">
+    <value>Import / Export</value>
+  </data>
   <data name="NavigationSettings" xml:space="preserve">
     <value>Einstellungen</value>
   </data>
@@ -123,6 +126,12 @@
   </data>
   <data name="BackupRestorePageHeader" xml:space="preserve">
     <value>Backup / Restore</value>
+  </data>
+  <data name="ImportExportPageTitle" xml:space="preserve">
+    <value>Import / Export</value>
+  </data>
+  <data name="ImportExportPageHeader" xml:space="preserve">
+    <value>Import / Export</value>
   </data>
   <data name="SettingsPageTitle" xml:space="preserve">
     <value>Anwendungseinstellungen</value>
