@@ -55,6 +55,14 @@ public static class DisplayTexts
     public static string ImportExportDeckReportImageLengthLabel => GetString(nameof(ImportExportDeckReportImageLengthLabel));
     public static string ImportExportDeckReportDescriptionLengthLabel => GetString(nameof(ImportExportDeckReportDescriptionLengthLabel));
     public static string ImportExportDeckReportCloseButtonLabel => GetString(nameof(ImportExportDeckReportCloseButtonLabel));
+    public static string ImportExportDeckLogTitle => GetString(nameof(ImportExportDeckLogTitle));
+    public static string ImportExportDeckLogCloseButtonLabel => GetString(nameof(ImportExportDeckLogCloseButtonLabel));
+    public static string ImportExportDeckLogStartingFormat => GetString(nameof(ImportExportDeckLogStartingFormat));
+    public static string ImportExportDeckLogFileImportedFormat => GetString(nameof(ImportExportDeckLogFileImportedFormat));
+    public static string ImportExportDeckLogExistingDeckFound => GetString(nameof(ImportExportDeckLogExistingDeckFound));
+    public static string ImportExportDeckLogDeckDeleted => GetString(nameof(ImportExportDeckLogDeckDeleted));
+    public static string ImportExportDeckLogDeckCreated => GetString(nameof(ImportExportDeckLogDeckCreated));
+    public static string ImportExportDeckLogFinished => GetString(nameof(ImportExportDeckLogFinished));
     public static string SettingsPageTitle => GetString(nameof(SettingsPageTitle));
     public static string SettingsPageHeader => GetString(nameof(SettingsPageHeader));
     public static string SettingsSplashDurationLabel => GetString(nameof(SettingsSplashDurationLabel));
