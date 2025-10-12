@@ -1,6 +1,7 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using Microsoft.AspNetCore.Components.WebAssembly.Http;
 
 namespace Toolbox.Helpers;
 
@@ -119,10 +120,7 @@ public class WebDavHelper
 
         request.Headers.Add("Depth", "0");
 
-        if (authorizationHeader is not null)
-        {
-            request.Headers.Authorization = authorizationHeader;
-        }
+        PrepareRequestForBrowser(request, authorizationHeader);
 
         return await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
     }
@@ -136,10 +134,7 @@ public class WebDavHelper
 
         request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
 
-        if (authorizationHeader is not null)
-        {
-            request.Headers.Authorization = authorizationHeader;
-        }
+        PrepareRequestForBrowser(request, authorizationHeader);
 
         return await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
     }
@@ -148,11 +143,24 @@ public class WebDavHelper
     {
         using var request = new HttpRequestMessage(HttpMethod.Delete, requestUri);
 
+        PrepareRequestForBrowser(request, authorizationHeader);
+
+        return await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
+    }
+
+    private static void PrepareRequestForBrowser(HttpRequestMessage request, AuthenticationHeaderValue? authorizationHeader)
+    {
         if (authorizationHeader is not null)
         {
             request.Headers.Authorization = authorizationHeader;
         }
 
-        return await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
+#if NET8_0_OR_GREATER
+        if (OperatingSystem.IsBrowser())
+        {
+            request.SetBrowserRequestMode(BrowserRequestMode.Cors);
+            request.SetBrowserRequestCredentials(BrowserRequestCredentials.Include);
+        }
+#endif
     }
 }
