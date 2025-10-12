@@ -75,6 +75,8 @@ public static class DisplayTexts
     public static string SettingsPageHeader => GetString(nameof(SettingsPageHeader));
     public static string SettingsSplashDurationLabel => GetString(nameof(SettingsSplashDurationLabel));
     public static string SettingsSplashDurationDescription => GetString(nameof(SettingsSplashDurationDescription));
+    public static string SettingsCheckForUpdatesLabel => GetString(nameof(SettingsCheckForUpdatesLabel));
+    public static string SettingsCheckForUpdatesDescription => GetString(nameof(SettingsCheckForUpdatesDescription));
     public static string NotFoundPageTitle => GetString(nameof(NotFoundPageTitle));
     public static string NotFoundMessage => GetString(nameof(NotFoundMessage));
 }

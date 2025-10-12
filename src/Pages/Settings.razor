@@ -16,8 +16,25 @@
     <p class="settings-description">@DisplayTexts.SettingsSplashDurationDescription</p>
 </section>
 
+<section class="settings-section" aria-labelledby="update-check-label">
+    <div class="form-check form-switch">
+        <input
+            id="check-updates-on-startup"
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            checked="@checkForUpdatesOnStartup"
+            @onchange="OnCheckForUpdatesChanged" />
+        <label id="update-check-label" class="form-check-label" for="check-updates-on-startup">
+            @DisplayTexts.SettingsCheckForUpdatesLabel
+        </label>
+    </div>
+    <p class="settings-description">@DisplayTexts.SettingsCheckForUpdatesDescription</p>
+</section>
+
 @code {
     private int selectedDuration = ApplicationSettings.SplashScreenDurationDefaultSeconds;
+    private bool checkForUpdatesOnStartup = ApplicationSettings.CheckForUpdatesOnStartupDefault;
 
     protected override async Task OnInitializedAsync()
     {
@@ -30,6 +47,17 @@
         else
         {
             await LocalStorage.SetItemAsync(ApplicationSettings.SplashScreenDurationKey, selectedDuration);
+        }
+
+        var storedUpdatePreference = await LocalStorage.GetItemAsync<bool?>(ApplicationSettings.CheckForUpdatesOnStartupKey);
+
+        if (storedUpdatePreference.HasValue)
+        {
+            checkForUpdatesOnStartup = storedUpdatePreference.Value;
+        }
+        else
+        {
+            await LocalStorage.SetItemAsync(ApplicationSettings.CheckForUpdatesOnStartupKey, checkForUpdatesOnStartup);
         }
     }
 
@@ -46,5 +74,24 @@
             await LocalStorage.SetItemAsync(ApplicationSettings.SplashScreenDurationKey, selectedDuration);
             StateHasChanged();
         }
+    }
+
+    private async Task OnCheckForUpdatesChanged(ChangeEventArgs args)
+    {
+        if (args.Value is bool boolValue)
+        {
+            checkForUpdatesOnStartup = boolValue;
+        }
+        else if (args.Value is string stringValue && bool.TryParse(stringValue, out var parsedValue))
+        {
+            checkForUpdatesOnStartup = parsedValue;
+        }
+        else
+        {
+            return;
+        }
+
+        await LocalStorage.SetItemAsync(ApplicationSettings.CheckForUpdatesOnStartupKey, checkForUpdatesOnStartup);
+        StateHasChanged();
     }
 }
