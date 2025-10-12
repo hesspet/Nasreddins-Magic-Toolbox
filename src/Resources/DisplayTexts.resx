@@ -148,6 +148,15 @@
   <data name="SettingsWebDavPasswordToggleLabel" xml:space="preserve">
     <value>Passwortsichtbarkeit umschalten</value>
   </data>
+  <data name="SettingsWebDavTestButton" xml:space="preserve">
+    <value>WebDAV Einstellung prüfen</value>
+  </data>
+  <data name="SettingsWebDavTestSuccessMessage" xml:space="preserve">
+    <value>Die WebDAV-Verbindung wurde erfolgreich geprüft.</value>
+  </data>
+  <data name="SettingsWebDavTestErrorMessage" xml:space="preserve">
+    <value>Fehler beim Prüfen der WebDAV-Einstellungen: {0}</value>
+  </data>
   <data name="NotFoundPageTitle" xml:space="preserve">
     <value>Nicht gefunden</value>
   </data>

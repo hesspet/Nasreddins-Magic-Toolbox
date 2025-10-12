@@ -43,6 +43,9 @@ public static class DisplayTexts
     public static string SettingsWebDavUsernameLabel => GetString(nameof(SettingsWebDavUsernameLabel));
     public static string SettingsWebDavPasswordLabel => GetString(nameof(SettingsWebDavPasswordLabel));
     public static string SettingsWebDavPasswordToggleLabel => GetString(nameof(SettingsWebDavPasswordToggleLabel));
+    public static string SettingsWebDavTestButton => GetString(nameof(SettingsWebDavTestButton));
+    public static string SettingsWebDavTestSuccessMessage => GetString(nameof(SettingsWebDavTestSuccessMessage));
+    public static string SettingsWebDavTestErrorMessage => GetString(nameof(SettingsWebDavTestErrorMessage));
     public static string NotFoundPageTitle => GetString(nameof(NotFoundPageTitle));
     public static string NotFoundMessage => GetString(nameof(NotFoundMessage));
 }

@@ -1,5 +1,8 @@
 @page "/settings"
+@using System.Globalization
 @inject LocalStorageHelper LocalStorage
+@inject WebDavHelper WebDavHelper
+@inject IJSRuntime JsRuntime
 
 <PageTitle>@DisplayTexts.SettingsPageTitle</PageTitle>
 
@@ -40,12 +43,25 @@
     </div>
 </section>
 
+<section class="settings-section">
+    <button type="button"
+            class="btn btn-primary"
+            disabled="@(!IsWebDavConfigured)"
+            @onclick="TestWebDavSettingsAsync">
+        @DisplayTexts.SettingsWebDavTestButton
+    </button>
+</section>
+
 @code {
     private int selectedDuration = ApplicationSettings.SplashScreenDurationDefaultSeconds;
     private string webDavUrl = string.Empty;
     private string webDavUsername = string.Empty;
     private string webDavPassword = string.Empty;
     private bool isPasswordVisible;
+    private bool IsWebDavConfigured =>
+        !string.IsNullOrWhiteSpace(webDavUrl) &&
+        !string.IsNullOrWhiteSpace(webDavUsername) &&
+        !string.IsNullOrWhiteSpace(webDavPassword);
 
     protected override async Task OnInitializedAsync()
     {
@@ -115,5 +131,19 @@
     private void TogglePasswordVisibility()
     {
         isPasswordVisible = !isPasswordVisible;
+    }
+
+    private async Task TestWebDavSettingsAsync()
+    {
+        try
+        {
+            await WebDavHelper.TestConnectionAsync(webDavUrl, webDavUsername, webDavPassword);
+            await JsRuntime.InvokeVoidAsync("alert", DisplayTexts.SettingsWebDavTestSuccessMessage);
+        }
+        catch (Exception ex)
+        {
+            var message = string.Format(CultureInfo.CurrentCulture, DisplayTexts.SettingsWebDavTestErrorMessage, ex.Message);
+            await JsRuntime.InvokeVoidAsync("alert", message);
+        }
     }
 }
