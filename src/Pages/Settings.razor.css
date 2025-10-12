@@ -9,7 +9,8 @@
     margin-bottom: 0.5rem;
 }
 
-.settings-section .form-select {
+.settings-section .form-select,
+.settings-section .form-control {
     width: 100%;
 }
 
@@ -17,4 +18,20 @@
     margin-top: 0.5rem;
     color: #555;
     font-size: 0.95rem;
+}
+
+.password-input-group {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.password-input-group .form-control {
+    flex: 1 1 auto;
+}
+
+.password-input-group .toggle-password {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 3rem;
 }

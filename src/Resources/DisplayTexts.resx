@@ -136,6 +136,18 @@
   <data name="SettingsSplashDurationDescription" xml:space="preserve">
     <value>Wähle, wie lange der Splashscreen angezeigt wird. Der Wert 0 überspringt ihn sofort.</value>
   </data>
+  <data name="SettingsWebDavUrlLabel" xml:space="preserve">
+    <value>WebDAV-URL</value>
+  </data>
+  <data name="SettingsWebDavUsernameLabel" xml:space="preserve">
+    <value>WebDAV-Benutzername</value>
+  </data>
+  <data name="SettingsWebDavPasswordLabel" xml:space="preserve">
+    <value>WebDAV-Passwort</value>
+  </data>
+  <data name="SettingsWebDavPasswordToggleLabel" xml:space="preserve">
+    <value>Passwortsichtbarkeit umschalten</value>
+  </data>
   <data name="NotFoundPageTitle" xml:space="preserve">
     <value>Nicht gefunden</value>
   </data>

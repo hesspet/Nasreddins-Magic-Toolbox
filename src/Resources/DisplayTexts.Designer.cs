@@ -39,6 +39,10 @@ public static class DisplayTexts
     public static string SettingsPageHeader => GetString(nameof(SettingsPageHeader));
     public static string SettingsSplashDurationLabel => GetString(nameof(SettingsSplashDurationLabel));
     public static string SettingsSplashDurationDescription => GetString(nameof(SettingsSplashDurationDescription));
+    public static string SettingsWebDavUrlLabel => GetString(nameof(SettingsWebDavUrlLabel));
+    public static string SettingsWebDavUsernameLabel => GetString(nameof(SettingsWebDavUsernameLabel));
+    public static string SettingsWebDavPasswordLabel => GetString(nameof(SettingsWebDavPasswordLabel));
+    public static string SettingsWebDavPasswordToggleLabel => GetString(nameof(SettingsWebDavPasswordToggleLabel));
     public static string NotFoundPageTitle => GetString(nameof(NotFoundPageTitle));
     public static string NotFoundMessage => GetString(nameof(NotFoundMessage));
 }
