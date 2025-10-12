@@ -1,7 +1,6 @@
-using System.IO;
-using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
-using WebDav;
 
 namespace Toolbox.Helpers;
 
@@ -11,6 +10,7 @@ namespace Toolbox.Helpers;
 public class WebDavHelper
 {
     private const string TestFileContent = "WebDAV connectivity test";
+    private const string PropfindRequestBody = "<?xml version=\"1.0\" encoding=\"utf-8\" ?><propfind xmlns=\"DAV:\"><propname /></propfind>";
 
     /// <summary>
     /// Validates that the supplied WebDAV credentials are functional by creating and deleting a test file.
@@ -21,24 +21,29 @@ public class WebDavHelper
 
         var sanitizedUrl = url.Trim();
 
-        var clientParams = new WebDavClientParams
-        {
-            BaseAddress = CreateBaseAddress(sanitizedUrl),
-            Credentials = new NetworkCredential(username ?? string.Empty, password ?? string.Empty)
-        };
+        var baseAddress = CreateBaseAddress(sanitizedUrl);
+        using var client = CreateHttpClient(baseAddress);
 
-        using var client = new WebDavClient(clientParams);
+        var authorizationHeader = CreateAuthorizationHeader(username, password);
 
-        await EnsureSuccessfulAsync(() => client.Propfind(string.Empty), "Anmeldung", cancellationToken);
+        await EnsureSuccessfulAsync(
+            ct => SendPropfindAsync(client, baseAddress, authorizationHeader, ct),
+            "Anmeldung",
+            cancellationToken);
 
         var fileName = $"test{DateTimeOffset.Now:yyyyMMddHHmmss}.txt";
+        var fileUri = new Uri(baseAddress, fileName);
+        var fileContent = Encoding.UTF8.GetBytes(TestFileContent);
 
-        using (var contentStream = new MemoryStream(Encoding.UTF8.GetBytes(TestFileContent)))
-        {
-            await EnsureSuccessfulAsync(() => client.PutFile(fileName, contentStream, "text/plain"), "Datei anlegen", cancellationToken);
-        }
+        await EnsureSuccessfulAsync(
+            ct => PutFileAsync(client, fileUri, authorizationHeader, fileContent, ct),
+            "Datei anlegen",
+            cancellationToken);
 
-        await EnsureSuccessfulAsync(() => client.Delete(fileName), "Datei löschen", cancellationToken);
+        await EnsureSuccessfulAsync(
+            ct => DeleteAsync(client, fileUri, authorizationHeader, ct),
+            "Datei löschen",
+            cancellationToken);
     }
 
     private static Uri CreateBaseAddress(string url)
@@ -51,23 +56,89 @@ public class WebDavHelper
         throw new ArgumentException("Die angegebene WebDAV-URL ist ungültig.", nameof(url));
     }
 
-    private static async Task EnsureSuccessfulAsync<TResponse>(Func<Task<TResponse>> operation, string operationName, CancellationToken cancellationToken)
-        where TResponse : WebDavResponse
+    private static async Task EnsureSuccessfulAsync(Func<CancellationToken, Task<HttpResponseMessage>> operation, string operationName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        var response = await operation().ConfigureAwait(false);
+        using var response = await operation(cancellationToken).ConfigureAwait(false);
 
-        if (response.IsSuccessful)
+        if (response.IsSuccessStatusCode)
         {
             return;
         }
 
-        var statusDescription = response.Description;
+        var statusDescription = response.ReasonPhrase;
         var message = string.IsNullOrWhiteSpace(statusDescription)
             ? $"{operationName} fehlgeschlagen (Statuscode {(int)response.StatusCode})."
             : $"{operationName} fehlgeschlagen: {statusDescription}";
 
         throw new InvalidOperationException(message);
+    }
+
+    private static HttpClient CreateHttpClient(Uri baseAddress)
+    {
+        var client = new HttpClient
+        {
+            BaseAddress = baseAddress
+        };
+
+        return client;
+    }
+
+    private static AuthenticationHeaderValue? CreateAuthorizationHeader(string username, string password)
+    {
+        if (string.IsNullOrEmpty(username) && string.IsNullOrEmpty(password))
+        {
+            return null;
+        }
+
+        var credentialBytes = Encoding.UTF8.GetBytes($"{username}:{password}");
+        return new AuthenticationHeaderValue("Basic", Convert.ToBase64String(credentialBytes));
+    }
+
+    private static async Task<HttpResponseMessage> SendPropfindAsync(HttpClient client, Uri requestUri, AuthenticationHeaderValue? authorizationHeader, CancellationToken cancellationToken)
+    {
+        using var request = new HttpRequestMessage(new HttpMethod("PROPFIND"), requestUri)
+        {
+            Content = new StringContent(PropfindRequestBody, Encoding.UTF8, "application/xml")
+        };
+
+        request.Headers.Add("Depth", "0");
+
+        if (authorizationHeader is not null)
+        {
+            request.Headers.Authorization = authorizationHeader;
+        }
+
+        return await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
+    }
+
+    private static async Task<HttpResponseMessage> PutFileAsync(HttpClient client, Uri requestUri, AuthenticationHeaderValue? authorizationHeader, byte[] content, CancellationToken cancellationToken)
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Put, requestUri)
+        {
+            Content = new ByteArrayContent(content)
+        };
+
+        request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/plain");
+
+        if (authorizationHeader is not null)
+        {
+            request.Headers.Authorization = authorizationHeader;
+        }
+
+        return await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
+    }
+
+    private static async Task<HttpResponseMessage> DeleteAsync(HttpClient client, Uri requestUri, AuthenticationHeaderValue? authorizationHeader, CancellationToken cancellationToken)
+    {
+        using var request = new HttpRequestMessage(HttpMethod.Delete, requestUri);
+
+        if (authorizationHeader is not null)
+        {
+            request.Headers.Authorization = authorizationHeader;
+        }
+
+        return await client.SendAsync(request, cancellationToken).ConfigureAwait(false);
     }
 }
