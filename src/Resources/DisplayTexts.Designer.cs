@@ -51,6 +51,10 @@ public static class DisplayTexts
     public static string ImportExportDeckNoCardsFound => GetString(nameof(ImportExportDeckNoCardsFound));
     public static string ImportExportDeckMissingImageFormat => GetString(nameof(ImportExportDeckMissingImageFormat));
     public static string ImportExportDeckMissingDescriptionFormat => GetString(nameof(ImportExportDeckMissingDescriptionFormat));
+    public static string ImportExportDeckReportTitleFormat => GetString(nameof(ImportExportDeckReportTitleFormat));
+    public static string ImportExportDeckReportImageLengthLabel => GetString(nameof(ImportExportDeckReportImageLengthLabel));
+    public static string ImportExportDeckReportDescriptionLengthLabel => GetString(nameof(ImportExportDeckReportDescriptionLengthLabel));
+    public static string ImportExportDeckReportCloseButtonLabel => GetString(nameof(ImportExportDeckReportCloseButtonLabel));
     public static string SettingsPageTitle => GetString(nameof(SettingsPageTitle));
     public static string SettingsPageHeader => GetString(nameof(SettingsPageHeader));
     public static string SettingsSplashDurationLabel => GetString(nameof(SettingsSplashDurationLabel));
