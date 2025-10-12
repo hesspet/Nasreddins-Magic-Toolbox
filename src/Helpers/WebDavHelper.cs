@@ -51,7 +51,8 @@ public class WebDavHelper
         throw new ArgumentException("Die angegebene WebDAV-URL ist ungültig.", nameof(url));
     }
 
-    private static async Task EnsureSuccessfulAsync(Func<Task<WebDavResponse>> operation, string operationName, CancellationToken cancellationToken)
+    private static async Task EnsureSuccessfulAsync<TResponse>(Func<Task<TResponse>> operation, string operationName, CancellationToken cancellationToken)
+        where TResponse : WebDavResponse
     {
         cancellationToken.ThrowIfCancellationRequested();
 
