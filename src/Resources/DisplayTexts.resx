@@ -226,6 +226,9 @@
   <data name="ImportExportDeckMissingDescriptionFormat" xml:space="preserve">
     <value>Für die Karte „{0}“ wurde keine Beschreibung gefunden.</value>
   </data>
+  <data name="ImportExportDeckLogDescriptionFallbackFormat" xml:space="preserve">
+    <value>Für die Karte „{0}“ wurde keine Beschreibung gefunden. Es wird der Standardtext verwendet.</value>
+  </data>
   <data name="ImportExportDeckReportTitleFormat" xml:space="preserve">
     <value>Deck-Report: {0}</value>
   </data>

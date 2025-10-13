@@ -69,6 +69,7 @@ public static class DisplayTexts
     public static string ImportExportDeckNoCardsFound => GetString(nameof(ImportExportDeckNoCardsFound));
     public static string ImportExportDeckMissingImageFormat => GetString(nameof(ImportExportDeckMissingImageFormat));
     public static string ImportExportDeckMissingDescriptionFormat => GetString(nameof(ImportExportDeckMissingDescriptionFormat));
+    public static string ImportExportDeckLogDescriptionFallbackFormat => GetString(nameof(ImportExportDeckLogDescriptionFallbackFormat));
     public static string ImportExportDeckReportTitleFormat => GetString(nameof(ImportExportDeckReportTitleFormat));
     public static string ImportExportDeckReportImageLengthLabel => GetString(nameof(ImportExportDeckReportImageLengthLabel));
     public static string ImportExportDeckReportDescriptionLengthLabel => GetString(nameof(ImportExportDeckReportDescriptionLengthLabel));
