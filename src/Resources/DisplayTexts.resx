@@ -68,10 +68,10 @@
     <value>Entdecke die digitale Tarot-Sammlung und lass dir jede Karte samt Illustration anzeigen. Nutze das Menü, um direkt zur Tarotkarten-Ansicht zu wechseln, oder gib unten einen Namen ein.</value>
   </data>
   <data name="HomeTarotOverviewButton" xml:space="preserve">
-    <value>Zur Tarotübersicht</value>
+    <value>Kartenspiele</value>
   </data>
   <data name="TarotPageTitle" xml:space="preserve">
-    <value>Tarotkarten</value>
+    <value>Kartenspiele</value>
   </data>
   <data name="TarotHeader" xml:space="preserve">
     <value>Kartenspiel anzeigen</value>
