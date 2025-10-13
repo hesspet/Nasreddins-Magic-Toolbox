@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Markdig;
 using Microsoft.AspNetCore.Components;
@@ -38,7 +39,7 @@ namespace Toolbox.Pages
             try
             {
                 isLoadingDecks = true;
-                await Task.WhenAll(LoadDecksAsync(), LoadCardScaleAsync());
+                await Task.WhenAll(LoadDecksAsync(), LoadCardScaleAsync(), LoadSearchAutoClearDelayAsync());
             }
             finally
             {
@@ -58,9 +59,11 @@ namespace Toolbox.Pages
         private string selectedDeck = string.Empty;
         private DeckCards? cachedDeckCards;
         private int cardScalePercent = ApplicationSettings.CardScalePercentDefault;
+        private int searchAutoClearDelaySeconds = ApplicationSettings.SearchAutoClearDelayDefaultSeconds;
         private bool isCardFullscreen;
         private double? swipeStartX;
         private bool isSwipeTracking;
+        private CancellationTokenSource? searchClearCancellation;
 
         private IEnumerable<DeckOption> DeckOptions => deckOptions;
         private bool HasSearched => !string.IsNullOrWhiteSpace(searchTerm);
@@ -83,6 +86,7 @@ namespace Toolbox.Pages
 
                 searchTerm = newValue;
                 _ = ScheduleSelectionUpdateAsync();
+                RestartSearchClearTimer();
             }
         }
 
@@ -207,6 +211,7 @@ namespace Toolbox.Pages
 
             selectedDeck = string.Empty;
             searchTerm = string.Empty;
+            CancelSearchClearTimer();
             ClearCurrentCard();
         }
 
@@ -416,6 +421,25 @@ namespace Toolbox.Pages
             }
         }
 
+        private async Task LoadSearchAutoClearDelayAsync()
+        {
+            var storedValue = await LocalStorage.GetItemAsync<int?>(ApplicationSettings.SearchAutoClearDelaySecondsKey);
+
+            if (storedValue.HasValue)
+            {
+                searchAutoClearDelaySeconds = ApplicationSettings.ClampSearchAutoClearDelaySeconds(storedValue.Value);
+
+                if (searchAutoClearDelaySeconds != storedValue.Value)
+                {
+                    await LocalStorage.SetItemAsync(ApplicationSettings.SearchAutoClearDelaySecondsKey, searchAutoClearDelaySeconds);
+                }
+            }
+            else
+            {
+                await LocalStorage.SetItemAsync(ApplicationSettings.SearchAutoClearDelaySecondsKey, searchAutoClearDelaySeconds);
+            }
+        }
+
         private void ToggleCardFullscreen()
         {
             if (selectedCard is null)
@@ -502,6 +526,79 @@ namespace Toolbox.Pages
 
         private static bool IsSwipePointer(string? pointerType) => pointerType is "touch" or "pen";
 
+        private void RestartSearchClearTimer()
+        {
+            CancelSearchClearTimer();
+
+            if (searchAutoClearDelaySeconds <= 0 || string.IsNullOrEmpty(searchTerm))
+            {
+                return;
+            }
+
+            var cancellationSource = new CancellationTokenSource();
+            searchClearCancellation = cancellationSource;
+            _ = ClearSearchAfterDelayAsync(cancellationSource);
+        }
+
+        private void CancelSearchClearTimer()
+        {
+            var existing = searchClearCancellation;
+
+            if (existing is null)
+            {
+                return;
+            }
+
+            searchClearCancellation = null;
+
+            try
+            {
+                existing.Cancel();
+            }
+            catch
+            {
+                // Ignored when cancellation source is already disposed.
+            }
+
+            existing.Dispose();
+        }
+
+        private async Task ClearSearchAfterDelayAsync(CancellationTokenSource cancellationSource)
+        {
+            try
+            {
+                var delay = TimeSpan.FromSeconds(searchAutoClearDelaySeconds);
+                await Task.Delay(delay, cancellationSource.Token);
+            }
+            catch (TaskCanceledException)
+            {
+                return;
+            }
+
+            if (cancellationSource.IsCancellationRequested)
+            {
+                return;
+            }
+
+            if (!ReferenceEquals(searchClearCancellation, cancellationSource))
+            {
+                cancellationSource.Dispose();
+                return;
+            }
+
+            searchClearCancellation = null;
+
+            await InvokeAsync(() =>
+            {
+                if (!string.IsNullOrEmpty(searchTerm))
+                {
+                    SearchTerm = string.Empty;
+                }
+            });
+
+            cancellationSource.Dispose();
+        }
+
         private static DeckCardInfo CreateCardInfo(string deckId, string deckName, Spielkarte card)
         {
             var cardId = card?.Id ?? string.Empty;
@@ -569,6 +666,8 @@ namespace Toolbox.Pages
 
         public async ValueTask DisposeAsync()
         {
+            CancelSearchClearTimer();
+
             if (cardDeckModule is null)
             {
                 return;

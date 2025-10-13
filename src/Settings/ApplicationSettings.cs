@@ -19,5 +19,12 @@ public static class ApplicationSettings
     public const int CardScalePercentMaximum = 100;
     public const string CardScalePercentKey = "CardScalePercent";
 
+    public const int SearchAutoClearDelayDefaultSeconds = 5;
+    public const int SearchAutoClearDelayMinimumSeconds = 0;
+    public const int SearchAutoClearDelayMaximumSeconds = 60;
+    public const string SearchAutoClearDelaySecondsKey = "SearchAutoClearDelaySeconds";
+
     public static int ClampCardScalePercent(int value) => Math.Clamp(value, CardScalePercentMinimum, CardScalePercentMaximum);
+
+    public static int ClampSearchAutoClearDelaySeconds(int value) => Math.Clamp(value, SearchAutoClearDelayMinimumSeconds, SearchAutoClearDelayMaximumSeconds);
 }

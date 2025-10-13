@@ -76,6 +76,28 @@
     <p class="settings-description">@DisplayTexts.SettingsCardScaleDescription</p>
 </section>
 
+<section class="settings-section" aria-labelledby="search-auto-clear-label">
+    <div class="settings-label-row">
+        <label id="search-auto-clear-label" for="search-auto-clear">@DisplayTexts.SettingsSearchAutoClearLabel</label>
+        <button
+            type="button"
+            class="settings-help-button"
+            aria-label="@GetHelpButtonLabel(DisplayTexts.SettingsSearchAutoClearLabel)"
+            @onclick="@(() => ShowHelpAsync("search-auto-clear", DisplayTexts.SettingsSearchAutoClearLabel))">
+            ?
+        </button>
+    </div>
+    <input
+        id="search-auto-clear"
+        class="form-control"
+        type="number"
+        min="@ApplicationSettings.SearchAutoClearDelayMinimumSeconds"
+        max="@ApplicationSettings.SearchAutoClearDelayMaximumSeconds"
+        value="@searchAutoClearDelaySeconds"
+        @onchange="OnSearchAutoClearDelayChanged" />
+    <p class="settings-description">@DisplayTexts.SettingsSearchAutoClearDescription</p>
+</section>
+
 <section class="settings-section" aria-labelledby="update-check-label">
     <div class="form-check form-switch">
         <input

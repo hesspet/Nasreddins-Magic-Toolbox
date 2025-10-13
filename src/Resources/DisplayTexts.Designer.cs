@@ -90,6 +90,8 @@ public static class DisplayTexts
     public static string SettingsSplashDurationDescription => GetString(nameof(SettingsSplashDurationDescription));
     public static string SettingsCardScaleLabel => GetString(nameof(SettingsCardScaleLabel));
     public static string SettingsCardScaleDescription => GetString(nameof(SettingsCardScaleDescription));
+    public static string SettingsSearchAutoClearLabel => GetString(nameof(SettingsSearchAutoClearLabel));
+    public static string SettingsSearchAutoClearDescription => GetString(nameof(SettingsSearchAutoClearDescription));
     public static string SettingsCheckForUpdatesLabel => GetString(nameof(SettingsCheckForUpdatesLabel));
     public static string SettingsCheckForUpdatesDescription => GetString(nameof(SettingsCheckForUpdatesDescription));
     public static string SettingsHelpButtonLabelFormat => GetString(nameof(SettingsHelpButtonLabelFormat));
