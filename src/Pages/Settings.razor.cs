@@ -1,10 +1,20 @@
 using Microsoft.AspNetCore.Components;
+using Toolbox.Layout;
+using Toolbox.Resources;
 using Toolbox.Settings;
 
 namespace Toolbox.Pages
 {
     public partial class Settings
     {
+        [CascadingParameter]
+        private MainLayout? Layout { get; set; }
+
+        protected override void OnInitialized()
+        {
+            Layout?.UpdateCurrentPageTitle(DisplayTexts.SettingsPageTitle);
+        }
+
         protected override async Task OnInitializedAsync()
         {
             var storedDuration = await LocalStorage.GetItemAsync<int?>(ApplicationSettings.SplashScreenDurationKey);

@@ -9,3 +9,13 @@
 <p>
     <NavLink class="btn btn-primary" href="tarot">@DisplayTexts.HomeTarotOverviewButton</NavLink>
 </p>
+
+@code {
+    [CascadingParameter]
+    private MainLayout? Layout { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Layout?.UpdateCurrentPageTitle(DisplayTexts.HomePageTitle);
+    }
+}

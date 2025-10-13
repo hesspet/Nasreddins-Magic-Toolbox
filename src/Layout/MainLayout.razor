@@ -1,12 +1,33 @@
 ﻿@inherits LayoutComponentBase
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<CascadingValue Value="this">
+    <div class="page">
+        <div class="sidebar">
+            <NavMenu CurrentPageTitle="@CurrentPageTitle" />
+        </div>
 
-    <main>
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+        <main>
+            <article class="content px-4">
+                @Body
+            </article>
+        </main>
+    </div>
+</CascadingValue>
+
+@code {
+    private string? currentPageTitle;
+
+    public string? CurrentPageTitle => currentPageTitle;
+
+    public void UpdateCurrentPageTitle(string? title)
+    {
+        var normalizedTitle = string.IsNullOrWhiteSpace(title) ? null : title;
+
+        if (string.Equals(currentPageTitle, normalizedTitle, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        currentPageTitle = normalizedTitle;
+        StateHasChanged();
+    }
+}

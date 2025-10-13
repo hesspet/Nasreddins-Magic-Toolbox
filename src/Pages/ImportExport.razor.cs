@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using System.Buffers;
 using System.Globalization;
 using System.IO.Compression;
 using System.Text;
+using Toolbox.Layout;
 using Toolbox.Models;
 using Toolbox.Resources;
 
@@ -10,6 +12,14 @@ namespace Toolbox.Pages
 {
     public partial class ImportExport
     {
+        [CascadingParameter]
+        private MainLayout? Layout { get; set; }
+
+        protected override void OnInitialized()
+        {
+            Layout?.UpdateCurrentPageTitle(DisplayTexts.ImportExportPageTitle);
+        }
+
         protected override async Task OnInitializedAsync()
         {
             await DbHelper.InitializeAsync();

@@ -1,6 +1,6 @@
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">@DisplayTexts.NavigationBrand</a>
+        <a class="navbar-brand" href="">@BrandText</a>
         <button title="@DisplayTexts.NavigationToggleTitle" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -39,6 +39,13 @@
 
 @code {
     private bool collapseNavMenu = true;
+
+    [Parameter]
+    public string? CurrentPageTitle { get; set; }
+
+    private string BrandText => string.IsNullOrWhiteSpace(CurrentPageTitle)
+        ? DisplayTexts.NavigationBrand
+        : $"{DisplayTexts.NavigationBrand}-{CurrentPageTitle}";
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 

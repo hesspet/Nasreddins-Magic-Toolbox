@@ -1,4 +1,6 @@
 using System.Globalization;
+using Microsoft.AspNetCore.Components;
+using Toolbox.Layout;
 using Toolbox.Models;
 using Toolbox.Resources;
 
@@ -6,6 +8,14 @@ namespace Toolbox.Pages
 {
     public partial class DatenInfo
     {
+        [CascadingParameter]
+        private MainLayout? Layout { get; set; }
+
+        protected override void OnInitialized()
+        {
+            Layout?.UpdateCurrentPageTitle(DisplayTexts.DataInfoPageTitle);
+        }
+
         protected override async Task OnInitializedAsync()
         {
             await DbHelper.InitializeAsync();
