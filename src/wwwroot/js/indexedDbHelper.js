@@ -6,6 +6,48 @@ const CARD_DECK_INDEX = 'cardsByDeck';
 
 let dbPromise = null;
 
+function buildErrorMessage(error, defaultMessage) {
+    if (!error) {
+        return defaultMessage;
+    }
+
+    if (typeof error === 'string') {
+        return error || defaultMessage;
+    }
+
+    if (typeof error === 'object') {
+        const hasMessage = typeof error.message === 'string' && error.message;
+        if (hasMessage) {
+            return error.message;
+        }
+
+        const hasName = typeof error.name === 'string' && error.name;
+        if (hasName) {
+            return `${error.name}: ${defaultMessage}`;
+        }
+    }
+
+    return defaultMessage;
+}
+
+function createError(error, defaultMessage) {
+    const message = buildErrorMessage(error, defaultMessage);
+
+    if (error instanceof Error && error.message === message) {
+        return error;
+    }
+
+    return new Error(message);
+}
+
+function rejectWithError(reject, defaultMessage) {
+    return event => {
+        const target = event?.target;
+        const error = target?.error ?? target?.transaction?.error ?? event?.error ?? null;
+        reject(createError(error, defaultMessage));
+    };
+}
+
 function openDatabase() {
     if (!dbPromise) {
         dbPromise = new Promise((resolve, reject) => {
@@ -25,7 +67,7 @@ function openDatabase() {
             };
 
             request.onsuccess = event => resolve(event.target.result);
-            request.onerror = () => reject(request.error);
+            request.onerror = rejectWithError(reject, 'Opening IndexedDB failed.');
         });
     }
 
@@ -38,7 +80,7 @@ function requestToPromise(request, mapper) {
             const value = mapper ? mapper(request.result) : request.result;
             resolve(value);
         };
-        request.onerror = () => reject(request.error);
+        request.onerror = rejectWithError(reject, 'IndexedDB request failed.');
     });
 }
 
@@ -133,7 +175,7 @@ export async function createDeck(deck) {
     return new Promise((resolve, reject) => {
         const transaction = db.transaction(DECK_STORE, 'readwrite');
         transaction.oncomplete = () => resolve();
-        transaction.onerror = () => reject(transaction.error);
+        transaction.onerror = rejectWithError(reject, 'IndexedDB transaction failed.');
         transaction.objectStore(DECK_STORE).add(normalized);
     });
 }
@@ -158,7 +200,7 @@ export async function updateDeck(deck) {
     return new Promise((resolve, reject) => {
         const transaction = db.transaction(DECK_STORE, 'readwrite');
         transaction.oncomplete = () => resolve();
-        transaction.onerror = () => reject(transaction.error);
+        transaction.onerror = rejectWithError(reject, 'IndexedDB transaction failed.');
         transaction.objectStore(DECK_STORE).put(normalized);
     });
 }
@@ -168,7 +210,7 @@ export async function deleteDeck(id) {
     return new Promise((resolve, reject) => {
         const transaction = db.transaction([DECK_STORE, CARD_STORE], 'readwrite');
         transaction.oncomplete = () => resolve();
-        transaction.onerror = () => reject(transaction.error);
+        transaction.onerror = rejectWithError(reject, 'IndexedDB transaction failed.');
 
         const deckStore = transaction.objectStore(DECK_STORE);
         const cardStore = transaction.objectStore(CARD_STORE);
@@ -185,7 +227,7 @@ export async function deleteDeck(id) {
                 cursor.continue();
             }
         };
-        cursorRequest.onerror = () => reject(cursorRequest.error);
+        cursorRequest.onerror = rejectWithError(reject, 'IndexedDB cursor failed.');
     });
 }
 
@@ -195,7 +237,7 @@ export async function createCard(card) {
     return new Promise((resolve, reject) => {
         const transaction = db.transaction(CARD_STORE, 'readwrite');
         transaction.oncomplete = () => resolve();
-        transaction.onerror = () => reject(transaction.error);
+        transaction.onerror = rejectWithError(reject, 'IndexedDB transaction failed.');
         transaction.objectStore(CARD_STORE).add(normalized);
     });
 }
@@ -218,14 +260,14 @@ export async function getCardsByDeck(deckId) {
     const db = await openDatabase();
     return new Promise((resolve, reject) => {
         const transaction = db.transaction(CARD_STORE, 'readonly');
-        transaction.onerror = () => reject(transaction.error);
+        transaction.onerror = rejectWithError(reject, 'IndexedDB transaction failed.');
 
         const store = transaction.objectStore(CARD_STORE);
         const index = store.index(CARD_DECK_INDEX);
         const request = index.getAll(deckId);
 
         request.onsuccess = () => resolve(request.result.map(mapCard));
-        request.onerror = () => reject(request.error);
+        request.onerror = rejectWithError(reject, 'IndexedDB request failed.');
     });
 }
 
@@ -235,7 +277,7 @@ export async function updateCard(card) {
     return new Promise((resolve, reject) => {
         const transaction = db.transaction(CARD_STORE, 'readwrite');
         transaction.oncomplete = () => resolve();
-        transaction.onerror = () => reject(transaction.error);
+        transaction.onerror = rejectWithError(reject, 'IndexedDB transaction failed.');
         transaction.objectStore(CARD_STORE).put(normalized);
     });
 }
@@ -245,7 +287,7 @@ export async function deleteCard(id) {
     return new Promise((resolve, reject) => {
         const transaction = db.transaction(CARD_STORE, 'readwrite');
         transaction.oncomplete = () => resolve();
-        transaction.onerror = () => reject(transaction.error);
+        transaction.onerror = rejectWithError(reject, 'IndexedDB transaction failed.');
         transaction.objectStore(CARD_STORE).delete(id);
     });
 }
