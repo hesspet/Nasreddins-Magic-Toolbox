@@ -1,5 +1,7 @@
 @page "/daten-info"
+@using System.Collections.Generic
 @using System.Globalization
+@using System.Linq
 @using Toolbox.Models
 @inject IndexedDbHelper DbHelper
 
@@ -23,25 +25,46 @@ else
             <InputSelect id="deck-selection"
                          class="form-select"
                          @bind-Value="selectedDeckId"
-                         disabled="@isLoadingDecks">
+                         disabled="@(isLoadingDecks || isDeletingDeck)">
                 @foreach (var deck in decks)
                 {
                     <option value="@deck.Id">@deck.Name</option>
                 }
             </InputSelect>
         </div>
-        <button type="button"
-                class="btn btn-primary"
-                @onclick="ShowReportAsync"
-                disabled="@(!CanShowReport)">
-            @DisplayTexts.DataInfoShowReportButton
-        </button>
+        <div class="d-flex gap-2 flex-wrap">
+            <button type="button"
+                    class="btn btn-primary"
+                    @onclick="ShowReportAsync"
+                    disabled="@(!CanShowReport)">
+                @DisplayTexts.DataInfoShowReportButton
+            </button>
+            <button type="button"
+                    class="btn btn-danger"
+                    @onclick="DeleteSelectedDeckAsync"
+                    disabled="@(!CanDeleteDeck)">
+                @DisplayTexts.DataInfoDeleteDeckButton
+            </button>
+        </div>
     </section>
 
     @if (isLoadingReport)
     {
         <p class="text-muted mt-3">@DisplayTexts.DataInfoReportLoading</p>
     }
+}
+
+@if (showDeleteLog && deleteLogEntries.Count > 0)
+{
+    <section class="mt-4" aria-labelledby="delete-log-title">
+        <h2 id="delete-log-title" class="h5">@DisplayTexts.DataInfoDeleteDeckLogTitle</h2>
+        <ul class="list-unstyled mb-0" role="log" aria-live="polite">
+            @foreach (var entry in deleteLogEntries)
+            {
+                <li>@entry</li>
+            }
+        </ul>
+    </section>
 }
 
 @if (showReport)
@@ -59,12 +82,16 @@ else
     private IReadOnlyList<Deck> decks = Array.Empty<Deck>();
     private string? selectedDeckId;
     private bool isLoadingDecks;
+    private bool isDeletingDeck;
     private bool isLoadingReport;
     private bool showReport;
     private string reportDeckName = string.Empty;
     private IReadOnlyList<CardReportEntry> reportEntries = Array.Empty<CardReportEntry>();
+    private List<string> deleteLogEntries = new();
+    private bool showDeleteLog;
 
-    private bool CanShowReport => !string.IsNullOrWhiteSpace(selectedDeckId) && !isLoadingDecks && !isLoadingReport;
+    private bool CanShowReport => !string.IsNullOrWhiteSpace(selectedDeckId) && !isLoadingDecks && !isLoadingReport && !isDeletingDeck;
+    private bool CanDeleteDeck => !string.IsNullOrWhiteSpace(selectedDeckId) && !isLoadingDecks && !isDeletingDeck;
 
     protected override async Task OnInitializedAsync()
     {
@@ -87,7 +114,14 @@ else
 
             if (decks.Count > 0)
             {
-                selectedDeckId ??= decks[0].Id;
+                if (string.IsNullOrWhiteSpace(selectedDeckId) || !decks.Any(deck => deck.Id == selectedDeckId))
+                {
+                    selectedDeckId = decks[0].Id;
+                }
+            }
+            else
+            {
+                selectedDeckId = null;
             }
         }
         finally
@@ -132,6 +166,62 @@ else
         {
             isLoadingReport = false;
         }
+    }
+
+    private async Task DeleteSelectedDeckAsync()
+    {
+        if (string.IsNullOrWhiteSpace(selectedDeckId) || isDeletingDeck)
+        {
+            return;
+        }
+
+        var deckId = selectedDeckId;
+        isDeletingDeck = true;
+        showReport = false;
+        reportEntries = Array.Empty<CardReportEntry>();
+        reportDeckName = string.Empty;
+        deleteLogEntries.Clear();
+        showDeleteLog = true;
+
+        try
+        {
+            var deck = await DbHelper.GetDeckAsync(deckId);
+            var deckName = deck?.Name ?? deckId;
+            await LogDeleteMessageAsync(string.Format(CultureInfo.CurrentCulture, DisplayTexts.DataInfoDeleteDeckLogStartingFormat, deckName));
+
+            var cards = await DbHelper.GetCardsByDeckAsync(deckId);
+            await LogDeleteMessageAsync(string.Format(CultureInfo.CurrentCulture, DisplayTexts.DataInfoDeleteDeckLogCardCountFormat, cards.Count));
+
+            await LogDeleteMessageAsync(DisplayTexts.DataInfoDeleteDeckLogDeletingDeck);
+            await DbHelper.DeleteDeckAsync(deckId);
+            await LogDeleteMessageAsync(DisplayTexts.DataInfoDeleteDeckLogDeckDeleted);
+
+            await LogDeleteMessageAsync(DisplayTexts.DataInfoDeleteDeckLogReloadingDecks);
+            await LoadDecksAsync();
+
+            await LogDeleteMessageAsync(DisplayTexts.DataInfoDeleteDeckLogFinished);
+        }
+        catch (Exception ex)
+        {
+            await LogDeleteMessageAsync(string.Format(CultureInfo.CurrentCulture, DisplayTexts.DataInfoDeleteDeckLogErrorFormat, ex.Message));
+        }
+        finally
+        {
+            isDeletingDeck = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private async Task LogDeleteMessageAsync(string message)
+    {
+        if (string.IsNullOrWhiteSpace(message))
+        {
+            return;
+        }
+
+        deleteLogEntries.Add(message);
+        showDeleteLog = true;
+        await InvokeAsync(StateHasChanged);
     }
 
     private Task CloseReport()
