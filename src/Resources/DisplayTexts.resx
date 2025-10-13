@@ -109,6 +109,9 @@
   <data name="TarotScrollToDescriptionLabel" xml:space="preserve">
     <value>Zur Beschreibung springen</value>
   </data>
+  <data name="TarotToggleFullscreenLabel" xml:space="preserve">
+    <value>Spielkarte vergrößern oder verkleinern</value>
+  </data>
   <data name="NavigationBrand" xml:space="preserve">
     <value>Toolbox</value>
   </data>
@@ -282,6 +285,12 @@
   </data>
   <data name="SettingsSplashDurationDescription" xml:space="preserve">
     <value>Wähle, wie lange der Splashscreen angezeigt wird. Der Wert 0 überspringt ihn sofort.</value>
+  </data>
+  <data name="SettingsCardScaleLabel" xml:space="preserve">
+    <value>Skalierung der Spielkarte ({0}%)</value>
+  </data>
+  <data name="SettingsCardScaleDescription" xml:space="preserve">
+    <value>Lege fest, wie groß die Spielkarte angezeigt wird. Kleinere Karten lassen mehr Platz für die Beschreibung.</value>
   </data>
   <data name="SettingsCheckForUpdatesLabel" xml:space="preserve">
     <value>Beim Start auf Update prüfen</value>

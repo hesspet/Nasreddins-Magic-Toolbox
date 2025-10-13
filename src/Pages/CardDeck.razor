@@ -8,6 +8,7 @@
 @using Toolbox.Models
 @inject IndexedDbHelper DbHelper
 @inject IJSRuntime JsRuntime
+@inject LocalStorageHelper LocalStorage
 
 <PageTitle>@DisplayTexts.TarotPageTitle</PageTitle>
 
@@ -76,7 +77,18 @@ else
         }
         else if (selectedCard is not null)
         {
-            <figure class="tarot-card" id="@CardFigureElementId" @ref="cardFigureRef">
+            <figure class="tarot-card"
+                    id="@CardFigureElementId"
+                    @ref="cardFigureRef"
+                    data-fullscreen="@CardFigureFullscreenValue"
+                    style="@CardFigureStyle"
+                    role="button"
+                    tabindex="0"
+                    aria-pressed="@CardFigureFullscreenValue"
+                    aria-label="@DisplayTexts.TarotToggleFullscreenLabel"
+                    title="@DisplayTexts.TarotToggleFullscreenLabel"
+                    @onclick="ToggleCardFullscreen"
+                    @onkeydown="HandleCardKeyDown">
                 <img src="@selectedCard.ImageDataUrl" alt="@selectedCard.DisplayName" class="img-fluid" />
                 <figcaption>@selectedCard.DisplayName</figcaption>
             </figure>

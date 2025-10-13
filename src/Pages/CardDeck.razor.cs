@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Markdig;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using Toolbox.Models;
 using Toolbox.Layout;
 using Toolbox.Resources;
+using Toolbox.Settings;
 
 namespace Toolbox.Pages
 {
@@ -35,7 +37,7 @@ namespace Toolbox.Pages
             try
             {
                 isLoadingDecks = true;
-                await LoadDecksAsync();
+                await Task.WhenAll(LoadDecksAsync(), LoadCardScaleAsync());
             }
             finally
             {
@@ -54,12 +56,16 @@ namespace Toolbox.Pages
         private int selectedCardIndex = -1;
         private string selectedDeck = string.Empty;
         private DeckCards? cachedDeckCards;
+        private int cardScalePercent = ApplicationSettings.CardScalePercentDefault;
+        private bool isCardFullscreen;
 
         private IEnumerable<TarotDeckOption> DeckOptions => deckOptions;
         private bool HasSearched => !string.IsNullOrWhiteSpace(searchTerm);
         private bool IsDeckSelected => !string.IsNullOrWhiteSpace(selectedDeck);
         private bool IsSearchEnabled => IsDeckSelected && !isLoadingCards;
         private bool CanNavigateCards => selectedCard is not null && !isLoadingCards;
+        private string CardFigureStyle => FormattableString.Invariant($"--tarot-card-scale: {ConvertPercentToScaleFactor(cardScalePercent):0.##};");
+        private string CardFigureFullscreenValue => isCardFullscreen ? "true" : "false";
 
         private string SearchTerm
         {
@@ -251,6 +257,7 @@ namespace Toolbox.Pages
             var card = candidates[normalizedIndex];
             selectedCard = CreateCardInfo(deckCards.DeckId, deckCards.DeckDisplayName, card);
             PrepareCardDescription(selectedCard);
+            isCardFullscreen = false;
             cardObserverNeedsRefresh = true;
         }
 
@@ -361,6 +368,7 @@ namespace Toolbox.Pages
             selectedCard = null;
             selectedCardIndex = -1;
             ClearSelectedCardDescription();
+            isCardFullscreen = false;
             cardObserverNeedsRefresh = true;
         }
 
@@ -384,6 +392,54 @@ namespace Toolbox.Pages
 
             cardDeckModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/cardDeck.js");
             return cardDeckModule;
+        }
+
+        private async Task LoadCardScaleAsync()
+        {
+            var storedValue = await LocalStorage.GetItemAsync<int?>(ApplicationSettings.CardScalePercentKey);
+
+            if (storedValue.HasValue)
+            {
+                cardScalePercent = ApplicationSettings.ClampCardScalePercent(storedValue.Value);
+
+                if (cardScalePercent != storedValue.Value)
+                {
+                    await LocalStorage.SetItemAsync(ApplicationSettings.CardScalePercentKey, cardScalePercent);
+                }
+            }
+            else
+            {
+                await LocalStorage.SetItemAsync(ApplicationSettings.CardScalePercentKey, cardScalePercent);
+            }
+        }
+
+        private void ToggleCardFullscreen()
+        {
+            if (selectedCard is null)
+            {
+                return;
+            }
+
+            isCardFullscreen = !isCardFullscreen;
+        }
+
+        private void HandleCardKeyDown(KeyboardEventArgs args)
+        {
+            if (selectedCard is null)
+            {
+                return;
+            }
+
+            if (args.Key is "Enter" or " " or "Spacebar")
+            {
+                ToggleCardFullscreen();
+            }
+        }
+
+        private static double ConvertPercentToScaleFactor(int percent)
+        {
+            var clamped = ApplicationSettings.ClampCardScalePercent(percent);
+            return clamped / 100d;
         }
 
         private static TarotCardInfo CreateCardInfo(string deckId, string deckName, Spielkarte card)
