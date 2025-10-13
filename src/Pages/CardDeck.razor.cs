@@ -15,8 +15,8 @@ namespace Toolbox.Pages
 {
     public partial class CardDeck : IAsyncDisposable
     {
-        private const string CardFigureElementId = "tarotCardFigure";
-        private const string CardDescriptionElementId = "tarotCardDescription";
+        private const string CardFigureElementId = "cardDeckFigure";
+        private const string CardDescriptionElementId = "cardDeckDescription";
 
         private ElementReference cardFigureRef;
         private ElementReference cardDescriptionRef;
@@ -46,12 +46,12 @@ namespace Toolbox.Pages
         }
 
         private readonly Dictionary<string, string> deckDisplayNames = new(StringComparer.OrdinalIgnoreCase);
-        private IReadOnlyList<TarotDeckOption> deckOptions = Array.Empty<TarotDeckOption>();
+        private IReadOnlyList<DeckOption> deckOptions = Array.Empty<DeckOption>();
         private string? descriptionError;
         private bool isLoadingDecks = true;
         private bool isLoadingCards;
         private string searchTerm = string.Empty;
-        private TarotCardInfo? selectedCard;
+        private DeckCardInfo? selectedCard;
         private string? selectedCardDescriptionHtml;
         private int selectedCardIndex = -1;
         private string selectedDeck = string.Empty;
@@ -59,12 +59,12 @@ namespace Toolbox.Pages
         private int cardScalePercent = ApplicationSettings.CardScalePercentDefault;
         private bool isCardFullscreen;
 
-        private IEnumerable<TarotDeckOption> DeckOptions => deckOptions;
+        private IEnumerable<DeckOption> DeckOptions => deckOptions;
         private bool HasSearched => !string.IsNullOrWhiteSpace(searchTerm);
         private bool IsDeckSelected => !string.IsNullOrWhiteSpace(selectedDeck);
         private bool IsSearchEnabled => IsDeckSelected && !isLoadingCards;
         private bool CanNavigateCards => selectedCard is not null && !isLoadingCards;
-        private string CardFigureStyle => FormattableString.Invariant($"--tarot-card-scale: {ConvertPercentToScaleFactor(cardScalePercent):0.##};");
+        private string CardFigureStyle => FormattableString.Invariant($"--deck-card-scale: {ConvertPercentToScaleFactor(cardScalePercent):0.##};");
         private string CardFigureFullscreenValue => isCardFullscreen ? "true" : "false";
 
         private string SearchTerm
@@ -190,7 +190,7 @@ namespace Toolbox.Pages
                                       {
                                           var deckId = deck!.Id!;
                                           var name = string.IsNullOrWhiteSpace(deck.Name) ? deckId : deck.Name;
-                                          return new TarotDeckOption(deckId, CreateDeckDisplayName(name));
+                                          return new DeckOption(deckId, CreateDeckDisplayName(name));
                                       })
                                       .OrderBy(option => option.DisplayName, StringComparer.OrdinalIgnoreCase)
                                       .ToList();
@@ -341,7 +341,7 @@ namespace Toolbox.Pages
             }
         }
 
-        private void PrepareCardDescription(TarotCardInfo card)
+        private void PrepareCardDescription(DeckCardInfo card)
         {
             descriptionError = null;
             selectedCardDescriptionHtml = null;
@@ -442,7 +442,7 @@ namespace Toolbox.Pages
             return clamped / 100d;
         }
 
-        private static TarotCardInfo CreateCardInfo(string deckId, string deckName, Spielkarte card)
+        private static DeckCardInfo CreateCardInfo(string deckId, string deckName, Spielkarte card)
         {
             var cardId = card?.Id ?? string.Empty;
             var displayName = CreateDisplayName(deckName, cardId);
@@ -450,7 +450,7 @@ namespace Toolbox.Pages
             var imageDataUrl = CreateImageDataUrl(card?.Image);
             var description = card?.Description ?? string.Empty;
 
-            return new TarotCardInfo(displayName, deckId, cardId, key, imageDataUrl, description);
+            return new DeckCardInfo(displayName, deckId, cardId, key, imageDataUrl, description);
         }
 
         private static string CreateDeckDisplayName(string deckName) => deckName.Replace('_', ' ');
@@ -526,9 +526,9 @@ namespace Toolbox.Pages
             await cardDeckModule.DisposeAsync();
         }
 
-        private sealed record TarotCardInfo(string DisplayName, string DeckId, string CardId, string Key, string ImageDataUrl, string Description);
+        private sealed record DeckCardInfo(string DisplayName, string DeckId, string CardId, string Key, string ImageDataUrl, string Description);
 
-        private sealed record TarotDeckOption(string DeckId, string DisplayName);
+        private sealed record DeckOption(string DeckId, string DisplayName);
 
         private sealed record DeckCards(string DeckId, string DeckDisplayName, IReadOnlyList<Spielkarte> Cards);
     }

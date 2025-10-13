@@ -13,9 +13,9 @@ function ensureObserver(cardElement) {
             }
 
             if (entry.intersectionRatio < 0.5) {
-                cardElement.classList.add('tarot-card--compact');
+                cardElement.classList.add('deck-card--compact');
             } else {
-                cardElement.classList.remove('tarot-card--compact');
+                cardElement.classList.remove('deck-card--compact');
             }
         });
     }, {
@@ -45,7 +45,7 @@ export function disconnectCardVisibility(cardElement) {
         cardObservers.delete(cardElement);
     }
 
-    cardElement.classList.remove('tarot-card--compact');
+    cardElement.classList.remove('deck-card--compact');
 }
 
 export function scrollToDescription(descriptionElement) {
