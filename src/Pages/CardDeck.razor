@@ -41,6 +41,7 @@ else
                    class="form-control"
                    @bind="SearchTerm"
                    @bind:event="oninput"
+                   @ref="searchInputRef"
                    placeholder="@DisplayTexts.TarotSearchLabel"
                    title="@DisplayTexts.TarotSearchPlaceholder"
                    aria-label="@DisplayTexts.TarotSearchLabel"
