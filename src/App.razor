@@ -1,5 +1,6 @@
 @inject LocalStorageHelper LocalStorage
 @inject NavigationManager NavigationManager
+@inject DeckBootstrapper DeckBootstrapper
 
 @if (isSplashVisible)
 {
@@ -41,7 +42,7 @@ else
 
     protected override Task OnInitializedAsync()
     {
-        initializationTask = InitializeSplashDurationAsync();
+        initializationTask = InitializeApplicationAsync();
         return initializationTask;
     }
 
@@ -62,6 +63,14 @@ else
                 StateHasChanged();
             }
         }
+    }
+
+    private async Task InitializeApplicationAsync()
+    {
+        var splashTask = InitializeSplashDurationAsync();
+        var deckTask = DeckBootstrapper.EnsureDefaultDeckAsync();
+
+        await Task.WhenAll(splashTask, deckTask);
     }
 
     private async Task InitializeSplashDurationAsync()
