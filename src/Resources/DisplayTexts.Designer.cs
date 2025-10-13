@@ -92,6 +92,9 @@ public static class DisplayTexts
     public static string SettingsCardScaleDescription => GetString(nameof(SettingsCardScaleDescription));
     public static string SettingsCheckForUpdatesLabel => GetString(nameof(SettingsCheckForUpdatesLabel));
     public static string SettingsCheckForUpdatesDescription => GetString(nameof(SettingsCheckForUpdatesDescription));
+    public static string SettingsHelpButtonLabelFormat => GetString(nameof(SettingsHelpButtonLabelFormat));
+    public static string SettingsHelpCloseButtonLabel => GetString(nameof(SettingsHelpCloseButtonLabel));
+    public static string SettingsHelpNotFoundMessage => GetString(nameof(SettingsHelpNotFoundMessage));
     public static string NotFoundPageTitle => GetString(nameof(NotFoundPageTitle));
     public static string NotFoundMessage => GetString(nameof(NotFoundMessage));
 }

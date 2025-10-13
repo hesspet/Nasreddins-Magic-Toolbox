@@ -1,12 +1,39 @@
 @page "/settings"
 @inject LocalStorageHelper LocalStorage
+@inject HelpContentProvider HelpContentProvider
 
 <PageTitle>@DisplayTexts.SettingsPageTitle</PageTitle>
 
 <h1>@DisplayTexts.SettingsPageHeader</h1>
 
+@if (isHelpVisible)
+{
+    <div class="settings-help-overlay" role="dialog" aria-modal="true" aria-labelledby="settings-help-title" @onclick="CloseHelp">
+        <div class="settings-help-dialog" role="document" @onclick:stopPropagation="true">
+            <button type="button" class="settings-help-close" @onclick="CloseHelp" aria-label="@DisplayTexts.SettingsHelpCloseButtonLabel">
+                &times;
+            </button>
+            <div class="settings-help-dialog-content">
+                <h2 id="settings-help-title">@currentHelpTitle</h2>
+                <div class="settings-help-dialog-scroll">
+                    @helpContent
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 <section class="settings-section" aria-labelledby="splash-duration-label">
-    <label id="splash-duration-label" for="splash-duration">@DisplayTexts.SettingsSplashDurationLabel</label>
+    <div class="settings-label-row">
+        <label id="splash-duration-label" for="splash-duration">@DisplayTexts.SettingsSplashDurationLabel</label>
+        <button
+            type="button"
+            class="settings-help-button"
+            aria-label="@GetHelpButtonLabel(DisplayTexts.SettingsSplashDurationLabel)"
+            @onclick="@(() => ShowHelpAsync("splash-duration", DisplayTexts.SettingsSplashDurationLabel))">
+            ?
+        </button>
+    </div>
     <select id="splash-duration" class="form-select" @onchange="OnDurationChanged">
         @foreach (var option in ApplicationSettings.SplashScreenDurationOptions)
         {
@@ -17,7 +44,16 @@
 </section>
 
 <section class="settings-section" aria-labelledby="card-scale-label">
-    <label id="card-scale-label" for="card-scale">@string.Format(DisplayTexts.SettingsCardScaleLabel, cardScalePercent)</label>
+    <div class="settings-label-row">
+        <label id="card-scale-label" for="card-scale">@string.Format(DisplayTexts.SettingsCardScaleLabel, cardScalePercent)</label>
+        <button
+            type="button"
+            class="settings-help-button"
+            aria-label="@GetHelpButtonLabel(string.Format(DisplayTexts.SettingsCardScaleLabel, cardScalePercent))"
+            @onclick="@(() => ShowHelpAsync("card-scale", string.Format(DisplayTexts.SettingsCardScaleLabel, cardScalePercent)))">
+            ?
+        </button>
+    </div>
     <input
         id="card-scale"
         class="form-range"
@@ -49,9 +85,18 @@
             role="switch"
             checked="@checkForUpdatesOnStartup"
             @onchange="OnCheckForUpdatesChanged" />
-        <label id="update-check-label" class="form-check-label" for="check-updates-on-startup">
-            @DisplayTexts.SettingsCheckForUpdatesLabel
-        </label>
+        <div class="settings-label-row">
+            <label id="update-check-label" class="form-check-label" for="check-updates-on-startup">
+                @DisplayTexts.SettingsCheckForUpdatesLabel
+            </label>
+            <button
+                type="button"
+                class="settings-help-button"
+                aria-label="@GetHelpButtonLabel(DisplayTexts.SettingsCheckForUpdatesLabel)"
+                @onclick="@(() => ShowHelpAsync("check-updates-on-startup", DisplayTexts.SettingsCheckForUpdatesLabel))">
+                ?
+            </button>
+        </div>
     </div>
     <p class="settings-description">@DisplayTexts.SettingsCheckForUpdatesDescription</p>
 </section>

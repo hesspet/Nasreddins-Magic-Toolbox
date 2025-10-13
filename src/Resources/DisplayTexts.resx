@@ -295,6 +295,15 @@
   <data name="SettingsCheckForUpdatesDescription" xml:space="preserve">
     <value>Wenn aktiviert, sucht die App beim Start automatisch nach verfügbaren Aktualisierungen.</value>
   </data>
+  <data name="SettingsHelpButtonLabelFormat" xml:space="preserve">
+    <value>Hilfe zu „{0}“ anzeigen</value>
+  </data>
+  <data name="SettingsHelpCloseButtonLabel" xml:space="preserve">
+    <value>Hilfe schließen</value>
+  </data>
+  <data name="SettingsHelpNotFoundMessage" xml:space="preserve">
+    <value>Für dieses Element ist kein Hilfetext vorhanden.</value>
+  </data>
   <data name="NotFoundPageTitle" xml:space="preserve">
     <value>Nicht gefunden</value>
   </data>

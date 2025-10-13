@@ -1,4 +1,6 @@
+using System.Net;
 using Microsoft.AspNetCore.Components;
+using Toolbox.Helpers;
 using Toolbox.Layout;
 using Toolbox.Resources;
 using Toolbox.Settings;
@@ -9,6 +11,9 @@ namespace Toolbox.Pages
     {
         [CascadingParameter]
         private MainLayout? Layout { get; set; }
+
+        [Inject]
+        private HelpContentProvider HelpContentProvider { get; set; } = default!;
 
         protected override void OnInitialized()
         {
@@ -59,6 +64,36 @@ namespace Toolbox.Pages
         private bool checkForUpdatesOnStartup = ApplicationSettings.CheckForUpdatesOnStartupDefault;
         private int selectedDuration = ApplicationSettings.SplashScreenDurationDefaultSeconds;
         private int cardScalePercent = ApplicationSettings.CardScalePercentDefault;
+        private bool isHelpVisible;
+        private string currentHelpTitle = string.Empty;
+        private MarkupString helpContent = new(string.Empty);
+
+        private string GetHelpButtonLabel(string controlLabel) => string.Format(DisplayTexts.SettingsHelpButtonLabelFormat, controlLabel);
+
+        private async Task ShowHelpAsync(string helpKey, string helpTitle)
+        {
+            currentHelpTitle = helpTitle;
+            var html = await HelpContentProvider.GetHelpHtmlAsync(helpKey);
+
+            if (string.IsNullOrWhiteSpace(html))
+            {
+                var fallback = WebUtility.HtmlEncode(DisplayTexts.SettingsHelpNotFoundMessage);
+                helpContent = new MarkupString($"<p>{fallback}</p>");
+            }
+            else
+            {
+                helpContent = new MarkupString(html);
+            }
+
+            isHelpVisible = true;
+            StateHasChanged();
+        }
+
+        private void CloseHelp()
+        {
+            isHelpVisible = false;
+            StateHasChanged();
+        }
 
         private async Task OnCheckForUpdatesChanged(ChangeEventArgs args)
         {
