@@ -27,6 +27,7 @@ public static class DisplayTexts
     public static string TarotPreviousCardButton => GetString(nameof(TarotPreviousCardButton));
     public static string TarotNextCardButton => GetString(nameof(TarotNextCardButton));
     public static string TarotDeckSelectionLabel => GetString(nameof(TarotDeckSelectionLabel));
+    public static string TarotDeckSelectionPlaceholder => GetString(nameof(TarotDeckSelectionPlaceholder));
     public static string TarotDeckLoading => GetString(nameof(TarotDeckLoading));
     public static string NavigationBrand => GetString(nameof(NavigationBrand));
     public static string NavigationToggleTitle => GetString(nameof(NavigationToggleTitle));

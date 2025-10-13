@@ -28,7 +28,8 @@ else
                    class="form-control"
                    @bind="SearchTerm"
                    @bind:event="oninput"
-                   placeholder="@DisplayTexts.TarotSearchPlaceholder" />
+                   placeholder="@DisplayTexts.TarotSearchPlaceholder"
+                   disabled="@(!IsSearchEnabled)" />
         </div>
 
         <div class="tarot-search">
@@ -36,6 +37,7 @@ else
             <select id="deckSelection"
                     class="form-select"
                     @bind="SelectedDeck">
+                <option value="">@DisplayTexts.TarotDeckSelectionPlaceholder</option>
                 @foreach (var option in DeckOptions)
                 {
                     <option value="@option.DeckId">@option.DisplayName</option>
@@ -43,12 +45,19 @@ else
             </select>
         </div>
 
-        @if (HasSearched && selectedCard is null)
+        @if (HasSearched && selectedCard is null && !isLoadingCards)
         {
             <p class="text-danger">@DisplayTexts.TarotSearchNotFound</p>
         }
 
-        @if (selectedCard is not null)
+        @if (isLoadingCards && IsDeckSelected)
+        {
+            <div class="tarot-loading" role="status" aria-live="polite">
+                <div class="spinner-border text-primary me-3" aria-hidden="true"></div>
+                <span class="tarot-loading-text">@DisplayTexts.TarotDeckLoading</span>
+            </div>
+        }
+        else if (selectedCard is not null)
         {
             <figure class="tarot-card">
                 <img src="@selectedCard.ImageDataUrl" alt="@selectedCard.DisplayName" class="img-fluid" />
@@ -75,7 +84,8 @@ else
                     class="btn btn-outline-secondary"
                     aria-label="@DisplayTexts.TarotPreviousCardButton"
                     title="@DisplayTexts.TarotPreviousCardButton"
-                    @onclick="ShowPreviousCard">
+                    disabled="@(!CanNavigateCards)"
+                    @onclick="ShowPreviousCardAsync">
                 &larr;
             </button>
 
@@ -83,7 +93,8 @@ else
                     class="btn btn-outline-secondary"
                     aria-label="@DisplayTexts.TarotNextCardButton"
                     title="@DisplayTexts.TarotNextCardButton"
-                    @onclick="ShowNextCard">
+                    disabled="@(!CanNavigateCards)"
+                    @onclick="ShowNextCardAsync">
                 &rarr;
             </button>
         </nav>
