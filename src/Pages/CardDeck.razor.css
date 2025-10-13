@@ -6,18 +6,171 @@
     padding: 4rem 1rem;
 }
 
+.deck-page-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+}
+
+.deck-header-description {
+    flex: 1 1 18rem;
+}
+
+.deck-header-title-row {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.deck-header-text {
+    margin-top: 0.75rem;
+    margin-bottom: 0;
+    color: var(--bs-secondary-color, #6c757d);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.deck-header-actions {
+    flex: 1 1 16rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.deck-search-input {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    max-width: 20rem;
+    width: 100%;
+}
+
+.deck-help-button {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    border: 1px solid var(--bs-primary);
+    background-color: var(--bs-body-bg);
+    color: var(--bs-primary);
+    font-weight: 700;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.deck-help-button:hover,
+.deck-help-button:focus {
+    background-color: var(--bs-primary);
+    color: #fff;
+}
+
+.deck-help-button:focus {
+    outline: 2px solid var(--bs-primary);
+    outline-offset: 2px;
+}
+
+.deck-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.deck-selection-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.deck-selection-input {
+    max-width: 26rem;
+}
+
+.deck-help-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    z-index: 1050;
+}
+
+.deck-help-dialog {
+    background-color: var(--bs-body-bg);
+    border-radius: 0.75rem;
+    box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.35);
+    max-width: 42rem;
+    width: min(42rem, 100%);
+    max-height: 80vh;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 1.5rem;
+}
+
+.deck-help-dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+}
+
+.deck-help-dialog-content h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    padding-right: 2.5rem;
+}
+
+.deck-help-dialog-scroll {
+    overflow-y: auto;
+    flex: 1;
+    padding-right: 0.5rem;
+}
+
+.deck-help-dialog-scroll::deep p {
+    margin-bottom: 0.75rem;
+}
+
+.deck-help-dialog-scroll::deep ul {
+    padding-left: 1.2rem;
+}
+
+.deck-help-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0.25rem;
+}
+
+.deck-help-close:hover,
+.deck-help-close:focus {
+    color: var(--bs-danger);
+}
+
 .deck-loading-text {
     font-weight: 600;
     font-size: 1.25rem;
 }
 
-.deck-search {
-    max-width: 420px;
-    margin-block: 0.5rem;
-}
-
-.deck-search .form-control,
-.deck-search .form-select {
+.deck-search-input .form-control,
+.deck-selection-input .form-select {
     min-height: 3rem;
     padding-block: 0.5rem;
 }
@@ -119,6 +272,20 @@
 }
 
 @media (max-width: 576px) {
+    .deck-page-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .deck-header-actions {
+        justify-content: flex-start;
+    }
+
+    .deck-selection-input,
+    .deck-search-input {
+        max-width: 100%;
+    }
+
     .deck-card[data-fullscreen="true"] {
         position: fixed;
         inset: 0;

@@ -18,6 +18,8 @@ public static class DisplayTexts
     public static string HomeWelcomeDescription => GetString(nameof(HomeWelcomeDescription));
     public static string HomeTarotOverviewButton => GetString(nameof(HomeTarotOverviewButton));
     public static string TarotPageTitle => GetString(nameof(TarotPageTitle));
+    public static string TarotPageDescriptionHeading => GetString(nameof(TarotPageDescriptionHeading));
+    public static string TarotPageDescriptionText => GetString(nameof(TarotPageDescriptionText));
     public static string TarotSearchLabel => GetString(nameof(TarotSearchLabel));
     public static string TarotSearchPlaceholder => GetString(nameof(TarotSearchPlaceholder));
     public static string TarotSearchNotFound => GetString(nameof(TarotSearchNotFound));
@@ -27,6 +29,9 @@ public static class DisplayTexts
     public static string TarotNextCardButton => GetString(nameof(TarotNextCardButton));
     public static string TarotScrollToDescriptionLabel => GetString(nameof(TarotScrollToDescriptionLabel));
     public static string TarotToggleFullscreenLabel => GetString(nameof(TarotToggleFullscreenLabel));
+    public static string TarotHelpButtonLabelFormat => GetString(nameof(TarotHelpButtonLabelFormat));
+    public static string TarotHelpCloseButtonLabel => GetString(nameof(TarotHelpCloseButtonLabel));
+    public static string TarotHelpNotFoundMessage => GetString(nameof(TarotHelpNotFoundMessage));
     public static string TarotDeckSelectionLabel => GetString(nameof(TarotDeckSelectionLabel));
     public static string TarotDeckSelectionPlaceholder => GetString(nameof(TarotDeckSelectionPlaceholder));
     public static string TarotDeckLoading => GetString(nameof(TarotDeckLoading));

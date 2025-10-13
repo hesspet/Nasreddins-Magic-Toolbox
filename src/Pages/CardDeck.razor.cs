@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Markdig;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
+using Toolbox.Helpers;
 using Toolbox.Models;
 using Toolbox.Layout;
 using Toolbox.Resources;
@@ -27,6 +29,9 @@ namespace Toolbox.Pages
 
         [CascadingParameter]
         private MainLayout? Layout { get; set; }
+
+        [Inject]
+        private HelpContentProvider HelpContentProviderInst { get; set; } = default!;
 
         protected override void OnInitialized()
         {
@@ -61,6 +66,9 @@ namespace Toolbox.Pages
         private bool isCardFullscreen;
         private double? swipeStartX;
         private bool isSwipeTracking;
+        private bool isHelpVisible;
+        private string currentHelpTitle = string.Empty;
+        private MarkupString helpContent = new(string.Empty);
 
         private IEnumerable<DeckOption> DeckOptions => deckOptions;
         private bool HasSearched => !string.IsNullOrWhiteSpace(searchTerm);
@@ -69,6 +77,7 @@ namespace Toolbox.Pages
         private bool CanNavigateCards => selectedCard is not null && !isLoadingCards;
         private string CardFigureStyle => FormattableString.Invariant($"--deck-card-scale: {ConvertPercentToScaleFactor(cardScalePercent):0.##};");
         private string CardFigureFullscreenValue => isCardFullscreen ? "true" : "false";
+        private string GetHelpButtonLabel(string controlLabel) => string.Format(DisplayTexts.TarotHelpButtonLabelFormat, controlLabel);
 
         private string SearchTerm
         {
@@ -106,6 +115,17 @@ namespace Toolbox.Pages
         }
 
         private Task ScheduleSelectionUpdateAsync() => InvokeAsync(UpdateSelectionAsync);
+
+        private void CloseHelp()
+        {
+            if (!isHelpVisible)
+            {
+                return;
+            }
+
+            isHelpVisible = false;
+            StateHasChanged();
+        }
 
         private async Task UpdateSelectionAsync()
         {
@@ -159,6 +179,25 @@ namespace Toolbox.Pages
                 isLoadingCards = false;
                 StateHasChanged();
             }
+        }
+
+        private async Task ShowHelpAsync(string helpKey, string helpTitle)
+        {
+            currentHelpTitle = helpTitle;
+            var html = await HelpContentProviderInst.GetHelpHtmlAsync(helpKey);
+
+            if (string.IsNullOrWhiteSpace(html))
+            {
+                var fallback = WebUtility.HtmlEncode(DisplayTexts.TarotHelpNotFoundMessage);
+                helpContent = new MarkupString($"<p>{fallback}</p>");
+            }
+            else
+            {
+                helpContent = new MarkupString(html);
+            }
+
+            isHelpVisible = true;
+            StateHasChanged();
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)

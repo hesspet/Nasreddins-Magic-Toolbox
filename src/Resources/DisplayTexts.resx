@@ -73,6 +73,12 @@
   <data name="TarotPageTitle" xml:space="preserve">
     <value>Kartenspiele</value>
   </data>
+  <data name="TarotPageDescriptionHeading" xml:space="preserve">
+    <value>Überblick</value>
+  </data>
+  <data name="TarotPageDescriptionText" xml:space="preserve">
+    <value>Wähle ein Kartendeck, sieh dir die Kartenbilder an und lies ihre Bedeutungen. Über die Suche findest du Karten noch schneller.</value>
+  </data>
   <data name="TarotSearchLabel" xml:space="preserve">
     <value>Kartennamen (Bsp.Cups01, c10, c11, cp, fool, sun)</value>
   </data>
@@ -108,6 +114,15 @@
   </data>
   <data name="TarotToggleFullscreenLabel" xml:space="preserve">
     <value>Spielkarte vergrößern oder verkleinern</value>
+  </data>
+  <data name="TarotHelpButtonLabelFormat" xml:space="preserve">
+    <value>Hilfe zu „{0}“ anzeigen</value>
+  </data>
+  <data name="TarotHelpCloseButtonLabel" xml:space="preserve">
+    <value>Hilfe schließen</value>
+  </data>
+  <data name="TarotHelpNotFoundMessage" xml:space="preserve">
+    <value>Für dieses Element ist kein Hilfetext vorhanden.</value>
   </data>
   <data name="NavigationBrand" xml:space="preserve">
     <value>Toolbox</value>

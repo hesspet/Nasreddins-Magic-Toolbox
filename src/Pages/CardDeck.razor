@@ -21,35 +21,85 @@
 }
 else
 {
-    <div class="deck-search">
-        <select id="deckSelection"
-                class="form-select"
-                title="@DisplayTexts.TarotDeckSelectionPlaceholder"
-                aria-label="@DisplayTexts.TarotDeckSelectionLabel"
-                @bind="SelectedDeck">
-            <option value="">@DisplayTexts.TarotDeckSelectionLabel</option>
-            @foreach (var option in DeckOptions)
-            {
-                <option value="@option.DeckId">@option.DisplayName</option>
-            }
-        </select>
-    </div>
+    @if (isHelpVisible)
+    {
+        <div class="deck-help-overlay" role="dialog" aria-modal="true" aria-labelledby="deck-help-title" @onclick="CloseHelp">
+            <div class="deck-help-dialog" role="document" @onclick:stopPropagation="true">
+                <button type="button" class="deck-help-close" @onclick="CloseHelp" aria-label="@DisplayTexts.TarotHelpCloseButtonLabel">&times;</button>
+                <div class="deck-help-dialog-content">
+                    <h2 id="deck-help-title">@currentHelpTitle</h2>
+                    <div class="deck-help-dialog-scroll">
+                        @helpContent
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <header class="deck-page-header" aria-labelledby="deck-page-heading">
+        <div class="deck-header-description">
+            <div class="deck-header-title-row">
+                <h1 id="deck-page-heading">@DisplayTexts.TarotPageTitle</h1>
+                <button type="button"
+                        class="deck-help-button"
+                        aria-label="@GetHelpButtonLabel(DisplayTexts.TarotPageDescriptionHeading)"
+                        @onclick="@(() => ShowHelpAsync("card-deck-overview", DisplayTexts.TarotPageDescriptionHeading))">
+                    ?
+                </button>
+            </div>
+            <p class="deck-header-text">@DisplayTexts.TarotPageDescriptionText</p>
+        </div>
+        <div class="deck-header-actions">
+            <label class="visually-hidden" for="cardNameInput">@DisplayTexts.TarotSearchLabel</label>
+            <div class="deck-search-input">
+                <input id="cardNameInput"
+                       class="form-control"
+                       @bind="SearchTerm"
+                       @bind:event="oninput"
+                       placeholder="@DisplayTexts.TarotSearchLabel"
+                       title="@DisplayTexts.TarotSearchPlaceholder"
+                       aria-label="@DisplayTexts.TarotSearchLabel"
+                       disabled="@(!IsSearchEnabled)" />
+                <button type="button"
+                        class="deck-help-button"
+                        aria-label="@GetHelpButtonLabel(DisplayTexts.TarotSearchLabel)"
+                        @onclick="@(() => ShowHelpAsync("card-deck-search", DisplayTexts.TarotSearchLabel))">
+                    ?
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <section class="deck-selection" aria-labelledby="deckSelectionLabel">
+        <div class="deck-selection-label">
+            <label id="deckSelectionLabel" for="deckSelection">@DisplayTexts.TarotDeckSelectionLabel</label>
+            <button type="button"
+                    class="deck-help-button"
+                    aria-label="@GetHelpButtonLabel(DisplayTexts.TarotDeckSelectionLabel)"
+                    @onclick="@(() => ShowHelpAsync("card-deck-selection", DisplayTexts.TarotDeckSelectionLabel))">
+                ?
+            </button>
+        </div>
+        <div class="deck-selection-input">
+            <select id="deckSelection"
+                    class="form-select"
+                    title="@DisplayTexts.TarotDeckSelectionPlaceholder"
+                    aria-label="@DisplayTexts.TarotDeckSelectionLabel"
+                    @bind="SelectedDeck">
+                <option value="">@DisplayTexts.TarotDeckSelectionLabel</option>
+                @foreach (var option in DeckOptions)
+                {
+                    <option value="@option.DeckId">@option.DisplayName</option>
+                }
+            </select>
+        </div>
+    </section>
 
     <div class="deck-page">
-        <div class="deck-search">
-            <input id="cardNameInput"
-                   class="form-control"
-                   @bind="SearchTerm"
-                   @bind:event="oninput"
-                   placeholder="@DisplayTexts.TarotSearchLabel"
-                   title="@DisplayTexts.TarotSearchPlaceholder"
-                   aria-label="@DisplayTexts.TarotSearchLabel"
-                   disabled="@(!IsSearchEnabled)" />
-        </div>
 
         @if (selectedCard is not null)
         {
-            <div class="deck-search deck-scroll-control">
+            <div class="deck-scroll-control">
                 <button type="button"
                         class="btn btn-outline-primary deck-scroll-button"
                         title="@DisplayTexts.TarotScrollToDescriptionLabel"
