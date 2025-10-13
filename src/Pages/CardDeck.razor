@@ -7,6 +7,7 @@
 @using Toolbox.Helpers
 @using Toolbox.Models
 @inject IndexedDbHelper DbHelper
+@inject IJSRuntime JsRuntime
 
 <PageTitle>@DisplayTexts.TarotPageTitle</PageTitle>
 
@@ -23,27 +24,43 @@ else
         <h1>@DisplayTexts.TarotHeader</h1>
 
         <div class="tarot-search">
-            <label class="form-label" for="cardNameInput">@DisplayTexts.TarotSearchLabel</label>
             <input id="cardNameInput"
                    class="form-control"
                    @bind="SearchTerm"
                    @bind:event="oninput"
-                   placeholder="@DisplayTexts.TarotSearchPlaceholder"
+                   placeholder="@DisplayTexts.TarotSearchLabel"
+                   title="@DisplayTexts.TarotSearchPlaceholder"
+                   aria-label="@DisplayTexts.TarotSearchLabel"
                    disabled="@(!IsSearchEnabled)" />
         </div>
 
         <div class="tarot-search">
-            <label class="form-label" for="deckSelection">@DisplayTexts.TarotDeckSelectionLabel</label>
             <select id="deckSelection"
                     class="form-select"
+                    title="@DisplayTexts.TarotDeckSelectionPlaceholder"
+                    aria-label="@DisplayTexts.TarotDeckSelectionLabel"
                     @bind="SelectedDeck">
-                <option value="">@DisplayTexts.TarotDeckSelectionPlaceholder</option>
+                <option value="">@DisplayTexts.TarotDeckSelectionLabel</option>
                 @foreach (var option in DeckOptions)
                 {
                     <option value="@option.DeckId">@option.DisplayName</option>
                 }
             </select>
         </div>
+
+        @if (selectedCard is not null)
+        {
+            <div class="tarot-search tarot-scroll-control">
+                <button type="button"
+                        class="btn btn-outline-primary tarot-scroll-button"
+                        title="@DisplayTexts.TarotScrollToDescriptionLabel"
+                        aria-controls="@CardDescriptionElementId"
+                        @onclick="ScrollToDescriptionAsync">
+                    <span aria-hidden="true">⬇️</span>
+                    <span class="visually-hidden">@DisplayTexts.TarotScrollToDescriptionLabel</span>
+                </button>
+            </div>
+        }
 
         @if (HasSearched && selectedCard is null && !isLoadingCards)
         {
@@ -59,12 +76,12 @@ else
         }
         else if (selectedCard is not null)
         {
-            <figure class="tarot-card">
+            <figure class="tarot-card" id="@CardFigureElementId" @ref="cardFigureRef">
                 <img src="@selectedCard.ImageDataUrl" alt="@selectedCard.DisplayName" class="img-fluid" />
                 <figcaption>@selectedCard.DisplayName</figcaption>
             </figure>
 
-            <section class="tarot-card-description" aria-live="polite">
+            <section id="@CardDescriptionElementId" class="tarot-card-description" aria-live="polite" @ref="cardDescriptionRef">
                 @if (!string.IsNullOrEmpty(descriptionError))
                 {
                     <p class="text-danger">@descriptionError</p>
