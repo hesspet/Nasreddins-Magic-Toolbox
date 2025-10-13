@@ -106,6 +106,9 @@
   <data name="TarotNextCardButton" xml:space="preserve">
     <value>Nächste Karte</value>
   </data>
+  <data name="TarotScrollToDescriptionLabel" xml:space="preserve">
+    <value>Zur Beschreibung springen</value>
+  </data>
   <data name="NavigationBrand" xml:space="preserve">
     <value>Toolbox</value>
   </data>

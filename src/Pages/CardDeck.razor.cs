@@ -3,13 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Markdig;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using Toolbox.Models;
 using Toolbox.Resources;
 
 namespace Toolbox.Pages
 {
-    public partial class CardDeck
+    public partial class CardDeck : IAsyncDisposable
     {
+        private const string CardFigureElementId = "tarotCardFigure";
+        private const string CardDescriptionElementId = "tarotCardDescription";
+
+        private ElementReference cardFigureRef;
+        private ElementReference cardDescriptionRef;
+
+        private IJSObjectReference? cardDeckModule;
+        private bool cardObserverNeedsRefresh;
+
         protected override async Task OnInitializedAsync()
         {
             try
@@ -132,6 +143,28 @@ namespace Toolbox.Pages
             }
         }
 
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender);
+
+            if (!cardObserverNeedsRefresh)
+            {
+                return;
+            }
+
+            cardObserverNeedsRefresh = false;
+
+            if (selectedCard is not null)
+            {
+                var module = await GetModuleAsync();
+                await module.InvokeVoidAsync("observeCardVisibility", cardFigureRef);
+            }
+            else if (cardDeckModule is not null)
+            {
+                await cardDeckModule.InvokeVoidAsync("disconnectCardVisibility", cardFigureRef);
+            }
+        }
+
         private async Task LoadDecksAsync()
         {
             await DbHelper.InitializeAsync();
@@ -209,6 +242,7 @@ namespace Toolbox.Pages
             var card = candidates[normalizedIndex];
             selectedCard = CreateCardInfo(deckCards.DeckId, deckCards.DeckDisplayName, card);
             PrepareCardDescription(selectedCard);
+            cardObserverNeedsRefresh = true;
         }
 
         private async Task ShowNextCardAsync()
@@ -318,6 +352,29 @@ namespace Toolbox.Pages
             selectedCard = null;
             selectedCardIndex = -1;
             ClearSelectedCardDescription();
+            cardObserverNeedsRefresh = true;
+        }
+
+        private async Task ScrollToDescriptionAsync()
+        {
+            if (selectedCard is null)
+            {
+                return;
+            }
+
+            var module = await GetModuleAsync();
+            await module.InvokeVoidAsync("scrollToDescription", cardDescriptionRef);
+        }
+
+        private async ValueTask<IJSObjectReference> GetModuleAsync()
+        {
+            if (cardDeckModule is not null)
+            {
+                return cardDeckModule;
+            }
+
+            cardDeckModule = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/cardDeck.js");
+            return cardDeckModule;
         }
 
         private static TarotCardInfo CreateCardInfo(string deckId, string deckName, Spielkarte card)
@@ -383,6 +440,25 @@ namespace Toolbox.Pages
             var filtered = value.Where(char.IsLetterOrDigit)
                                 .Select(char.ToLowerInvariant);
             return string.Concat(filtered);
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            if (cardDeckModule is null)
+            {
+                return;
+            }
+
+            try
+            {
+                await cardDeckModule.InvokeVoidAsync("disconnectCardVisibility", cardFigureRef);
+            }
+            catch
+            {
+                // Ignored during disposal.
+            }
+
+            await cardDeckModule.DisposeAsync();
         }
 
         private sealed record TarotCardInfo(string DisplayName, string DeckId, string CardId, string Key, string ImageDataUrl, string Description);
