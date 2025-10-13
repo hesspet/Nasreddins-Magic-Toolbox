@@ -289,6 +289,12 @@
   <data name="SettingsCardScaleDescription" xml:space="preserve">
     <value>Lege fest, wie groß die Spielkarte angezeigt wird. Kleinere Karten lassen mehr Platz für die Beschreibung.</value>
   </data>
+  <data name="SettingsSearchAutoClearLabel" xml:space="preserve">
+    <value>Suche automatisch leeren (Sekunden)</value>
+  </data>
+  <data name="SettingsSearchAutoClearDescription" xml:space="preserve">
+    <value>Legt fest, nach wie vielen Sekunden ohne weitere Eingabe das Suchfeld geleert wird. Der Wert 0 deaktiviert das automatische Löschen. Für die meisten Anwendungsfälle sind 5 Sekunden ein guter Ausgangspunkt.</value>
+  </data>
   <data name="SettingsCheckForUpdatesLabel" xml:space="preserve">
     <value>Beim Start auf Update prüfen</value>
   </data>

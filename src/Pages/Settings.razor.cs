@@ -53,6 +53,22 @@ namespace Toolbox.Pages
             {
                 await LocalStorage.SetItemAsync(ApplicationSettings.CheckForUpdatesOnStartupKey, checkForUpdatesOnStartup);
             }
+
+            var storedSearchAutoClear = await LocalStorage.GetItemAsync<int?>(ApplicationSettings.SearchAutoClearDelaySecondsKey);
+
+            if (storedSearchAutoClear.HasValue)
+            {
+                searchAutoClearDelaySeconds = ApplicationSettings.ClampSearchAutoClearDelaySeconds(storedSearchAutoClear.Value);
+
+                if (searchAutoClearDelaySeconds != storedSearchAutoClear.Value)
+                {
+                    await LocalStorage.SetItemAsync(ApplicationSettings.SearchAutoClearDelaySecondsKey, searchAutoClearDelaySeconds);
+                }
+            }
+            else
+            {
+                await LocalStorage.SetItemAsync(ApplicationSettings.SearchAutoClearDelaySecondsKey, searchAutoClearDelaySeconds);
+            }
         }
 
         private int cardScalePercent = ApplicationSettings.CardScalePercentDefault;
@@ -66,6 +82,8 @@ namespace Toolbox.Pages
         private bool isHelpVisible;
 
         private int selectedDuration = ApplicationSettings.SplashScreenDurationDefaultSeconds;
+
+        private int searchAutoClearDelaySeconds = ApplicationSettings.SearchAutoClearDelayDefaultSeconds;
 
         [Inject]
         private HelpContentProvider HelpContentProviderInst { get; set; } = default!;
@@ -142,6 +160,30 @@ namespace Toolbox.Pages
                 await LocalStorage.SetItemAsync(ApplicationSettings.SplashScreenDurationKey, selectedDuration);
                 StateHasChanged();
             }
+        }
+
+        private async Task OnSearchAutoClearDelayChanged(ChangeEventArgs args)
+        {
+            if (args.Value is null)
+            {
+                return;
+            }
+
+            if (!int.TryParse(args.Value.ToString(), out var delay))
+            {
+                return;
+            }
+
+            var clamped = ApplicationSettings.ClampSearchAutoClearDelaySeconds(delay);
+
+            if (searchAutoClearDelaySeconds == clamped)
+            {
+                return;
+            }
+
+            searchAutoClearDelaySeconds = clamped;
+            await LocalStorage.SetItemAsync(ApplicationSettings.SearchAutoClearDelaySecondsKey, searchAutoClearDelaySeconds);
+            StateHasChanged();
         }
 
         private async Task ShowHelpAsync(string helpKey, string helpTitle)
