@@ -243,7 +243,9 @@ export async function createDeck(deck) {
         const transaction = db.transaction(DECK_STORE, 'readwrite');
         transaction.oncomplete = () => resolve();
         transaction.onerror = rejectWithError(reject, 'IndexedDB transaction failed.');
-        transaction.objectStore(DECK_STORE).add(normalized);
+        const store = transaction.objectStore(DECK_STORE);
+        const request = store.put(normalized);
+        request.onerror = rejectWithError(reject, 'IndexedDB request failed.');
     });
 }
 
@@ -305,7 +307,9 @@ export async function createCard(card) {
         const transaction = db.transaction(CARD_STORE, 'readwrite');
         transaction.oncomplete = () => resolve();
         transaction.onerror = rejectWithError(reject, 'IndexedDB transaction failed.');
-        transaction.objectStore(CARD_STORE).add(normalized);
+        const store = transaction.objectStore(CARD_STORE);
+        const request = store.put(normalized);
+        request.onerror = rejectWithError(reject, 'IndexedDB request failed.');
     });
 }
 
