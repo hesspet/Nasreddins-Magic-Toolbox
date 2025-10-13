@@ -267,6 +267,7 @@
         {
             await DbHelper.CreateCardAsync(new Spielkarte
             {
+                RowId = Guid.NewGuid().ToString(),
                 Id = cardName,
                 DeckId = deckId,
                 Image = data.Image!,

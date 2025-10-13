@@ -83,12 +83,12 @@ public sealed class IndexedDbHelper : IAsyncDisposable
     }
 
     /// <summary>
-    /// Retrieves a card by its identifier.
+    /// Retrieves a card by its surrogate row identifier.
     /// </summary>
-    public async Task<Spielkarte?> GetCardAsync(string id)
+    public async Task<Spielkarte?> GetCardAsync(string rowId)
     {
         var module = await _moduleTask.Value;
-        return await module.InvokeAsync<Spielkarte?>("getCard", id);
+        return await module.InvokeAsync<Spielkarte?>("getCard", rowId);
     }
 
     /// <summary>
@@ -121,12 +121,12 @@ public sealed class IndexedDbHelper : IAsyncDisposable
     }
 
     /// <summary>
-    /// Deletes a card by its identifier.
+    /// Deletes a card by its surrogate row identifier.
     /// </summary>
-    public async Task DeleteCardAsync(string id)
+    public async Task DeleteCardAsync(string rowId)
     {
         var module = await _moduleTask.Value;
-        await module.InvokeVoidAsync("deleteCard", id);
+        await module.InvokeVoidAsync("deleteCard", rowId);
     }
 
     public async ValueTask DisposeAsync()
