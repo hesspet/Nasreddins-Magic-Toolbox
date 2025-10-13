@@ -82,6 +82,9 @@
   <data name="TarotDeckSelectionLabel" xml:space="preserve">
     <value>Kartendeck</value>
   </data>
+  <data name="TarotDeckSelectionPlaceholder" xml:space="preserve">
+    <value>Kartenspiel auswählen</value>
+  </data>
   <data name="TarotDeckLoading" xml:space="preserve">
     <value>Lade Deck …</value>
   </data>

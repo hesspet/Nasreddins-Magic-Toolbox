@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Markdig;
 using Toolbox.Models;
 using Toolbox.Resources;
@@ -19,31 +23,36 @@ namespace Toolbox.Pages
             }
         }
 
-        private readonly Dictionary<string, string> cardDescriptionCache = new(StringComparer.OrdinalIgnoreCase);
-        private TarotDeckCollection deckCollection = TarotDeckCollection.Empty;
+        private readonly Dictionary<string, string> deckDisplayNames = new(StringComparer.OrdinalIgnoreCase);
+        private IReadOnlyList<TarotDeckOption> deckOptions = Array.Empty<TarotDeckOption>();
         private string? descriptionError;
         private bool isLoadingDecks = true;
+        private bool isLoadingCards;
         private string searchTerm = string.Empty;
         private TarotCardInfo? selectedCard;
         private string? selectedCardDescriptionHtml;
         private int selectedCardIndex = -1;
         private string selectedDeck = string.Empty;
-        private TarotDeckCollection DeckCollection => deckCollection;
-        private IEnumerable<TarotDeckOption> DeckOptions => DeckCollection.Options;
+
+        private IEnumerable<TarotDeckOption> DeckOptions => deckOptions;
         private bool HasSearched => !string.IsNullOrWhiteSpace(searchTerm);
+        private bool IsDeckSelected => !string.IsNullOrWhiteSpace(selectedDeck);
+        private bool IsSearchEnabled => IsDeckSelected && !isLoadingCards;
+        private bool CanNavigateCards => selectedCard is not null && !isLoadingCards;
 
         private string SearchTerm
         {
             get => searchTerm;
             set
             {
-                if (searchTerm == value)
+                var newValue = value ?? string.Empty;
+                if (searchTerm == newValue)
                 {
                     return;
                 }
 
-                searchTerm = value ?? string.Empty;
-                UpdateSelection();
+                searchTerm = newValue;
+                _ = ScheduleSelectionUpdateAsync();
             }
         }
 
@@ -52,11 +61,7 @@ namespace Toolbox.Pages
             get => selectedDeck;
             set
             {
-                var newValue = string.IsNullOrWhiteSpace(value) ? DeckCollection.DefaultDeck : value;
-                if (!DeckCollection.ContainsDeck(newValue))
-                {
-                    newValue = DeckCollection.DefaultDeck;
-                }
+                var newValue = value ?? string.Empty;
                 if (selectedDeck == newValue)
                 {
                     return;
@@ -64,76 +69,226 @@ namespace Toolbox.Pages
 
                 selectedDeck = newValue;
                 selectedCardIndex = -1;
-                UpdateSelection();
+                ClearCurrentCard();
+                _ = ScheduleSelectionUpdateAsync();
             }
         }
 
-        private static TarotDeckCollection BuildDeckCollection(IReadOnlyList<Deck> decks, IReadOnlyList<Spielkarte> cards)
+        private Task ScheduleSelectionUpdateAsync() => InvokeAsync(UpdateSelectionAsync);
+
+        private async Task UpdateSelectionAsync()
         {
-            if (decks is null)
+            if (!IsDeckSelected)
             {
-                throw new ArgumentNullException(nameof(decks));
+                isLoadingCards = false;
+                ClearCurrentCard();
+                StateHasChanged();
+                return;
             }
 
-            if (cards is null)
+            isLoadingCards = true;
+            StateHasChanged();
+
+            try
             {
-                throw new ArgumentNullException(nameof(cards));
-            }
-
-            var cardGroups = cards.GroupBy(card => card.DeckId ?? string.Empty, StringComparer.OrdinalIgnoreCase)
-                                  .ToDictionary(group => group.Key,
-                                                group => group.ToList(),
-                                                StringComparer.OrdinalIgnoreCase);
-
-            var deckNames = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-
-            foreach (var deck in decks)
-            {
-                if (string.IsNullOrWhiteSpace(deck?.Id))
+                var deckId = selectedDeck;
+                var currentSearch = searchTerm;
+                var deckCards = await LoadDeckCardsAsync(deckId);
+                if (!string.Equals(deckId, selectedDeck, StringComparison.OrdinalIgnoreCase) || currentSearch != searchTerm)
                 {
-                    continue;
+                    return;
                 }
 
-                var deckId = deck.Id;
-                var deckName = string.IsNullOrWhiteSpace(deck.Name) ? deckId : deck.Name;
-                deckNames[deckId] = deckName;
-            }
-
-            foreach (var deckId in cardGroups.Keys)
-            {
-                if (!deckNames.ContainsKey(deckId))
+                if (deckCards.Cards.Count == 0)
                 {
-                    deckNames[deckId] = deckId;
-                }
-            }
-
-            var orderedDecks = deckNames.Select(pair => new DeckMetadata(pair.Key, pair.Value))
-                                         .OrderBy(metadata => CreateDeckDisplayName(metadata.DisplayName), StringComparer.OrdinalIgnoreCase)
-                                         .ToList();
-
-            var cardsByDeck = new Dictionary<string, IReadOnlyList<TarotCardInfo>>(StringComparer.OrdinalIgnoreCase);
-            var deckOptions = new List<TarotDeckOption>(orderedDecks.Count);
-
-            foreach (var deck in orderedDecks)
-            {
-                deckOptions.Add(new TarotDeckOption(deck.DeckId, CreateDeckDisplayName(deck.DisplayName)));
-
-                if (!cardGroups.TryGetValue(deck.DeckId, out var deckCards))
-                {
-                    cardsByDeck[deck.DeckId] = Array.Empty<TarotCardInfo>();
-                    continue;
+                    ClearCurrentCard();
+                    return;
                 }
 
-                var convertedCards = deckCards.Select(card => CreateCardInfo(deck.DeckId, deck.DisplayName, card))
-                                              .OrderBy(card => card.DisplayName, StringComparer.OrdinalIgnoreCase)
-                                              .ToList();
+                var normalized = NormalizeForComparison(currentSearch);
+                var index = normalized.Length == 0
+                    ? (selectedCardIndex >= 0 && selectedCardIndex < deckCards.Cards.Count ? selectedCardIndex : 0)
+                    : FindMatchingCardIndex(deckCards.Cards, deckCards.DeckId, normalized);
 
-                cardsByDeck[deck.DeckId] = convertedCards;
+                if (normalized.Length > 0 && index < 0)
+                {
+                    ClearCurrentCard();
+                    return;
+                }
+
+                if (index < 0)
+                {
+                    index = 0;
+                }
+
+                ShowCardAtIndex(index, deckCards);
+            }
+            finally
+            {
+                isLoadingCards = false;
+                StateHasChanged();
+            }
+        }
+
+        private async Task LoadDecksAsync()
+        {
+            await DbHelper.InitializeAsync();
+
+            var decks = await DbHelper.GetAllDecksAsync();
+            var orderedOptions = decks.Where(deck => !string.IsNullOrWhiteSpace(deck?.Id))
+                                      .Select(deck =>
+                                      {
+                                          var deckId = deck!.Id!;
+                                          var name = string.IsNullOrWhiteSpace(deck.Name) ? deckId : deck.Name;
+                                          return new TarotDeckOption(deckId, CreateDeckDisplayName(name));
+                                      })
+                                      .OrderBy(option => option.DisplayName, StringComparer.OrdinalIgnoreCase)
+                                      .ToList();
+
+            deckOptions = orderedOptions;
+            deckDisplayNames.Clear();
+            foreach (var option in orderedOptions)
+            {
+                deckDisplayNames[option.DeckId] = option.DisplayName;
             }
 
-            var defaultDeck = deckOptions.FirstOrDefault()?.DeckId ?? string.Empty;
+            selectedDeck = string.Empty;
+            searchTerm = string.Empty;
+            ClearCurrentCard();
+        }
 
-            return new TarotDeckCollection(cardsByDeck, deckOptions, defaultDeck);
+        private async Task<DeckCards> LoadDeckCardsAsync(string deckId)
+        {
+            var deckDisplayName = GetDeckDisplayName(deckId);
+            var cards = await DbHelper.GetCardsByDeckAsync(deckId);
+            var orderedCards = cards.OrderBy(card => CreateDisplayName(deckDisplayName, card.Id), StringComparer.OrdinalIgnoreCase)
+                                    .ToList();
+            return new DeckCards(deckId, deckDisplayName, orderedCards);
+        }
+
+        private string GetDeckDisplayName(string deckId)
+        {
+            if (deckDisplayNames.TryGetValue(deckId, out var displayName) && !string.IsNullOrWhiteSpace(displayName))
+            {
+                return displayName;
+            }
+
+            return CreateDeckDisplayName(deckId);
+        }
+
+        private void ShowCardAtIndex(int index, DeckCards deckCards)
+        {
+            var candidates = deckCards.Cards;
+            if (candidates.Count == 0)
+            {
+                ClearCurrentCard();
+                return;
+            }
+
+            var normalizedIndex = ((index % candidates.Count) + candidates.Count) % candidates.Count;
+            selectedCardIndex = normalizedIndex;
+            var card = candidates[normalizedIndex];
+            selectedCard = CreateCardInfo(deckCards.DeckId, deckCards.DeckDisplayName, card);
+            PrepareCardDescription(selectedCard);
+        }
+
+        private async Task ShowNextCardAsync()
+        {
+            if (!IsDeckSelected)
+            {
+                return;
+            }
+
+            isLoadingCards = true;
+            StateHasChanged();
+
+            try
+            {
+                var deckId = selectedDeck;
+                var deckCards = await LoadDeckCardsAsync(deckId);
+                if (!string.Equals(deckId, selectedDeck, StringComparison.OrdinalIgnoreCase))
+                {
+                    return;
+                }
+
+                if (deckCards.Cards.Count == 0)
+                {
+                    ClearCurrentCard();
+                    return;
+                }
+
+                var nextIndex = selectedCardIndex >= 0 ? selectedCardIndex + 1 : 0;
+                ShowCardAtIndex(nextIndex, deckCards);
+            }
+            finally
+            {
+                isLoadingCards = false;
+                StateHasChanged();
+            }
+        }
+
+        private async Task ShowPreviousCardAsync()
+        {
+            if (!IsDeckSelected)
+            {
+                return;
+            }
+
+            isLoadingCards = true;
+            StateHasChanged();
+
+            try
+            {
+                var deckId = selectedDeck;
+                var deckCards = await LoadDeckCardsAsync(deckId);
+                if (!string.Equals(deckId, selectedDeck, StringComparison.OrdinalIgnoreCase))
+                {
+                    return;
+                }
+
+                if (deckCards.Cards.Count == 0)
+                {
+                    ClearCurrentCard();
+                    return;
+                }
+
+                var previousIndex = selectedCardIndex >= 0 ? selectedCardIndex - 1 : deckCards.Cards.Count - 1;
+                ShowCardAtIndex(previousIndex, deckCards);
+            }
+            finally
+            {
+                isLoadingCards = false;
+                StateHasChanged();
+            }
+        }
+
+        private void PrepareCardDescription(TarotCardInfo card)
+        {
+            descriptionError = null;
+            selectedCardDescriptionHtml = null;
+
+            try
+            {
+                selectedCardDescriptionHtml = Markdown.ToHtml(card.Description ?? string.Empty);
+            }
+            catch
+            {
+                descriptionError = DisplayTexts.TarotDescriptionLoadError;
+                selectedCardDescriptionHtml = null;
+            }
+        }
+
+        private void ClearSelectedCardDescription()
+        {
+            selectedCardDescriptionHtml = null;
+            descriptionError = null;
+        }
+
+        private void ClearCurrentCard()
+        {
+            selectedCard = null;
+            selectedCardIndex = -1;
+            ClearSelectedCardDescription();
         }
 
         private static TarotCardInfo CreateCardInfo(string deckId, string deckName, Spielkarte card)
@@ -174,11 +329,13 @@ namespace Toolbox.Pages
             return string.Concat(filtered);
         }
 
-        private static int FindMatchingCardIndex(IReadOnlyList<TarotCardInfo> candidates, string normalizedSearch)
+        private static int FindMatchingCardIndex(IReadOnlyList<Spielkarte> candidates, string deckId, string normalizedSearch)
         {
             for (var index = 0; index < candidates.Count; index++)
             {
-                if (candidates[index].ComparisonKey.Contains(normalizedSearch, StringComparison.OrdinalIgnoreCase))
+                var candidate = candidates[index];
+                var key = NormalizeForComparison(CreateKey(deckId, candidate.Id ?? string.Empty));
+                if (key.Contains(normalizedSearch, StringComparison.OrdinalIgnoreCase))
                 {
                     return index;
                 }
@@ -199,179 +356,10 @@ namespace Toolbox.Pages
             return string.Concat(filtered);
         }
 
-        private void ClearSelectedCardDescription()
-        {
-            selectedCardDescriptionHtml = null;
-            descriptionError = null;
-        }
-
-        private async Task LoadDecksAsync()
-        {
-            await DbHelper.InitializeAsync();
-
-            var decks = await DbHelper.GetAllDecksAsync();
-            var cards = await DbHelper.GetAllCardsAsync();
-
-            deckCollection = BuildDeckCollection(decks, cards);
-
-            cardDescriptionCache.Clear();
-            selectedCard = null;
-            selectedCardIndex = -1;
-            selectedCardDescriptionHtml = null;
-            descriptionError = null;
-
-            var preferredDeck = string.IsNullOrWhiteSpace(selectedDeck) ? DeckCollection.DefaultDeck : selectedDeck;
-            if (!DeckCollection.ContainsDeck(preferredDeck))
-            {
-                preferredDeck = DeckCollection.DefaultDeck;
-            }
-
-            selectedDeck = preferredDeck;
-            UpdateSelection();
-        }
-
-        private void PrepareCardDescription(TarotCardInfo card)
-        {
-            var cacheKey = card.Key;
-            if (cardDescriptionCache.TryGetValue(cacheKey, out var cachedHtml))
-            {
-                selectedCardDescriptionHtml = cachedHtml;
-                descriptionError = null;
-                return;
-            }
-
-            descriptionError = null;
-            selectedCardDescriptionHtml = null;
-            try
-            {
-                var html = Markdown.ToHtml(card.Description ?? string.Empty);
-                cardDescriptionCache[cacheKey] = html;
-                selectedCardDescriptionHtml = html;
-                descriptionError = null;
-            }
-            catch
-            {
-                descriptionError = DisplayTexts.TarotDescriptionLoadError;
-                selectedCardDescriptionHtml = null;
-            }
-        }
-
-        private void ShowCardAtIndex(int index, IReadOnlyList<TarotCardInfo>? candidates = null)
-        {
-            candidates ??= DeckCollection.GetCards(string.IsNullOrWhiteSpace(selectedDeck) ? DeckCollection.DefaultDeck : selectedDeck);
-            if (candidates.Count == 0)
-            {
-                selectedCard = null;
-                selectedCardIndex = -1;
-                ClearSelectedCardDescription();
-                return;
-            }
-
-            var normalizedIndex = ((index % candidates.Count) + candidates.Count) % candidates.Count;
-            selectedCardIndex = normalizedIndex;
-            selectedCard = candidates[normalizedIndex];
-            PrepareCardDescription(selectedCard);
-        }
-
-        private void ShowNextCard()
-        {
-            var candidates = DeckCollection.GetCards(string.IsNullOrWhiteSpace(selectedDeck) ? DeckCollection.DefaultDeck : selectedDeck);
-            if (candidates.Count == 0)
-            {
-                return;
-            }
-
-            var nextIndex = selectedCardIndex >= 0 ? selectedCardIndex + 1 : 0;
-            ShowCardAtIndex(nextIndex, candidates);
-        }
-
-        private void ShowPreviousCard()
-        {
-            var candidates = DeckCollection.GetCards(string.IsNullOrWhiteSpace(selectedDeck) ? DeckCollection.DefaultDeck : selectedDeck);
-            if (candidates.Count == 0)
-            {
-                return;
-            }
-
-            var previousIndex = selectedCardIndex >= 0 ? selectedCardIndex - 1 : candidates.Count - 1;
-            ShowCardAtIndex(previousIndex, candidates);
-        }
-
-        private void UpdateSelection()
-        {
-            if (DeckCollection.IsEmpty)
-            {
-                selectedCard = null;
-                selectedCardIndex = -1;
-                ClearSelectedCardDescription();
-                return;
-            }
-
-            var deckToSearch = string.IsNullOrWhiteSpace(selectedDeck) ? DeckCollection.DefaultDeck : selectedDeck;
-            var candidates = DeckCollection.GetCards(deckToSearch);
-
-            if (candidates.Count == 0)
-            {
-                selectedCard = null;
-                selectedCardIndex = -1;
-                ClearSelectedCardDescription();
-                return;
-            }
-
-            var normalized = NormalizeForComparison(searchTerm);
-            if (normalized.Length == 0)
-            {
-                if (selectedCardIndex < 0 || selectedCardIndex >= candidates.Count)
-                {
-                    ShowCardAtIndex(0, candidates);
-                }
-                else
-                {
-                    ShowCardAtIndex(selectedCardIndex, candidates);
-                }
-
-                return;
-            }
-
-            var matchingIndex = FindMatchingCardIndex(candidates, normalized);
-            if (matchingIndex >= 0)
-            {
-                ShowCardAtIndex(matchingIndex, candidates);
-            }
-            else
-            {
-                selectedCard = null;
-                selectedCardIndex = -1;
-                ClearSelectedCardDescription();
-            }
-        }
-
-        private sealed record TarotCardInfo(string DisplayName, string DeckId, string CardId, string Key, string ImageDataUrl, string Description)
-        {
-            public string ComparisonKey => NormalizeForComparison(Key);
-        }
-
-        private sealed record TarotDeckCollection(IReadOnlyDictionary<string, IReadOnlyList<TarotCardInfo>> CardsByDeck, IReadOnlyList<TarotDeckOption> Options, string DefaultDeck)
-        {
-            public static TarotDeckCollection Empty { get; } = new(new Dictionary<string, IReadOnlyList<TarotCardInfo>>(StringComparer.OrdinalIgnoreCase), Array.Empty<TarotDeckOption>(), string.Empty);
-
-            public bool IsEmpty => CardsByDeck.Count == 0;
-
-            public IReadOnlyList<TarotCardInfo> GetCards(string deckName)
-            {
-                if (CardsByDeck.TryGetValue(deckName, out var cards))
-                {
-                    return cards;
-                }
-
-                return Array.Empty<TarotCardInfo>();
-            }
-
-            public bool ContainsDeck(string deckName) => CardsByDeck.ContainsKey(deckName);
-        }
+        private sealed record TarotCardInfo(string DisplayName, string DeckId, string CardId, string Key, string ImageDataUrl, string Description);
 
         private sealed record TarotDeckOption(string DeckId, string DisplayName);
 
-        private sealed record DeckMetadata(string DeckId, string DisplayName);
+        private sealed record DeckCards(string DeckId, string DeckDisplayName, IReadOnlyList<Spielkarte> Cards);
     }
 }
