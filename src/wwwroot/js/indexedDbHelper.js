@@ -313,6 +313,53 @@ export async function createCard(card) {
     });
 }
 
+export async function createCards(cards) {
+    if (!Array.isArray(cards)) {
+        throw new Error('A list of cards is required.');
+    }
+
+    if (cards.length === 0) {
+        return;
+    }
+
+    const db = await openDatabase();
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(CARD_STORE, 'readwrite');
+        transaction.oncomplete = () => resolve();
+        transaction.onerror = rejectWithError(reject, 'IndexedDB transaction failed.');
+
+        const store = transaction.objectStore(CARD_STORE);
+
+        try {
+            cards.forEach(card => {
+                const normalized = normalizeCard(card);
+                const request = store.put(normalized);
+                request.onerror = event => {
+                    const cardId = card?.id ?? card?.Id ?? 'unknown';
+                    const deckId = card?.deckId ?? card?.DeckId ?? 'unknown deck';
+                    const message = `Failed to store card '${cardId}' from deck '${deckId}'.`;
+                    const handler = rejectWithError(reject, message);
+                    handler(event);
+
+                    try {
+                        transaction.abort();
+                    } catch (abortError) {
+                        console.debug('Failed to abort transaction after card error.', abortError);
+                    }
+                };
+            });
+        } catch (error) {
+            reject(createError(error, 'Failed to prepare cards for storage.'));
+
+            try {
+                transaction.abort();
+            } catch (abortError) {
+                console.debug('Failed to abort transaction after setup error.', abortError);
+            }
+        }
+    });
+}
+
 export async function getCard(deckId, id) {
     if (!deckId || typeof deckId !== 'string') {
         throw new Error('Spielkarte requires a deckId.');
