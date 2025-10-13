@@ -26,6 +26,7 @@ public static class DisplayTexts
     public static string TarotDescriptionLoadError => GetString(nameof(TarotDescriptionLoadError));
     public static string TarotPreviousCardButton => GetString(nameof(TarotPreviousCardButton));
     public static string TarotNextCardButton => GetString(nameof(TarotNextCardButton));
+    public static string TarotScrollToDescriptionLabel => GetString(nameof(TarotScrollToDescriptionLabel));
     public static string TarotDeckSelectionLabel => GetString(nameof(TarotDeckSelectionLabel));
     public static string TarotDeckSelectionPlaceholder => GetString(nameof(TarotDeckSelectionPlaceholder));
     public static string TarotDeckLoading => GetString(nameof(TarotDeckLoading));
