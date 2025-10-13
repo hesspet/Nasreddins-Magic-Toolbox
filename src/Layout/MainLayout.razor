@@ -1,4 +1,4 @@
-﻿@inherits LayoutComponentBase
+@inherits LayoutComponentBase
 <CascadingValue Value="this">
     <div class="page">
         <div class="sidebar">
@@ -12,22 +12,3 @@
         </main>
     </div>
 </CascadingValue>
-
-@code {
-    private string? currentPageTitle;
-
-    public string? CurrentPageTitle => currentPageTitle;
-
-    public void UpdateCurrentPageTitle(string? title)
-    {
-        var normalizedTitle = string.IsNullOrWhiteSpace(title) ? null : title;
-
-        if (string.Equals(currentPageTitle, normalizedTitle, StringComparison.Ordinal))
-        {
-            return;
-        }
-
-        currentPageTitle = normalizedTitle;
-        StateHasChanged();
-    }
-}
