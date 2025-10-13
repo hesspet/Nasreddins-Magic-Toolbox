@@ -263,16 +263,17 @@
 
         await LogImportMessageAsync(DisplayTexts.ImportExportDeckLogDeckCreated);
 
-        foreach (var (cardName, data) in cards)
-        {
-            await DbHelper.CreateCardAsync(new Spielkarte
+        var importedCards = cards
+            .Select(pair => new Spielkarte
             {
-                Id = cardName,
+                Id = pair.Key,
                 DeckId = deckId,
-                Image = data.Image!,
-                Description = data.Description!
-            });
-        }
+                Image = pair.Value.Image!,
+                Description = pair.Value.Description!
+            })
+            .ToList();
+
+        await DbHelper.CreateCardsAsync(importedCards);
 
         await LogImportMessageAsync(DisplayTexts.ImportExportDeckLogFinished);
 

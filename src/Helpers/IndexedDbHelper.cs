@@ -83,6 +83,26 @@ public sealed class IndexedDbHelper : IAsyncDisposable
     }
 
     /// <summary>
+    /// Creates or replaces multiple cards within a single IndexedDB transaction.
+    /// </summary>
+    /// <param name="cards">The cards that should be stored.</param>
+    public async Task CreateCardsAsync(IReadOnlyList<Spielkarte> cards)
+    {
+        if (cards is null)
+        {
+            throw new ArgumentNullException(nameof(cards));
+        }
+
+        if (cards.Count == 0)
+        {
+            return;
+        }
+
+        var module = await _moduleTask.Value;
+        await module.InvokeVoidAsync("createCards", cards);
+    }
+
+    /// <summary>
     /// Retrieves a card by its deck and identifier.
     /// </summary>
     public async Task<Spielkarte?> GetCardAsync(string deckId, string id)
