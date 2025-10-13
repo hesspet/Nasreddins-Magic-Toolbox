@@ -37,3 +37,112 @@
     color: #555;
     font-size: 0.95rem;
 }
+
+.settings-label-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.settings-label-row .form-check-label {
+    margin-bottom: 0;
+}
+
+.settings-help-button {
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    border: 1px solid var(--bs-primary);
+    background-color: var(--bs-body-bg);
+    color: var(--bs-primary);
+    font-weight: 700;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.settings-help-button:hover,
+.settings-help-button:focus {
+    background-color: var(--bs-primary);
+    color: #fff;
+}
+
+.settings-help-button:focus {
+    outline: 2px solid var(--bs-primary);
+    outline-offset: 2px;
+}
+
+.settings-help-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    z-index: 1050;
+}
+
+.settings-help-dialog {
+    background-color: var(--bs-body-bg);
+    border-radius: 0.75rem;
+    box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.35);
+    max-width: 40rem;
+    width: min(40rem, 100%);
+    max-height: 80vh;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 1.5rem;
+}
+
+.settings-help-dialog-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%;
+}
+
+.settings-help-dialog-content h2 {
+    margin: 0;
+    font-size: 1.25rem;
+    padding-right: 2.5rem;
+}
+
+.settings-help-dialog-scroll {
+    overflow-y: auto;
+    flex: 1;
+    padding-right: 0.5rem;
+}
+
+.settings-help-dialog-scroll::deep p {
+    margin-bottom: 0.75rem;
+}
+
+.settings-help-dialog-scroll::deep ul {
+    padding-left: 1.2rem;
+}
+
+.settings-help-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0.25rem;
+}
+
+.settings-help-close:hover,
+.settings-help-close:focus {
+    color: var(--bs-danger);
+}

@@ -16,5 +16,6 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddScoped<LocalStorageHelper>();
 builder.Services.AddScoped<IndexedDbHelper>();
 builder.Services.AddScoped<DeckBootstrapper>();
+builder.Services.AddSingleton<HelpContentProvider>();
 
 await builder.Build().RunAsync();
