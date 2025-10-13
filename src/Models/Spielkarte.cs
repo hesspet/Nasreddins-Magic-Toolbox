@@ -8,6 +8,11 @@ namespace Toolbox.Models;
 public sealed class Spielkarte
 {
     /// <summary>
+    /// Gets or sets the surrogate key used as the IndexedDB primary key.
+    /// </summary>
+    public string RowId { get; set; } = Guid.NewGuid().ToString();
+
+    /// <summary>
     /// Gets or sets the unique identifier of the card.
     /// </summary>
     public string Id { get; set; } = string.Empty;

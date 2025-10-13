@@ -1,8 +1,9 @@
 const DB_NAME = 'MagicToolboxDb';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const DECK_STORE = 'decks';
 const CARD_STORE = 'cards';
 const CARD_DECK_INDEX = 'cardsByDeck';
+const CARD_DECK_AND_ID_INDEX = 'cardsByDeckAndId';
 
 let dbPromise = null;
 
@@ -13,14 +14,66 @@ function openDatabase() {
 
             request.onupgradeneeded = event => {
                 const db = event.target.result;
+                const transaction = event.target.transaction;
 
                 if (!db.objectStoreNames.contains(DECK_STORE)) {
                     db.createObjectStore(DECK_STORE, { keyPath: 'id' });
                 }
 
+                const ensureCardStoreIndexes = cardStore => {
+                    if (!cardStore.indexNames.contains(CARD_DECK_INDEX)) {
+                        cardStore.createIndex(CARD_DECK_INDEX, 'deckId', { unique: false });
+                    }
+
+                    if (!cardStore.indexNames.contains(CARD_DECK_AND_ID_INDEX)) {
+                        cardStore.createIndex(CARD_DECK_AND_ID_INDEX, ['deckId', 'id'], { unique: true });
+                    }
+                };
+
+                const recreateCardStore = cards => {
+                    if (db.objectStoreNames.contains(CARD_STORE)) {
+                        db.deleteObjectStore(CARD_STORE);
+                    }
+
+                    const newStore = db.createObjectStore(CARD_STORE, { keyPath: 'rowId' });
+                    ensureCardStoreIndexes(newStore);
+
+                    if (Array.isArray(cards) && cards.length > 0) {
+                        for (const card of cards) {
+                            try {
+                                const upgraded = normalizeCard(card);
+                                newStore.add(upgraded);
+                            } catch (error) {
+                                console.error('Failed to migrate card during upgrade.', error, card);
+                            }
+                        }
+                    }
+                };
+
                 if (!db.objectStoreNames.contains(CARD_STORE)) {
-                    const cardStore = db.createObjectStore(CARD_STORE, { keyPath: 'id' });
-                    cardStore.createIndex(CARD_DECK_INDEX, 'deckId', { unique: false });
+                    recreateCardStore();
+                    return;
+                }
+
+                if (event.oldVersion < 2 && transaction) {
+                    const existingStore = transaction.objectStore(CARD_STORE);
+                    const getAllRequest = existingStore.getAll();
+
+                    getAllRequest.onsuccess = () => {
+                        const cards = getAllRequest.result ?? [];
+                        recreateCardStore(cards);
+                    };
+
+                    getAllRequest.onerror = () => {
+                        console.error('Failed to read cards during upgrade.', getAllRequest.error);
+                        recreateCardStore();
+                    };
+                    return;
+                }
+
+                const existingStore = transaction?.objectStore(CARD_STORE) ?? null;
+                if (existingStore) {
+                    ensureCardStoreIndexes(existingStore);
                 }
             };
 
@@ -91,7 +144,19 @@ function normalizeCard(card) {
 
     const normalizedImage = typeof card.image === 'string' ? base64ToArrayBuffer(card.image) : card.image ?? null;
 
+    let rowId = typeof card.rowId === 'string' ? card.rowId.trim() : '';
+    if (!rowId) {
+        if (card.deckId && card.id) {
+            rowId = `${card.deckId}::${card.id}`;
+        } else if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+            rowId = crypto.randomUUID();
+        } else {
+            rowId = `${Date.now()}-${Math.random().toString(16).slice(2)}`;
+        }
+    }
+
     return {
+        rowId,
         id: card.id,
         deckId: card.deckId,
         description: card.description ?? '',
@@ -116,6 +181,7 @@ function mapCard(card) {
     }
 
     return {
+        rowId: card.rowId,
         id: card.id,
         deckId: card.deckId,
         description: card.description ?? '',
@@ -200,11 +266,11 @@ export async function createCard(card) {
     });
 }
 
-export async function getCard(id) {
+export async function getCard(rowId) {
     const db = await openDatabase();
     const transaction = db.transaction(CARD_STORE, 'readonly');
     const store = transaction.objectStore(CARD_STORE);
-    return requestToPromise(store.get(id), mapCard);
+    return requestToPromise(store.get(rowId), mapCard);
 }
 
 export async function getAllCards() {
@@ -240,12 +306,12 @@ export async function updateCard(card) {
     });
 }
 
-export async function deleteCard(id) {
+export async function deleteCard(rowId) {
     const db = await openDatabase();
     return new Promise((resolve, reject) => {
         const transaction = db.transaction(CARD_STORE, 'readwrite');
         transaction.oncomplete = () => resolve();
         transaction.onerror = () => reject(transaction.error);
-        transaction.objectStore(CARD_STORE).delete(id);
+        transaction.objectStore(CARD_STORE).delete(rowId);
     });
 }

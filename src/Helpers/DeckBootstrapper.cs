@@ -59,6 +59,7 @@ public sealed class DeckBootstrapper
         {
             await dbHelper.CreateCardAsync(new Spielkarte
             {
+                RowId = Guid.NewGuid().ToString(),
                 Id = card.Id,
                 DeckId = DeckName,
                 Image = card.Image,
