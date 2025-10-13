@@ -21,6 +21,19 @@
 }
 else
 {
+    <div class="tarot-search">
+        <select id="deckSelection"
+                class="form-select"
+                title="@DisplayTexts.TarotDeckSelectionPlaceholder"
+                aria-label="@DisplayTexts.TarotDeckSelectionLabel"
+                @bind="SelectedDeck">
+            <option value="">@DisplayTexts.TarotDeckSelectionLabel</option>
+            @foreach (var option in DeckOptions)
+            {
+                <option value="@option.DeckId">@option.DisplayName</option>
+            }
+        </select>
+
     <div class="tarot-page">
               <div class="tarot-search">
             <input id="cardNameInput"
@@ -33,18 +46,6 @@ else
                    disabled="@(!IsSearchEnabled)" />
         </div>
 
-        <div class="tarot-search">
-            <select id="deckSelection"
-                    class="form-select"
-                    title="@DisplayTexts.TarotDeckSelectionPlaceholder"
-                    aria-label="@DisplayTexts.TarotDeckSelectionLabel"
-                    @bind="SelectedDeck">
-                <option value="">@DisplayTexts.TarotDeckSelectionLabel</option>
-                @foreach (var option in DeckOptions)
-                {
-                    <option value="@option.DeckId">@option.DisplayName</option>
-                }
-            </select>
         </div>
 
         @if (selectedCard is not null)

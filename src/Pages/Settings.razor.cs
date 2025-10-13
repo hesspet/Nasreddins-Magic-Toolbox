@@ -9,12 +9,6 @@ namespace Toolbox.Pages
 {
     public partial class Settings
     {
-        [CascadingParameter]
-        private MainLayout? Layout { get; set; }
-
-        [Inject]
-        private HelpContentProvider HelpContentProvider { get; set; } = default!;
-
         protected override void OnInitialized()
         {
             Layout?.UpdateCurrentPageTitle(DisplayTexts.SettingsPageTitle);
@@ -61,38 +55,59 @@ namespace Toolbox.Pages
             }
         }
 
-        private bool checkForUpdatesOnStartup = ApplicationSettings.CheckForUpdatesOnStartupDefault;
-        private int selectedDuration = ApplicationSettings.SplashScreenDurationDefaultSeconds;
         private int cardScalePercent = ApplicationSettings.CardScalePercentDefault;
-        private bool isHelpVisible;
+
+        private bool checkForUpdatesOnStartup = ApplicationSettings.CheckForUpdatesOnStartupDefault;
+
         private string currentHelpTitle = string.Empty;
+
         private MarkupString helpContent = new(string.Empty);
 
-        private string GetHelpButtonLabel(string controlLabel) => string.Format(DisplayTexts.SettingsHelpButtonLabelFormat, controlLabel);
+        private bool isHelpVisible;
 
-        private async Task ShowHelpAsync(string helpKey, string helpTitle)
+        private int selectedDuration = ApplicationSettings.SplashScreenDurationDefaultSeconds;
+
+        [Inject]
+        private HelpContentProvider HelpContentProviderInst { get; set; } = default!;
+
+        [CascadingParameter]
+        private MainLayout? Layout
         {
-            currentHelpTitle = helpTitle;
-            var html = await HelpContentProvider.GetHelpHtmlAsync(helpKey);
-
-            if (string.IsNullOrWhiteSpace(html))
-            {
-                var fallback = WebUtility.HtmlEncode(DisplayTexts.SettingsHelpNotFoundMessage);
-                helpContent = new MarkupString($"<p>{fallback}</p>");
-            }
-            else
-            {
-                helpContent = new MarkupString(html);
-            }
-
-            isHelpVisible = true;
-            StateHasChanged();
+            get; set;
         }
 
         private void CloseHelp()
         {
             isHelpVisible = false;
             StateHasChanged();
+        }
+
+        private string GetHelpButtonLabel(string controlLabel) => string.Format(DisplayTexts.SettingsHelpButtonLabelFormat, controlLabel);
+
+        private async Task OnCardScaleChanged(ChangeEventArgs args)
+        {
+            if (args.Value is null)
+            {
+                return;
+            }
+
+            if (int.TryParse(args.Value.ToString(), out var newValue))
+            {
+                await UpdateCardScaleAsync(newValue);
+            }
+        }
+
+        private async Task OnCardScaleNumberChanged(ChangeEventArgs args)
+        {
+            if (args.Value is null)
+            {
+                return;
+            }
+
+            if (int.TryParse(args.Value.ToString(), out var newValue))
+            {
+                await UpdateCardScaleAsync(newValue);
+            }
         }
 
         private async Task OnCheckForUpdatesChanged(ChangeEventArgs args)
@@ -129,30 +144,23 @@ namespace Toolbox.Pages
             }
         }
 
-        private async Task OnCardScaleChanged(ChangeEventArgs args)
+        private async Task ShowHelpAsync(string helpKey, string helpTitle)
         {
-            if (args.Value is null)
+            currentHelpTitle = helpTitle;
+            var html = await HelpContentProviderInst.GetHelpHtmlAsync(helpKey);
+
+            if (string.IsNullOrWhiteSpace(html))
             {
-                return;
+                var fallback = WebUtility.HtmlEncode(DisplayTexts.SettingsHelpNotFoundMessage);
+                helpContent = new MarkupString($"<p>{fallback}</p>");
+            }
+            else
+            {
+                helpContent = new MarkupString(html);
             }
 
-            if (int.TryParse(args.Value.ToString(), out var newValue))
-            {
-                await UpdateCardScaleAsync(newValue);
-            }
-        }
-
-        private async Task OnCardScaleNumberChanged(ChangeEventArgs args)
-        {
-            if (args.Value is null)
-            {
-                return;
-            }
-
-            if (int.TryParse(args.Value.ToString(), out var newValue))
-            {
-                await UpdateCardScaleAsync(newValue);
-            }
+            isHelpVisible = true;
+            StateHasChanged();
         }
 
         private async Task UpdateCardScaleAsync(int newValue)
