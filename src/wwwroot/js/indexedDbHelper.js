@@ -1,8 +1,11 @@
 const DB_NAME = 'MagicToolboxDb';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const DECK_STORE = 'decks';
 const CARD_STORE = 'cards';
 const CARD_DECK_INDEX = 'cardsByDeck';
+const CARD_ID_INDEX = 'cardsById';
+const CARD_DECK_ID_INDEX = 'cardsByDeckAndId';
+const CARD_KEY_PATH = 'key';
 
 let dbPromise = null;
 
@@ -48,6 +51,28 @@ function rejectWithError(reject, defaultMessage) {
     };
 }
 
+function createCardStore(db) {
+    const cardStore = db.createObjectStore(CARD_STORE, { keyPath: CARD_KEY_PATH });
+    cardStore.createIndex(CARD_DECK_INDEX, 'deckId', { unique: false });
+    cardStore.createIndex(CARD_ID_INDEX, 'id', { unique: false });
+    cardStore.createIndex(CARD_DECK_ID_INDEX, ['deckId', 'id'], { unique: true });
+    return cardStore;
+}
+
+function ensureCardStoreIndexes(cardStore) {
+    if (!cardStore.indexNames.contains(CARD_DECK_INDEX)) {
+        cardStore.createIndex(CARD_DECK_INDEX, 'deckId', { unique: false });
+    }
+
+    if (!cardStore.indexNames.contains(CARD_ID_INDEX)) {
+        cardStore.createIndex(CARD_ID_INDEX, 'id', { unique: false });
+    }
+
+    if (!cardStore.indexNames.contains(CARD_DECK_ID_INDEX)) {
+        cardStore.createIndex(CARD_DECK_ID_INDEX, ['deckId', 'id'], { unique: true });
+    }
+}
+
 function openDatabase() {
     if (!dbPromise) {
         dbPromise = new Promise((resolve, reject) => {
@@ -55,14 +80,42 @@ function openDatabase() {
 
             request.onupgradeneeded = event => {
                 const db = event.target.result;
+                const transaction = event.target.transaction;
 
                 if (!db.objectStoreNames.contains(DECK_STORE)) {
                     db.createObjectStore(DECK_STORE, { keyPath: 'id' });
                 }
 
+                const oldVersion = event.oldVersion ?? 0;
+
                 if (!db.objectStoreNames.contains(CARD_STORE)) {
-                    const cardStore = db.createObjectStore(CARD_STORE, { keyPath: 'id' });
-                    cardStore.createIndex(CARD_DECK_INDEX, 'deckId', { unique: false });
+                    createCardStore(db);
+                } else if (oldVersion < 2) {
+                    const legacyStore = transaction.objectStore(CARD_STORE);
+                    const getAllRequest = legacyStore.getAll();
+
+                    getAllRequest.onsuccess = () => {
+                        const legacyCards = getAllRequest.result ?? [];
+                        db.deleteObjectStore(CARD_STORE);
+                        const newStore = createCardStore(db);
+
+                        legacyCards.forEach(card => {
+                            try {
+                                const upgraded = upgradeLegacyCard(card);
+                                newStore.add(upgraded);
+                            } catch (error) {
+                                console.error('Failed to upgrade legacy card entry.', error);
+                            }
+                        });
+                    };
+
+                    getAllRequest.onerror = eventError => {
+                        const upgradeError = eventError?.target?.error ?? eventError?.error ?? null;
+                        console.error('Failed to read legacy card data during upgrade.', upgradeError);
+                    };
+                } else {
+                    const cardStore = transaction.objectStore(CARD_STORE);
+                    ensureCardStoreIndexes(cardStore);
                 }
             };
 
@@ -132,13 +185,27 @@ function normalizeCard(card) {
     }
 
     const normalizedImage = typeof card.image === 'string' ? base64ToArrayBuffer(card.image) : card.image ?? null;
+    const key = buildCardKey(card.deckId, card.id);
 
     return {
+        [CARD_KEY_PATH]: key,
         id: card.id,
         deckId: card.deckId,
         description: card.description ?? '',
         image: normalizedImage
     };
+}
+
+function buildCardKey(deckId, cardId) {
+    if (!deckId || typeof deckId !== 'string') {
+        throw new Error('Spielkarte requires a deckId.');
+    }
+
+    if (!cardId || typeof cardId !== 'string') {
+        throw new Error('Spielkarte requires an id.');
+    }
+
+    return `${deckId}::${cardId}`;
 }
 
 function mapDeck(deck) {
@@ -242,11 +309,21 @@ export async function createCard(card) {
     });
 }
 
-export async function getCard(id) {
+export async function getCard(deckId, id) {
+    if (!deckId || typeof deckId !== 'string') {
+        throw new Error('Spielkarte requires a deckId.');
+    }
+
+    if (!id || typeof id !== 'string') {
+        throw new Error('Spielkarte requires an id.');
+    }
+
     const db = await openDatabase();
     const transaction = db.transaction(CARD_STORE, 'readonly');
     const store = transaction.objectStore(CARD_STORE);
-    return requestToPromise(store.get(id), mapCard);
+    const index = store.index(CARD_DECK_ID_INDEX);
+    const key = [deckId, id];
+    return requestToPromise(index.get(key), mapCard);
 }
 
 export async function getAllCards() {
@@ -282,12 +359,39 @@ export async function updateCard(card) {
     });
 }
 
-export async function deleteCard(id) {
+export async function deleteCard(deckId, id) {
+    if (!deckId || typeof deckId !== 'string') {
+        throw new Error('Spielkarte requires a deckId.');
+    }
+
+    if (!id || typeof id !== 'string') {
+        throw new Error('Spielkarte requires an id.');
+    }
+
     const db = await openDatabase();
     return new Promise((resolve, reject) => {
         const transaction = db.transaction(CARD_STORE, 'readwrite');
         transaction.oncomplete = () => resolve();
         transaction.onerror = rejectWithError(reject, 'IndexedDB transaction failed.');
-        transaction.objectStore(CARD_STORE).delete(id);
+        const key = buildCardKey(deckId, id);
+        transaction.objectStore(CARD_STORE).delete(key);
     });
+}
+
+function upgradeLegacyCard(card) {
+    if (!card) {
+        throw new Error('Legacy card entry is invalid.');
+    }
+
+    const deckId = card.deckId;
+    const id = card.id;
+    const key = buildCardKey(deckId, id);
+
+    return {
+        [CARD_KEY_PATH]: key,
+        id,
+        deckId,
+        description: card.description ?? '',
+        image: card.image ?? null
+    };
 }
