@@ -123,15 +123,16 @@ namespace Toolbox.Pages
                 return;
             }
 
+            var requestedDeck = selectedDeck;
+            var requestedSearch = searchTerm;
+
             isLoadingCards = true;
             StateHasChanged();
 
             try
             {
-                var deckId = selectedDeck;
-                var currentSearch = searchTerm;
-                var deckCards = await GetDeckCardsAsync(deckId, allowReload: true);
-                if (!string.Equals(deckId, selectedDeck, StringComparison.OrdinalIgnoreCase) || currentSearch != searchTerm)
+                var deckCards = await GetDeckCardsAsync(requestedDeck, allowReload: true);
+                if (!string.Equals(requestedDeck, selectedDeck, StringComparison.OrdinalIgnoreCase) || requestedSearch != searchTerm)
                 {
                     return;
                 }
@@ -142,7 +143,7 @@ namespace Toolbox.Pages
                     return;
                 }
 
-                var normalized = NormalizeForComparison(currentSearch);
+                var normalized = NormalizeForComparison(requestedSearch);
                 var index = normalized.Length == 0
                     ? (selectedCardIndex >= 0 && selectedCardIndex < deckCards.Cards.Count ? selectedCardIndex : 0)
                     : FindMatchingCardIndex(deckCards.Cards, deckCards.DeckId, normalized);
@@ -163,6 +164,12 @@ namespace Toolbox.Pages
             finally
             {
                 isLoadingCards = false;
+
+                if (string.Equals(requestedDeck, selectedDeck, StringComparison.OrdinalIgnoreCase))
+                {
+                    shouldRestoreSearchInputFocus = true;
+                }
+
                 StateHasChanged();
             }
         }
