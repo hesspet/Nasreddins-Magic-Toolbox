@@ -26,6 +26,7 @@ namespace Toolbox.Pages
 
         private IJSObjectReference? cardDeckModule;
         private bool cardObserverNeedsRefresh;
+        private bool shouldRestoreSearchInputFocus;
 
         [CascadingParameter]
         private MainLayout? Layout { get; set; }
@@ -169,6 +170,12 @@ namespace Toolbox.Pages
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await base.OnAfterRenderAsync(firstRender);
+
+            if (shouldRestoreSearchInputFocus)
+            {
+                shouldRestoreSearchInputFocus = false;
+                await FocusSearchInputAsync();
+            }
 
             if (!cardObserverNeedsRefresh)
             {
@@ -610,12 +617,12 @@ namespace Toolbox.Pages
 
             searchClearCancellation = null;
 
-            await InvokeAsync(async () =>
+            await InvokeAsync(() =>
             {
                 if (!string.IsNullOrEmpty(searchTerm))
                 {
+                    shouldRestoreSearchInputFocus = true;
                     SearchTerm = string.Empty;
-                    await FocusSearchInputAsync();
                 }
             });
 
