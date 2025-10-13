@@ -136,6 +136,9 @@
   <data name="DataInfoShowReportButton" xml:space="preserve">
     <value>Report anzeigen</value>
   </data>
+  <data name="DataInfoDeleteDeckButton" xml:space="preserve">
+    <value>Deck löschen</value>
+  </data>
   <data name="DataInfoDeckLoading" xml:space="preserve">
     <value>Decks werden geladen …</value>
   </data>
@@ -150,6 +153,30 @@
   </data>
   <data name="DataInfoReportCloseButtonLabel" xml:space="preserve">
     <value>Schließen</value>
+  </data>
+  <data name="DataInfoDeleteDeckLogTitle" xml:space="preserve">
+    <value>Löschprotokoll</value>
+  </data>
+  <data name="DataInfoDeleteDeckLogStartingFormat" xml:space="preserve">
+    <value>Starte Löschvorgang für „{0}“ …</value>
+  </data>
+  <data name="DataInfoDeleteDeckLogCardCountFormat" xml:space="preserve">
+    <value>{0} Karten wurden im Deck gefunden.</value>
+  </data>
+  <data name="DataInfoDeleteDeckLogDeletingDeck" xml:space="preserve">
+    <value>Deck wird aus der Datenbank entfernt …</value>
+  </data>
+  <data name="DataInfoDeleteDeckLogDeckDeleted" xml:space="preserve">
+    <value>Deck und Karten wurden entfernt.</value>
+  </data>
+  <data name="DataInfoDeleteDeckLogReloadingDecks" xml:space="preserve">
+    <value>Deckliste wird aktualisiert …</value>
+  </data>
+  <data name="DataInfoDeleteDeckLogFinished" xml:space="preserve">
+    <value>Löschvorgang abgeschlossen.</value>
+  </data>
+  <data name="DataInfoDeleteDeckLogErrorFormat" xml:space="preserve">
+    <value>Löschvorgang fehlgeschlagen: {0}</value>
   </data>
   <data name="ImportExportPageTitle" xml:space="preserve">
     <value>Import / Export</value>
