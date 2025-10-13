@@ -6,6 +6,7 @@ using Markdig;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Toolbox.Models;
+using Toolbox.Layout;
 using Toolbox.Resources;
 
 namespace Toolbox.Pages
@@ -20,6 +21,14 @@ namespace Toolbox.Pages
 
         private IJSObjectReference? cardDeckModule;
         private bool cardObserverNeedsRefresh;
+
+        [CascadingParameter]
+        private MainLayout? Layout { get; set; }
+
+        protected override void OnInitialized()
+        {
+            Layout?.UpdateCurrentPageTitle(DisplayTexts.TarotPageTitle);
+        }
 
         protected override async Task OnInitializedAsync()
         {
