@@ -22,6 +22,7 @@ namespace Toolbox.Pages
 
         private ElementReference cardFigureRef;
         private ElementReference cardDescriptionRef;
+        private ElementReference searchInputRef;
 
         private IJSObjectReference? cardDeckModule;
         private bool cardObserverNeedsRefresh;
@@ -526,6 +527,27 @@ namespace Toolbox.Pages
 
         private static bool IsSwipePointer(string? pointerType) => pointerType is "touch" or "pen";
 
+        private ValueTask FocusSearchInputAsync()
+        {
+            if (searchInputRef.Context is null)
+            {
+                return ValueTask.CompletedTask;
+            }
+
+            try
+            {
+                return searchInputRef.FocusAsync();
+            }
+            catch (InvalidOperationException)
+            {
+            }
+            catch (JSException)
+            {
+            }
+
+            return ValueTask.CompletedTask;
+        }
+
         private void RestartSearchClearTimer()
         {
             CancelSearchClearTimer();
@@ -588,11 +610,12 @@ namespace Toolbox.Pages
 
             searchClearCancellation = null;
 
-            await InvokeAsync(() =>
+            await InvokeAsync(async () =>
             {
                 if (!string.IsNullOrEmpty(searchTerm))
                 {
                     SearchTerm = string.Empty;
+                    await FocusSearchInputAsync();
                 }
             });
 
