@@ -10,77 +10,88 @@
 
 <PageTitle>@DisplayTexts.TarotPageTitle</PageTitle>
 
-<div class="tarot-page">
-    <h1>@DisplayTexts.TarotHeader</h1>
-
-    <div class="tarot-search">
-        <label class="form-label" for="cardNameInput">@DisplayTexts.TarotSearchLabel</label>
-        <input id="cardNameInput"
-               class="form-control"
-               @bind="SearchTerm"
-               @bind:event="oninput"
-               placeholder="@DisplayTexts.TarotSearchPlaceholder" />
+@if (isLoadingDecks)
+{
+    <div class="tarot-loading" role="status" aria-live="polite">
+        <div class="spinner-border text-primary me-3" aria-hidden="true"></div>
+        <span class="tarot-loading-text">@DisplayTexts.TarotDeckLoading</span>
     </div>
+}
+else
+{
+    <div class="tarot-page">
+        <h1>@DisplayTexts.TarotHeader</h1>
 
-    <div class="tarot-search">
-        <label class="form-label" for="deckSelection">@DisplayTexts.TarotDeckSelectionLabel</label>
-        <select id="deckSelection"
-                class="form-select"
-                @bind="SelectedDeck">
-            @foreach (var option in DeckOptions)
-            {
-                <option value="@option.DeckId">@option.DisplayName</option>
-            }
-        </select>
+        <div class="tarot-search">
+            <label class="form-label" for="cardNameInput">@DisplayTexts.TarotSearchLabel</label>
+            <input id="cardNameInput"
+                   class="form-control"
+                   @bind="SearchTerm"
+                   @bind:event="oninput"
+                   placeholder="@DisplayTexts.TarotSearchPlaceholder" />
+        </div>
+
+        <div class="tarot-search">
+            <label class="form-label" for="deckSelection">@DisplayTexts.TarotDeckSelectionLabel</label>
+            <select id="deckSelection"
+                    class="form-select"
+                    @bind="SelectedDeck">
+                @foreach (var option in DeckOptions)
+                {
+                    <option value="@option.DeckId">@option.DisplayName</option>
+                }
+            </select>
+        </div>
+
+        @if (HasSearched && selectedCard is null)
+        {
+            <p class="text-danger">@DisplayTexts.TarotSearchNotFound</p>
+        }
+
+        @if (selectedCard is not null)
+        {
+            <figure class="tarot-card">
+                <img src="@selectedCard.ImageDataUrl" alt="@selectedCard.DisplayName" class="img-fluid" />
+                <figcaption>@selectedCard.DisplayName</figcaption>
+            </figure>
+
+            <section class="tarot-card-description" aria-live="polite">
+                @if (!string.IsNullOrEmpty(descriptionError))
+                {
+                    <p class="text-danger">@descriptionError</p>
+                }
+                else if (!string.IsNullOrEmpty(selectedCardDescriptionHtml))
+                {
+                    <div class="tarot-card-description-content">@((MarkupString)selectedCardDescriptionHtml)</div>
+                }
+            </section>
+        }
     </div>
-
-    @if (HasSearched && selectedCard is null)
-    {
-        <p class="text-danger">@DisplayTexts.TarotSearchNotFound</p>
-    }
 
     @if (selectedCard is not null)
     {
-        <figure class="tarot-card">
-            <img src="@selectedCard.ImageDataUrl" alt="@selectedCard.DisplayName" class="img-fluid" />
-            <figcaption>@selectedCard.DisplayName</figcaption>
-        </figure>
+        <nav class="tarot-navigation-bar" aria-label="@DisplayTexts.TarotHeader">
+            <button type="button"
+                    class="btn btn-outline-secondary"
+                    aria-label="@DisplayTexts.TarotPreviousCardButton"
+                    title="@DisplayTexts.TarotPreviousCardButton"
+                    @onclick="ShowPreviousCard">
+                &larr;
+            </button>
 
-        <section class="tarot-card-description" aria-live="polite">
-            @if (!string.IsNullOrEmpty(descriptionError))
-            {
-                <p class="text-danger">@descriptionError</p>
-            }
-            else if (!string.IsNullOrEmpty(selectedCardDescriptionHtml))
-            {
-                <div class="tarot-card-description-content">@((MarkupString)selectedCardDescriptionHtml)</div>
-            }
-        </section>
+            <button type="button"
+                    class="btn btn-outline-secondary"
+                    aria-label="@DisplayTexts.TarotNextCardButton"
+                    title="@DisplayTexts.TarotNextCardButton"
+                    @onclick="ShowNextCard">
+                &rarr;
+            </button>
+        </nav>
     }
-</div>
-
-@if (selectedCard is not null)
-{
-    <nav class="tarot-navigation-bar" aria-label="@DisplayTexts.TarotHeader">
-        <button type="button"
-                class="btn btn-outline-secondary"
-                aria-label="@DisplayTexts.TarotPreviousCardButton"
-                title="@DisplayTexts.TarotPreviousCardButton"
-                @onclick="ShowPreviousCard">
-            &larr;
-        </button>
-
-        <button type="button"
-                class="btn btn-outline-secondary"
-                aria-label="@DisplayTexts.TarotNextCardButton"
-                title="@DisplayTexts.TarotNextCardButton"
-                @onclick="ShowNextCard">
-            &rarr;
-        </button>
-    </nav>
 }
 
 @code {
+    private bool isLoadingDecks = true;
     private TarotDeckCollection deckCollection = TarotDeckCollection.Empty;
     private string searchTerm = string.Empty;
     private string selectedDeck = string.Empty;
@@ -133,7 +144,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadDecksAsync();
+        try
+        {
+            isLoadingDecks = true;
+            await LoadDecksAsync();
+        }
+        finally
+        {
+            isLoadingDecks = false;
+        }
     }
 
     private async Task LoadDecksAsync()

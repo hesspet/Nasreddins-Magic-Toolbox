@@ -74,13 +74,16 @@
     <value>Tarotkarten</value>
   </data>
   <data name="TarotHeader" xml:space="preserve">
-    <value>Tarotkarte anzeigen</value>
+    <value>Kartenspiel anzeigen</value>
   </data>
   <data name="TarotSearchLabel" xml:space="preserve">
     <value>Kartennamen (Bsp.Cups01, c10, c11, cp, fool, sun)</value>
   </data>
   <data name="TarotDeckSelectionLabel" xml:space="preserve">
     <value>Kartendeck</value>
+  </data>
+  <data name="TarotDeckLoading" xml:space="preserve">
+    <value>Lade Deck …</value>
   </data>
   <data name="TarotSearchPlaceholder" xml:space="preserve">
     <value>Kartennamen eingeben</value>
@@ -110,7 +113,7 @@
     <value>Start</value>
   </data>
   <data name="NavigationTarotCards" xml:space="preserve">
-    <value>Tarotkarten</value>
+    <value>Kartenspiele</value>
   </data>
   <data name="NavigationDataInfo" xml:space="preserve">
     <value>Daten-Info</value>

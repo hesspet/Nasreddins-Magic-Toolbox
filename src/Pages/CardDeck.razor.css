@@ -1,3 +1,16 @@
+.tarot-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 4rem 1rem;
+}
+
+.tarot-loading-text {
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
 .tarot-search {
     max-width: 420px;
     margin-block: 1rem;
