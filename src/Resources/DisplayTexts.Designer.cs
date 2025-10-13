@@ -26,6 +26,7 @@ public static class DisplayTexts
     public static string TarotPreviousCardButton => GetString(nameof(TarotPreviousCardButton));
     public static string TarotNextCardButton => GetString(nameof(TarotNextCardButton));
     public static string TarotScrollToDescriptionLabel => GetString(nameof(TarotScrollToDescriptionLabel));
+    public static string TarotToggleFullscreenLabel => GetString(nameof(TarotToggleFullscreenLabel));
     public static string TarotDeckSelectionLabel => GetString(nameof(TarotDeckSelectionLabel));
     public static string TarotDeckSelectionPlaceholder => GetString(nameof(TarotDeckSelectionPlaceholder));
     public static string TarotDeckLoading => GetString(nameof(TarotDeckLoading));
@@ -87,6 +88,8 @@ public static class DisplayTexts
     public static string SettingsPageHeader => GetString(nameof(SettingsPageHeader));
     public static string SettingsSplashDurationLabel => GetString(nameof(SettingsSplashDurationLabel));
     public static string SettingsSplashDurationDescription => GetString(nameof(SettingsSplashDurationDescription));
+    public static string SettingsCardScaleLabel => GetString(nameof(SettingsCardScaleLabel));
+    public static string SettingsCardScaleDescription => GetString(nameof(SettingsCardScaleDescription));
     public static string SettingsCheckForUpdatesLabel => GetString(nameof(SettingsCheckForUpdatesLabel));
     public static string SettingsCheckForUpdatesDescription => GetString(nameof(SettingsCheckForUpdatesDescription));
     public static string NotFoundPageTitle => GetString(nameof(NotFoundPageTitle));

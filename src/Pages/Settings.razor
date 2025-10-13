@@ -16,6 +16,30 @@
     <p class="settings-description">@DisplayTexts.SettingsSplashDurationDescription</p>
 </section>
 
+<section class="settings-section" aria-labelledby="card-scale-label">
+    <label id="card-scale-label" for="card-scale">@string.Format(DisplayTexts.SettingsCardScaleLabel, cardScalePercent)</label>
+    <input
+        id="card-scale"
+        class="form-range"
+        type="range"
+        min="@ApplicationSettings.CardScalePercentMinimum"
+        max="@ApplicationSettings.CardScalePercentMaximum"
+        value="@cardScalePercent"
+        @oninput="OnCardScaleChanged" />
+    <div class="settings-card-scale-control">
+        <input
+            id="card-scale-number"
+            class="form-control"
+            type="number"
+            min="@ApplicationSettings.CardScalePercentMinimum"
+            max="@ApplicationSettings.CardScalePercentMaximum"
+            value="@cardScalePercent"
+            @onchange="OnCardScaleNumberChanged" />
+        <span class="settings-card-scale-suffix">%</span>
+    </div>
+    <p class="settings-description">@DisplayTexts.SettingsCardScaleDescription</p>
+</section>
+
 <section class="settings-section" aria-labelledby="update-check-label">
     <div class="form-check form-switch">
         <input

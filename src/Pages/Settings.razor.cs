@@ -28,6 +28,22 @@ namespace Toolbox.Pages
                 await LocalStorage.SetItemAsync(ApplicationSettings.SplashScreenDurationKey, selectedDuration);
             }
 
+            var storedCardScale = await LocalStorage.GetItemAsync<int?>(ApplicationSettings.CardScalePercentKey);
+
+            if (storedCardScale.HasValue)
+            {
+                cardScalePercent = ApplicationSettings.ClampCardScalePercent(storedCardScale.Value);
+
+                if (cardScalePercent != storedCardScale.Value)
+                {
+                    await LocalStorage.SetItemAsync(ApplicationSettings.CardScalePercentKey, cardScalePercent);
+                }
+            }
+            else
+            {
+                await LocalStorage.SetItemAsync(ApplicationSettings.CardScalePercentKey, cardScalePercent);
+            }
+
             var storedUpdatePreference = await LocalStorage.GetItemAsync<bool?>(ApplicationSettings.CheckForUpdatesOnStartupKey);
 
             if (storedUpdatePreference.HasValue)
@@ -42,6 +58,7 @@ namespace Toolbox.Pages
 
         private bool checkForUpdatesOnStartup = ApplicationSettings.CheckForUpdatesOnStartupDefault;
         private int selectedDuration = ApplicationSettings.SplashScreenDurationDefaultSeconds;
+        private int cardScalePercent = ApplicationSettings.CardScalePercentDefault;
 
         private async Task OnCheckForUpdatesChanged(ChangeEventArgs args)
         {
@@ -75,6 +92,46 @@ namespace Toolbox.Pages
                 await LocalStorage.SetItemAsync(ApplicationSettings.SplashScreenDurationKey, selectedDuration);
                 StateHasChanged();
             }
+        }
+
+        private async Task OnCardScaleChanged(ChangeEventArgs args)
+        {
+            if (args.Value is null)
+            {
+                return;
+            }
+
+            if (int.TryParse(args.Value.ToString(), out var newValue))
+            {
+                await UpdateCardScaleAsync(newValue);
+            }
+        }
+
+        private async Task OnCardScaleNumberChanged(ChangeEventArgs args)
+        {
+            if (args.Value is null)
+            {
+                return;
+            }
+
+            if (int.TryParse(args.Value.ToString(), out var newValue))
+            {
+                await UpdateCardScaleAsync(newValue);
+            }
+        }
+
+        private async Task UpdateCardScaleAsync(int newValue)
+        {
+            var clamped = ApplicationSettings.ClampCardScalePercent(newValue);
+
+            if (cardScalePercent == clamped)
+            {
+                return;
+            }
+
+            cardScalePercent = clamped;
+            await LocalStorage.SetItemAsync(ApplicationSettings.CardScalePercentKey, cardScalePercent);
+            StateHasChanged();
         }
     }
 }
