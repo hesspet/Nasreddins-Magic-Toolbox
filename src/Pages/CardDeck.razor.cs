@@ -33,6 +33,7 @@ namespace Toolbox.Pages
         private string? selectedCardDescriptionHtml;
         private int selectedCardIndex = -1;
         private string selectedDeck = string.Empty;
+        private DeckCards? cachedDeckCards;
 
         private IEnumerable<TarotDeckOption> DeckOptions => deckOptions;
         private bool HasSearched => !string.IsNullOrWhiteSpace(searchTerm);
@@ -70,6 +71,7 @@ namespace Toolbox.Pages
                 selectedDeck = newValue;
                 selectedCardIndex = -1;
                 ClearCurrentCard();
+                cachedDeckCards = null;
                 _ = ScheduleSelectionUpdateAsync();
             }
         }
@@ -93,13 +95,13 @@ namespace Toolbox.Pages
             {
                 var deckId = selectedDeck;
                 var currentSearch = searchTerm;
-                var deckCards = await LoadDeckCardsAsync(deckId);
+                var deckCards = await GetDeckCardsAsync(deckId, allowReload: true);
                 if (!string.Equals(deckId, selectedDeck, StringComparison.OrdinalIgnoreCase) || currentSearch != searchTerm)
                 {
                     return;
                 }
 
-                if (deckCards.Cards.Count == 0)
+                if (deckCards is null || deckCards.Cards.Count == 0)
                 {
                     ClearCurrentCard();
                     return;
@@ -157,7 +159,24 @@ namespace Toolbox.Pages
             ClearCurrentCard();
         }
 
-        private async Task<DeckCards> LoadDeckCardsAsync(string deckId)
+        private async Task<DeckCards?> GetDeckCardsAsync(string deckId, bool allowReload)
+        {
+            if (cachedDeckCards is { } cached && string.Equals(cached.DeckId, deckId, StringComparison.OrdinalIgnoreCase))
+            {
+                return cached;
+            }
+
+            if (!allowReload)
+            {
+                return null;
+            }
+
+            var loaded = await FetchDeckCardsAsync(deckId);
+            cachedDeckCards = loaded;
+            return loaded;
+        }
+
+        private async Task<DeckCards> FetchDeckCardsAsync(string deckId)
         {
             var deckDisplayName = GetDeckDisplayName(deckId);
             var cards = await DbHelper.GetCardsByDeckAsync(deckId);
@@ -205,8 +224,13 @@ namespace Toolbox.Pages
             try
             {
                 var deckId = selectedDeck;
-                var deckCards = await LoadDeckCardsAsync(deckId);
+                var deckCards = await GetDeckCardsAsync(deckId, allowReload: false);
                 if (!string.Equals(deckId, selectedDeck, StringComparison.OrdinalIgnoreCase))
+                {
+                    return;
+                }
+
+                if (deckCards is null)
                 {
                     return;
                 }
@@ -240,8 +264,13 @@ namespace Toolbox.Pages
             try
             {
                 var deckId = selectedDeck;
-                var deckCards = await LoadDeckCardsAsync(deckId);
+                var deckCards = await GetDeckCardsAsync(deckId, allowReload: false);
                 if (!string.Equals(deckId, selectedDeck, StringComparison.OrdinalIgnoreCase))
+                {
+                    return;
+                }
+
+                if (deckCards is null)
                 {
                     return;
                 }
