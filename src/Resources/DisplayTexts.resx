@@ -73,9 +73,6 @@
   <data name="TarotPageTitle" xml:space="preserve">
     <value>Kartenspiele</value>
   </data>
-  <data name="TarotHeader" xml:space="preserve">
-    <value>Kartenspiel anzeigen</value>
-  </data>
   <data name="TarotSearchLabel" xml:space="preserve">
     <value>Kartennamen (Bsp.Cups01, c10, c11, cp, fool, sun)</value>
   </data>
