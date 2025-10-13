@@ -99,7 +99,25 @@ public sealed class IndexedDbHelper : IAsyncDisposable
         }
 
         var module = await _moduleTask.Value;
-        await module.InvokeVoidAsync("createCards", cards);
+
+        try
+        {
+            await module.InvokeVoidAsync("createCards", cards);
+        }
+        catch (JSException exception) when (IsMissingCreateCardsFunction(exception))
+        {
+            foreach (var card in cards)
+            {
+                await module.InvokeVoidAsync("createCard", card);
+            }
+        }
+    }
+
+    private static bool IsMissingCreateCardsFunction(JSException exception)
+    {
+        const string missingFunctionMessage = "Could not find 'createCards'";
+
+        return exception is not null && exception.Message?.Contains(missingFunctionMessage, StringComparison.OrdinalIgnoreCase) == true;
     }
 
     /// <summary>
