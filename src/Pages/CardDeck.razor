@@ -22,9 +22,7 @@
 else
 {
     <div class="tarot-page">
-        <h1>@DisplayTexts.TarotHeader</h1>
-
-        <div class="tarot-search">
+              <div class="tarot-search">
             <input id="cardNameInput"
                    class="form-control"
                    @bind="SearchTerm"
@@ -108,7 +106,7 @@ else
 
     @if (selectedCard is not null)
     {
-        <nav class="tarot-navigation-bar" aria-label="@DisplayTexts.TarotHeader">
+        <nav class="tarot-navigation-bar" >
             <button type="button"
                     class="btn btn-outline-secondary"
                     aria-label="@DisplayTexts.TarotPreviousCardButton"
