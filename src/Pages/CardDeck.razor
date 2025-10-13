@@ -1,4 +1,4 @@
-@page "/tarot"
+@page "/card-deck"
 @using System
 @using System.Collections.Generic
 @using System.Linq
@@ -14,14 +14,14 @@
 
 @if (isLoadingDecks)
 {
-    <div class="tarot-loading" role="status" aria-live="polite">
+    <div class="deck-loading" role="status" aria-live="polite">
         <div class="spinner-border text-primary me-3" aria-hidden="true"></div>
-        <span class="tarot-loading-text">@DisplayTexts.TarotDeckLoading</span>
+        <span class="deck-loading-text">@DisplayTexts.TarotDeckLoading</span>
     </div>
 }
 else
 {
-    <div class="tarot-search">
+    <div class="deck-search">
         <select id="deckSelection"
                 class="form-select"
                 title="@DisplayTexts.TarotDeckSelectionPlaceholder"
@@ -33,9 +33,10 @@ else
                 <option value="@option.DeckId">@option.DisplayName</option>
             }
         </select>
+    </div>
 
-    <div class="tarot-page">
-              <div class="tarot-search">
+    <div class="deck-page">
+        <div class="deck-search">
             <input id="cardNameInput"
                    class="form-control"
                    @bind="SearchTerm"
@@ -46,13 +47,11 @@ else
                    disabled="@(!IsSearchEnabled)" />
         </div>
 
-        </div>
-
         @if (selectedCard is not null)
         {
-            <div class="tarot-search tarot-scroll-control">
+            <div class="deck-search deck-scroll-control">
                 <button type="button"
-                        class="btn btn-outline-primary tarot-scroll-button"
+                        class="btn btn-outline-primary deck-scroll-button"
                         title="@DisplayTexts.TarotScrollToDescriptionLabel"
                         aria-controls="@CardDescriptionElementId"
                         @onclick="ScrollToDescriptionAsync">
@@ -69,14 +68,14 @@ else
 
         @if (isLoadingCards && IsDeckSelected)
         {
-            <div class="tarot-loading" role="status" aria-live="polite">
+            <div class="deck-loading" role="status" aria-live="polite">
                 <div class="spinner-border text-primary me-3" aria-hidden="true"></div>
-                <span class="tarot-loading-text">@DisplayTexts.TarotDeckLoading</span>
+                <span class="deck-loading-text">@DisplayTexts.TarotDeckLoading</span>
             </div>
         }
         else if (selectedCard is not null)
         {
-            <figure class="tarot-card"
+            <figure class="deck-card"
                     id="@CardFigureElementId"
                     @ref="cardFigureRef"
                     data-fullscreen="@CardFigureFullscreenValue"
@@ -92,14 +91,14 @@ else
                 <figcaption>@selectedCard.DisplayName</figcaption>
             </figure>
 
-            <section id="@CardDescriptionElementId" class="tarot-card-description" aria-live="polite" @ref="cardDescriptionRef">
+            <section id="@CardDescriptionElementId" class="deck-card-description" aria-live="polite" @ref="cardDescriptionRef">
                 @if (!string.IsNullOrEmpty(descriptionError))
                 {
                     <p class="text-danger">@descriptionError</p>
                 }
                 else if (!string.IsNullOrEmpty(selectedCardDescriptionHtml))
                 {
-                    <div class="tarot-card-description-content">@((MarkupString)selectedCardDescriptionHtml)</div>
+                    <div class="deck-card-description-content">@((MarkupString)selectedCardDescriptionHtml)</div>
                 }
             </section>
         }
@@ -107,7 +106,7 @@ else
 
     @if (selectedCard is not null)
     {
-        <nav class="tarot-navigation-bar" >
+        <nav class="deck-navigation-bar" >
             <button type="button"
                     class="btn btn-outline-secondary"
                     aria-label="@DisplayTexts.TarotPreviousCardButton"

@@ -12,7 +12,7 @@ using Toolbox.Resources;
 namespace Toolbox.Helpers;
 
 /// <summary>
-/// Copies the built-in tarot deck from embedded resources into IndexedDB on startup.
+/// Copies the built-in card deck from embedded resources into IndexedDB on startup.
 /// </summary>
 public sealed class DeckBootstrapper
 {
@@ -32,7 +32,7 @@ public sealed class DeckBootstrapper
     }
 
     /// <summary>
-    /// Ensures the built-in tarot deck exists in IndexedDB.
+    /// Ensures the built-in card deck exists in IndexedDB.
     /// </summary>
     public async Task EnsureDefaultDeckAsync()
     {
