@@ -1,3 +1,5 @@
+using System;
+
 namespace Toolbox.Settings;
 
 /// <summary>
@@ -11,4 +13,11 @@ public static class ApplicationSettings
 
     public const bool CheckForUpdatesOnStartupDefault = true;
     public const string CheckForUpdatesOnStartupKey = "CheckForUpdatesOnStartup";
+
+    public const int CardScalePercentDefault = 100;
+    public const int CardScalePercentMinimum = 20;
+    public const int CardScalePercentMaximum = 100;
+    public const string CardScalePercentKey = "CardScalePercent";
+
+    public static int ClampCardScalePercent(int value) => Math.Clamp(value, CardScalePercentMinimum, CardScalePercentMaximum);
 }
