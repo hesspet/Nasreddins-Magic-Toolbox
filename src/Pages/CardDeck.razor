@@ -86,7 +86,10 @@ else
                     aria-label="@DisplayTexts.TarotToggleFullscreenLabel"
                     title="@DisplayTexts.TarotToggleFullscreenLabel"
                     @onclick="ToggleCardFullscreen"
-                    @onkeydown="HandleCardKeyDown">
+                    @onkeydown="HandleCardKeyDown"
+                    @onpointerdown="HandlePointerDown"
+                    @onpointerup="HandlePointerUpAsync"
+                    @onpointercancel="HandlePointerCancel">
                 <img src="@selectedCard.ImageDataUrl" alt="@selectedCard.DisplayName" class="img-fluid" />
                 <figcaption>@selectedCard.DisplayName</figcaption>
             </figure>

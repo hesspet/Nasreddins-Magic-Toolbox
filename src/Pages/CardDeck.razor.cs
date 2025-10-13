@@ -17,6 +17,7 @@ namespace Toolbox.Pages
     {
         private const string CardFigureElementId = "cardDeckFigure";
         private const string CardDescriptionElementId = "cardDeckDescription";
+        private const double SwipeThreshold = 40d;
 
         private ElementReference cardFigureRef;
         private ElementReference cardDescriptionRef;
@@ -58,6 +59,8 @@ namespace Toolbox.Pages
         private DeckCards? cachedDeckCards;
         private int cardScalePercent = ApplicationSettings.CardScalePercentDefault;
         private bool isCardFullscreen;
+        private double? swipeStartX;
+        private bool isSwipeTracking;
 
         private IEnumerable<DeckOption> DeckOptions => deckOptions;
         private bool HasSearched => !string.IsNullOrWhiteSpace(searchTerm);
@@ -423,6 +426,55 @@ namespace Toolbox.Pages
             isCardFullscreen = !isCardFullscreen;
         }
 
+        private void HandlePointerDown(PointerEventArgs args)
+        {
+            if (!CanNavigateCards || !IsSwipePointer(args.PointerType))
+            {
+                ResetSwipeTracking();
+                return;
+            }
+
+            swipeStartX = args.ClientX;
+            isSwipeTracking = true;
+        }
+
+        private async Task HandlePointerUpAsync(PointerEventArgs args)
+        {
+            if (!isSwipeTracking || !IsSwipePointer(args.PointerType))
+            {
+                ResetSwipeTracking();
+                return;
+            }
+
+            var startX = swipeStartX;
+            ResetSwipeTracking();
+
+            if (!startX.HasValue)
+            {
+                return;
+            }
+
+            var deltaX = args.ClientX - startX.Value;
+            if (Math.Abs(deltaX) < SwipeThreshold)
+            {
+                return;
+            }
+
+            if (deltaX < 0)
+            {
+                await ShowNextCardAsync();
+            }
+            else
+            {
+                await ShowPreviousCardAsync();
+            }
+        }
+
+        private void HandlePointerCancel(PointerEventArgs args)
+        {
+            ResetSwipeTracking();
+        }
+
         private void HandleCardKeyDown(KeyboardEventArgs args)
         {
             if (selectedCard is null)
@@ -441,6 +493,14 @@ namespace Toolbox.Pages
             var clamped = ApplicationSettings.ClampCardScalePercent(percent);
             return clamped / 100d;
         }
+
+        private void ResetSwipeTracking()
+        {
+            isSwipeTracking = false;
+            swipeStartX = null;
+        }
+
+        private static bool IsSwipePointer(string? pointerType) => pointerType is "touch" or "pen";
 
         private static DeckCardInfo CreateCardInfo(string deckId, string deckName, Spielkarte card)
         {
