@@ -81,6 +81,7 @@
 @code {
     private const long MaxZipFileSize = 50 * 1024 * 1024;
     private const int StreamBufferSize = 64 * 1024;
+    private const string DefaultDescriptionText = "Keine Beschreibung vorhanden";
 
     private bool isImporting;
     private string? statusMessage;
@@ -239,10 +240,10 @@
                 throw new InvalidDataException(string.Format(CultureInfo.CurrentCulture, DisplayTexts.ImportExportDeckMissingImageFormat, cardName));
             }
 
-            if (data.Description is null)
+            if (string.IsNullOrWhiteSpace(data.Description))
             {
-                await LogImportMessageAsync(string.Format(CultureInfo.CurrentCulture, DisplayTexts.ImportExportDeckMissingDescriptionFormat, cardName));
-                throw new InvalidDataException(string.Format(CultureInfo.CurrentCulture, DisplayTexts.ImportExportDeckMissingDescriptionFormat, cardName));
+                data.Description = DefaultDescriptionText;
+                await LogImportMessageAsync(string.Format(CultureInfo.CurrentCulture, DisplayTexts.ImportExportDeckLogDescriptionFallbackFormat, cardName));
             }
         }
 
