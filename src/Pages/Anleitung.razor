@@ -174,7 +174,7 @@ else
                 switch (inline)
                 {
                     case AutolinkInline autolink:
-                        builder.Append(autolink.Url ?? string.Empty);
+                        builder.Append(autolink.Url.ToString());
                         break;
                     case HtmlEntityInline entity:
                         builder.Append(entity.Transcoded ?? HtmlEntityAccessor(entity) ?? string.Empty);
