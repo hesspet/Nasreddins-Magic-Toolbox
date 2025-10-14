@@ -37,6 +37,7 @@ public static class DisplayTexts
     public static string NavigationDataInfo => GetString(nameof(NavigationDataInfo));
     public static string NavigationImportExport => GetString(nameof(NavigationImportExport));
     public static string NavigationSettings => GetString(nameof(NavigationSettings));
+    public static string NavigationInstructions => GetString(nameof(NavigationInstructions));
     public static string DataInfoPageTitle => GetString(nameof(DataInfoPageTitle));
     public static string DataInfoPageHeader => GetString(nameof(DataInfoPageHeader));
     public static string DataInfoDeckSelectionHeading => GetString(nameof(DataInfoDeckSelectionHeading));
@@ -84,6 +85,10 @@ public static class DisplayTexts
     public static string ImportExportDeckLogDeckDeleted => GetString(nameof(ImportExportDeckLogDeckDeleted));
     public static string ImportExportDeckLogDeckCreated => GetString(nameof(ImportExportDeckLogDeckCreated));
     public static string ImportExportDeckLogFinished => GetString(nameof(ImportExportDeckLogFinished));
+    public static string InstructionsPageTitle => GetString(nameof(InstructionsPageTitle));
+    public static string InstructionsPageHeader => GetString(nameof(InstructionsPageHeader));
+    public static string InstructionsTableOfContentsLabel => GetString(nameof(InstructionsTableOfContentsLabel));
+    public static string InstructionsContentError => GetString(nameof(InstructionsContentError));
     public static string SettingsPageTitle => GetString(nameof(SettingsPageTitle));
     public static string SettingsPageHeader => GetString(nameof(SettingsPageHeader));
     public static string SettingsSplashDurationLabel => GetString(nameof(SettingsSplashDurationLabel));

@@ -130,6 +130,9 @@
   <data name="NavigationSettings" xml:space="preserve">
     <value>Einstellungen</value>
   </data>
+  <data name="NavigationInstructions" xml:space="preserve">
+    <value>Anleitung</value>
+  </data>
   <data name="DataInfoPageTitle" xml:space="preserve">
     <value>Daten-Info</value>
   </data>
@@ -270,6 +273,18 @@
   </data>
   <data name="ImportExportDeckLogFinished" xml:space="preserve">
     <value>Import abgeschlossen.</value>
+  </data>
+  <data name="InstructionsPageTitle" xml:space="preserve">
+    <value>Anleitung</value>
+  </data>
+  <data name="InstructionsPageHeader" xml:space="preserve">
+    <value>Anleitung</value>
+  </data>
+  <data name="InstructionsTableOfContentsLabel" xml:space="preserve">
+    <value>Kapitelübersicht</value>
+  </data>
+  <data name="InstructionsContentError" xml:space="preserve">
+    <value>Die Anleitung konnte nicht geladen werden.</value>
   </data>
   <data name="SettingsPageTitle" xml:space="preserve">
     <value>Anwendungseinstellungen</value>
