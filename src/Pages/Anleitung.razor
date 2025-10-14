@@ -175,7 +175,7 @@ else
                         builder.Append(autolink.Url ?? string.Empty);
                         break;
                     case HtmlEntityInline entity:
-                        builder.Append(entity.Transcoded ?? entity.Entity);
+                        builder.Append(entity.Transcoded ?? entity.HtmlEntity ?? string.Empty);
                         break;
                     default:
                         builder.Append(inline.ToString());
