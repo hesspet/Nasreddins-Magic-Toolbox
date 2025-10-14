@@ -1,0 +1,223 @@
+@page "/anleitung"
+@using System.Globalization
+@using System.Linq
+@using System.Reflection
+@using System.Text
+@using System.Text.RegularExpressions
+@using Markdig
+@using Markdig.Syntax
+@implements IAsyncDisposable
+@inject IJSRuntime JsRuntime
+
+<PageTitle>@DisplayTexts.InstructionsPageTitle</PageTitle>
+
+<h1>@DisplayTexts.InstructionsPageHeader</h1>
+
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div class="alert alert-danger instructions-error" role="alert">@errorMessage</div>
+}
+else
+{
+    <div class="instructions-page">
+        <nav class="instructions-toc" aria-label="@DisplayTexts.InstructionsTableOfContentsLabel">
+            <h2 class="visually-hidden">@DisplayTexts.InstructionsTableOfContentsLabel</h2>
+            <ul class="instructions-toc-list">
+                @foreach (var heading in headings)
+                {
+                    <li>
+                        <button type="button"
+                                class="instructions-toc-button"
+                                @onclick="() => ScrollToHeadingAsync(heading.Id)">
+                            @heading.Text
+                        </button>
+                    </li>
+                }
+            </ul>
+        </nav>
+
+        <section class="instructions-content" @ref="contentContainer">
+            @if (!string.IsNullOrEmpty(instructionsHtml))
+            {
+                <article class="instructions-markdown">@((MarkupString)instructionsHtml)</article>
+            }
+        </section>
+    </div>
+}
+
+@code {
+    private sealed record InstructionHeading(string Id, string Text);
+
+    private static readonly MarkdownPipeline Pipeline = new MarkdownPipelineBuilder()
+        .UseAdvancedExtensions()
+        .Build();
+
+    private readonly HashSet<string> headingIds = new(StringComparer.OrdinalIgnoreCase);
+    private ElementReference contentContainer;
+    private IJSObjectReference? module;
+    private List<InstructionHeading> headings = new();
+    private string? instructionsHtml;
+    private string? errorMessage;
+    private int headingFallbackCounter = 1;
+
+    protected override void OnInitialized()
+    {
+        try
+        {
+            LoadInstructions();
+        }
+        catch
+        {
+            errorMessage = DisplayTexts.InstructionsContentError;
+        }
+    }
+
+    private void LoadInstructions()
+    {
+        var assembly = typeof(Program).Assembly;
+        var resourceName = assembly
+            .GetManifestResourceNames()
+            .FirstOrDefault(name => name.EndsWith(".Help.anleitung.md", StringComparison.OrdinalIgnoreCase));
+
+        if (resourceName is null)
+        {
+            errorMessage = DisplayTexts.InstructionsContentError;
+            return;
+        }
+
+        using var stream = assembly.GetManifestResourceStream(resourceName);
+
+        if (stream is null)
+        {
+            errorMessage = DisplayTexts.InstructionsContentError;
+            return;
+        }
+
+        using var reader = new StreamReader(stream, Encoding.UTF8, leaveOpen: false);
+        var markdown = reader.ReadToEnd();
+
+        if (string.IsNullOrWhiteSpace(markdown))
+        {
+            errorMessage = DisplayTexts.InstructionsContentError;
+            return;
+        }
+
+        var document = Markdown.Parse(markdown, Pipeline);
+        headingIds.Clear();
+        headingFallbackCounter = 1;
+
+        headings = document
+            .Descendants<HeadingBlock>()
+            .Where(block => block.Level == 1)
+            .Select(CreateHeading)
+            .Where(item => item is not null)
+            .Select(item => item!)
+            .ToList();
+
+        instructionsHtml = Markdown.ToHtml(document, Pipeline);
+    }
+
+    private InstructionHeading? CreateHeading(HeadingBlock heading)
+    {
+        var text = heading.Inline?.ToString().Trim();
+
+        if (string.IsNullOrEmpty(text))
+        {
+            return null;
+        }
+
+        var attributes = heading.GetAttributes();
+        var headingId = string.IsNullOrWhiteSpace(attributes.Id)
+            ? GenerateHeadingId(text)
+            : EnsureUniqueId(attributes.Id);
+
+        attributes.Id = headingId;
+        return new InstructionHeading(headingId, text);
+    }
+
+    private string GenerateHeadingId(string text)
+    {
+        var normalized = RemoveDiacritics(text.Trim().ToLowerInvariant());
+        normalized = Regex.Replace(normalized, "[^a-z0-9]+", "-").Trim('-');
+
+        if (string.IsNullOrEmpty(normalized))
+        {
+            normalized = $"abschnitt-{headingFallbackCounter++}";
+        }
+
+        return EnsureUniqueId(normalized);
+    }
+
+    private string EnsureUniqueId(string id)
+    {
+        var normalized = Regex.Replace(id.Trim(), "[^A-Za-z0-9-]+", "-").Trim('-');
+
+        if (string.IsNullOrEmpty(normalized))
+        {
+            normalized = $"abschnitt-{headingFallbackCounter++}";
+        }
+
+        var uniqueId = normalized;
+        var suffix = 2;
+
+        while (!headingIds.Add(uniqueId))
+        {
+            uniqueId = $"{normalized}-{suffix++}";
+        }
+
+        return uniqueId;
+    }
+
+    private static string RemoveDiacritics(string text)
+    {
+        if (string.IsNullOrEmpty(text))
+        {
+            return string.Empty;
+        }
+
+        var normalized = text.Normalize(NormalizationForm.FormD);
+        var builder = new StringBuilder(normalized.Length);
+
+        foreach (var character in normalized)
+        {
+            var category = CharUnicodeInfo.GetUnicodeCategory(character);
+
+            if (category != UnicodeCategory.NonSpacingMark)
+            {
+                builder.Append(character);
+            }
+        }
+
+        return builder.ToString().Normalize(NormalizationForm.FormC);
+    }
+
+    private async Task ScrollToHeadingAsync(string headingId)
+    {
+        if (string.IsNullOrWhiteSpace(headingId))
+        {
+            return;
+        }
+
+        var jsModule = await GetModuleAsync();
+        await jsModule.InvokeVoidAsync("scrollToHeading", contentContainer, headingId);
+    }
+
+    private async ValueTask<IJSObjectReference> GetModuleAsync()
+    {
+        if (module is not null)
+        {
+            return module;
+        }
+
+        module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/instructions.js");
+        return module;
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (module is not null)
+        {
+            await module.DisposeAsync();
+        }
+    }
+}
