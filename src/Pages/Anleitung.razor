@@ -146,6 +146,8 @@ else
         return builder.ToString().Trim();
     }
 
+    private static readonly Func<HtmlEntityInline, string?> HtmlEntityAccessor = CreateHtmlEntityAccessor();
+
     private static void AppendInlineText(Inline inline, StringBuilder builder)
     {
         switch (inline)
@@ -175,7 +177,7 @@ else
                         builder.Append(autolink.Url ?? string.Empty);
                         break;
                     case HtmlEntityInline entity:
-                        builder.Append(entity.Transcoded ?? entity.HtmlEntity ?? string.Empty);
+                        builder.Append(entity.Transcoded ?? HtmlEntityAccessor(entity) ?? string.Empty);
                         break;
                     default:
                         builder.Append(inline.ToString());
@@ -183,6 +185,20 @@ else
                 }
                 break;
         }
+    }
+
+    private static Func<HtmlEntityInline, string?> CreateHtmlEntityAccessor()
+    {
+        var property = typeof(HtmlEntityInline).GetProperty(
+            "HtmlEntity",
+            BindingFlags.Public | BindingFlags.Instance);
+
+        if (property is not null && property.PropertyType == typeof(string))
+        {
+            return entity => property.GetValue(entity) as string;
+        }
+
+        return _ => null;
     }
 
     private string GenerateHeadingId(string text)
