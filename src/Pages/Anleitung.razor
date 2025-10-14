@@ -1,4 +1,5 @@
 @page "/anleitung"
+@using System.Collections.Generic
 @using System.Globalization
 @using System.Linq
 @using System.Reflection
@@ -114,7 +115,9 @@ else
             .Select(item => item!)
             .ToList();
 
-        instructionsHtml = Markdown.ToHtml(document, Pipeline);
+        instructionsHtml = ApplyHeadingIds(
+            Markdown.ToHtml(document, Pipeline),
+            headings);
     }
 
     private InstructionHeading? CreateHeading(HeadingBlock heading)
@@ -126,12 +129,7 @@ else
             return null;
         }
 
-        var attributes = heading.GetAttributes();
-        var headingId = string.IsNullOrWhiteSpace(attributes.Id)
-            ? GenerateHeadingId(text)
-            : EnsureUniqueId(attributes.Id);
-
-        attributes.Id = headingId;
+        var headingId = GenerateHeadingId(text);
         return new InstructionHeading(headingId, text);
     }
 
@@ -166,6 +164,46 @@ else
         }
 
         return uniqueId;
+    }
+
+    private static string ApplyHeadingIds(string html, IReadOnlyList<InstructionHeading> headingList)
+    {
+        if (string.IsNullOrEmpty(html) || headingList.Count == 0)
+        {
+            return html;
+        }
+
+        var index = 0;
+        return Regex.Replace(
+            html,
+            "<h1(?<attrs>[^>]*)>",
+            match =>
+            {
+                if (index >= headingList.Count)
+                {
+                    return match.Value;
+                }
+
+                var heading = headingList[index++];
+                var attributes = match.Groups["attrs"].Value;
+                var idPattern = "\\sid\\s*=\\s*\"[^\"]*\"";
+
+                if (Regex.IsMatch(attributes, idPattern, RegexOptions.IgnoreCase))
+                {
+                    attributes = Regex.Replace(
+                        attributes,
+                        idPattern,
+                        $" id=\"{heading.Id}\"",
+                        RegexOptions.IgnoreCase);
+                }
+                else
+                {
+                    attributes = $"{attributes} id=\"{heading.Id}\"";
+                }
+
+                return $"<h1{attributes}>";
+            },
+            RegexOptions.IgnoreCase);
     }
 
     private static string RemoveDiacritics(string text)
