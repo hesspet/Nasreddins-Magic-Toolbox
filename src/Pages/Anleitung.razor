@@ -169,9 +169,17 @@ else
                 }
                 break;
             default:
-                if (inline is LeafInline leaf)
+                switch (inline)
                 {
-                    builder.Append(leaf.Content.ToString());
+                    case AutolinkInline autolink:
+                        builder.Append(autolink.Url ?? string.Empty);
+                        break;
+                    case HtmlEntityInline entity:
+                        builder.Append(entity.Transcoded ?? entity.Entity);
+                        break;
+                    default:
+                        builder.Append(inline.ToString());
+                        break;
                 }
                 break;
         }
