@@ -1,38 +1,18 @@
 @page "/settings"
 @inject LocalStorageHelper LocalStorage
-@inject HelpContentProvider HelpContentProvider
 
 <PageTitle>@DisplayTexts.SettingsPageTitle</PageTitle>
 
 <h1>@DisplayTexts.SettingsPageHeader</h1>
 
-@if (isHelpVisible)
-{
-    <div class="settings-help-overlay" role="dialog" aria-modal="true" aria-labelledby="settings-help-title" @onclick="CloseHelp">
-        <div class="settings-help-dialog" role="document" @onclick:stopPropagation="true">
-            <button type="button" class="settings-help-close" @onclick="CloseHelp" aria-label="@DisplayTexts.SettingsHelpCloseButtonLabel">
-                &times;
-            </button>
-            <div class="settings-help-dialog-content">
-                <h2 id="settings-help-title">@currentHelpTitle</h2>
-                <div class="settings-help-dialog-scroll">
-                    @helpContent
-                </div>
-            </div>
-        </div>
-    </div>
-}
+<HelpDialog @ref="helpDialog" CloseButtonLabel="@DisplayTexts.HelpCloseButtonLabel" NotFoundMessage="@DisplayTexts.HelpNotFoundMessage" />
 
 <section class="settings-section" aria-labelledby="color-theme-label">
     <div class="settings-label-row">
         <label id="color-theme-label" for="color-theme-light">@DisplayTexts.SettingsThemeLabel</label>
-        <button
-            type="button"
-            class="settings-help-button"
-            aria-label="@GetHelpButtonLabel(DisplayTexts.SettingsThemeLabel)"
-            @onclick="@(() => ShowHelpAsync("color-theme", DisplayTexts.SettingsThemeLabel))">
-            ?
-        </button>
+        <HelpButton
+            AriaLabel="@GetHelpButtonLabel(DisplayTexts.SettingsThemeLabel)"
+            OnClick="@(() => ShowHelpAsync("color-theme", DisplayTexts.SettingsThemeLabel))" />
     </div>
     <div class="settings-theme-options" role="radiogroup" aria-labelledby="color-theme-label">
         <div class="form-check">
@@ -64,13 +44,9 @@
 <section class="settings-section" aria-labelledby="splash-duration-label">
     <div class="settings-label-row">
         <label id="splash-duration-label" for="splash-duration">@DisplayTexts.SettingsSplashDurationLabel</label>
-        <button
-            type="button"
-            class="settings-help-button"
-            aria-label="@GetHelpButtonLabel(DisplayTexts.SettingsSplashDurationLabel)"
-            @onclick="@(() => ShowHelpAsync("splash-duration", DisplayTexts.SettingsSplashDurationLabel))">
-            ?
-        </button>
+        <HelpButton
+            AriaLabel="@GetHelpButtonLabel(DisplayTexts.SettingsSplashDurationLabel)"
+            OnClick="@(() => ShowHelpAsync("splash-duration", DisplayTexts.SettingsSplashDurationLabel))" />
     </div>
     <select id="splash-duration" class="form-select" @onchange="OnDurationChanged">
         @foreach (var option in ApplicationSettings.SplashScreenDurationOptions)
@@ -84,13 +60,9 @@
 <section class="settings-section" aria-labelledby="card-scale-label">
     <div class="settings-label-row">
         <label id="card-scale-label" for="card-scale">@string.Format(DisplayTexts.SettingsCardScaleLabel, cardScalePercent)</label>
-        <button
-            type="button"
-            class="settings-help-button"
-            aria-label="@GetHelpButtonLabel(string.Format(DisplayTexts.SettingsCardScaleLabel, cardScalePercent))"
-            @onclick="@(() => ShowHelpAsync("card-scale", string.Format(DisplayTexts.SettingsCardScaleLabel, cardScalePercent)))">
-            ?
-        </button>
+        <HelpButton
+            AriaLabel="@GetHelpButtonLabel(string.Format(DisplayTexts.SettingsCardScaleLabel, cardScalePercent))"
+            OnClick="@(() => ShowHelpAsync("card-scale", string.Format(DisplayTexts.SettingsCardScaleLabel, cardScalePercent)))" />
     </div>
     <input
         id="card-scale"
@@ -117,13 +89,9 @@
 <section class="settings-section" aria-labelledby="search-auto-clear-label">
     <div class="settings-label-row">
         <label id="search-auto-clear-label" for="search-auto-clear">@DisplayTexts.SettingsSearchAutoClearLabel</label>
-        <button
-            type="button"
-            class="settings-help-button"
-            aria-label="@GetHelpButtonLabel(DisplayTexts.SettingsSearchAutoClearLabel)"
-            @onclick="@(() => ShowHelpAsync("search-auto-clear", DisplayTexts.SettingsSearchAutoClearLabel))">
-            ?
-        </button>
+        <HelpButton
+            AriaLabel="@GetHelpButtonLabel(DisplayTexts.SettingsSearchAutoClearLabel)"
+            OnClick="@(() => ShowHelpAsync("search-auto-clear", DisplayTexts.SettingsSearchAutoClearLabel))" />
     </div>
     <input
         id="search-auto-clear"
@@ -149,13 +117,9 @@
             <label id="update-check-label" class="form-check-label" for="check-updates-on-startup">
                 @DisplayTexts.SettingsCheckForUpdatesLabel
             </label>
-            <button
-                type="button"
-                class="settings-help-button"
-                aria-label="@GetHelpButtonLabel(DisplayTexts.SettingsCheckForUpdatesLabel)"
-                @onclick="@(() => ShowHelpAsync("check-updates-on-startup", DisplayTexts.SettingsCheckForUpdatesLabel))">
-                ?
-            </button>
+            <HelpButton
+                AriaLabel="@GetHelpButtonLabel(DisplayTexts.SettingsCheckForUpdatesLabel)"
+                OnClick="@(() => ShowHelpAsync("check-updates-on-startup", DisplayTexts.SettingsCheckForUpdatesLabel))" />
         </div>
     </div>
     <p class="settings-description">@DisplayTexts.SettingsCheckForUpdatesDescription</p>

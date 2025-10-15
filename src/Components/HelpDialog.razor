@@ -1,0 +1,76 @@
+@using System.Globalization
+@using System.Net
+@using Toolbox.Resources
+@inject HelpContentProvider HelpContentProvider
+
+@if (isVisible)
+{
+    <div class="help-overlay" role="dialog" aria-modal="true" aria-labelledby="@titleId" @onclick="CloseFromOverlayAsync">
+        <div class="help-dialog" role="document" @onclick:stopPropagation="true">
+            <button type="button" class="help-close" @onclick="CloseFromButtonAsync" aria-label="@CloseButtonLabel">
+                &times;
+            </button>
+            <div class="help-dialog-content">
+                <h2 id="@titleId">@currentTitle</h2>
+                <div class="help-dialog-scroll">
+                    @helpContent
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private readonly string titleId = $"help-dialog-title-{Guid.NewGuid():N}";
+    private string currentTitle = string.Empty;
+    private MarkupString helpContent = new(string.Empty);
+    private bool isVisible;
+
+    [Parameter]
+    public string CloseButtonLabel { get; set; } = DisplayTexts.HelpCloseButtonLabel;
+
+    [Parameter]
+    public string NotFoundMessage { get; set; } = DisplayTexts.HelpNotFoundMessage;
+
+    public bool IsVisible => isVisible;
+
+    public static string GetButtonLabel(string controlLabel) => string.Format(
+        CultureInfo.CurrentCulture,
+        DisplayTexts.HelpButtonLabelFormat,
+        string.IsNullOrWhiteSpace(controlLabel) ? string.Empty : controlLabel);
+
+    public async Task ShowAsync(string helpKey, string helpTitle)
+    {
+        currentTitle = helpTitle;
+
+        var html = await HelpContentProvider.GetHelpHtmlAsync(helpKey).ConfigureAwait(false);
+
+        if (string.IsNullOrWhiteSpace(html))
+        {
+            var fallback = WebUtility.HtmlEncode(NotFoundMessage);
+            helpContent = new MarkupString($"<p>{fallback}</p>");
+        }
+        else
+        {
+            helpContent = new MarkupString(html);
+        }
+
+        isVisible = true;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public async Task CloseAsync()
+    {
+        if (!isVisible)
+        {
+            return;
+        }
+
+        isVisible = false;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private Task CloseFromButtonAsync() => CloseAsync();
+
+    private Task CloseFromOverlayAsync() => CloseAsync();
+}

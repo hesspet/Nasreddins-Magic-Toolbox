@@ -1,5 +1,5 @@
-using System.Net;
 using Microsoft.AspNetCore.Components;
+using Toolbox.Components;
 using Toolbox.Helpers;
 using Toolbox.Layout;
 using Toolbox.Resources;
@@ -81,21 +81,14 @@ namespace Toolbox.Pages
 
         private ThemePreference selectedTheme = ApplicationSettings.ThemePreferenceDefault;
 
-        private string currentHelpTitle = string.Empty;
-
-        private MarkupString helpContent = new(string.Empty);
-
-        private bool isHelpVisible;
-
         private int selectedDuration = ApplicationSettings.SplashScreenDurationDefaultSeconds;
 
         private int searchAutoClearDelaySeconds = ApplicationSettings.SearchAutoClearDelayDefaultSeconds;
 
         [Inject]
-        private HelpContentProvider HelpContentProviderInst { get; set; } = default!;
-
-        [Inject]
         private ThemeService ThemeService { get; set; } = default!;
+
+        private HelpDialog? helpDialog;
 
         [CascadingParameter]
         private MainLayout? Layout
@@ -103,13 +96,7 @@ namespace Toolbox.Pages
             get; set;
         }
 
-        private void CloseHelp()
-        {
-            isHelpVisible = false;
-            StateHasChanged();
-        }
-
-        private string GetHelpButtonLabel(string controlLabel) => string.Format(DisplayTexts.SettingsHelpButtonLabelFormat, controlLabel);
+        private string GetHelpButtonLabel(string controlLabel) => HelpDialog.GetButtonLabel(controlLabel);
 
         private void HandleThemeChanged(ThemePreference theme)
         {
@@ -223,24 +210,7 @@ namespace Toolbox.Pages
             StateHasChanged();
         }
 
-        private async Task ShowHelpAsync(string helpKey, string helpTitle)
-        {
-            currentHelpTitle = helpTitle;
-            var html = await HelpContentProviderInst.GetHelpHtmlAsync(helpKey);
-
-            if (string.IsNullOrWhiteSpace(html))
-            {
-                var fallback = WebUtility.HtmlEncode(DisplayTexts.SettingsHelpNotFoundMessage);
-                helpContent = new MarkupString($"<p>{fallback}</p>");
-            }
-            else
-            {
-                helpContent = new MarkupString(html);
-            }
-
-            isHelpVisible = true;
-            StateHasChanged();
-        }
+        private Task ShowHelpAsync(string helpKey, string helpTitle) => helpDialog?.ShowAsync(helpKey, helpTitle) ?? Task.CompletedTask;
 
         private async Task UpdateCardScaleAsync(int newValue)
         {

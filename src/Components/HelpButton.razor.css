@@ -1,0 +1,27 @@
+.help-button {
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    border: 1px solid var(--color-help-button-border);
+    background-color: var(--color-help-button-bg);
+    color: var(--color-help-button-text);
+    font-weight: 700;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.help-button:hover,
+.help-button:focus {
+    background-color: var(--color-help-button-hover-bg);
+    color: var(--color-help-button-hover-text);
+}
+
+.help-button:focus {
+    outline: 2px solid var(--color-help-button-border);
+    outline-offset: 2px;
+}
