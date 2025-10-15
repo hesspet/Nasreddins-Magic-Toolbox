@@ -1,8 +1,12 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
+using System;
 using System.Buffers;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Text;
 using Toolbox.Layout;
 using Toolbox.Models;
@@ -10,32 +14,49 @@ using Toolbox.Resources;
 
 namespace Toolbox.Pages
 {
-    public partial class ImportExport
+    public partial class Datenbank
     {
         [CascadingParameter]
         private MainLayout? Layout { get; set; }
 
         protected override void OnInitialized()
         {
-            Layout?.UpdateCurrentPageTitle(DisplayTexts.ImportExportPageTitle);
+            Layout?.UpdateCurrentPageTitle(DisplayTexts.DatabasePageTitle);
         }
 
         protected override async Task OnInitializedAsync()
         {
             await DbHelper.InitializeAsync();
+            await LoadDecksAsync();
         }
 
         private const string DefaultDescriptionText = "Keine Beschreibung vorhanden";
         private const long MaxZipFileSize = 50 * 1024 * 1024;
         private const int StreamBufferSize = 64 * 1024;
+
         private bool isImporting;
-        private List<string> logEntries = new();
-        private string reportDeckName = string.Empty;
-        private List<CardReportEntry> reportEntries = new();
+        private List<string> importLogEntries = new();
+        private string importReportDeckName = string.Empty;
+        private List<CardReportEntry> importReportEntries = new();
         private bool showImportLog;
         private bool showImportReport;
-        private string statusCssClass = string.Empty;
-        private string? statusMessage;
+        private string importStatusCssClass = string.Empty;
+        private string? importStatusMessage;
+
+        private IReadOnlyList<Deck> decks = Array.Empty<Deck>();
+        private List<string> deleteLogEntries = new();
+        private bool isDeletingDeck;
+        private bool isLoadingDecks;
+        private bool isLoadingReport;
+        private string dataReportDeckName = string.Empty;
+        private IReadOnlyList<CardReportEntry> dataReportEntries = Array.Empty<CardReportEntry>();
+        private string? selectedDeckId;
+        private bool showDeleteLog;
+        private bool showDataReport;
+
+        private bool CanDeleteDeck => !string.IsNullOrWhiteSpace(selectedDeckId) && !isLoadingDecks && !isDeletingDeck && !isImporting;
+
+        private bool CanShowReport => !string.IsNullOrWhiteSpace(selectedDeckId) && !isLoadingDecks && !isLoadingReport && !isDeletingDeck && !isImporting;
 
         private void CloseImportLog()
         {
@@ -52,14 +73,22 @@ namespace Toolbox.Pages
             showImportReport = false;
         }
 
+        private Task CloseDataReport()
+        {
+            showDataReport = false;
+            dataReportEntries = Array.Empty<CardReportEntry>();
+            dataReportDeckName = string.Empty;
+            return Task.CompletedTask;
+        }
+
         private async Task HandleFileSelectedAsync(InputFileChangeEventArgs args)
         {
-            statusMessage = null;
-            statusCssClass = string.Empty;
+            importStatusMessage = null;
+            importStatusCssClass = string.Empty;
             showImportLog = false;
             showImportReport = false;
-            reportEntries.Clear();
-            logEntries.Clear();
+            importReportEntries.Clear();
+            importLogEntries.Clear();
 
             var file = args.File;
 
@@ -70,21 +99,21 @@ namespace Toolbox.Pages
 
             if (!file.Name.EndsWith(".zip", StringComparison.OrdinalIgnoreCase))
             {
-                statusMessage = DisplayTexts.ImportExportDeckInvalidFileType;
-                statusCssClass = "text-danger";
+                importStatusMessage = DisplayTexts.ImportExportDeckInvalidFileType;
+                importStatusCssClass = "text-danger";
                 return;
             }
 
             if (file.Size > MaxZipFileSize)
             {
-                statusMessage = DisplayTexts.ImportExportDeckFileTooLarge;
-                statusCssClass = "text-danger";
+                importStatusMessage = DisplayTexts.ImportExportDeckFileTooLarge;
+                importStatusCssClass = "text-danger";
                 return;
             }
 
             isImporting = true;
-            statusMessage = DisplayTexts.ImportExportDeckImportInProgress;
-            statusCssClass = "text-muted";
+            importStatusMessage = DisplayTexts.ImportExportDeckImportInProgress;
+            importStatusCssClass = "text-muted";
             showImportLog = true;
             StateHasChanged();
 
@@ -92,15 +121,16 @@ namespace Toolbox.Pages
             {
                 var importedDeckId = await ImportDeckAsync(file);
                 await ShowImportReportAsync(importedDeckId);
-                statusMessage = DisplayTexts.ImportExportDeckImportSuccess;
-                statusCssClass = "text-success";
-                await LogImportMessageAsync(statusMessage);
+                importStatusMessage = DisplayTexts.ImportExportDeckImportSuccess;
+                importStatusCssClass = "text-success";
+                await LogImportMessageAsync(importStatusMessage);
+                await LoadDecksAsync(importedDeckId);
             }
             catch (Exception exception)
             {
-                statusMessage = string.Format(CultureInfo.CurrentCulture, DisplayTexts.ImportExportDeckImportFailedFormat, exception.Message);
-                statusCssClass = "text-danger";
-                await LogImportMessageAsync(statusMessage);
+                importStatusMessage = string.Format(CultureInfo.CurrentCulture, DisplayTexts.ImportExportDeckImportFailedFormat, exception.Message);
+                importStatusCssClass = "text-danger";
+                await LogImportMessageAsync(importStatusMessage);
             }
             finally
             {
@@ -225,7 +255,7 @@ namespace Toolbox.Pages
                     Id = pair.Key,
                     DeckId = deckId,
                     Image = pair.Value.Image!,
-                    Description = pair.Value.Description!
+                    Description = pair.Value.Description!,
                 })
                 .ToList();
 
@@ -243,7 +273,7 @@ namespace Toolbox.Pages
                 return;
             }
 
-            logEntries.Add(message);
+            importLogEntries.Add(message);
             await InvokeAsync(StateHasChanged);
         }
 
@@ -279,11 +309,11 @@ namespace Toolbox.Pages
         private async Task ShowImportReportAsync(string deckId)
         {
             var deck = await DbHelper.GetDeckAsync(deckId);
-            reportDeckName = deck?.Name ?? deckId;
+            importReportDeckName = deck?.Name ?? deckId;
 
             var cards = await DbHelper.GetCardsByDeckAsync(deckId);
 
-            reportEntries = cards
+            importReportEntries = cards
                 .OrderBy(card => card.Id, StringComparer.CurrentCultureIgnoreCase)
                 .Select(card => new CardReportEntry(
                     card.Id,
@@ -294,17 +324,142 @@ namespace Toolbox.Pages
             showImportReport = true;
         }
 
-        private sealed class CardImportData
+        private async Task DeleteSelectedDeckAsync()
         {
-            public string? Description
+            if (string.IsNullOrWhiteSpace(selectedDeckId) || isDeletingDeck)
             {
-                get; set;
+                return;
             }
 
-            public byte[]? Image
+            var deckId = selectedDeckId;
+            isDeletingDeck = true;
+            showDataReport = false;
+            dataReportEntries = Array.Empty<CardReportEntry>();
+            dataReportDeckName = string.Empty;
+            deleteLogEntries.Clear();
+            showDeleteLog = true;
+
+            try
             {
-                get; set;
+                var deck = await DbHelper.GetDeckAsync(deckId);
+                var deckName = deck?.Name ?? deckId;
+                await LogDeleteMessageAsync(string.Format(CultureInfo.CurrentCulture, DisplayTexts.DataInfoDeleteDeckLogStartingFormat, deckName));
+
+                var cards = await DbHelper.GetCardsByDeckAsync(deckId);
+                await LogDeleteMessageAsync(string.Format(CultureInfo.CurrentCulture, DisplayTexts.DataInfoDeleteDeckLogCardCountFormat, cards.Count));
+
+                await LogDeleteMessageAsync(DisplayTexts.DataInfoDeleteDeckLogDeletingDeck);
+                await DbHelper.DeleteDeckAsync(deckId);
+                await LogDeleteMessageAsync(DisplayTexts.DataInfoDeleteDeckLogDeckDeleted);
+
+                await LogDeleteMessageAsync(DisplayTexts.DataInfoDeleteDeckLogReloadingDecks);
+                await LoadDecksAsync();
+
+                await LogDeleteMessageAsync(DisplayTexts.DataInfoDeleteDeckLogFinished);
             }
+            catch (Exception ex)
+            {
+                await LogDeleteMessageAsync(string.Format(CultureInfo.CurrentCulture, DisplayTexts.DataInfoDeleteDeckLogErrorFormat, ex.Message));
+            }
+            finally
+            {
+                isDeletingDeck = false;
+                await InvokeAsync(StateHasChanged);
+            }
+        }
+
+        private async Task LoadDecksAsync(string? deckIdToSelect = null)
+        {
+            isLoadingDecks = true;
+
+            try
+            {
+                var loadedDecks = await DbHelper.GetAllDecksAsync();
+
+                decks = loadedDecks
+                    .OrderBy(deck => deck.Name, StringComparer.CurrentCultureIgnoreCase)
+                    .ThenBy(deck => deck.Id, StringComparer.CurrentCultureIgnoreCase)
+                    .ToList();
+
+                if (decks.Count > 0)
+                {
+                    var preferredDeckId = deckIdToSelect ?? selectedDeckId;
+
+                    if (string.IsNullOrWhiteSpace(preferredDeckId) || !decks.Any(deck => deck.Id == preferredDeckId))
+                    {
+                        selectedDeckId = decks[0].Id;
+                    }
+                    else
+                    {
+                        selectedDeckId = preferredDeckId;
+                    }
+                }
+                else
+                {
+                    selectedDeckId = null;
+                }
+            }
+            finally
+            {
+                isLoadingDecks = false;
+                showDataReport = false;
+                dataReportEntries = Array.Empty<CardReportEntry>();
+                dataReportDeckName = string.Empty;
+            }
+        }
+
+        private async Task LogDeleteMessageAsync(string message)
+        {
+            if (string.IsNullOrWhiteSpace(message))
+            {
+                return;
+            }
+
+            deleteLogEntries.Add(message);
+            showDeleteLog = true;
+            await InvokeAsync(StateHasChanged);
+        }
+
+        private async Task ShowReportAsync()
+        {
+            if (string.IsNullOrWhiteSpace(selectedDeckId))
+            {
+                return;
+            }
+
+            isLoadingReport = true;
+            showDataReport = false;
+            dataReportEntries = Array.Empty<CardReportEntry>();
+            dataReportDeckName = string.Empty;
+
+            try
+            {
+                var deck = await DbHelper.GetDeckAsync(selectedDeckId);
+                dataReportDeckName = deck?.Name ?? selectedDeckId;
+
+                var cards = await DbHelper.GetCardsByDeckAsync(selectedDeckId);
+
+                dataReportEntries = cards
+                    .OrderBy(card => card.Id, StringComparer.CurrentCultureIgnoreCase)
+                    .Select(card => new CardReportEntry(
+                        card.Id,
+                        card.Image.Length,
+                        card.Description.Length))
+                    .ToList();
+
+                showDataReport = true;
+            }
+            finally
+            {
+                isLoadingReport = false;
+            }
+        }
+
+        private sealed class CardImportData
+        {
+            public string? Description { get; set; }
+
+            public byte[]? Image { get; set; }
         }
     }
 }

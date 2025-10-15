@@ -121,6 +121,9 @@
   <data name="NavigationTarotCards" xml:space="preserve">
     <value>Kartenspiele</value>
   </data>
+  <data name="NavigationDatabase" xml:space="preserve">
+    <value>Datenbank</value>
+  </data>
   <data name="NavigationDataInfo" xml:space="preserve">
     <value>Daten-Info</value>
   </data>
@@ -132,6 +135,12 @@
   </data>
   <data name="NavigationInstructions" xml:space="preserve">
     <value>Anleitung</value>
+  </data>
+  <data name="DatabasePageTitle" xml:space="preserve">
+    <value>Datenbank</value>
+  </data>
+  <data name="DatabasePageHeader" xml:space="preserve">
+    <value>Datenbank</value>
   </data>
   <data name="DataInfoPageTitle" xml:space="preserve">
     <value>Daten-Info</value>

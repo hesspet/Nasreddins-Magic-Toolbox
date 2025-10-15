@@ -1,0 +1,152 @@
+@page "/datenbank"
+@using System
+@using System.Buffers
+@using System.Collections.Generic
+@using System.Globalization
+@using System.IO
+@using System.IO.Compression
+@using System.Linq
+@using System.Text
+@using Microsoft.AspNetCore.Components.Forms
+@using Toolbox.Helpers
+@using Toolbox.Models
+@inject IndexedDbHelper DbHelper
+
+<PageTitle>@DisplayTexts.DatabasePageTitle</PageTitle>
+<h1>@DisplayTexts.DatabasePageHeader</h1>
+
+<section class="deck-import" aria-labelledby="deck-import-heading">
+    <h2 id="deck-import-heading">@DisplayTexts.ImportExportDeckImportHeading</h2>
+
+    <div class="mb-3">
+        <label for="deck-upload" class="form-label">@DisplayTexts.ImportExportDeckUploadLabel</label>
+        <InputFile id="deck-upload"
+                   class="form-control"
+                   OnChange="HandleFileSelectedAsync"
+                   accept=".zip"
+                   disabled="@isImporting" />
+        <div class="form-text">@DisplayTexts.ImportExportDeckUploadHint</div>
+    </div>
+
+    @if (!string.IsNullOrWhiteSpace(importStatusMessage))
+    {
+        <p class="@importStatusCssClass" role="status">@importStatusMessage</p>
+    }
+</section>
+
+@if (showImportLog)
+{
+    <div class="deck-report-backdrop import-log-backdrop">
+        <div class="deck-report-dialog import-log-dialog" role="dialog" aria-modal="true" aria-labelledby="import-log-title">
+            <header class="deck-report-header import-log-header">
+                <h2 id="import-log-title">@DisplayTexts.ImportExportDeckLogTitle</h2>
+                <button type="button"
+                        class="btn-close deck-report-close"
+                        @onclick="CloseImportLog"
+                        aria-label="@DisplayTexts.ImportExportDeckLogCloseButtonLabel"
+                        aria-disabled="@isImporting"
+                        disabled="@isImporting">
+                </button>
+            </header>
+            <section class="deck-report-body import-log-body">
+                <ul class="import-log-list" role="log" aria-live="polite">
+                    @foreach (var entry in importLogEntries)
+                    {
+                        <li class="import-log-entry">@entry</li>
+                    }
+                </ul>
+                <button type="button"
+                        class="btn btn-primary import-log-close-action"
+                        @onclick="CloseImportLog"
+                        aria-disabled="@isImporting"
+                        disabled="@isImporting">
+                    @DisplayTexts.ImportExportDeckLogCloseButtonLabel
+                </button>
+            </section>
+        </div>
+    </div>
+}
+
+@if (showImportReport)
+{
+    <DeckReport Title="@string.Format(CultureInfo.CurrentCulture, DisplayTexts.ImportExportDeckReportTitleFormat, importReportDeckName)"
+                Entries="@importReportEntries"
+                CloseButtonLabel="@DisplayTexts.ImportExportDeckReportCloseButtonLabel"
+                CloseButtonAriaLabel="@DisplayTexts.ImportExportDeckReportCloseButtonLabel"
+                ImageLengthLabel="@DisplayTexts.ImportExportDeckReportImageLengthLabel"
+                DescriptionLengthLabel="@DisplayTexts.ImportExportDeckReportDescriptionLengthLabel"
+                OnClose="CloseImportReport" />
+}
+
+<hr class="my-5" />
+
+<section class="deck-selection" aria-labelledby="deck-selection-heading">
+    <h2 id="deck-selection-heading" class="visually-hidden">@DisplayTexts.DataInfoDeckSelectionHeading</h2>
+
+    @if (isLoadingDecks)
+    {
+        <p class="text-muted">@DisplayTexts.DataInfoDeckLoading</p>
+    }
+    else if (decks.Count == 0)
+    {
+        <p>@DisplayTexts.DataInfoNoDecksMessage</p>
+    }
+    else
+    {
+        <div class="mb-3">
+            <label for="deck-selection" class="form-label">@DisplayTexts.DataInfoDeckSelectionLabel</label>
+            <InputSelect id="deck-selection"
+                         class="form-select"
+                         @bind-Value="selectedDeckId"
+                         disabled="@(isLoadingDecks || isDeletingDeck || isImporting)">
+                @foreach (var deck in decks)
+                {
+                    <option value="@deck.Id">@deck.Name</option>
+                }
+            </InputSelect>
+        </div>
+        <div class="d-flex gap-2 flex-wrap">
+            <button type="button"
+                    class="btn btn-primary"
+                    @onclick="ShowReportAsync"
+                    disabled="@(!CanShowReport)">
+                @DisplayTexts.DataInfoShowReportButton
+            </button>
+            <button type="button"
+                    class="btn btn-danger"
+                    @onclick="DeleteSelectedDeckAsync"
+                    disabled="@(!CanDeleteDeck)">
+                @DisplayTexts.DataInfoDeleteDeckButton
+            </button>
+        </div>
+
+        @if (isLoadingReport)
+        {
+            <p class="text-muted mt-3">@DisplayTexts.DataInfoReportLoading</p>
+        }
+    }
+</section>
+
+@if (showDeleteLog && deleteLogEntries.Count > 0)
+{
+    <section class="mt-4" aria-labelledby="delete-log-title">
+        <h2 id="delete-log-title" class="h5">@DisplayTexts.DataInfoDeleteDeckLogTitle</h2>
+        <ul class="list-unstyled mb-0" role="log" aria-live="polite">
+            @foreach (var entry in deleteLogEntries)
+            {
+                <li>@entry</li>
+            }
+        </ul>
+    </section>
+}
+
+@if (showDataReport)
+{
+    <DeckReport Title="@string.Format(CultureInfo.CurrentCulture, DisplayTexts.DataInfoReportTitleFormat, dataReportDeckName)"
+                Entries="@dataReportEntries"
+                CloseButtonLabel="@DisplayTexts.DataInfoReportCloseButtonLabel"
+                CloseButtonAriaLabel="@DisplayTexts.DataInfoReportCloseButtonLabel"
+                ImageLengthLabel="@DisplayTexts.ImportExportDeckReportImageLengthLabel"
+                DescriptionLengthLabel="@DisplayTexts.ImportExportDeckReportDescriptionLengthLabel"
+                OnClose="CloseDataReport" />
+}
