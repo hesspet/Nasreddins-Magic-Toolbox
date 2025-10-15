@@ -1,5 +1,5 @@
 self.assetsManifest = {
-  "version": "lvjSwx5+",
+  "version": "WTa3Cd+o",
   "assets": [
     {
       "hash": "sha256-47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=",
@@ -186,11 +186,11 @@ self.assetsManifest = {
       "url": "_framework/System.wasm"
     },
     {
-      "hash": "sha256-4MJEO1lXgoy7RgbR1YPqxlbXxOzeJhm1o32GOdaxR1Y=",
+      "hash": "sha256-pS2etXW0UYzcuU7MKPLcrn3uwQi4kOrFTCdFb54pBRQ=",
       "url": "_framework/Toolbox.wasm"
     },
     {
-      "hash": "sha256-kl3NfJfj5k8yVP3CDoNBpPrSF64GYLRJj3cmV0bGGRc=",
+      "hash": "sha256-tZP2+LoFC4HV2bkr95ksH9sC2JeBtN9bIpIq+m5Q1zw=",
       "url": "_framework/blazor.boot.json"
     },
     {
@@ -278,7 +278,7 @@ self.assetsManifest = {
       "url": "js/cardDeck.js"
     },
     {
-      "hash": "sha256-KwI3V/BfqkEh/3HuUNTXWBN8GZFyNjwShMnUfnAEIOA=",
+      "hash": "sha256-ifvtFWK3W85aJBop2HZf5iTD1U3E/xOU4lwStRK+MIA=",
       "url": "js/errorHandling.js"
     },
     {
