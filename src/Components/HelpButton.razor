@@ -1,0 +1,11 @@
+<button type="button" class="help-button" aria-label="@AriaLabel" @onclick="OnClick">
+    ?
+</button>
+
+@code {
+    [Parameter]
+    public string AriaLabel { get; set; } = string.Empty;
+
+    [Parameter]
+    public EventCallback OnClick { get; set; }
+}

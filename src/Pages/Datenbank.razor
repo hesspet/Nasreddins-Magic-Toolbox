@@ -15,11 +15,18 @@
 <PageTitle>@DisplayTexts.DatabasePageTitle</PageTitle>
 <h1>@DisplayTexts.DatabasePageHeader</h1>
 
+<HelpDialog @ref="helpDialog" CloseButtonLabel="@DisplayTexts.HelpCloseButtonLabel" NotFoundMessage="@DisplayTexts.HelpNotFoundMessage" />
+
 <section class="deck-import" aria-labelledby="deck-import-heading">
     <h2 id="deck-import-heading">@DisplayTexts.ImportExportDeckImportHeading</h2>
 
     <div class="mb-3">
-        <label for="deck-upload" class="form-label">@DisplayTexts.ImportExportDeckUploadLabel</label>
+        <div class="database-label-row">
+            <label for="deck-upload" class="form-label mb-0">@DisplayTexts.ImportExportDeckUploadLabel</label>
+            <HelpButton
+                AriaLabel="@GetHelpButtonLabel(DisplayTexts.ImportExportDeckUploadLabel)"
+                OnClick="@(() => ShowHelpAsync("database-import", DisplayTexts.ImportExportDeckImportHeading))" />
+        </div>
         <InputFile id="deck-upload"
                    class="form-control"
                    OnChange="HandleFileSelectedAsync"
@@ -94,7 +101,12 @@
     else
     {
         <div class="mb-3">
-            <label for="deck-selection" class="form-label">@DisplayTexts.DataInfoDeckSelectionLabel</label>
+            <div class="database-label-row">
+                <label for="deck-selection" class="form-label mb-0">@DisplayTexts.DataInfoDeckSelectionLabel</label>
+                <HelpButton
+                    AriaLabel="@GetHelpButtonLabel(DisplayTexts.DataInfoDeckSelectionLabel)"
+                    OnClick="@(() => ShowHelpAsync("database-management", DisplayTexts.DataInfoDeckSelectionLabel))" />
+            </div>
             <InputSelect id="deck-selection"
                          class="form-select"
                          @bind-Value="selectedDeckId"

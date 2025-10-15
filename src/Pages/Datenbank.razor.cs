@@ -8,6 +8,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
+using Toolbox.Components;
 using Toolbox.Layout;
 using Toolbox.Models;
 using Toolbox.Resources;
@@ -54,9 +55,15 @@ namespace Toolbox.Pages
         private bool showDeleteLog;
         private bool showDataReport;
 
+        private HelpDialog? helpDialog;
+
         private bool CanDeleteDeck => !string.IsNullOrWhiteSpace(selectedDeckId) && !isLoadingDecks && !isDeletingDeck && !isImporting;
 
         private bool CanShowReport => !string.IsNullOrWhiteSpace(selectedDeckId) && !isLoadingDecks && !isLoadingReport && !isDeletingDeck && !isImporting;
+
+        private string GetHelpButtonLabel(string controlLabel) => HelpDialog.GetButtonLabel(controlLabel);
+
+        private Task ShowHelpAsync(string helpKey, string helpTitle) => helpDialog?.ShowAsync(helpKey, helpTitle) ?? Task.CompletedTask;
 
         private void CloseImportLog()
         {
