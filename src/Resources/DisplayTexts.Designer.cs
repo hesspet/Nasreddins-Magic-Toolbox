@@ -34,10 +34,13 @@ public static class DisplayTexts
     public static string NavigationToggleTitle => GetString(nameof(NavigationToggleTitle));
     public static string NavigationHome => GetString(nameof(NavigationHome));
     public static string NavigationTarotCards => GetString(nameof(NavigationTarotCards));
+    public static string NavigationDatabase => GetString(nameof(NavigationDatabase));
     public static string NavigationDataInfo => GetString(nameof(NavigationDataInfo));
     public static string NavigationImportExport => GetString(nameof(NavigationImportExport));
     public static string NavigationSettings => GetString(nameof(NavigationSettings));
     public static string NavigationInstructions => GetString(nameof(NavigationInstructions));
+    public static string DatabasePageTitle => GetString(nameof(DatabasePageTitle));
+    public static string DatabasePageHeader => GetString(nameof(DatabasePageHeader));
     public static string DataInfoPageTitle => GetString(nameof(DataInfoPageTitle));
     public static string DataInfoPageHeader => GetString(nameof(DataInfoPageHeader));
     public static string DataInfoDeckSelectionHeading => GetString(nameof(DataInfoDeckSelectionHeading));
