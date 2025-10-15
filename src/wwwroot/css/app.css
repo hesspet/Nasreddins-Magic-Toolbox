@@ -75,6 +75,66 @@ a:hover,
     z-index: 1000;
 }
 
+    #blazor-error-ui .error-message {
+        margin-bottom: 0.75rem;
+    }
+
+        #blazor-error-ui .error-title {
+            font-weight: 600;
+            margin: 0 0 0.4rem 0;
+        }
+
+        #blazor-error-ui .error-details {
+            background: rgba(0, 0, 0, 0.12);
+            border: 1px solid rgba(0, 0, 0, 0.15);
+            background: color-mix(in srgb, currentColor 12%, transparent);
+            border: 1px solid color-mix(in srgb, currentColor 25%, transparent);
+            border-radius: 0.4rem;
+            color: inherit;
+            font-family: Menlo, Consolas, 'Liberation Mono', monospace;
+            font-size: 0.85rem;
+            margin: 0;
+            max-height: 12rem;
+            overflow: auto;
+            padding: 0.75rem;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+    #blazor-error-ui .error-actions {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+    }
+
+        #blazor-error-ui .error-email {
+            background: transparent;
+            border: 1px solid currentColor;
+            border-radius: 0.35rem;
+            color: inherit;
+            cursor: pointer;
+            font: inherit;
+            padding: 0.35rem 0.75rem;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        #blazor-error-ui .error-email:hover:not(:disabled),
+        #blazor-error-ui .error-email:focus-visible:not(:disabled) {
+            background: rgba(255, 255, 255, 0.12);
+            color: var(--color-text-inverse);
+        }
+
+        #blazor-error-ui .error-email:focus-visible {
+            outline: 2px solid var(--color-focus-ring-outer);
+            outline-offset: 2px;
+        }
+
+        #blazor-error-ui .error-email:disabled {
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
     #blazor-error-ui .dismiss {
         cursor: pointer;
         position: absolute;

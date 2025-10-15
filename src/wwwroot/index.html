@@ -89,11 +89,21 @@
         <div class="loading-progress-text"></div>
     </div>
 
-    <div id="blazor-error-ui">
-        An unhandled error has occurred.
-        <a href="" class="reload">Reload</a>
-        <a class="dismiss">🗙</a>
+    <div id="blazor-error-ui"
+         data-email-to="support@example.com"
+         data-email-subject="Nasreddins Toolbox – Fehlerbericht"
+         data-email-intro="Bitte beschreiben Sie kurz, welche Schritte zum Fehler geführt haben, und ergänzen Sie weitere Hinweise.">
+        <div class="error-message" role="alert">
+            <p class="error-title">Ein unerwarteter Fehler ist aufgetreten.</p>
+            <pre class="error-details" data-error-details aria-live="polite"></pre>
+        </div>
+        <div class="error-actions">
+            <button type="button" class="error-email" data-error-email>Fehlermeldung als E-Mail senden</button>
+            <a href="" class="reload">Neu laden</a>
+            <a class="dismiss" role="button" aria-label="Fehlermeldung schließen">🗙</a>
+        </div>
     </div>
+    <script src="js/errorHandling.js"></script>
     <script src="_framework/blazor.webassembly.js"></script>
     <script src="js/theme.js"></script>
     <script src="js/updatePrompt.js"></script>
