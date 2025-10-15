@@ -1,7 +1,9 @@
 @using System.Globalization
 @using System.Net
 @using Toolbox.Resources
+@implements IDisposable
 @inject HelpContentProvider HelpContentProvider
+@inject NavigationManager NavigationManager
 
 @if (isVisible)
 {
@@ -39,6 +41,12 @@
         DisplayTexts.HelpButtonLabelFormat,
         string.IsNullOrWhiteSpace(controlLabel) ? string.Empty : controlLabel);
 
+    protected override void OnInitialized()
+    {
+        NavigationManager.LocationChanged += HandleLocationChanged;
+        base.OnInitialized();
+    }
+
     public async Task ShowAsync(string helpKey, string helpTitle)
     {
         currentTitle = helpTitle;
@@ -59,6 +67,11 @@
         await InvokeAsync(StateHasChanged);
     }
 
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= HandleLocationChanged;
+    }
+
     public async Task CloseAsync()
     {
         if (!isVisible)
@@ -73,4 +86,9 @@
     private Task CloseFromButtonAsync() => CloseAsync();
 
     private Task CloseFromOverlayAsync() => CloseAsync();
+
+    private async void HandleLocationChanged(object? sender, LocationChangedEventArgs args)
+    {
+        await CloseAsync();
+    }
 }
