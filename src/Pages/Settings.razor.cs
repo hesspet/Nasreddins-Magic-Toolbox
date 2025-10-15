@@ -7,7 +7,7 @@ using Toolbox.Settings;
 
 namespace Toolbox.Pages
 {
-    public partial class Settings
+    public partial class Settings : IDisposable
     {
         protected override void OnInitialized()
         {
@@ -16,6 +16,10 @@ namespace Toolbox.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            await ThemeService.EnsureInitializedAsync();
+            selectedTheme = ThemeService.CurrentTheme;
+            ThemeService.ThemeChanged += HandleThemeChanged;
+
             var storedDuration = await LocalStorage.GetItemAsync<int?>(ApplicationSettings.SplashScreenDurationKey);
 
             if (storedDuration.HasValue && Array.IndexOf(ApplicationSettings.SplashScreenDurationOptions, storedDuration.Value) >= 0)
@@ -75,6 +79,8 @@ namespace Toolbox.Pages
 
         private bool checkForUpdatesOnStartup = ApplicationSettings.CheckForUpdatesOnStartupDefault;
 
+        private ThemePreference selectedTheme = ApplicationSettings.ThemePreferenceDefault;
+
         private string currentHelpTitle = string.Empty;
 
         private MarkupString helpContent = new(string.Empty);
@@ -87,6 +93,9 @@ namespace Toolbox.Pages
 
         [Inject]
         private HelpContentProvider HelpContentProviderInst { get; set; } = default!;
+
+        [Inject]
+        private ThemeService ThemeService { get; set; } = default!;
 
         [CascadingParameter]
         private MainLayout? Layout
@@ -101,6 +110,12 @@ namespace Toolbox.Pages
         }
 
         private string GetHelpButtonLabel(string controlLabel) => string.Format(DisplayTexts.SettingsHelpButtonLabelFormat, controlLabel);
+
+        private void HandleThemeChanged(ThemePreference theme)
+        {
+            selectedTheme = theme;
+            _ = InvokeAsync(StateHasChanged);
+        }
 
         private async Task OnCardScaleChanged(ChangeEventArgs args)
         {
@@ -186,6 +201,28 @@ namespace Toolbox.Pages
             StateHasChanged();
         }
 
+        private async Task OnThemePreferenceChanged(ChangeEventArgs args)
+        {
+            if (args.Value is null)
+            {
+                return;
+            }
+
+            if (!Enum.TryParse(args.Value.ToString(), true, out ThemePreference theme))
+            {
+                return;
+            }
+
+            if (selectedTheme == theme)
+            {
+                return;
+            }
+
+            selectedTheme = theme;
+            await ThemeService.SetThemeAsync(theme);
+            StateHasChanged();
+        }
+
         private async Task ShowHelpAsync(string helpKey, string helpTitle)
         {
             currentHelpTitle = helpTitle;
@@ -217,6 +254,11 @@ namespace Toolbox.Pages
             cardScalePercent = clamped;
             await LocalStorage.SetItemAsync(ApplicationSettings.CardScalePercentKey, cardScalePercent);
             StateHasChanged();
+        }
+
+        public void Dispose()
+        {
+            ThemeService.ThemeChanged -= HandleThemeChanged;
         }
     }
 }

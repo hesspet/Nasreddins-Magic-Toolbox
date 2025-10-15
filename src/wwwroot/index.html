@@ -41,6 +41,36 @@
         })();
     </script>
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <script>
+        (function () {
+            try {
+                var raw = window.localStorage.getItem("ThemePreference");
+                if (!raw) {
+                    return;
+                }
+
+                var parsed = raw;
+
+                try {
+                    parsed = JSON.parse(raw);
+                } catch (e) {
+                    parsed = raw;
+                }
+
+                if (typeof parsed !== "string") {
+                    return;
+                }
+
+                var normalized = parsed.trim().toLowerCase();
+                if (normalized === "dark" || normalized === "light") {
+                    document.documentElement.dataset.theme = normalized;
+                }
+            } catch (err) {
+                console.warn("Failed to restore theme preference", err);
+            }
+        })();
+    </script>
+    <link rel="stylesheet" href="css/theme.css" />
     <link rel="stylesheet" href="css/app.css" />
     <link rel="icon" type="image/png" sizes="512x512" data-relative-href="images/Icon-512.png" />
     <link rel="icon" type="image/png" sizes="192x192" data-relative-href="images/Icon-192.png" />
@@ -65,6 +95,7 @@
         <a class="dismiss">🗙</a>
     </div>
     <script src="_framework/blazor.webassembly.js"></script>
+    <script src="js/theme.js"></script>
     <script src="js/updatePrompt.js"></script>
 </body>
 </html>

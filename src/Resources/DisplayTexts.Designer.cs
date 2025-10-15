@@ -91,6 +91,10 @@ public static class DisplayTexts
     public static string InstructionsContentError => GetString(nameof(InstructionsContentError));
     public static string SettingsPageTitle => GetString(nameof(SettingsPageTitle));
     public static string SettingsPageHeader => GetString(nameof(SettingsPageHeader));
+    public static string SettingsThemeLabel => GetString(nameof(SettingsThemeLabel));
+    public static string SettingsThemeDescription => GetString(nameof(SettingsThemeDescription));
+    public static string SettingsThemeOptionLight => GetString(nameof(SettingsThemeOptionLight));
+    public static string SettingsThemeOptionDark => GetString(nameof(SettingsThemeOptionDark));
     public static string SettingsSplashDurationLabel => GetString(nameof(SettingsSplashDurationLabel));
     public static string SettingsSplashDurationDescription => GetString(nameof(SettingsSplashDurationDescription));
     public static string SettingsCardScaleLabel => GetString(nameof(SettingsCardScaleLabel));

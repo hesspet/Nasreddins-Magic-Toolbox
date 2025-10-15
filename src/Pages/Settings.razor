@@ -23,6 +23,44 @@
     </div>
 }
 
+<section class="settings-section" aria-labelledby="color-theme-label">
+    <div class="settings-label-row">
+        <label id="color-theme-label" for="color-theme-light">@DisplayTexts.SettingsThemeLabel</label>
+        <button
+            type="button"
+            class="settings-help-button"
+            aria-label="@GetHelpButtonLabel(DisplayTexts.SettingsThemeLabel)"
+            @onclick="@(() => ShowHelpAsync("color-theme", DisplayTexts.SettingsThemeLabel))">
+            ?
+        </button>
+    </div>
+    <div class="settings-theme-options" role="radiogroup" aria-labelledby="color-theme-label">
+        <div class="form-check">
+            <input
+                class="form-check-input"
+                type="radio"
+                name="color-theme"
+                id="color-theme-light"
+                value="@ThemePreference.Light"
+                checked="@(selectedTheme == ThemePreference.Light)"
+                @onchange="OnThemePreferenceChanged" />
+            <label class="form-check-label" for="color-theme-light">@DisplayTexts.SettingsThemeOptionLight</label>
+        </div>
+        <div class="form-check">
+            <input
+                class="form-check-input"
+                type="radio"
+                name="color-theme"
+                id="color-theme-dark"
+                value="@ThemePreference.Dark"
+                checked="@(selectedTheme == ThemePreference.Dark)"
+                @onchange="OnThemePreferenceChanged" />
+            <label class="form-check-label" for="color-theme-dark">@DisplayTexts.SettingsThemeOptionDark</label>
+        </div>
+    </div>
+    <p class="settings-description">@DisplayTexts.SettingsThemeDescription</p>
+</section>
+
 <section class="settings-section" aria-labelledby="splash-duration-label">
     <div class="settings-label-row">
         <label id="splash-duration-label" for="splash-duration">@DisplayTexts.SettingsSplashDurationLabel</label>
