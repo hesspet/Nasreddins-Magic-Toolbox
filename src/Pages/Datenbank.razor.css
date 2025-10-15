@@ -1,9 +1,18 @@
 .database-label-row {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.5rem;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     margin-bottom: 0.5rem;
+}
+
+.database-label-row label {
+    flex: 1 1 auto;
+    margin-bottom: 0;
+}
+
+.database-label-row .help-button {
+    margin-left: auto;
 }
 
 .import-log-body {
