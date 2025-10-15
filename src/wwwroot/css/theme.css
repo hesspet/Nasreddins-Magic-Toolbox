@@ -34,6 +34,8 @@
     --color-help-button-text: var(--color-primary);
     --color-help-button-hover-bg: var(--color-primary);
     --color-help-button-hover-text: #ffffff;
+    --color-help-surface: #eef1f8;
+    --color-help-border: rgba(16, 32, 59, 0.18);
     --color-button-primary-text: #ffffff;
     --color-dialog-border: rgba(0, 0, 0, 0.15);
     --color-loading-track: #e0e0e0;
@@ -94,6 +96,8 @@
     --color-help-button-text: var(--color-primary);
     --color-help-button-hover-bg: var(--color-primary);
     --color-help-button-hover-text: #0f1521;
+    --color-help-surface: #1c2436;
+    --color-help-border: rgba(227, 233, 255, 0.16);
     --color-button-primary-text: #0f1521;
     --color-dialog-border: rgba(255, 255, 255, 0.08);
     --color-loading-track: rgba(255, 255, 255, 0.15);
