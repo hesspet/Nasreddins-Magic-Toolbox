@@ -15,8 +15,36 @@
 <PageTitle>@DisplayTexts.DatabasePageTitle</PageTitle>
 <h1>@DisplayTexts.DatabasePageHeader</h1>
 
+@if (isHelpVisible)
+{
+    <div class="database-help-overlay" role="dialog" aria-modal="true" aria-labelledby="database-help-title" @onclick="CloseHelp">
+        <div class="database-help-dialog" role="document" @onclick:stopPropagation="true">
+            <button type="button"
+                    class="database-help-close"
+                    @onclick="CloseHelp"
+                    aria-label="@DisplayTexts.SettingsHelpCloseButtonLabel">
+                &times;
+            </button>
+            <div class="database-help-dialog-content">
+                <h2 id="database-help-title">@currentHelpTitle</h2>
+                <div class="database-help-dialog-scroll">
+                    @helpContent
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 <section class="deck-import" aria-labelledby="deck-import-heading">
-    <h2 id="deck-import-heading">@DisplayTexts.ImportExportDeckImportHeading</h2>
+    <div class="database-section-header">
+        <h2 id="deck-import-heading">@DisplayTexts.ImportExportDeckImportHeading</h2>
+        <button type="button"
+                class="database-help-button"
+                aria-label="@GetHelpButtonLabel(DisplayTexts.ImportExportDeckImportHeading)"
+                @onclick="@(() => ShowHelpAsync("deck-import", DisplayTexts.ImportExportDeckImportHeading))">
+            ?
+        </button>
+    </div>
 
     <div class="mb-3">
         <label for="deck-upload" class="form-label">@DisplayTexts.ImportExportDeckUploadLabel</label>
@@ -94,7 +122,15 @@
     else
     {
         <div class="mb-3">
-            <label for="deck-selection" class="form-label">@DisplayTexts.DataInfoDeckSelectionLabel</label>
+            <div class="database-label-row">
+                <label for="deck-selection" class="form-label">@DisplayTexts.DataInfoDeckSelectionLabel</label>
+                <button type="button"
+                        class="database-help-button"
+                        aria-label="@GetHelpButtonLabel(DisplayTexts.DataInfoDeckSelectionLabel)"
+                        @onclick="@(() => ShowHelpAsync("deck-management", DisplayTexts.DataInfoDeckSelectionLabel))">
+                    ?
+                </button>
+            </div>
             <InputSelect id="deck-selection"
                          class="form-select"
                          @bind-Value="selectedDeckId"

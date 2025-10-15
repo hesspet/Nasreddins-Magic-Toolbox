@@ -7,7 +7,9 @@ using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Net;
 using System.Text;
+using Toolbox.Helpers;
 using Toolbox.Layout;
 using Toolbox.Models;
 using Toolbox.Resources;
@@ -54,9 +56,24 @@ namespace Toolbox.Pages
         private bool showDeleteLog;
         private bool showDataReport;
 
+        private string currentHelpTitle = string.Empty;
+        private MarkupString helpContent = new(string.Empty);
+        private bool isHelpVisible;
+
+        [Inject]
+        private HelpContentProvider HelpContentProvider { get; set; } = default!;
+
         private bool CanDeleteDeck => !string.IsNullOrWhiteSpace(selectedDeckId) && !isLoadingDecks && !isDeletingDeck && !isImporting;
 
         private bool CanShowReport => !string.IsNullOrWhiteSpace(selectedDeckId) && !isLoadingDecks && !isLoadingReport && !isDeletingDeck && !isImporting;
+
+        private void CloseHelp()
+        {
+            isHelpVisible = false;
+            StateHasChanged();
+        }
+
+        private string GetHelpButtonLabel(string controlLabel) => string.Format(CultureInfo.CurrentCulture, DisplayTexts.SettingsHelpButtonLabelFormat, controlLabel);
 
         private void CloseImportLog()
         {
@@ -264,6 +281,25 @@ namespace Toolbox.Pages
             await LogImportMessageAsync(DisplayTexts.ImportExportDeckLogFinished);
 
             return deckId;
+        }
+
+        private async Task ShowHelpAsync(string helpKey, string helpTitle)
+        {
+            currentHelpTitle = helpTitle;
+            var html = await HelpContentProvider.GetHelpHtmlAsync(helpKey);
+
+            if (string.IsNullOrWhiteSpace(html))
+            {
+                var fallback = WebUtility.HtmlEncode(DisplayTexts.SettingsHelpNotFoundMessage);
+                helpContent = new MarkupString($"<p>{fallback}</p>");
+            }
+            else
+            {
+                helpContent = new MarkupString(html);
+            }
+
+            isHelpVisible = true;
+            StateHasChanged();
         }
 
         private async Task LogImportMessageAsync(string message)
