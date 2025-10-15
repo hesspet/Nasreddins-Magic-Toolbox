@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using System.Globalization;
 using Toolbox;
 using Toolbox.Helpers;
+using Toolbox.Settings;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
@@ -16,6 +17,7 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 builder.Services.AddScoped<LocalStorageHelper>();
 builder.Services.AddScoped<IndexedDbHelper>();
 builder.Services.AddScoped<DeckBootstrapper>();
+builder.Services.AddScoped<ThemeService>();
 builder.Services.AddSingleton<HelpContentProvider>();
 
 await builder.Build().RunAsync();

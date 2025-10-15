@@ -7,6 +7,7 @@
     display: block;
     font-weight: 600;
     margin-bottom: 0.5rem;
+    color: var(--color-heading);
 }
 
 .settings-section .form-range {
@@ -34,7 +35,7 @@
 
 .settings-description {
     margin-top: 0.5rem;
-    color: #555;
+    color: var(--color-text-muted);
     font-size: 0.95rem;
 }
 
@@ -53,9 +54,9 @@
     width: 1.75rem;
     height: 1.75rem;
     border-radius: 50%;
-    border: 1px solid var(--bs-primary);
-    background-color: var(--bs-body-bg);
-    color: var(--bs-primary);
+    border: 1px solid var(--color-help-button-border);
+    background-color: var(--color-help-button-bg);
+    color: var(--color-help-button-text);
     font-weight: 700;
     line-height: 1;
     display: inline-flex;
@@ -68,19 +69,19 @@
 
 .settings-help-button:hover,
 .settings-help-button:focus {
-    background-color: var(--bs-primary);
-    color: #fff;
+    background-color: var(--color-help-button-hover-bg);
+    color: var(--color-help-button-hover-text);
 }
 
 .settings-help-button:focus {
-    outline: 2px solid var(--bs-primary);
+    outline: 2px solid var(--color-help-button-border);
     outline-offset: 2px;
 }
 
 .settings-help-overlay {
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.45);
+    background-color: var(--color-overlay);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -89,13 +90,13 @@
 }
 
 .settings-help-dialog {
-    background-color: var(--bs-body-bg);
+    background-color: var(--color-surface);
     border-radius: 0.75rem;
-    box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.35);
+    box-shadow: 0 1.5rem 3rem var(--color-shadow-strong);
     max-width: 40rem;
     width: min(40rem, 100%);
     max-height: 80vh;
-    border: 1px solid rgba(0, 0, 0, 0.15);
+    border: 1px solid var(--color-dialog-border);
     display: flex;
     flex-direction: column;
     position: relative;
@@ -144,5 +145,55 @@
 
 .settings-help-close:hover,
 .settings-help-close:focus {
-    color: var(--bs-danger);
+    color: var(--color-invalid);
+}
+
+.settings-theme-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+.settings-theme-options .form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    background-color: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.settings-theme-options .form-check:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0.5rem var(--color-shadow-light);
+}
+
+.settings-theme-options .form-check-input {
+    cursor: pointer;
+}
+
+.settings-theme-options .form-check-input:checked {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.settings-theme-options .form-check-input:focus {
+    box-shadow: 0 0 0 0.2rem var(--color-focus-ring-outer);
+}
+
+.settings-theme-options .form-check-label {
+    cursor: pointer;
+    margin-bottom: 0;
+}
+
+.settings-theme-options .form-check-input:checked + .form-check-label {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.settings-theme-options .form-check-input:focus + .form-check-label {
+    text-decoration: underline;
 }

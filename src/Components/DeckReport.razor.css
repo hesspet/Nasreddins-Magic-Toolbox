@@ -1,7 +1,7 @@
 .deck-report-backdrop {
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.45);
+    background-color: var(--color-overlay);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,15 +10,17 @@
 }
 
 .deck-report-dialog {
-    background-color: #fff;
+    background-color: var(--color-surface);
     border-radius: 0.75rem;
-    box-shadow: 0 1.5rem 3rem rgba(0, 0, 0, 0.25);
+    box-shadow: 0 1.5rem 3rem var(--color-shadow-strong);
+    border: 1px solid var(--color-dialog-border);
     max-width: min(92vw, 640px);
     width: 100%;
     display: flex;
     flex-direction: column;
     max-height: min(92vh, 640px);
     overflow: hidden;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .deck-report-header {
@@ -51,19 +53,21 @@
     flex-direction: column;
     gap: 0.75rem;
     overflow-y: auto;
-    border: 1px solid #dee2e6;
+    border: 1px solid var(--color-border);
     border-radius: 0.75rem;
     padding: 1rem;
-    background-color: #f8f9fa;
+    background-color: var(--color-surface-alt);
     max-height: 50vh;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .deck-report-item {
-    background-color: #fff;
+    background-color: var(--color-surface);
     border-radius: 0.5rem;
-    border: 1px solid #e9ecef;
+    border: 1px solid var(--color-border);
     padding: 0.75rem 1rem;
-    box-shadow: 0 0.5rem 1.2rem rgba(33, 37, 41, 0.08);
+    box-shadow: 0 0.5rem 1.2rem var(--color-shadow-medium);
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .deck-report-item h3 {

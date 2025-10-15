@@ -292,6 +292,18 @@
   <data name="SettingsPageHeader" xml:space="preserve">
     <value>Einstellungen</value>
   </data>
+  <data name="SettingsThemeLabel" xml:space="preserve">
+    <value>Farbschema</value>
+  </data>
+  <data name="SettingsThemeDescription" xml:space="preserve">
+    <value>Wähle, ob die Oberfläche im hellen oder dunklen Farbprofil dargestellt wird. Die Einstellung gilt für die gesamte Anwendung.</value>
+  </data>
+  <data name="SettingsThemeOptionLight" xml:space="preserve">
+    <value>Helles Farbschema</value>
+  </data>
+  <data name="SettingsThemeOptionDark" xml:space="preserve">
+    <value>Dunkles Farbschema</value>
+  </data>
   <data name="SettingsSplashDurationLabel" xml:space="preserve">
     <value>Anzeigedauer des Splashscreens (Sekunden)</value>
   </data>

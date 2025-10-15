@@ -126,7 +126,7 @@
         padding: 0;
         width: 100vw;
         height: 100vh;
-        background-color: rgba(0, 0, 0, 0.95);
+        background-color: var(--color-fullscreen-overlay);
         display: flex;
         flex-direction: column;
         justify-content: center;
@@ -150,8 +150,8 @@
         left: 50%;
         bottom: 1.5rem;
         transform: translateX(-50%);
-        background-color: rgba(0, 0, 0, 0.65);
-        color: #fff;
+        background-color: var(--color-fullscreen-caption-bg);
+        color: var(--color-text-inverse);
         padding: 0.5rem 1.25rem;
         border-radius: 999px;
         max-width: 90vw;

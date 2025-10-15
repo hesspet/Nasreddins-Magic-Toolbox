@@ -1,6 +1,7 @@
 @inject LocalStorageHelper LocalStorage
 @inject NavigationManager NavigationManager
 @inject DeckBootstrapper DeckBootstrapper
+@inject ThemeService ThemeService
 
 @if (isSplashVisible)
 {
@@ -69,8 +70,9 @@ else
     {
         var splashTask = InitializeSplashDurationAsync();
         var deckTask = DeckBootstrapper.EnsureDefaultDeckAsync();
+        var themeTask = ThemeService.EnsureInitializedAsync();
 
-        await Task.WhenAll(splashTask, deckTask);
+        await Task.WhenAll(splashTask, deckTask, themeTask);
     }
 
     private async Task InitializeSplashDurationAsync()
