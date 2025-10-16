@@ -109,6 +109,39 @@
   <data name="TarotToggleFullscreenLabel" xml:space="preserve">
     <value>Spielkarte vergrößern oder verkleinern</value>
   </data>
+  <data name="CardReadingSingleCardPageTitle" xml:space="preserve">
+    <value>Tarot - Ein-Karten-Orakel</value>
+  </data>
+  <data name="CardReadingSingleCardPageHeader" xml:space="preserve">
+    <value>Tarot - Ein-Karten-Orakel</value>
+  </data>
+  <data name="CardReadingThreeCardPageTitle" xml:space="preserve">
+    <value>Tarot - Drei-Karten-Legung</value>
+  </data>
+  <data name="CardReadingThreeCardPageHeader" xml:space="preserve">
+    <value>Tarot - Drei-Karten-Legung</value>
+  </data>
+  <data name="CardReadingCelticCrossPageTitle" xml:space="preserve">
+    <value>Tarot - Keltisches Kreuz (kurz)</value>
+  </data>
+  <data name="CardReadingCelticCrossPageHeader" xml:space="preserve">
+    <value>Tarot - Keltisches Kreuz (kurz)</value>
+  </data>
+  <data name="CardReadingFourCornersPageTitle" xml:space="preserve">
+    <value>Tarot - Vier-Ecken-Legung</value>
+  </data>
+  <data name="CardReadingFourCornersPageHeader" xml:space="preserve">
+    <value>Tarot - Vier-Ecken-Legung</value>
+  </data>
+  <data name="CardReadingPathPageTitle" xml:space="preserve">
+    <value>Tarot - Der Pfad (Reise)</value>
+  </data>
+  <data name="CardReadingPathPageHeader" xml:space="preserve">
+    <value>Tarot - Der Pfad (Reise)</value>
+  </data>
+  <data name="CardReadingContentPlaceholder" xml:space="preserve">
+    <value>Weitere Inhalte folgen.</value>
+  </data>
   <data name="NavigationBrand" xml:space="preserve">
     <value>Toolbox</value>
   </data>
@@ -120,6 +153,24 @@
   </data>
   <data name="NavigationTarotCards" xml:space="preserve">
     <value>Kartenspiele</value>
+  </data>
+  <data name="NavigationCardReading" xml:space="preserve">
+    <value>Kartenlegen</value>
+  </data>
+  <data name="NavigationCardReadingSingleCard" xml:space="preserve">
+    <value>Tarot - Ein-Karten-Orakel</value>
+  </data>
+  <data name="NavigationCardReadingThreeCard" xml:space="preserve">
+    <value>Tarot - Drei-Karten-Legung</value>
+  </data>
+  <data name="NavigationCardReadingCelticCross" xml:space="preserve">
+    <value>Tarot - Keltisches Kreuz (kurz)</value>
+  </data>
+  <data name="NavigationCardReadingFourCorners" xml:space="preserve">
+    <value>Tarot - Vier-Ecken-Legung</value>
+  </data>
+  <data name="NavigationCardReadingPath" xml:space="preserve">
+    <value>Tarot - Der Pfad (Reise)</value>
   </data>
   <data name="NavigationDatabase" xml:space="preserve">
     <value>Datenbank</value>
@@ -138,6 +189,9 @@
   </data>
   <data name="NavigationSettingsDecks" xml:space="preserve">
     <value>Kartenspiele</value>
+  </data>
+  <data name="NavigationSettingsCardReading" xml:space="preserve">
+    <value>Kartenlegen</value>
   </data>
   <data name="NavigationInstructions" xml:space="preserve">
     <value>Anleitung</value>
@@ -312,6 +366,18 @@
   </data>
   <data name="SettingsDecksPageHeader" xml:space="preserve">
     <value>Kartenspiele</value>
+  </data>
+  <data name="SettingsCardReadingPageTitle" xml:space="preserve">
+    <value>Kartenlegen</value>
+  </data>
+  <data name="SettingsCardReadingPageHeader" xml:space="preserve">
+    <value>Kartenlegen</value>
+  </data>
+  <data name="SettingsCardReadingApiKeyLabel" xml:space="preserve">
+    <value>GPT API Schlüssel</value>
+  </data>
+  <data name="SettingsCardReadingApiUrlLabel" xml:space="preserve">
+    <value>URL ChatGPT API</value>
   </data>
   <data name="SettingsThemeLabel" xml:space="preserve">
     <value>Farbschema</value>

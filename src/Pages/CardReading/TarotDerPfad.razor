@@ -1,0 +1,17 @@
+@page "/kartenlegen/tarot-der-pfad"
+
+<PageTitle>@DisplayTexts.CardReadingPathPageTitle</PageTitle>
+
+<h1>@DisplayTexts.CardReadingPathPageHeader</h1>
+
+<p>@DisplayTexts.CardReadingContentPlaceholder</p>
+
+@code {
+    [CascadingParameter]
+    private MainLayout? Layout { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Layout?.UpdateCurrentPageTitle(DisplayTexts.CardReadingPathPageTitle);
+    }
+}
