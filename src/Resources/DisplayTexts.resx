@@ -133,6 +133,12 @@
   <data name="NavigationSettings" xml:space="preserve">
     <value>Einstellungen</value>
   </data>
+  <data name="NavigationSettingsCommon" xml:space="preserve">
+    <value>Allgemein</value>
+  </data>
+  <data name="NavigationSettingsDecks" xml:space="preserve">
+    <value>Kartenspiele</value>
+  </data>
   <data name="NavigationInstructions" xml:space="preserve">
     <value>Anleitung</value>
   </data>
@@ -300,6 +306,12 @@
   </data>
   <data name="SettingsPageHeader" xml:space="preserve">
     <value>Einstellungen</value>
+  </data>
+  <data name="SettingsDecksPageTitle" xml:space="preserve">
+    <value>Kartenspieleinstellungen</value>
+  </data>
+  <data name="SettingsDecksPageHeader" xml:space="preserve">
+    <value>Kartenspiele</value>
   </data>
   <data name="SettingsThemeLabel" xml:space="preserve">
     <value>Farbschema</value>

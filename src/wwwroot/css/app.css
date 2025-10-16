@@ -202,6 +202,115 @@ code {
     transition: background 0.3s ease;
 }
 
+.settings-section {
+    margin-top: 1.5rem;
+    max-width: 20rem;
+}
+
+.settings-section label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--color-heading);
+}
+
+.settings-section .form-range {
+    width: 100%;
+}
+
+.settings-section .form-select {
+    width: 100%;
+}
+
+.settings-card-scale-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.settings-card-scale-control .form-control {
+    max-width: 5rem;
+}
+
+.settings-card-scale-suffix {
+    font-weight: 600;
+}
+
+.settings-description {
+    margin-top: 0.5rem;
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+}
+
+.settings-label-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    margin-bottom: 0.5rem;
+}
+
+.settings-label-row label,
+.settings-label-row .form-check-label {
+    flex: 1 1 auto;
+    margin-bottom: 0;
+}
+
+.settings-label-row .help-button {
+    margin-left: auto;
+}
+
+.settings-theme-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+}
+
+.settings-theme-options .form-check {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    background-color: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.settings-theme-options .form-check:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0.5rem var(--color-shadow-light);
+}
+
+.settings-theme-options .form-check-input {
+    cursor: pointer;
+}
+
+.settings-theme-options .form-check-input:checked {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.settings-theme-options .form-check-input:focus {
+    box-shadow: 0 0 0 0.2rem var(--color-focus-ring-outer);
+}
+
+.settings-theme-options .form-check-label {
+    cursor: pointer;
+    margin-bottom: 0;
+}
+
+.settings-theme-options .form-check-input:checked + .form-check-label {
+    color: var(--color-primary);
+    font-weight: 600;
+}
+
+.settings-theme-options .form-check-input:focus + .form-check-label {
+    text-decoration: underline;
+}
+
 .splash-content {
     background-color: var(--color-surface);
     border-radius: 1.5rem;
