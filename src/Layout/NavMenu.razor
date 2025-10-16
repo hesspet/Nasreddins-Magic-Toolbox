@@ -19,6 +19,40 @@
                 <span class="bi bi-card-image-nav-menu" aria-hidden="true"></span> @DisplayTexts.NavigationTarotCards
             </NavLink>
         </div>
+        <div class="nav-item px-3 nav-item-group">
+            <button type="button"
+                    class="nav-link nav-link-group"
+                    @onclick="ToggleCardReadingSubmenu"
+                    @onclick:stopPropagation="true"
+                    aria-expanded="@cardReadingSubmenuExpanded"
+                    aria-controls="card-reading-submenu">
+                <span class="nav-link-group-content">
+                    <span class="bi bi-stars-nav-menu" aria-hidden="true"></span>
+                    @DisplayTexts.NavigationCardReading
+                </span>
+                <span class="nav-link-group-caret" aria-hidden="true">@(cardReadingSubmenuExpanded ? "▾" : "▸")</span>
+            </button>
+            @if (cardReadingSubmenuExpanded)
+            {
+                <div id="card-reading-submenu" class="nav-submenu">
+                    <NavLink class="nav-link nav-sub-link" href="kartenlegen/tarot-ein-karten-orakel" Match="NavLinkMatch.Prefix">
+                        <span class="nav-sub-bullet" aria-hidden="true">•</span> @DisplayTexts.NavigationCardReadingSingleCard
+                    </NavLink>
+                    <NavLink class="nav-link nav-sub-link" href="kartenlegen/tarot-drei-karten-legung" Match="NavLinkMatch.Prefix">
+                        <span class="nav-sub-bullet" aria-hidden="true">•</span> @DisplayTexts.NavigationCardReadingThreeCard
+                    </NavLink>
+                    <NavLink class="nav-link nav-sub-link" href="kartenlegen/tarot-keltisches-kreuz" Match="NavLinkMatch.Prefix">
+                        <span class="nav-sub-bullet" aria-hidden="true">•</span> @DisplayTexts.NavigationCardReadingCelticCross
+                    </NavLink>
+                    <NavLink class="nav-link nav-sub-link" href="kartenlegen/tarot-vier-ecken" Match="NavLinkMatch.Prefix">
+                        <span class="nav-sub-bullet" aria-hidden="true">•</span> @DisplayTexts.NavigationCardReadingFourCorners
+                    </NavLink>
+                    <NavLink class="nav-link nav-sub-link" href="kartenlegen/tarot-der-pfad" Match="NavLinkMatch.Prefix">
+                        <span class="nav-sub-bullet" aria-hidden="true">•</span> @DisplayTexts.NavigationCardReadingPath
+                    </NavLink>
+                </div>
+            }
+        </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="datenbank">
                 <span class="bi bi-database-fill-nav-menu" aria-hidden="true"></span> @DisplayTexts.NavigationDatabase
@@ -46,6 +80,9 @@
                     <NavLink class="nav-link nav-sub-link" href="settings/decks" Match="NavLinkMatch.Prefix">
                         <span class="nav-sub-bullet" aria-hidden="true">•</span> @DisplayTexts.NavigationSettingsDecks
                     </NavLink>
+                    <NavLink class="nav-link nav-sub-link" href="settings/card-reading" Match="NavLinkMatch.Prefix">
+                        <span class="nav-sub-bullet" aria-hidden="true">•</span> @DisplayTexts.NavigationSettingsCardReading
+                    </NavLink>
                 </div>
             }
         </div>
@@ -59,6 +96,7 @@
 
 @code {
     private bool collapseNavMenu = true;
+    private bool cardReadingSubmenuExpanded;
     private bool settingsSubmenuExpanded;
 
     [Parameter]
@@ -73,6 +111,11 @@
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+    private void ToggleCardReadingSubmenu()
+    {
+        cardReadingSubmenuExpanded = !cardReadingSubmenuExpanded;
     }
 
     private void ToggleSettingsSubmenu()

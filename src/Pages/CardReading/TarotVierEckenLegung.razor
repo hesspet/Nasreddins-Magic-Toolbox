@@ -1,0 +1,17 @@
+@page "/kartenlegen/tarot-vier-ecken"
+
+<PageTitle>@DisplayTexts.CardReadingFourCornersPageTitle</PageTitle>
+
+<h1>@DisplayTexts.CardReadingFourCornersPageHeader</h1>
+
+<p>@DisplayTexts.CardReadingContentPlaceholder</p>
+
+@code {
+    [CascadingParameter]
+    private MainLayout? Layout { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Layout?.UpdateCurrentPageTitle(DisplayTexts.CardReadingFourCornersPageTitle);
+    }
+}

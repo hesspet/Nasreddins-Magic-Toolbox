@@ -30,10 +30,27 @@ public static class DisplayTexts
     public static string TarotDeckSelectionLabel => GetString(nameof(TarotDeckSelectionLabel));
     public static string TarotDeckSelectionPlaceholder => GetString(nameof(TarotDeckSelectionPlaceholder));
     public static string TarotDeckLoading => GetString(nameof(TarotDeckLoading));
+    public static string CardReadingSingleCardPageTitle => GetString(nameof(CardReadingSingleCardPageTitle));
+    public static string CardReadingSingleCardPageHeader => GetString(nameof(CardReadingSingleCardPageHeader));
+    public static string CardReadingThreeCardPageTitle => GetString(nameof(CardReadingThreeCardPageTitle));
+    public static string CardReadingThreeCardPageHeader => GetString(nameof(CardReadingThreeCardPageHeader));
+    public static string CardReadingCelticCrossPageTitle => GetString(nameof(CardReadingCelticCrossPageTitle));
+    public static string CardReadingCelticCrossPageHeader => GetString(nameof(CardReadingCelticCrossPageHeader));
+    public static string CardReadingFourCornersPageTitle => GetString(nameof(CardReadingFourCornersPageTitle));
+    public static string CardReadingFourCornersPageHeader => GetString(nameof(CardReadingFourCornersPageHeader));
+    public static string CardReadingPathPageTitle => GetString(nameof(CardReadingPathPageTitle));
+    public static string CardReadingPathPageHeader => GetString(nameof(CardReadingPathPageHeader));
+    public static string CardReadingContentPlaceholder => GetString(nameof(CardReadingContentPlaceholder));
     public static string NavigationBrand => GetString(nameof(NavigationBrand));
     public static string NavigationToggleTitle => GetString(nameof(NavigationToggleTitle));
     public static string NavigationHome => GetString(nameof(NavigationHome));
     public static string NavigationTarotCards => GetString(nameof(NavigationTarotCards));
+    public static string NavigationCardReading => GetString(nameof(NavigationCardReading));
+    public static string NavigationCardReadingSingleCard => GetString(nameof(NavigationCardReadingSingleCard));
+    public static string NavigationCardReadingThreeCard => GetString(nameof(NavigationCardReadingThreeCard));
+    public static string NavigationCardReadingCelticCross => GetString(nameof(NavigationCardReadingCelticCross));
+    public static string NavigationCardReadingFourCorners => GetString(nameof(NavigationCardReadingFourCorners));
+    public static string NavigationCardReadingPath => GetString(nameof(NavigationCardReadingPath));
     public static string NavigationDatabase => GetString(nameof(NavigationDatabase));
     public static string NavigationDataInfo => GetString(nameof(NavigationDataInfo));
     public static string NavigationImportExport => GetString(nameof(NavigationImportExport));
@@ -42,6 +59,7 @@ public static class DisplayTexts
     public static string NavigationSettingsCommon => GetString(nameof(NavigationSettingsCommon));
 
     public static string NavigationSettingsDecks => GetString(nameof(NavigationSettingsDecks));
+    public static string NavigationSettingsCardReading => GetString(nameof(NavigationSettingsCardReading));
     public static string NavigationInstructions => GetString(nameof(NavigationInstructions));
     public static string DatabasePageTitle => GetString(nameof(DatabasePageTitle));
     public static string DatabasePageHeader => GetString(nameof(DatabasePageHeader));
@@ -102,6 +120,10 @@ public static class DisplayTexts
     public static string SettingsDecksPageTitle => GetString(nameof(SettingsDecksPageTitle));
 
     public static string SettingsDecksPageHeader => GetString(nameof(SettingsDecksPageHeader));
+    public static string SettingsCardReadingPageTitle => GetString(nameof(SettingsCardReadingPageTitle));
+    public static string SettingsCardReadingPageHeader => GetString(nameof(SettingsCardReadingPageHeader));
+    public static string SettingsCardReadingApiKeyLabel => GetString(nameof(SettingsCardReadingApiKeyLabel));
+    public static string SettingsCardReadingApiUrlLabel => GetString(nameof(SettingsCardReadingApiUrlLabel));
     public static string SettingsThemeLabel => GetString(nameof(SettingsThemeLabel));
     public static string SettingsThemeDescription => GetString(nameof(SettingsThemeDescription));
     public static string SettingsThemeOptionLight => GetString(nameof(SettingsThemeOptionLight));

@@ -1,0 +1,17 @@
+@page "/kartenlegen/tarot-keltisches-kreuz"
+
+<PageTitle>@DisplayTexts.CardReadingCelticCrossPageTitle</PageTitle>
+
+<h1>@DisplayTexts.CardReadingCelticCrossPageHeader</h1>
+
+<p>@DisplayTexts.CardReadingContentPlaceholder</p>
+
+@code {
+    [CascadingParameter]
+    private MainLayout? Layout { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Layout?.UpdateCurrentPageTitle(DisplayTexts.CardReadingCelticCrossPageTitle);
+    }
+}

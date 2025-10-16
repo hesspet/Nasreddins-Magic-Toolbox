@@ -27,6 +27,12 @@ public static class ApplicationSettings
     public const int SearchAutoClearDelayMaximumSeconds = 60;
     public const string SearchAutoClearDelaySecondsKey = "SearchAutoClearDelaySeconds";
 
+    public const string CardReadingGptApiKeyDefault = "";
+    public const string CardReadingGptApiKeyKey = "CardReadingGptApiKey";
+
+    public const string CardReadingChatGptApiUrlDefault = "";
+    public const string CardReadingChatGptApiUrlKey = "CardReadingChatGptApiUrl";
+
     public static int ClampCardScalePercent(int value) => Math.Clamp(value, CardScalePercentMinimum, CardScalePercentMaximum);
 
     public static int ClampSearchAutoClearDelaySeconds(int value) => Math.Clamp(value, SearchAutoClearDelayMinimumSeconds, SearchAutoClearDelayMaximumSeconds);

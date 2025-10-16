@@ -1,0 +1,32 @@
+@page "/settings/card-reading"
+@inherits Toolbox.Pages.SettingsPageBase
+
+<PageTitle>@DisplayTexts.SettingsCardReadingPageTitle</PageTitle>
+
+<h1>@DisplayTexts.SettingsCardReadingPageHeader</h1>
+
+<HelpDialog @ref="HelpDialog" CloseButtonLabel="@DisplayTexts.HelpCloseButtonLabel" NotFoundMessage="@DisplayTexts.HelpNotFoundMessage" />
+
+<section class="settings-section" aria-labelledby="card-reading-api-key-label">
+    <div class="settings-label-row">
+        <label id="card-reading-api-key-label" for="card-reading-api-key">@DisplayTexts.SettingsCardReadingApiKeyLabel</label>
+    </div>
+    <input
+        id="card-reading-api-key"
+        class="form-control"
+        type="text"
+        value="@gptApiKey"
+        @oninput="OnApiKeyChanged" />
+</section>
+
+<section class="settings-section" aria-labelledby="card-reading-api-url-label">
+    <div class="settings-label-row">
+        <label id="card-reading-api-url-label" for="card-reading-api-url">@DisplayTexts.SettingsCardReadingApiUrlLabel</label>
+    </div>
+    <input
+        id="card-reading-api-url"
+        class="form-control"
+        type="url"
+        value="@chatGptApiUrl"
+        @oninput="OnApiUrlChanged" />
+</section>
