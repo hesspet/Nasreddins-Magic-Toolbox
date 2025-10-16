@@ -25,17 +25,29 @@
             </NavLink>
         </div>
         <div class="nav-item px-3 nav-item-group">
-            <div class="nav-link nav-link-group">
-                <span class="bi bi-gear-fill-nav-menu" aria-hidden="true"></span> @DisplayTexts.NavigationSettings
-            </div>
-            <div class="nav-submenu">
-                <NavLink class="nav-link nav-sub-link" href="settings" Match="NavLinkMatch.All">
-                    <span class="nav-sub-bullet" aria-hidden="true">•</span> @DisplayTexts.NavigationSettingsCommon
-                </NavLink>
-                <NavLink class="nav-link nav-sub-link" href="settings/decks" Match="NavLinkMatch.Prefix">
-                    <span class="nav-sub-bullet" aria-hidden="true">•</span> @DisplayTexts.NavigationSettingsDecks
-                </NavLink>
-            </div>
+            <button type="button"
+                    class="nav-link nav-link-group"
+                    @onclick="ToggleSettingsSubmenu"
+                    @onclick:stopPropagation="true"
+                    aria-expanded="@settingsSubmenuExpanded"
+                    aria-controls="settings-submenu">
+                <span class="nav-link-group-content">
+                    <span class="bi bi-gear-fill-nav-menu" aria-hidden="true"></span>
+                    @DisplayTexts.NavigationSettings
+                </span>
+                <span class="nav-link-group-caret" aria-hidden="true">@(settingsSubmenuExpanded ? "▾" : "▸")</span>
+            </button>
+            @if (settingsSubmenuExpanded)
+            {
+                <div id="settings-submenu" class="nav-submenu">
+                    <NavLink class="nav-link nav-sub-link" href="settings" Match="NavLinkMatch.All">
+                        <span class="nav-sub-bullet" aria-hidden="true">•</span> @DisplayTexts.NavigationSettingsCommon
+                    </NavLink>
+                    <NavLink class="nav-link nav-sub-link" href="settings/decks" Match="NavLinkMatch.Prefix">
+                        <span class="nav-sub-bullet" aria-hidden="true">•</span> @DisplayTexts.NavigationSettingsDecks
+                    </NavLink>
+                </div>
+            }
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="anleitung">
@@ -47,6 +59,7 @@
 
 @code {
     private bool collapseNavMenu = true;
+    private bool settingsSubmenuExpanded;
 
     [Parameter]
     public string? CurrentPageTitle { get; set; }
@@ -60,5 +73,10 @@
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+    private void ToggleSettingsSubmenu()
+    {
+        settingsSubmenuExpanded = !settingsSubmenuExpanded;
     }
 }

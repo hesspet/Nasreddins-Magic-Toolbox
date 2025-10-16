@@ -81,12 +81,49 @@
     padding: 0 0.75rem;
     color: var(--color-nav-link);
     font-weight: 600;
+    justify-content: space-between;
+    gap: 0.75rem;
 }
 
 .nav-item-group {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+}
+
+.nav-item button.nav-link {
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    color: var(--color-nav-link);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+    font: inherit;
+}
+
+.nav-item button.nav-link:focus {
+    outline: none;
+}
+
+.nav-item button.nav-link:hover,
+.nav-item button.nav-link:focus-visible {
+    background-color: var(--color-nav-link-hover-bg);
+    color: var(--color-text-inverse);
+}
+
+.nav-link-group-content {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.nav-link-group-caret {
+    font-size: 0.85rem;
+    line-height: 1;
 }
 
 .nav-submenu {
