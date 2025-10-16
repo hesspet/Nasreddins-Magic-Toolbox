@@ -89,11 +89,35 @@
     gap: 0.25rem;
 }
 
+.nav-link-button {
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    color: var(--color-nav-link);
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-link-button:focus-visible {
+    outline: 2px solid var(--color-nav-link-hover-bg);
+    outline-offset: 2px;
+}
+
+.nav-link-button:hover {
+    background-color: var(--color-nav-link-hover-bg);
+    color: var(--color-text-inverse);
+}
+
 .nav-submenu {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
     margin-left: 2.25rem;
+}
+
+.nav-submenu.collapsed {
+    display: none;
 }
 
     .nav-item ::deep a.nav-sub-link {
