@@ -1,11 +1,10 @@
 @page "/settings"
-@inject LocalStorageHelper LocalStorage
 
 <PageTitle>@DisplayTexts.SettingsPageTitle</PageTitle>
 
 <h1>@DisplayTexts.SettingsPageHeader</h1>
 
-<HelpDialog @ref="helpDialog" CloseButtonLabel="@DisplayTexts.HelpCloseButtonLabel" NotFoundMessage="@DisplayTexts.HelpNotFoundMessage" />
+<HelpDialog @ref="HelpDialog" CloseButtonLabel="@DisplayTexts.HelpCloseButtonLabel" NotFoundMessage="@DisplayTexts.HelpNotFoundMessage" />
 
 <section class="settings-section" aria-labelledby="color-theme-label">
     <div class="settings-label-row">
@@ -55,53 +54,6 @@
         }
     </select>
     <p class="settings-description">@DisplayTexts.SettingsSplashDurationDescription</p>
-</section>
-
-<section class="settings-section" aria-labelledby="card-scale-label">
-    <div class="settings-label-row">
-        <label id="card-scale-label" for="card-scale">@string.Format(DisplayTexts.SettingsCardScaleLabel, cardScalePercent)</label>
-        <HelpButton
-            AriaLabel="@GetHelpButtonLabel(string.Format(DisplayTexts.SettingsCardScaleLabel, cardScalePercent))"
-            OnClick="@(() => ShowHelpAsync("card-scale", string.Format(DisplayTexts.SettingsCardScaleLabel, cardScalePercent)))" />
-    </div>
-    <input
-        id="card-scale"
-        class="form-range"
-        type="range"
-        min="@ApplicationSettings.CardScalePercentMinimum"
-        max="@ApplicationSettings.CardScalePercentMaximum"
-        value="@cardScalePercent"
-        @oninput="OnCardScaleChanged" />
-    <div class="settings-card-scale-control">
-        <input
-            id="card-scale-number"
-            class="form-control"
-            type="number"
-            min="@ApplicationSettings.CardScalePercentMinimum"
-            max="@ApplicationSettings.CardScalePercentMaximum"
-            value="@cardScalePercent"
-            @onchange="OnCardScaleNumberChanged" />
-        <span class="settings-card-scale-suffix">%</span>
-    </div>
-    <p class="settings-description">@DisplayTexts.SettingsCardScaleDescription</p>
-</section>
-
-<section class="settings-section" aria-labelledby="search-auto-clear-label">
-    <div class="settings-label-row">
-        <label id="search-auto-clear-label" for="search-auto-clear">@DisplayTexts.SettingsSearchAutoClearLabel</label>
-        <HelpButton
-            AriaLabel="@GetHelpButtonLabel(DisplayTexts.SettingsSearchAutoClearLabel)"
-            OnClick="@(() => ShowHelpAsync("search-auto-clear", DisplayTexts.SettingsSearchAutoClearLabel))" />
-    </div>
-    <input
-        id="search-auto-clear"
-        class="form-control"
-        type="number"
-        min="@ApplicationSettings.SearchAutoClearDelayMinimumSeconds"
-        max="@ApplicationSettings.SearchAutoClearDelayMaximumSeconds"
-        value="@searchAutoClearDelaySeconds"
-        @onchange="OnSearchAutoClearDelayChanged" />
-    <p class="settings-description">@DisplayTexts.SettingsSearchAutoClearDescription</p>
 </section>
 
 <section class="settings-section" aria-labelledby="update-check-label">

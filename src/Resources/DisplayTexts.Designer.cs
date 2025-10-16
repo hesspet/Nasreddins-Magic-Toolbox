@@ -38,6 +38,10 @@ public static class DisplayTexts
     public static string NavigationDataInfo => GetString(nameof(NavigationDataInfo));
     public static string NavigationImportExport => GetString(nameof(NavigationImportExport));
     public static string NavigationSettings => GetString(nameof(NavigationSettings));
+
+    public static string NavigationSettingsCommon => GetString(nameof(NavigationSettingsCommon));
+
+    public static string NavigationSettingsDecks => GetString(nameof(NavigationSettingsDecks));
     public static string NavigationInstructions => GetString(nameof(NavigationInstructions));
     public static string DatabasePageTitle => GetString(nameof(DatabasePageTitle));
     public static string DatabasePageHeader => GetString(nameof(DatabasePageHeader));
@@ -94,6 +98,10 @@ public static class DisplayTexts
     public static string InstructionsContentError => GetString(nameof(InstructionsContentError));
     public static string SettingsPageTitle => GetString(nameof(SettingsPageTitle));
     public static string SettingsPageHeader => GetString(nameof(SettingsPageHeader));
+
+    public static string SettingsDecksPageTitle => GetString(nameof(SettingsDecksPageTitle));
+
+    public static string SettingsDecksPageHeader => GetString(nameof(SettingsDecksPageHeader));
     public static string SettingsThemeLabel => GetString(nameof(SettingsThemeLabel));
     public static string SettingsThemeDescription => GetString(nameof(SettingsThemeDescription));
     public static string SettingsThemeOptionLight => GetString(nameof(SettingsThemeOptionLight));
