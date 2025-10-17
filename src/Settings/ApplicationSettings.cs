@@ -1,6 +1,7 @@
 using System;
 using Toolbox;
 using Toolbox.Models;
+using LogLevel = Toolbox.Models.LogLevel;
 
 namespace Toolbox.Settings;
 

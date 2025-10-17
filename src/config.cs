@@ -1,4 +1,4 @@
-using Toolbox.Models;
+using LogLevel = Toolbox.Models.LogLevel;
 
 namespace Toolbox;
 
