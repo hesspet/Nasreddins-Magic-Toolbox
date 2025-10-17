@@ -1,0 +1,24 @@
+@if (isLoading)
+{
+    <div class="deck-loading" role="status" aria-live="polite">
+        <div class="spinner-border text-primary me-3" aria-hidden="true"></div>
+        <span class="deck-loading-text">@DisplayTexts.TarotDeckLoading</span>
+    </div>
+}
+else
+{
+    <div class="@CssClass">
+        <select id="@selectId"
+                class="form-select"
+                title="@DisplayTexts.TarotDeckSelectionPlaceholder"
+                aria-label="@DisplayTexts.TarotDeckSelectionLabel"
+                @onchange="HandleSelectionChangedAsync"
+                value="@selectedDeckId">
+            <option value="">@DisplayTexts.TarotDeckSelectionLabel</option>
+            @foreach (var option in deckOptions)
+            {
+                <option value="@option.DeckId">@option.DisplayName</option>
+            }
+        </select>
+    </div>
+}

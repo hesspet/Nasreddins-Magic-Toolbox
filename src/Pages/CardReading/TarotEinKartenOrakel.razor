@@ -1,17 +1,35 @@
 @page "/kartenlegen/tarot-ein-karten-orakel"
+@inherits CardReadingPageBase
 
 <PageTitle>@DisplayTexts.CardReadingSingleCardPageTitle</PageTitle>
 
 <h1>@DisplayTexts.CardReadingSingleCardPageHeader</h1>
 
-<p>@DisplayTexts.CardReadingContentPlaceholder</p>
+<CardDeckSelector StorageKey="@DeckStorageKey"
+                  DeckSelectionChanged="HandleDeckSelectionChangedAsync" />
+
+<CardSearchPicker DeckId="@SelectedDeckId"
+                  DeckDisplayName="@SelectedDeckDisplayName"
+                  PlaceholderText="@CardPlaceholderText"
+                  SelectedCard="@singleCard"
+                  SelectedCardChanged="OnSingleCardChangedAsync" />
 
 @code {
-    [CascadingParameter]
-    private MainLayout? Layout { get; set; }
+    private DeckCardInfo? singleCard;
 
-    protected override void OnInitialized()
+    protected override string PageTitle => DisplayTexts.CardReadingSingleCardPageTitle;
+
+    protected override string DeckStorageKey => CardDeckStorageKeys.TarotEinKartenOrakel;
+
+    protected override Task OnDeckChangedAsync(DeckOption? option)
     {
-        Layout?.UpdateCurrentPageTitle(DisplayTexts.CardReadingSingleCardPageTitle);
+        singleCard = null;
+        return Task.CompletedTask;
+    }
+
+    private Task OnSingleCardChangedAsync(DeckCardInfo? card)
+    {
+        singleCard = card;
+        return Task.CompletedTask;
     }
 }
