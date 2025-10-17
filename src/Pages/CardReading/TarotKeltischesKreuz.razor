@@ -15,7 +15,7 @@
 
 <p>@DisplayTexts.CardReadingContentPlaceholder</p>
 
-<TarotCardTable Spread="TarotSpreadDefinitions.CelticCross" />
+<TarotCardTable Spread="TarotSpreadDefinitions.CelticCross" ShowCards="HasSelectedDeck" />
 
 @code {
     private IReadOnlyList<DeckOption> deckOptions = Array.Empty<DeckOption>();
@@ -33,7 +33,9 @@
         set => selectedDeck = value ?? string.Empty;
     }
 
-    private bool IsSearchEnabled => !string.IsNullOrWhiteSpace(selectedDeck);
+    private bool IsSearchEnabled => HasSelectedDeck;
+
+    private bool HasSelectedDeck => !string.IsNullOrWhiteSpace(selectedDeck);
 
     protected override void OnInitialized()
     {

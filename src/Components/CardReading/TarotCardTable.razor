@@ -6,10 +6,13 @@
         @foreach (var slot in renderSlots)
         {
             <div class="tarot-card-table__slot @GetSlotCssClass(slot)" style="@slot.SlotStyle">
-                <TarotCard ImageUrl="@CardBackImage"
-                           AltText="@slot.Label"
-                           Orientation="@slot.Orientation"
-                           InlineStyle="@slot.CardStyle" />
+                @if (ShowCards)
+                {
+                    <TarotCard ImageUrl="@CardBackImage"
+                               AltText="@slot.Label"
+                               Orientation="@slot.Orientation"
+                               InlineStyle="@slot.CardStyle" />
+                }
             </div>
         }
     </div>
