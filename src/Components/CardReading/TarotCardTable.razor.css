@@ -1,0 +1,54 @@
+:host {
+    display: block;
+}
+
+.tarot-card-table {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 2rem;
+    padding: clamp(1.2rem, 4vw, 3rem);
+    border-radius: 1.75rem;
+    background: radial-gradient(circle at 25% 25%, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.45));
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    box-sizing: border-box;
+}
+
+.tarot-card-table__surface {
+    position: relative;
+    width: min(100%, 1200px);
+    height: clamp(320px, 65vh, 820px);
+    margin: 0 auto;
+    border-radius: 1.35rem;
+    background: radial-gradient(circle at 30% 30%, rgba(22, 92, 76, 0.55), rgba(5, 36, 29, 0.95));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 12px 35px rgba(0, 0, 0, 0.45);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.tarot-card-table__slot {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+}
+
+.tarot-card-table__slot--horizontal {
+    /* Hook for future horizontal specific adjustments. */
+}
+
+@media (max-width: 640px) {
+    .tarot-card-table {
+        padding: clamp(1rem, 6vw, 2rem);
+        margin-top: 1.5rem;
+    }
+
+    .tarot-card-table__surface {
+        height: clamp(280px, 70vh, 640px);
+    }
+}

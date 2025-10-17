@@ -1,0 +1,32 @@
+@using Toolbox.Models.CardReading
+
+<div class="tarot-card @OrientationCssClass" style="@InlineStyle">
+    <div class="tarot-card__inner">
+        <img src="@ImageUrl"
+             alt="@EffectiveAltText"
+             draggable="false"
+             decoding="async" />
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string ImageUrl { get; set; } = string.Empty;
+
+    [Parameter]
+    public string AltText { get; set; } = string.Empty;
+
+    [Parameter]
+    public CardOrientation Orientation { get; set; } = CardOrientation.Vertical;
+
+    [Parameter]
+    public string InlineStyle { get; set; } = string.Empty;
+
+    private string OrientationCssClass => Orientation == CardOrientation.Horizontal
+        ? "tarot-card--horizontal"
+        : string.Empty;
+
+    private string EffectiveAltText => string.IsNullOrWhiteSpace(AltText)
+        ? "Tarotkarte"
+        : AltText;
+}
