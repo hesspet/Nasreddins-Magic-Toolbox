@@ -54,4 +54,12 @@ public class LocalStorageHelper
             return default;
         }
     }
+
+    /// <summary>
+    /// Removes a value from the browser local storage.
+    /// </summary>
+    public async Task RemoveItemAsync(string key)
+    {
+        await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", key);
+    }
 }
