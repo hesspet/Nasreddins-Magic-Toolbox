@@ -11,7 +11,7 @@ public static class TarotSpreadDefinitions
         id: "single-card",
         slots: new[]
         {
-            new TarotCardSlot("single", 0, 0, label: "Karte 1")
+            new TarotCardSlot("single", 0, 0, Label: "Karte 1")
         })
     {
         HorizontalPadding = 0.8,
@@ -25,9 +25,9 @@ public static class TarotSpreadDefinitions
         id: "three-cards",
         slots: new[]
         {
-            new TarotCardSlot("left", -1.6, 0, label: "Karte 1"),
-            new TarotCardSlot("center", 0, 0, label: "Karte 2"),
-            new TarotCardSlot("right", 1.6, 0, label: "Karte 3")
+            new TarotCardSlot("left", -1.6, 0, Label: "Karte 1"),
+            new TarotCardSlot("center", 0, 0, Label: "Karte 2"),
+            new TarotCardSlot("right", 1.6, 0, Label: "Karte 3")
         })
     {
         HorizontalPadding = 1.0,
@@ -41,11 +41,11 @@ public static class TarotSpreadDefinitions
         id: "path",
         slots: new[]
         {
-            new TarotCardSlot("one", -3.2, 0, label: "Karte 1"),
-            new TarotCardSlot("two", -1.6, 0, label: "Karte 2"),
-            new TarotCardSlot("three", 0, 0, label: "Karte 3"),
-            new TarotCardSlot("four", 1.6, 0, label: "Karte 4"),
-            new TarotCardSlot("five", 3.2, 0, label: "Karte 5")
+            new TarotCardSlot("one", -3.2, 0, Label: "Karte 1"),
+            new TarotCardSlot("two", -1.6, 0, Label: "Karte 2"),
+            new TarotCardSlot("three", 0, 0, Label: "Karte 3"),
+            new TarotCardSlot("four", 1.6, 0, Label: "Karte 4"),
+            new TarotCardSlot("five", 3.2, 0, Label: "Karte 5")
         })
     {
         HorizontalPadding = 1.2,
@@ -59,10 +59,10 @@ public static class TarotSpreadDefinitions
         id: "four-corners",
         slots: new[]
         {
-            new TarotCardSlot("top-left", -1.6, -1.8, label: "Karte 1"),
-            new TarotCardSlot("top-right", 1.6, -1.8, label: "Karte 2"),
-            new TarotCardSlot("bottom-right", 1.6, 1.8, label: "Karte 3"),
-            new TarotCardSlot("bottom-left", -1.6, 1.8, label: "Karte 4")
+            new TarotCardSlot("top-left", -1.6, -1.8, Label: "Karte 1"),
+            new TarotCardSlot("top-right", 1.6, -1.8, Label: "Karte 2"),
+            new TarotCardSlot("bottom-right", 1.6, 1.8, Label: "Karte 3"),
+            new TarotCardSlot("bottom-left", -1.6, 1.8, Label: "Karte 4")
         })
     {
         HorizontalPadding = 1.1,
@@ -76,12 +76,12 @@ public static class TarotSpreadDefinitions
         id: "celtic-cross",
         slots: new[]
         {
-            new TarotCardSlot("center", 0, 0.5, label: "Karte 1"),
-            new TarotCardSlot("cross", 0.1, -0.7, CardOrientation.Horizontal, label: "Karte 2", ZIndex: 2),
-            new TarotCardSlot("above", 0, -2.8, label: "Karte 3"),
-            new TarotCardSlot("below", 0, 3.2, label: "Karte 4"),
-            new TarotCardSlot("left", -2.4, 0.5, label: "Karte 5"),
-            new TarotCardSlot("right", 2.4, 0.5, label: "Karte 6")
+            new TarotCardSlot("center", 0, 0.5, Label: "Karte 1"),
+            new TarotCardSlot("cross", 0.1, -0.7, CardOrientation.Horizontal, Label: "Karte 2", ZIndex: 2),
+            new TarotCardSlot("above", 0, -2.8, Label: "Karte 3"),
+            new TarotCardSlot("below", 0, 3.2, Label: "Karte 4"),
+            new TarotCardSlot("left", -2.4, 0.5, Label: "Karte 5"),
+            new TarotCardSlot("right", 2.4, 0.5, Label: "Karte 6")
         })
     {
         HorizontalPadding = 1.2,
