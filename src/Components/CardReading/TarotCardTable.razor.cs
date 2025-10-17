@@ -361,15 +361,49 @@ public sealed partial class TarotCardTable : IAsyncDisposable
         }
 
         await DbHelper.InitializeAsync().ConfigureAwait(false);
-        var deck = await DbHelper.GetDeckAsync(deckId).ConfigureAwait(false);
-        var deckName = string.IsNullOrWhiteSpace(deck?.Name) ? deckId : deck!.Name!;
+
+        var requestedDeckId = deckId ?? string.Empty;
+        var resolvedDeckId = requestedDeckId;
+        var deck = await DbHelper.GetDeckAsync(requestedDeckId).ConfigureAwait(false);
+        var cards = await DbHelper.GetCardsByDeckAsync(requestedDeckId).ConfigureAwait(false);
+
+        if (cards.Count == 0)
+        {
+            var decks = await DbHelper.GetAllDecksAsync().ConfigureAwait(false);
+            var normalizedRequestedId = CardSearchHelper.NormalizeForComparison(requestedDeckId);
+
+            var matchedDeck = decks.FirstOrDefault(candidate =>
+                CardSearchHelper.NormalizeForComparison(candidate?.Id ?? string.Empty) == normalizedRequestedId
+                || CardSearchHelper.NormalizeForComparison(candidate?.Name ?? string.Empty) == normalizedRequestedId);
+
+            if (matchedDeck is not null)
+            {
+                var correctedDeckId = matchedDeck.Id ?? requestedDeckId;
+
+                deck ??= matchedDeck;
+
+                if (!string.Equals(correctedDeckId, requestedDeckId, StringComparison.Ordinal))
+                {
+                    resolvedDeckId = correctedDeckId;
+                    cards = await DbHelper.GetCardsByDeckAsync(resolvedDeckId).ConfigureAwait(false);
+                }
+            }
+        }
+
+        var deckName = string.IsNullOrWhiteSpace(deck?.Name) ? resolvedDeckId : deck!.Name!;
         var deckDisplayName = CardSearchHelper.CreateDeckDisplayName(deckName);
-        var cards = await DbHelper.GetCardsByDeckAsync(deckId).ConfigureAwait(false);
         var orderedCards = cards.OrderBy(card => CardSearchHelper.CreateDisplayName(deckDisplayName, card.Id), StringComparer.OrdinalIgnoreCase)
                                 .ToList();
 
-        var deckCards = new DeckCards(deckId, deckDisplayName, orderedCards);
-        deckCardsCache[deckId] = deckCards;
+        var deckCards = new DeckCards(resolvedDeckId, deckDisplayName, orderedCards);
+
+        deckCardsCache[resolvedDeckId] = deckCards;
+
+        if (!string.Equals(resolvedDeckId, requestedDeckId, StringComparison.Ordinal))
+        {
+            deckCardsCache[requestedDeckId] = deckCards;
+        }
+
         return deckCards;
     }
 
