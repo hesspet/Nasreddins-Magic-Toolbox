@@ -2,16 +2,73 @@
 
 <PageTitle>@DisplayTexts.CardReadingSingleCardPageTitle</PageTitle>
 
+@inject IndexedDbHelper DbHelper
+
+<DeckSelectionBar IsLoading="isLoadingDecks"
+                  DeckOptions="DeckOptions"
+                  @bind-SelectedDeck="SelectedDeck"
+                  ShowSearchButton="true"
+                  SearchEnabled="IsSearchEnabled"
+                  OnSearchRequested="HandleSearchRequested" />
+
 <h1>@DisplayTexts.CardReadingSingleCardPageHeader</h1>
 
 <p>@DisplayTexts.CardReadingContentPlaceholder</p>
 
 @code {
+    private IReadOnlyList<DeckOption> deckOptions = Array.Empty<DeckOption>();
+    private bool isLoadingDecks = true;
+    private string selectedDeck = string.Empty;
+
     [CascadingParameter]
     private MainLayout? Layout { get; set; }
+
+    private IEnumerable<DeckOption> DeckOptions => deckOptions;
+
+    private string SelectedDeck
+    {
+        get => selectedDeck;
+        set => selectedDeck = value ?? string.Empty;
+    }
+
+    private bool IsSearchEnabled => !string.IsNullOrWhiteSpace(selectedDeck);
 
     protected override void OnInitialized()
     {
         Layout?.UpdateCurrentPageTitle(DisplayTexts.CardReadingSingleCardPageTitle);
     }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await LoadDecksAsync();
+    }
+
+    private async Task LoadDecksAsync()
+    {
+        try
+        {
+            await DbHelper.InitializeAsync();
+            var decks = await DbHelper.GetAllDecksAsync();
+            deckOptions = decks.Where(deck => !string.IsNullOrWhiteSpace(deck?.Id))
+                               .Select(deck =>
+                               {
+                                   var deckId = deck!.Id!;
+                                   var name = string.IsNullOrWhiteSpace(deck.Name) ? deckId : deck.Name!;
+                                   return new DeckOption(deckId, CreateDeckDisplayName(name));
+                               })
+                               .OrderBy(option => option.DisplayName, StringComparer.OrdinalIgnoreCase)
+                               .ToList();
+            selectedDeck = string.Empty;
+        }
+        finally
+        {
+            isLoadingDecks = false;
+            StateHasChanged();
+        }
+    }
+
+    private Task HandleSearchRequested() => Task.CompletedTask;
+
+    private static string CreateDeckDisplayName(string deckName) => deckName.Replace('_', ' ');
 }
