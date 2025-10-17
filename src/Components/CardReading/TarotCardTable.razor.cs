@@ -353,16 +353,28 @@ public sealed partial class TarotCardTable : IAsyncDisposable
         ResetSearchDialogState();
     }
 
-    private async Task<DeckCards?> GetDeckCardsAsync(string deckId)
+    public async Task<bool> PreloadDeckAsync(string? deckId, bool forceReload = false)
     {
-        if (deckCardsCache.TryGetValue(deckId, out var cached))
+        if (string.IsNullOrWhiteSpace(deckId))
+        {
+            return false;
+        }
+
+        var deckCards = await GetDeckCardsAsync(deckId, forceReload).ConfigureAwait(false);
+        return deckCards is not null && deckCards.Cards.Count > 0;
+    }
+
+    private async Task<DeckCards?> GetDeckCardsAsync(string deckId, bool allowReload = false)
+    {
+        var requestedDeckId = deckId ?? string.Empty;
+
+        if (!allowReload && deckCardsCache.TryGetValue(requestedDeckId, out var cached))
         {
             return cached;
         }
 
         await DbHelper.InitializeAsync().ConfigureAwait(false);
 
-        var requestedDeckId = deckId ?? string.Empty;
         var resolvedDeckId = requestedDeckId;
         var deck = await DbHelper.GetDeckAsync(requestedDeckId).ConfigureAwait(false);
         var cards = await DbHelper.GetCardsByDeckAsync(requestedDeckId).ConfigureAwait(false);
@@ -399,7 +411,7 @@ public sealed partial class TarotCardTable : IAsyncDisposable
 
         deckCardsCache[resolvedDeckId] = deckCards;
 
-        if (!string.Equals(resolvedDeckId, requestedDeckId, StringComparison.Ordinal))
+        if (!string.Equals(resolvedDeckId, requestedDeckId, StringComparison.OrdinalIgnoreCase))
         {
             deckCardsCache[requestedDeckId] = deckCards;
         }

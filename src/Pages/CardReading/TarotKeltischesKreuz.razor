@@ -16,14 +16,27 @@
 
 <p>@DisplayTexts.CardReadingContentPlaceholder</p>
 
-<TarotCardTable Spread="TarotSpreadDefinitions.CelticCross"
-                ShowCards="HasSelectedDeck"
+@if (isLoadingCards && HasSelectedDeck)
+{
+    <div class="deck-loading" role="status" aria-live="polite">
+        <div class="spinner-border text-primary me-3" aria-hidden="true"></div>
+        <span class="deck-loading-text">@DisplayTexts.TarotDeckLoading</span>
+    </div>
+}
+
+<TarotCardTable @ref="cardTableRef"
+                Spread="TarotSpreadDefinitions.CelticCross"
+                ShowCards="CanShowCards"
                 SelectedDeckId="SelectedDeck" />
 
 @code {
+    private TarotCardTable? cardTableRef;
     private IReadOnlyList<DeckOption> deckOptions = Array.Empty<DeckOption>();
     private bool isLoadingDecks = true;
+    private bool isLoadingCards;
     private string selectedDeck = string.Empty;
+    private string? pendingDeckId;
+    private long deckLoadRequestId;
 
     [CascadingParameter]
     private MainLayout? Layout { get; set; }
@@ -33,12 +46,24 @@
     private string SelectedDeck
     {
         get => selectedDeck;
-        set => selectedDeck = value ?? string.Empty;
+        set
+        {
+            var newValue = value ?? string.Empty;
+            if (string.Equals(selectedDeck, newValue, StringComparison.Ordinal))
+            {
+                return;
+            }
+
+            selectedDeck = newValue;
+            _ = PreloadSelectedDeckAsync(newValue);
+        }
     }
 
-    private bool IsSearchEnabled => HasSelectedDeck;
+    private bool IsSearchEnabled => HasSelectedDeck && !isLoadingCards;
 
     private bool HasSelectedDeck => !string.IsNullOrWhiteSpace(selectedDeck);
+
+    private bool CanShowCards => HasSelectedDeck && !isLoadingCards;
 
     protected override void OnInitialized()
     {
@@ -48,30 +73,81 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        await LoadDecksAsync();
-    }
 
-    private async Task LoadDecksAsync()
-    {
+        isLoadingDecks = true;
+        await InvokeAsync(StateHasChanged);
+
         try
         {
-            await DbHelper.InitializeAsync();
-            var decks = await DbHelper.GetAllDecksAsync();
-            deckOptions = decks.Where(deck => !string.IsNullOrWhiteSpace(deck?.Id))
-                               .Select(deck =>
-                               {
-                                   var deckId = deck!.Id!;
-                                   var name = string.IsNullOrWhiteSpace(deck.Name) ? deckId : deck.Name!;
-                                   return new DeckOption(deckId, CreateDeckDisplayName(name));
-                               })
-                               .OrderBy(option => option.DisplayName, StringComparer.OrdinalIgnoreCase)
-                               .ToList();
-            selectedDeck = string.Empty;
+            await LoadDecksAsync();
         }
         finally
         {
             isLoadingDecks = false;
-            StateHasChanged();
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (!string.IsNullOrWhiteSpace(pendingDeckId) && cardTableRef is not null)
+        {
+            var deckId = pendingDeckId;
+            pendingDeckId = null;
+            await PreloadSelectedDeckAsync(deckId);
+        }
+    }
+
+    private async Task LoadDecksAsync()
+    {
+        await DbHelper.InitializeAsync();
+        var decks = await DbHelper.GetAllDecksAsync();
+        deckOptions = decks.Where(deck => !string.IsNullOrWhiteSpace(deck?.Id))
+                           .Select(deck =>
+                           {
+                               var deckId = deck!.Id!;
+                               var name = string.IsNullOrWhiteSpace(deck.Name) ? deckId : deck.Name!;
+                               return new DeckOption(deckId, CreateDeckDisplayName(name));
+                           })
+                           .OrderBy(option => option.DisplayName, StringComparer.OrdinalIgnoreCase)
+                           .ToList();
+        selectedDeck = string.Empty;
+    }
+
+    private async Task PreloadSelectedDeckAsync(string deckId)
+    {
+        if (string.IsNullOrWhiteSpace(deckId))
+        {
+            isLoadingCards = false;
+            await InvokeAsync(StateHasChanged);
+            return;
+        }
+
+        if (cardTableRef is null)
+        {
+            pendingDeckId = deckId;
+            return;
+        }
+
+        pendingDeckId = null;
+        var requestId = ++deckLoadRequestId;
+
+        isLoadingCards = true;
+        await InvokeAsync(StateHasChanged);
+
+        try
+        {
+            await cardTableRef.PreloadDeckAsync(deckId).ConfigureAwait(false);
+        }
+        finally
+        {
+            if (requestId == deckLoadRequestId)
+            {
+                isLoadingCards = false;
+                await InvokeAsync(StateHasChanged);
+            }
         }
     }
 
