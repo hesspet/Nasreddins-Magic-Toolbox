@@ -43,6 +43,7 @@ public sealed partial class TarotCardTable : IAsyncDisposable
     private string currentDeckId = string.Empty;
     private bool isDeckLoading;
     private string? pendingDeckId;
+    private bool CanPerformSearch => !isSearching && !string.IsNullOrWhiteSpace(searchTerm) && activeSlot is not null;
 
     [Inject]
     public IJSRuntime JSRuntime { get; set; } = default!;
@@ -291,9 +292,24 @@ public sealed partial class TarotCardTable : IAsyncDisposable
         await InvokeAsync(StateHasChanged);
     }
 
+    private async Task HandleSearchKeyDown(KeyboardEventArgs args)
+    {
+        if (!string.Equals(args?.Key, "Enter", StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        if (!CanPerformSearch)
+        {
+            return;
+        }
+
+        await PerformSearchAsync().ConfigureAwait(false);
+    }
+
     private async Task PerformSearchAsync()
     {
-        if (isSearching || activeSlot is null)
+        if (!CanPerformSearch || activeSlot is null)
         {
             return;
         }
