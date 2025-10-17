@@ -29,6 +29,9 @@ namespace Toolbox.Pages
         private bool cardObserverNeedsRefresh;
         private bool shouldRestoreSearchInputFocus;
 
+        [Inject]
+        private NavigationManager NavigationManager { get; set; } = default!;
+
         [CascadingParameter]
         private MainLayout? Layout { get; set; }
 
@@ -67,6 +70,7 @@ namespace Toolbox.Pages
         private double? swipeStartX;
         private bool isSwipeTracking;
         private CancellationTokenSource? searchClearCancellation;
+        private bool hasRestoredInitialDeck;
 
         private IEnumerable<DeckOption> DeckOptions => deckOptions;
         private bool HasSearched => !string.IsNullOrWhiteSpace(searchTerm);
@@ -225,10 +229,22 @@ namespace Toolbox.Pages
                 deckDisplayNames[option.DeckId] = option.DisplayName;
             }
 
-            selectedDeck = string.Empty;
+            cachedDeckCards = null;
             searchTerm = string.Empty;
             CancelSearchClearTimer();
             ClearCurrentCard();
+
+            var restoredSelection = false;
+            if (!hasRestoredInitialDeck)
+            {
+                hasRestoredInitialDeck = true;
+                restoredSelection = await RestoreInitialDeckSelectionAsync(orderedOptions);
+            }
+
+            if (!restoredSelection)
+            {
+                SelectedDeck = string.Empty;
+            }
         }
 
         private async Task<DeckCards?> GetDeckCardsAsync(string deckId, bool allowReload)
@@ -454,6 +470,67 @@ namespace Toolbox.Pages
             {
                 await LocalStorage.SetItemAsync(ApplicationSettings.SearchAutoClearDelaySecondsKey, searchAutoClearDelaySeconds);
             }
+        }
+
+        private async Task<bool> RestoreInitialDeckSelectionAsync(IReadOnlyList<DeckOption> options)
+        {
+            if (options is null || options.Count == 0)
+            {
+                return false;
+            }
+
+            var storageKey = GetDeckSelectionStorageKey();
+            if (!string.IsNullOrWhiteSpace(storageKey))
+            {
+                var storedDeckId = await LocalStorage.GetItemAsync<string?>(storageKey);
+
+                if (!string.IsNullOrWhiteSpace(storedDeckId))
+                {
+                    if (options.Any(option => string.Equals(option.DeckId, storedDeckId, StringComparison.Ordinal)))
+                    {
+                        SelectedDeck = storedDeckId;
+                        return true;
+                    }
+
+                    await LocalStorage.RemoveItemAsync(storageKey);
+                }
+            }
+
+            if (string.IsNullOrWhiteSpace(SelectedDeck) && options.Count == 1)
+            {
+                SelectedDeck = options[0].DeckId;
+                return true;
+            }
+
+            return false;
+        }
+
+        private string? GetDeckSelectionStorageKey()
+        {
+            if (NavigationManager is null)
+            {
+                return null;
+            }
+
+            var relativePath = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+            if (string.IsNullOrWhiteSpace(relativePath))
+            {
+                relativePath = "/";
+            }
+
+            var queryIndex = relativePath.IndexOf('?', StringComparison.Ordinal);
+            if (queryIndex >= 0)
+            {
+                relativePath = relativePath[..queryIndex];
+            }
+
+            var hashIndex = relativePath.IndexOf('#', StringComparison.Ordinal);
+            if (hashIndex >= 0)
+            {
+                relativePath = relativePath[..hashIndex];
+            }
+
+            return $"DeckSelection:{relativePath}";
         }
 
         private void ToggleCardFullscreen()
