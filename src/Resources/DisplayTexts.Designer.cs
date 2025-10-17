@@ -44,7 +44,6 @@ public static class DisplayTexts
     public static string CardReadingSearchButtonLabel => GetString(nameof(CardReadingSearchButtonLabel));
     public static string CardReadingSearchResultPrompt => GetString(nameof(CardReadingSearchResultPrompt));
     public static string CardReadingSearchCloseButtonLabel => GetString(nameof(CardReadingSearchCloseButtonLabel));
-    public static string CardReadingContentPlaceholder => GetString(nameof(CardReadingContentPlaceholder));
     public static string NavigationBrand => GetString(nameof(NavigationBrand));
     public static string NavigationToggleTitle => GetString(nameof(NavigationToggleTitle));
     public static string NavigationHome => GetString(nameof(NavigationHome));

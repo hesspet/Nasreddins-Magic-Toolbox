@@ -151,9 +151,6 @@
   <data name="CardReadingSearchCloseButtonLabel" xml:space="preserve">
     <value>Schließen</value>
   </data>
-  <data name="CardReadingContentPlaceholder" xml:space="preserve">
-    <value>Weitere Inhalte folgen.</value>
-  </data>
   <data name="NavigationBrand" xml:space="preserve">
     <value>Toolbox</value>
   </data>
