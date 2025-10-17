@@ -9,7 +9,7 @@
     align-items: center;
     width: 100%;
     margin-top: 2rem;
-    padding: clamp(1.2rem, 4vw, 3rem);
+    padding: clamp(1.75rem, 5vw, 3.75rem);
     border-radius: 1.75rem;
     background: radial-gradient(circle at 25% 25%, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.45));
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
@@ -18,15 +18,15 @@
 
 .tarot-card-table__surface {
     position: relative;
-    width: min(100%, 1200px);
-    height: clamp(320px, 65vh, 820px);
+    width: min(100%, 1260px);
+    height: clamp(360px, 68vh, 880px);
     margin: 0 auto;
-    padding: clamp(0.9rem, 3vw, 1.75rem);
+    padding: clamp(1.35rem, 4vw, 2.25rem);
     border-radius: 1.35rem;
     background: radial-gradient(circle at 30% 30%, rgba(22, 92, 76, 0.55), rgba(5, 36, 29, 0.95));
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: inset 0 12px 35px rgba(0, 0, 0, 0.45);
-    overflow: hidden;
+    overflow: visible;
     box-sizing: border-box;
 }
 
@@ -178,12 +178,12 @@
 
 @media (max-width: 640px) {
     .tarot-card-table {
-        padding: clamp(1rem, 6vw, 2rem);
+        padding: clamp(1.25rem, 7vw, 2.5rem);
         margin-top: 1.5rem;
     }
 
     .tarot-card-table__surface {
-        height: clamp(280px, 70vh, 640px);
-        padding: clamp(0.75rem, 5vw, 1.35rem);
+        height: clamp(320px, 72vh, 680px);
+        padding: clamp(1rem, 6vw, 1.75rem);
     }
 }
