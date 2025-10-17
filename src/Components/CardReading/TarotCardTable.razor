@@ -1,5 +1,6 @@
 @using Toolbox.Helpers
 @using Toolbox.Models.CardReading
+@using Toolbox.Resources
 
 <div class="tarot-card-table">
     <div class="tarot-card-table__surface" @ref="tableSurface" style="@SurfaceStyle">
@@ -8,12 +9,85 @@
             <div class="tarot-card-table__slot @GetSlotCssClass(slot)" style="@slot.SlotStyle">
                 @if (ShowCards)
                 {
-                    <TarotCard ImageUrl="@CardBackImage"
-                               AltText="@slot.Label"
+                    <TarotCard BackImageUrl="@CardBackImage"
+                               FaceImageUrl="@slot.SelectedCardImageUrl"
+                               AltText="@slot.DisplayAltText"
                                Orientation="@slot.Orientation"
-                               InlineStyle="@slot.CardStyle" />
+                               InlineStyle="@slot.CardStyle"
+                               OnCardClicked="@(() => HandleCardClickedAsync(slot))" />
                 }
             </div>
         }
     </div>
+
+    @if (isSearchDialogOpen && activeSlot is not null)
+    {
+        <div class="tarot-card-table__overlay"
+             role="dialog"
+             aria-modal="true"
+             aria-labelledby="@searchDialogTitleId"
+             @onclick="CloseSearchDialog"
+             @onkeydown="HandleOverlayKeyDown"
+             tabindex="-1">
+            <div class="tarot-card-table__dialog" @onclick:stopPropagation="true">
+                <div class="tarot-card-table__dialog-header">
+                    <h2 id="@searchDialogTitleId" class="tarot-card-table__dialog-title">
+                        @DisplayTexts.CardReadingSearchDialogTitle
+                        <span class="tarot-card-table__dialog-subtitle">@activeSlot.Label</span>
+                    </h2>
+                    <button type="button"
+                            class="tarot-card-table__close-button"
+                            aria-label="@DisplayTexts.CardReadingSearchCloseButtonLabel"
+                            @onclick="CloseSearchDialog">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="tarot-card-table__dialog-body">
+                    <label class="form-label" for="@searchInputId">@DisplayTexts.TarotSearchLabel</label>
+                    <input id="@searchInputId"
+                           class="form-control"
+                           @bind="searchTerm"
+                           @bind:event="oninput"
+                           @ref="searchInputRef"
+                           placeholder="@DisplayTexts.TarotSearchPlaceholder"
+                           aria-describedby="@(searchResults.Count > 1 ? searchResultsDescriptionId : null)"
+                           autocomplete="off" />
+
+                    <div class="tarot-card-table__dialog-actions">
+                        <button type="button"
+                                class="btn btn-primary"
+                                disabled="@isSearching"
+                                @onclick="PerformSearchAsync">
+                            @DisplayTexts.CardReadingSearchButtonLabel
+                        </button>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(searchError))
+                    {
+                        <p class="tarot-card-table__search-message text-danger" role="status">@searchError</p>
+                    }
+                    else if (searchResults.Count > 1)
+                    {
+                        <p id="@searchResultsDescriptionId" class="tarot-card-table__search-message">
+                            @DisplayTexts.CardReadingSearchResultPrompt
+                        </p>
+
+                        <ul class="tarot-card-table__search-results list-group">
+                            @foreach (var result in searchResults)
+                            {
+                                <li class="list-group-item tarot-card-table__search-result-item">
+                                    <button type="button"
+                                            class="tarot-card-table__result-button"
+                                            @onclick="() => SelectSearchResult(result)">
+                                        <span>@result.DisplayName</span>
+                                    </button>
+                                </li>
+                            }
+                        </ul>
+                    }
+                </div>
+            </div>
+        </div>
+    }
 </div>

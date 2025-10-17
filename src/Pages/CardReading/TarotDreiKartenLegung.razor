@@ -1,4 +1,5 @@
 @page "/kartenlegen/tarot-drei-karten-legung"
+@using Toolbox.Helpers
 
 <PageTitle>@DisplayTexts.CardReadingThreeCardPageTitle</PageTitle>
 
@@ -15,7 +16,9 @@
 
 <p>@DisplayTexts.CardReadingContentPlaceholder</p>
 
-<TarotCardTable Spread="TarotSpreadDefinitions.ThreeCards" ShowCards="HasSelectedDeck" />
+<TarotCardTable Spread="TarotSpreadDefinitions.ThreeCards"
+                ShowCards="HasSelectedDeck"
+                SelectedDeckId="SelectedDeck" />
 
 @code {
     private IReadOnlyList<DeckOption> deckOptions = Array.Empty<DeckOption>();
@@ -74,5 +77,5 @@
 
     private Task HandleSearchRequested() => Task.CompletedTask;
 
-    private static string CreateDeckDisplayName(string deckName) => deckName.Replace('_', ' ');
+    private static string CreateDeckDisplayName(string deckName) => CardSearchHelper.CreateDeckDisplayName(deckName);
 }

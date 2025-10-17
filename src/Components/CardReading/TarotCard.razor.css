@@ -14,6 +14,24 @@
     --tarot-card-rotation: 0deg;
 }
 
+.tarot-card-button {
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    color: inherit;
+}
+
+.tarot-card-button:focus {
+    outline: none;
+}
+
+.tarot-card-button:focus-visible .tarot-card__inner {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.75), 0 16px 28px rgba(0, 0, 0, 0.35), 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
 .tarot-card__inner {
     width: var(--tarot-card-width, 100%);
     height: var(--tarot-card-height, 100%);

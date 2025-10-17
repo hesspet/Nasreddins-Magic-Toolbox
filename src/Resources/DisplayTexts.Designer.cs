@@ -40,6 +40,10 @@ public static class DisplayTexts
     public static string CardReadingFourCornersPageHeader => GetString(nameof(CardReadingFourCornersPageHeader));
     public static string CardReadingPathPageTitle => GetString(nameof(CardReadingPathPageTitle));
     public static string CardReadingPathPageHeader => GetString(nameof(CardReadingPathPageHeader));
+    public static string CardReadingSearchDialogTitle => GetString(nameof(CardReadingSearchDialogTitle));
+    public static string CardReadingSearchButtonLabel => GetString(nameof(CardReadingSearchButtonLabel));
+    public static string CardReadingSearchResultPrompt => GetString(nameof(CardReadingSearchResultPrompt));
+    public static string CardReadingSearchCloseButtonLabel => GetString(nameof(CardReadingSearchCloseButtonLabel));
     public static string CardReadingContentPlaceholder => GetString(nameof(CardReadingContentPlaceholder));
     public static string NavigationBrand => GetString(nameof(NavigationBrand));
     public static string NavigationToggleTitle => GetString(nameof(NavigationToggleTitle));
