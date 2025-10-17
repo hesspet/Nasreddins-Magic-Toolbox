@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Toolbox.Helpers;
 using Toolbox.Resources;
 using Toolbox.Settings;
 
@@ -8,6 +9,7 @@ public partial class SettingsDecks : SettingsPageBase
 {
     protected override void OnInitialized()
     {
+        LogService.LogDebug($"Seite '{DisplayTexts.SettingsDecksPageTitle}' initialisiert.");
         UpdatePageTitle(DisplayTexts.SettingsDecksPageTitle);
     }
 
@@ -49,6 +51,9 @@ public partial class SettingsDecks : SettingsPageBase
     private int cardScalePercent = ApplicationSettings.CardScalePercentDefault;
 
     private int searchAutoClearDelaySeconds = ApplicationSettings.SearchAutoClearDelayDefaultSeconds;
+
+    [Inject]
+    private InMemoryLogService LogService { get; set; } = default!;
 
     private async Task OnCardScaleChanged(ChangeEventArgs args)
     {

@@ -78,6 +78,21 @@
     <p class="settings-description">@DisplayTexts.SettingsCheckForUpdatesDescription</p>
 </section>
 
+<section class="settings-section" aria-labelledby="log-level-label">
+    <div class="settings-label-row">
+        <label id="log-level-label" for="log-level">@DisplayTexts.SettingsLoggingLogLevelLabel</label>
+    </div>
+    <select id="log-level" class="form-select" @onchange="OnLogLevelChanged">
+        @foreach (var option in ApplicationSettings.LogLevelOptions)
+        {
+            <option value="@option" selected="@(option == selectedLogLevel ? "selected" : null)">
+                @GetLogLevelOptionLabel(option)
+            </option>
+        }
+    </select>
+    <p class="settings-description">@DisplayTexts.SettingsLoggingLogLevelDescription</p>
+</section>
+
 <section class="settings-section" aria-labelledby="log-max-lines-label">
     <div class="settings-label-row">
         <label id="log-max-lines-label" for="log-max-lines">@DisplayTexts.SettingsLoggingMaxLinesLabel</label>

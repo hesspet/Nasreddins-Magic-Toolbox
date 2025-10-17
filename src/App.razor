@@ -2,6 +2,7 @@
 @inject NavigationManager NavigationManager
 @inject DeckBootstrapper DeckBootstrapper
 @inject ThemeService ThemeService
+@inject InMemoryLogService LogService
 
 @if (isSplashVisible)
 {
@@ -71,8 +72,11 @@ else
         var splashTask = InitializeSplashDurationAsync();
         var deckTask = DeckBootstrapper.EnsureDefaultDeckAsync();
         var themeTask = ThemeService.EnsureInitializedAsync();
+        var logLevelTask = InitializeLogLevelAsync();
 
-        await Task.WhenAll(splashTask, deckTask, themeTask);
+        await Task.WhenAll(splashTask, deckTask, themeTask, logLevelTask);
+
+        LogService.LogInformation(DisplayTexts.LoggingSystemStartMessage);
     }
 
     private async Task InitializeSplashDurationAsync()
@@ -88,6 +92,26 @@ else
         {
             await LocalStorage.SetItemAsync(ApplicationSettings.SplashScreenDurationKey, splashDurationSeconds);
         }
+    }
+
+    private async Task InitializeLogLevelAsync()
+    {
+        var storedLevel = await LocalStorage.GetItemAsync<string?>(ApplicationSettings.LogLevelKey);
+
+        if (!string.IsNullOrWhiteSpace(storedLevel) && ApplicationSettings.TryParseLogLevel(storedLevel, out var parsedLevel))
+        {
+            LogService.SetLogLevel(parsedLevel);
+
+            if (!string.Equals(storedLevel, parsedLevel.ToString(), StringComparison.Ordinal))
+            {
+                await LocalStorage.SetItemAsync(ApplicationSettings.LogLevelKey, parsedLevel.ToString());
+            }
+
+            return;
+        }
+
+        LogService.SetLogLevel(ApplicationSettings.LogLevelDefault);
+        await LocalStorage.SetItemAsync(ApplicationSettings.LogLevelKey, LogService.CurrentLevel.ToString());
     }
 
     private void SkipSplash()

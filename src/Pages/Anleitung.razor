@@ -10,6 +10,7 @@
 @using Markdig.Syntax.Inlines
 @implements IAsyncDisposable
 @inject IJSRuntime JsRuntime
+@inject InMemoryLogService LogService
 
 <PageTitle>@DisplayTexts.InstructionsPageTitle</PageTitle>
 
@@ -64,6 +65,7 @@ else
 
     protected override void OnInitialized()
     {
+        LogService.LogDebug($"Seite '{DisplayTexts.InstructionsPageTitle}' initialisiert.");
         try
         {
             LoadInstructions();

@@ -1,4 +1,6 @@
 using System;
+using Toolbox;
+using Toolbox.Models;
 
 namespace Toolbox.Settings;
 
@@ -38,9 +40,17 @@ public static class ApplicationSettings
     public const int LogMaxLinesMaximum = 10000;
     public const string LogMaxLinesKey = "LogMaxLines";
 
+    public const LogLevel LogLevelDefault = Config.DefaultLogLevel;
+    public const string LogLevelKey = "LogLevel";
+    public static LogLevel[] LogLevelOptions { get; } = Enum.GetValues<LogLevel>();
+
     public static int ClampCardScalePercent(int value) => Math.Clamp(value, CardScalePercentMinimum, CardScalePercentMaximum);
 
     public static int ClampSearchAutoClearDelaySeconds(int value) => Math.Clamp(value, SearchAutoClearDelayMinimumSeconds, SearchAutoClearDelayMaximumSeconds);
 
     public static int ClampLogMaxLines(int value) => Math.Clamp(value, LogMaxLinesMinimum, LogMaxLinesMaximum);
+
+    public static bool TryParseLogLevel(string? value, out LogLevel level) => LogLevelExtensions.TryParse(value, out level);
+
+    public static bool IsValidLogLevel(LogLevel level) => LogLevelExtensions.IsDefined(level);
 }

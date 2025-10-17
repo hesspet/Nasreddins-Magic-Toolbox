@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Toolbox.Helpers;
 using Toolbox.Resources;
 using Toolbox.Settings;
 
@@ -9,8 +10,12 @@ public partial class SettingsCardReading : SettingsPageBase
     private string gptApiKey = string.Empty;
     private string chatGptApiUrl = string.Empty;
 
+    [Inject]
+    private InMemoryLogService LogService { get; set; } = default!;
+
     protected override void OnInitialized()
     {
+        LogService.LogDebug($"Seite '{DisplayTexts.SettingsCardReadingPageTitle}' initialisiert.");
         UpdatePageTitle(DisplayTexts.SettingsCardReadingPageTitle);
     }
 

@@ -2,6 +2,8 @@
 
 <PageTitle>@DisplayTexts.HomePageTitle</PageTitle>
 
+@inject InMemoryLogService LogService
+
 <h1>@DisplayTexts.HomeWelcomeTitle</h1>
 
 <p>@DisplayTexts.HomeWelcomeDescription</p>
@@ -16,6 +18,7 @@
 
     protected override void OnInitialized()
     {
+        LogService.LogDebug($"Seite '{DisplayTexts.HomePageTitle}' initialisiert.");
         Layout?.UpdateCurrentPageTitle(DisplayTexts.HomePageTitle);
     }
 }
