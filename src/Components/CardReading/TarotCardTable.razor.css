@@ -21,6 +21,7 @@
     width: min(100%, 1200px);
     height: clamp(320px, 65vh, 820px);
     margin: 0 auto;
+    padding: clamp(0.9rem, 3vw, 1.75rem);
     border-radius: 1.35rem;
     background: radial-gradient(circle at 30% 30%, rgba(22, 92, 76, 0.55), rgba(5, 36, 29, 0.95));
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -50,5 +51,6 @@
 
     .tarot-card-table__surface {
         height: clamp(280px, 70vh, 640px);
+        padding: clamp(0.75rem, 5vw, 1.35rem);
     }
 }
