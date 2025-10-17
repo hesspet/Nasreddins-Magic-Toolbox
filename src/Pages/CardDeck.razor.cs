@@ -7,6 +7,7 @@ using Markdig;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
+using Toolbox.Helpers;
 using Toolbox.Models;
 using Toolbox.Layout;
 using Toolbox.Resources;
@@ -143,10 +144,10 @@ namespace Toolbox.Pages
                     return;
                 }
 
-                var normalized = NormalizeForComparison(requestedSearch);
+                var normalized = CardSearchHelper.NormalizeForComparison(requestedSearch);
                 var index = normalized.Length == 0
                     ? (selectedCardIndex >= 0 && selectedCardIndex < deckCards.Cards.Count ? selectedCardIndex : 0)
-                    : FindMatchingCardIndex(deckCards.Cards, deckCards.DeckId, normalized);
+                    : CardSearchHelper.FindFirstMatchingCardIndex(deckCards.Cards, deckCards.DeckId, normalized);
 
                 if (normalized.Length > 0 && index < 0)
                 {
@@ -211,8 +212,8 @@ namespace Toolbox.Pages
                                       .Select(deck =>
                                       {
                                           var deckId = deck!.Id!;
-                                          var name = string.IsNullOrWhiteSpace(deck.Name) ? deckId : deck.Name;
-                                          return new DeckOption(deckId, CreateDeckDisplayName(name));
+                                          var name = string.IsNullOrWhiteSpace(deck.Name) ? deckId : deck!.Name!;
+                                          return new DeckOption(deckId, CardSearchHelper.CreateDeckDisplayName(name));
                                       })
                                       .OrderBy(option => option.DisplayName, StringComparer.OrdinalIgnoreCase)
                                       .ToList();
@@ -251,7 +252,7 @@ namespace Toolbox.Pages
         {
             var deckDisplayName = GetDeckDisplayName(deckId);
             var cards = await DbHelper.GetCardsByDeckAsync(deckId);
-            var orderedCards = cards.OrderBy(card => CreateDisplayName(deckDisplayName, card.Id), StringComparer.OrdinalIgnoreCase)
+            var orderedCards = cards.OrderBy(card => CardSearchHelper.CreateDisplayName(deckDisplayName, card.Id), StringComparer.OrdinalIgnoreCase)
                                     .ToList();
             return new DeckCards(deckId, deckDisplayName, orderedCards);
         }
@@ -263,7 +264,7 @@ namespace Toolbox.Pages
                 return displayName;
             }
 
-            return CreateDeckDisplayName(deckId);
+            return CardSearchHelper.CreateDeckDisplayName(deckId);
         }
 
         private void ShowCardAtIndex(int index, DeckCards deckCards)
@@ -639,67 +640,14 @@ namespace Toolbox.Pages
         private static DeckCardInfo CreateCardInfo(string deckId, string deckName, Spielkarte card)
         {
             var cardId = card?.Id ?? string.Empty;
-            var displayName = CreateDisplayName(deckName, cardId);
-            var key = CreateKey(deckId, cardId);
-            var imageDataUrl = CreateImageDataUrl(card?.Image);
+            var displayName = CardSearchHelper.CreateDisplayName(deckName, cardId);
+            var key = CardSearchHelper.CreateKey(deckId, cardId);
+            var imageDataUrl = CardSearchHelper.CreateImageDataUrl(card?.Image);
             var description = card?.Description ?? string.Empty;
 
             return new DeckCardInfo(displayName, deckId, cardId, key, imageDataUrl, description);
         }
 
-        private static string CreateDeckDisplayName(string deckName) => deckName.Replace('_', ' ');
-
-        private static string CreateDisplayName(string deckName, string cardId)
-        {
-            var friendlyDeckName = deckName.Replace('_', ' ');
-            var cardName = cardId.Replace('_', ' ');
-            return $"{friendlyDeckName}: {cardName}";
-        }
-
-        private static string CreateImageDataUrl(byte[]? imageBytes)
-        {
-            if (imageBytes is null || imageBytes.Length == 0)
-            {
-                return string.Empty;
-            }
-
-            var base64 = Convert.ToBase64String(imageBytes);
-            return $"data:image/jpeg;base64,{base64}";
-        }
-
-        private static string CreateKey(string deckName, string cardId)
-        {
-            var composite = string.Concat(deckName, "_", cardId);
-            var filtered = composite.Where(char.IsLetterOrDigit);
-            return string.Concat(filtered);
-        }
-
-        private static int FindMatchingCardIndex(IReadOnlyList<Spielkarte> candidates, string deckId, string normalizedSearch)
-        {
-            for (var index = 0; index < candidates.Count; index++)
-            {
-                var candidate = candidates[index];
-                var key = NormalizeForComparison(CreateKey(deckId, candidate.Id ?? string.Empty));
-                if (key.Contains(normalizedSearch, StringComparison.OrdinalIgnoreCase))
-                {
-                    return index;
-                }
-            }
-
-            return -1;
-        }
-
-        private static string NormalizeForComparison(string value)
-        {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                return string.Empty;
-            }
-
-            var filtered = value.Where(char.IsLetterOrDigit)
-                                .Select(char.ToLowerInvariant);
-            return string.Concat(filtered);
-        }
 
         public async ValueTask DisposeAsync()
         {

@@ -1,17 +1,25 @@
 @using Toolbox.Models.CardReading
 
-<div class="tarot-card @OrientationCssClass" style="@InlineStyle">
-    <div class="tarot-card__inner">
-        <img src="@ImageUrl"
+<button type="button"
+        class="tarot-card tarot-card-button @OrientationCssClass"
+        style="@InlineStyle"
+        aria-label="@EffectiveAltText"
+        title="@EffectiveAltText"
+        @onclick="HandleClickAsync">
+    <span class="tarot-card__inner">
+        <img src="@DisplayedImageUrl"
              alt="@EffectiveAltText"
              draggable="false"
              decoding="async" />
-    </div>
-</div>
+    </span>
+</button>
 
 @code {
     [Parameter]
-    public string ImageUrl { get; set; } = string.Empty;
+    public string BackImageUrl { get; set; } = string.Empty;
+
+    [Parameter]
+    public string? FaceImageUrl { get; set; }
 
     [Parameter]
     public string AltText { get; set; } = string.Empty;
@@ -22,6 +30,13 @@
     [Parameter]
     public string InlineStyle { get; set; } = string.Empty;
 
+    [Parameter]
+    public EventCallback OnCardClicked { get; set; }
+
+    private string DisplayedImageUrl => string.IsNullOrWhiteSpace(FaceImageUrl)
+        ? BackImageUrl
+        : FaceImageUrl;
+
     private string OrientationCssClass => Orientation == CardOrientation.Horizontal
         ? "tarot-card--horizontal"
         : string.Empty;
@@ -29,4 +44,12 @@
     private string EffectiveAltText => string.IsNullOrWhiteSpace(AltText)
         ? "Tarotkarte"
         : AltText;
+
+    private async Task HandleClickAsync()
+    {
+        if (OnCardClicked.HasDelegate)
+        {
+            await OnCardClicked.InvokeAsync();
+        }
+    }
 }

@@ -43,6 +43,116 @@
     /* Hook for future horizontal specific adjustments. */
 }
 
+.tarot-card-table__overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: clamp(1rem, 4vw, 2rem);
+    background: rgba(0, 0, 0, 0.65);
+    z-index: 10;
+}
+
+.tarot-card-table__overlay:focus {
+    outline: none;
+}
+
+.tarot-card-table__dialog {
+    width: min(90%, 420px);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: clamp(1.25rem, 3vw, 1.75rem);
+    border-radius: 1rem;
+    background: rgba(15, 37, 34, 0.95);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+    color: #f8f9fa;
+}
+
+.tarot-card-table__dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.tarot-card-table__dialog-title {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.tarot-card-table__dialog-subtitle {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.tarot-card-table__close-button {
+    border: none;
+    background: none;
+    color: inherit;
+    font-size: 1.75rem;
+    line-height: 1;
+    padding: 0.25rem;
+    cursor: pointer;
+}
+
+.tarot-card-table__close-button:focus {
+    outline: none;
+}
+
+.tarot-card-table__close-button:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.7);
+    outline-offset: 2px;
+}
+
+.tarot-card-table__dialog-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.tarot-card-table__dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.tarot-card-table__search-message {
+    margin-bottom: 0;
+}
+
+.tarot-card-table__search-results {
+    max-height: 240px;
+    overflow-y: auto;
+    margin-bottom: 0;
+}
+
+.tarot-card-table__search-result-item {
+    padding: 0;
+}
+
+.tarot-card-table__result-button {
+    width: 100%;
+    display: block;
+    padding: 0.75rem 1rem;
+    border: none;
+    background: none;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+}
+
+.tarot-card-table__result-button:focus {
+    outline: none;
+}
+
+.tarot-card-table__result-button:hover,
+.tarot-card-table__result-button:focus-visible {
+    background: rgba(255, 255, 255, 0.12);
+}
+
 @media (max-width: 640px) {
     .tarot-card-table {
         padding: clamp(1rem, 6vw, 2rem);
