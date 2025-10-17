@@ -21,19 +21,9 @@
 }
 else
 {
-    <div class="deck-search">
-        <select id="deckSelection"
-                class="form-select"
-                title="@DisplayTexts.TarotDeckSelectionPlaceholder"
-                aria-label="@DisplayTexts.TarotDeckSelectionLabel"
-                @bind="SelectedDeck">
-            <option value="">@DisplayTexts.TarotDeckSelectionLabel</option>
-            @foreach (var option in DeckOptions)
-            {
-                <option value="@option.DeckId">@option.DisplayName</option>
-            }
-        </select>
-    </div>
+    <CardDeckSelector StorageKey="@CardDeckStorageKeys.CardDeckPage"
+                      CssClass="deck-search"
+                      DeckSelectionChanged="HandleDeckSelectionChangedAsync" />
 
     <div class="deck-page">
         <div class="deck-search">

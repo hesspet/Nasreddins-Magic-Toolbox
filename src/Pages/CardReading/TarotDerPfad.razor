@@ -1,17 +1,35 @@
 @page "/kartenlegen/tarot-der-pfad"
+@inherits CardReadingPageBase
 
 <PageTitle>@DisplayTexts.CardReadingPathPageTitle</PageTitle>
 
 <h1>@DisplayTexts.CardReadingPathPageHeader</h1>
 
-<p>@DisplayTexts.CardReadingContentPlaceholder</p>
+<CardDeckSelector StorageKey="@DeckStorageKey"
+                  DeckSelectionChanged="HandleDeckSelectionChangedAsync" />
+
+<CardSearchPicker DeckId="@SelectedDeckId"
+                  DeckDisplayName="@SelectedDeckDisplayName"
+                  PlaceholderText="@CardPlaceholderText"
+                  SelectedCard="@pathCard"
+                  SelectedCardChanged="OnPathCardChangedAsync" />
 
 @code {
-    [CascadingParameter]
-    private MainLayout? Layout { get; set; }
+    private DeckCardInfo? pathCard;
 
-    protected override void OnInitialized()
+    protected override string PageTitle => DisplayTexts.CardReadingPathPageTitle;
+
+    protected override string DeckStorageKey => CardDeckStorageKeys.TarotDerPfad;
+
+    protected override Task OnDeckChangedAsync(DeckOption? option)
     {
-        Layout?.UpdateCurrentPageTitle(DisplayTexts.CardReadingPathPageTitle);
+        pathCard = null;
+        return Task.CompletedTask;
+    }
+
+    private Task OnPathCardChangedAsync(DeckCardInfo? card)
+    {
+        pathCard = card;
+        return Task.CompletedTask;
     }
 }

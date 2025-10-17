@@ -1,17 +1,45 @@
 @page "/kartenlegen/tarot-keltisches-kreuz"
+@inherits CardReadingPageBase
 
 <PageTitle>@DisplayTexts.CardReadingCelticCrossPageTitle</PageTitle>
 
 <h1>@DisplayTexts.CardReadingCelticCrossPageHeader</h1>
 
-<p>@DisplayTexts.CardReadingContentPlaceholder</p>
+<CardDeckSelector StorageKey="@DeckStorageKey"
+                  DeckSelectionChanged="HandleDeckSelectionChangedAsync" />
+
+<div class="d-flex flex-wrap gap-4 justify-content-center">
+    @for (var index = 0; index < cards.Length; index++)
+    {
+        <div class="text-center">
+            <h2 class="h6">@GetCardLabel(index)</h2>
+            <CardSearchPicker DeckId="@SelectedDeckId"
+                              DeckDisplayName="@SelectedDeckDisplayName"
+                              PlaceholderText="@CardPlaceholderText"
+                              SelectedCard="@cards[index]"
+                              SelectedCardChanged="card => UpdateCardAsync(index, card)" />
+        </div>
+    }
+</div>
 
 @code {
-    [CascadingParameter]
-    private MainLayout? Layout { get; set; }
+    private readonly DeckCardInfo?[] cards = new DeckCardInfo?[10];
 
-    protected override void OnInitialized()
+    protected override string PageTitle => DisplayTexts.CardReadingCelticCrossPageTitle;
+
+    protected override string DeckStorageKey => CardDeckStorageKeys.TarotKeltischesKreuz;
+
+    protected override Task OnDeckChangedAsync(DeckOption? option)
     {
-        Layout?.UpdateCurrentPageTitle(DisplayTexts.CardReadingCelticCrossPageTitle);
+        System.Array.Clear(cards, 0, cards.Length);
+        return Task.CompletedTask;
+    }
+
+    private static string GetCardLabel(int index) => string.Format(System.Globalization.CultureInfo.CurrentCulture, DisplayTexts.CardReadingCardLabelFormat, index + 1);
+
+    private Task UpdateCardAsync(int index, DeckCardInfo? card)
+    {
+        cards[index] = card;
+        return Task.CompletedTask;
     }
 }
