@@ -34,6 +34,7 @@ namespace Toolbox.Pages
 
         protected override void OnInitialized()
         {
+            LogService.LogDebug($"Seite '{DisplayTexts.TarotPageTitle}' initialisiert.");
             Layout?.UpdateCurrentPageTitle(DisplayTexts.TarotPageTitle);
         }
 

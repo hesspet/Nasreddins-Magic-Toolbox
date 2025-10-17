@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Toolbox;
 using Toolbox.Models;
 using Toolbox.Settings;
 
@@ -14,6 +15,7 @@ public sealed class InMemoryLogService
     private readonly object _syncRoot = new();
     private readonly List<LogEntry> _entries = [];
     private int _maxEntries = ApplicationSettings.LogMaxLinesDefault;
+    private LogLevel _currentLevel = Config.DefaultLogLevel;
 
     /// <summary>
     ///     Occurs when log entries have changed.
@@ -35,12 +37,33 @@ public sealed class InMemoryLogService
     }
 
     /// <summary>
-    ///     Adds the specified message to the log. Multi-line messages are split into individual log entries.
+    ///     Gets the currently configured log level.
+    /// </summary>
+    public LogLevel CurrentLevel
+    {
+        get
+        {
+            lock (_syncRoot)
+            {
+                return _currentLevel;
+            }
+        }
+    }
+
+    /// <summary>
+    ///     Adds the specified message to the log with an information severity.
     /// </summary>
     /// <param name="message">The message to log.</param>
-    public void Log(string message)
+    public void Log(string message) => Log(LogLevel.Info, message);
+
+    /// <summary>
+    ///     Adds the specified message to the log. Multi-line messages are split into individual log entries.
+    /// </summary>
+    /// <param name="level">The severity of the message.</param>
+    /// <param name="message">The message to log.</param>
+    public void Log(LogLevel level, string message)
     {
-        if (message is null)
+        if (message is null || level == LogLevel.None)
         {
             return;
         }
@@ -51,9 +74,14 @@ public sealed class InMemoryLogService
 
         lock (_syncRoot)
         {
+            if (!IsLevelEnabled_NoLock(level))
+            {
+                return;
+            }
+
             foreach (var line in lines)
             {
-                _entries.Add(new LogEntry(DateTimeOffset.Now, line));
+                _entries.Add(new LogEntry(DateTimeOffset.Now, level, line));
                 hasChanges = true;
             }
 
@@ -68,6 +96,26 @@ public sealed class InMemoryLogService
             OnLogsChanged();
         }
     }
+
+    /// <summary>
+    ///     Logs a message with <see cref="LogLevel.Debug" /> severity.
+    /// </summary>
+    public void LogDebug(string message) => Log(LogLevel.Debug, message);
+
+    /// <summary>
+    ///     Logs a message with <see cref="LogLevel.Info" /> severity.
+    /// </summary>
+    public void LogInformation(string message) => Log(LogLevel.Info, message);
+
+    /// <summary>
+    ///     Logs a message with <see cref="LogLevel.Warn" /> severity.
+    /// </summary>
+    public void LogWarning(string message) => Log(LogLevel.Warn, message);
+
+    /// <summary>
+    ///     Logs a message with <see cref="LogLevel.Error" /> severity.
+    /// </summary>
+    public void LogError(string message) => Log(LogLevel.Error, message);
 
     /// <summary>
     ///     Removes all log entries.
@@ -116,6 +164,23 @@ public sealed class InMemoryLogService
     }
 
     /// <summary>
+    ///     Updates the currently active log level.
+    /// </summary>
+    /// <param name="level">The desired log level.</param>
+    public void SetLogLevel(LogLevel level)
+    {
+        if (!LogLevelExtensions.IsDefined(level))
+        {
+            level = Config.DefaultLogLevel;
+        }
+
+        lock (_syncRoot)
+        {
+            _currentLevel = level;
+        }
+    }
+
+    /// <summary>
     ///     Gets a snapshot of all log entries.
     /// </summary>
     /// <returns>A read-only list of the current log entries.</returns>
@@ -151,6 +216,21 @@ public sealed class InMemoryLogService
         removalCount = Math.Min(removalCount, _entries.Count);
         _entries.RemoveRange(0, removalCount);
         return true;
+    }
+
+    private bool IsLevelEnabled_NoLock(LogLevel level)
+    {
+        if (level == LogLevel.None)
+        {
+            return false;
+        }
+
+        if (_currentLevel == LogLevel.None)
+        {
+            return false;
+        }
+
+        return level <= _currentLevel;
     }
 
     private void OnLogsChanged() => LogsChanged?.Invoke(this, EventArgs.Empty);

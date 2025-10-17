@@ -4,6 +4,7 @@
 <PageTitle>@DisplayTexts.CardReadingPathPageTitle</PageTitle>
 
 @inject IndexedDbHelper DbHelper
+@inject InMemoryLogService LogService
 
 <DeckSelectionBar IsLoading="isLoadingDecks"
                   DeckOptions="DeckOptions"
@@ -42,6 +43,7 @@
 
     protected override void OnInitialized()
     {
+        LogService.LogDebug($"Seite '{DisplayTexts.CardReadingPathPageTitle}' initialisiert.");
         Layout?.UpdateCurrentPageTitle(DisplayTexts.CardReadingPathPageTitle);
     }
 

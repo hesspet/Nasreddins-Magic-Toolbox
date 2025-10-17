@@ -388,6 +388,9 @@
   <data name="LoggingEmptyMessage" xml:space="preserve">
     <value>Noch keine Protokolleinträge vorhanden.</value>
   </data>
+  <data name="LoggingSystemStartMessage" xml:space="preserve">
+    <value>Systemstart abgeschlossen.</value>
+  </data>
   <data name="SettingsPageTitle" xml:space="preserve">
     <value>Anwendungseinstellungen</value>
   </data>
@@ -447,6 +450,27 @@
   </data>
   <data name="SettingsCheckForUpdatesDescription" xml:space="preserve">
     <value>Wenn aktiviert, sucht die App beim Start automatisch nach verfügbaren Aktualisierungen.</value>
+  </data>
+  <data name="SettingsLoggingLogLevelLabel" xml:space="preserve">
+    <value>Log-Level</value>
+  </data>
+  <data name="SettingsLoggingLogLevelDescription" xml:space="preserve">
+    <value>Bestimme die Detailstufe der Protokollierung.</value>
+  </data>
+  <data name="SettingsLoggingLogLevelOptionNone" xml:space="preserve">
+    <value>Kein Logging</value>
+  </data>
+  <data name="SettingsLoggingLogLevelOptionError" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
+  <data name="SettingsLoggingLogLevelOptionWarn" xml:space="preserve">
+    <value>Warnungen</value>
+  </data>
+  <data name="SettingsLoggingLogLevelOptionInfo" xml:space="preserve">
+    <value>Informationen</value>
+  </data>
+  <data name="SettingsLoggingLogLevelOptionDebug" xml:space="preserve">
+    <value>Debug</value>
   </data>
   <data name="SettingsLoggingMaxLinesLabel" xml:space="preserve">
     <value>Maximale Protokollzeilen</value>

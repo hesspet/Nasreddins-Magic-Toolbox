@@ -1,5 +1,7 @@
+using System;
 using Microsoft.AspNetCore.Components;
 using Toolbox.Helpers;
+using Toolbox.Models;
 using Toolbox.Resources;
 using Toolbox.Settings;
 
@@ -9,6 +11,7 @@ public partial class SettingsCommon : SettingsPageBase, IDisposable
 {
     protected override void OnInitialized()
     {
+        LogService.LogDebug($"Seite '{DisplayTexts.SettingsPageTitle}' initialisiert.");
         UpdatePageTitle(DisplayTexts.SettingsPageTitle);
     }
 
@@ -56,6 +59,25 @@ public partial class SettingsCommon : SettingsPageBase, IDisposable
             await LocalStorage.SetItemAsync(ApplicationSettings.LogMaxLinesKey, logMaxLines);
         }
 
+        var storedLogLevel = await LocalStorage.GetItemAsync<string?>(ApplicationSettings.LogLevelKey);
+
+        if (!string.IsNullOrWhiteSpace(storedLogLevel) && ApplicationSettings.TryParseLogLevel(storedLogLevel, out var parsedLevel))
+        {
+            selectedLogLevel = parsedLevel;
+            LogService.SetLogLevel(selectedLogLevel);
+
+            if (!string.Equals(storedLogLevel, selectedLogLevel.ToString(), StringComparison.Ordinal))
+            {
+                await LocalStorage.SetItemAsync(ApplicationSettings.LogLevelKey, selectedLogLevel.ToString());
+            }
+        }
+        else
+        {
+            selectedLogLevel = ApplicationSettings.LogLevelDefault;
+            LogService.SetLogLevel(selectedLogLevel);
+            await LocalStorage.SetItemAsync(ApplicationSettings.LogLevelKey, selectedLogLevel.ToString());
+        }
+
         LogService.SetMaxEntries(logMaxLines);
     }
 
@@ -66,6 +88,7 @@ public partial class SettingsCommon : SettingsPageBase, IDisposable
     private int selectedDuration = ApplicationSettings.SplashScreenDurationDefaultSeconds;
 
     private int logMaxLines = ApplicationSettings.LogMaxLinesDefault;
+    private LogLevel selectedLogLevel = ApplicationSettings.LogLevelDefault;
 
     [Inject]
     private ThemeService ThemeService { get; set; } = default!;
@@ -138,6 +161,29 @@ public partial class SettingsCommon : SettingsPageBase, IDisposable
         StateHasChanged();
     }
 
+    private async Task OnLogLevelChanged(ChangeEventArgs args)
+    {
+        if (args.Value is null)
+        {
+            return;
+        }
+
+        if (!ApplicationSettings.TryParseLogLevel(args.Value.ToString(), out var parsedLevel))
+        {
+            return;
+        }
+
+        if (selectedLogLevel == parsedLevel)
+        {
+            return;
+        }
+
+        selectedLogLevel = parsedLevel;
+        LogService.SetLogLevel(selectedLogLevel);
+        await LocalStorage.SetItemAsync(ApplicationSettings.LogLevelKey, selectedLogLevel.ToString());
+        StateHasChanged();
+    }
+
     private async Task OnThemePreferenceChanged(ChangeEventArgs args)
     {
         if (args.Value is null)
@@ -164,4 +210,14 @@ public partial class SettingsCommon : SettingsPageBase, IDisposable
     {
         ThemeService.ThemeChanged -= HandleThemeChanged;
     }
+
+    private static string GetLogLevelOptionLabel(LogLevel level) => level switch
+    {
+        LogLevel.None => DisplayTexts.SettingsLoggingLogLevelOptionNone,
+        LogLevel.Error => DisplayTexts.SettingsLoggingLogLevelOptionError,
+        LogLevel.Warn => DisplayTexts.SettingsLoggingLogLevelOptionWarn,
+        LogLevel.Info => DisplayTexts.SettingsLoggingLogLevelOptionInfo,
+        LogLevel.Debug => DisplayTexts.SettingsLoggingLogLevelOptionDebug,
+        _ => level.ToString(),
+    };
 }

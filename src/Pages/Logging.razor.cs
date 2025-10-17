@@ -28,6 +28,7 @@ public partial class Logging : ComponentBase, IDisposable
 
     protected override async Task OnInitializedAsync()
     {
+        LogService.LogDebug($"Seite '{DisplayTexts.LoggingPageTitle}' initialisiert.");
         Layout?.UpdateCurrentPageTitle(DisplayTexts.LoggingPageTitle);
         LogService.LogsChanged += HandleLogsChanged;
 

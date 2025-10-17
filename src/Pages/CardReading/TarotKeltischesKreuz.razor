@@ -4,6 +4,7 @@
 <PageTitle>@DisplayTexts.CardReadingCelticCrossPageTitle</PageTitle>
 
 @inject IndexedDbHelper DbHelper
+@inject InMemoryLogService LogService
 
 <DeckSelectionBar IsLoading="isLoadingDecks"
                   DeckOptions="DeckOptions"
@@ -42,6 +43,7 @@
 
     protected override void OnInitialized()
     {
+        LogService.LogDebug($"Seite '{DisplayTexts.CardReadingCelticCrossPageTitle}' initialisiert.");
         Layout?.UpdateCurrentPageTitle(DisplayTexts.CardReadingCelticCrossPageTitle);
     }
 

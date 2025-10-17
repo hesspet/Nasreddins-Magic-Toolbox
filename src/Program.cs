@@ -19,6 +19,6 @@ builder.Services.AddScoped<IndexedDbHelper>();
 builder.Services.AddScoped<DeckBootstrapper>();
 builder.Services.AddScoped<ThemeService>();
 builder.Services.AddSingleton<HelpContentProvider>();
-builder.Services.AddScoped<InMemoryLogService>();
+builder.Services.AddSingleton<InMemoryLogService>();
 
 await builder.Build().RunAsync();

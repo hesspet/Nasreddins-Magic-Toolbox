@@ -9,6 +9,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using Toolbox.Components;
+using Toolbox.Helpers;
 using Toolbox.Layout;
 using Toolbox.Models;
 using Toolbox.Resources;
@@ -22,6 +23,7 @@ namespace Toolbox.Pages
 
         protected override void OnInitialized()
         {
+            LogService.LogDebug($"Seite '{DisplayTexts.DatabasePageTitle}' initialisiert.");
             Layout?.UpdateCurrentPageTitle(DisplayTexts.DatabasePageTitle);
         }
 

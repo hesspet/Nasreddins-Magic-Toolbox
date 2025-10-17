@@ -125,6 +125,7 @@ public static class DisplayTexts
     public static string LoggingCopyButtonLabel => GetString(nameof(LoggingCopyButtonLabel));
     public static string LoggingClearButtonLabel => GetString(nameof(LoggingClearButtonLabel));
     public static string LoggingEmptyMessage => GetString(nameof(LoggingEmptyMessage));
+    public static string LoggingSystemStartMessage => GetString(nameof(LoggingSystemStartMessage));
     public static string SettingsPageTitle => GetString(nameof(SettingsPageTitle));
     public static string SettingsPageHeader => GetString(nameof(SettingsPageHeader));
 
@@ -147,6 +148,13 @@ public static class DisplayTexts
     public static string SettingsSearchAutoClearDescription => GetString(nameof(SettingsSearchAutoClearDescription));
     public static string SettingsCheckForUpdatesLabel => GetString(nameof(SettingsCheckForUpdatesLabel));
     public static string SettingsCheckForUpdatesDescription => GetString(nameof(SettingsCheckForUpdatesDescription));
+    public static string SettingsLoggingLogLevelLabel => GetString(nameof(SettingsLoggingLogLevelLabel));
+    public static string SettingsLoggingLogLevelDescription => GetString(nameof(SettingsLoggingLogLevelDescription));
+    public static string SettingsLoggingLogLevelOptionNone => GetString(nameof(SettingsLoggingLogLevelOptionNone));
+    public static string SettingsLoggingLogLevelOptionError => GetString(nameof(SettingsLoggingLogLevelOptionError));
+    public static string SettingsLoggingLogLevelOptionWarn => GetString(nameof(SettingsLoggingLogLevelOptionWarn));
+    public static string SettingsLoggingLogLevelOptionInfo => GetString(nameof(SettingsLoggingLogLevelOptionInfo));
+    public static string SettingsLoggingLogLevelOptionDebug => GetString(nameof(SettingsLoggingLogLevelOptionDebug));
     public static string SettingsLoggingMaxLinesLabel => GetString(nameof(SettingsLoggingMaxLinesLabel));
     public static string SettingsLoggingMaxLinesDescription => GetString(nameof(SettingsLoggingMaxLinesDescription));
     public static string HelpButtonLabelFormat => GetString(nameof(HelpButtonLabelFormat));
