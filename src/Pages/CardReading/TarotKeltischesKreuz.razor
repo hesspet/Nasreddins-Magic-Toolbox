@@ -1,83 +1,30 @@
 @page "/kartenlegen/tarot-keltisches-kreuz"
-@using Toolbox.Helpers
+@using Toolbox.Models.CardReading
+@using Toolbox.Resources
+@inherits CardReadingPageBase
 
-<PageTitle>@DisplayTexts.CardReadingCelticCrossPageTitle</PageTitle>
+<PageTitle>@PageTitleText</PageTitle>
 
-@inject IndexedDbHelper DbHelper
-@inject InMemoryLogService LogService
-
-<DeckSelectionBar IsLoading="isLoadingDecks"
+<DeckSelectionBar IsLoading="IsLoadingDecks"
                   DeckOptions="DeckOptions"
                   @bind-SelectedDeck="SelectedDeck"
                   ShowSearchButton="true"
                   SearchEnabled="IsSearchEnabled"
                   OnSearchRequested="HandleSearchRequested" />
 
-<h1>@DisplayTexts.CardReadingCelticCrossPageHeader</h1>
+<h1>@PageHeaderText</h1>
 
 <p>@DisplayTexts.CardReadingContentPlaceholder</p>
 
-<TarotCardTable Spread="TarotSpreadDefinitions.CelticCross"
+<TarotCardTable Spread="SpreadDefinition"
                 ShowCards="HasSelectedDeck"
-                SelectedDeckId="SelectedDeck" />
+                SelectedDeckId="SelectedDeck"
+                OnDeckLoadingChanged="HandleDeckLoadingChanged" />
 
 @code {
-    private IReadOnlyList<DeckOption> deckOptions = Array.Empty<DeckOption>();
-    private bool isLoadingDecks = true;
-    private string selectedDeck = string.Empty;
+    protected override string PageTitleText => DisplayTexts.CardReadingCelticCrossPageTitle;
 
-    [CascadingParameter]
-    private MainLayout? Layout { get; set; }
+    protected override string PageHeaderText => DisplayTexts.CardReadingCelticCrossPageHeader;
 
-    private IEnumerable<DeckOption> DeckOptions => deckOptions;
-
-    private string SelectedDeck
-    {
-        get => selectedDeck;
-        set => selectedDeck = value ?? string.Empty;
-    }
-
-    private bool IsSearchEnabled => HasSelectedDeck;
-
-    private bool HasSelectedDeck => !string.IsNullOrWhiteSpace(selectedDeck);
-
-    protected override void OnInitialized()
-    {
-        LogService.LogDebug($"Seite '{DisplayTexts.CardReadingCelticCrossPageTitle}' initialisiert.");
-        Layout?.UpdateCurrentPageTitle(DisplayTexts.CardReadingCelticCrossPageTitle);
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        await base.OnInitializedAsync();
-        await LoadDecksAsync();
-    }
-
-    private async Task LoadDecksAsync()
-    {
-        try
-        {
-            await DbHelper.InitializeAsync();
-            var decks = await DbHelper.GetAllDecksAsync();
-            deckOptions = decks.Where(deck => !string.IsNullOrWhiteSpace(deck?.Id))
-                               .Select(deck =>
-                               {
-                                   var deckId = deck!.Id!;
-                                   var name = string.IsNullOrWhiteSpace(deck.Name) ? deckId : deck.Name!;
-                                   return new DeckOption(deckId, CreateDeckDisplayName(name));
-                               })
-                               .OrderBy(option => option.DisplayName, StringComparer.OrdinalIgnoreCase)
-                               .ToList();
-            selectedDeck = string.Empty;
-        }
-        finally
-        {
-            isLoadingDecks = false;
-            StateHasChanged();
-        }
-    }
-
-    private Task HandleSearchRequested() => Task.CompletedTask;
-
-    private static string CreateDeckDisplayName(string deckName) => CardSearchHelper.CreateDeckDisplayName(deckName);
+    protected override TarotSpreadLayout SpreadDefinition => TarotSpreadDefinitions.CelticCross;
 }

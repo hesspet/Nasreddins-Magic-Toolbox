@@ -20,6 +20,16 @@
         }
     </div>
 
+    @if (isDeckLoading)
+    {
+        <div class="tarot-card-table__loading-overlay" role="status" aria-live="polite">
+            <div class="tarot-card-table__loading-indicator">
+                <div class="spinner-border text-light" aria-hidden="true"></div>
+                <span>@DisplayTexts.TarotDeckLoading</span>
+            </div>
+        </div>
+    }
+
     @if (isSearchDialogOpen && activeSlot is not null)
     {
         <div class="tarot-card-table__overlay"
@@ -66,6 +76,13 @@
                     @if (!string.IsNullOrEmpty(searchError))
                     {
                         <p class="tarot-card-table__search-message text-danger" role="status">@searchError</p>
+                    }
+                    else if (isSearching)
+                    {
+                        <p class="tarot-card-table__search-message" role="status">
+                            <span class="spinner-border spinner-border-sm text-light me-2" aria-hidden="true"></span>
+                            @DisplayTexts.TarotDeckLoading
+                        </p>
                     }
                     else if (searchResults.Count > 1)
                     {

@@ -41,12 +41,17 @@ public sealed partial class TarotCardTable : IAsyncDisposable
     private string searchTerm = string.Empty;
     private string? searchError;
     private string currentDeckId = string.Empty;
+    private bool isDeckLoading;
+    private string? pendingDeckId;
 
     [Inject]
     public IJSRuntime JSRuntime { get; set; } = default!;
 
     [Inject]
     public IndexedDbHelper DbHelper { get; set; } = default!;
+
+    [Inject]
+    public InMemoryLogService LogService { get; set; } = default!;
 
     [Parameter]
     public TarotSpreadLayout Spread { get; set; } = default!;
@@ -60,6 +65,9 @@ public sealed partial class TarotCardTable : IAsyncDisposable
     [Parameter]
     public string SelectedDeckId { get; set; } = string.Empty;
 
+    [Parameter]
+    public EventCallback<bool> OnDeckLoadingChanged { get; set; }
+
     private string SurfaceStyle => cardStyle;
 
     protected override void OnParametersSet()
@@ -68,6 +76,8 @@ public sealed partial class TarotCardTable : IAsyncDisposable
         {
             renderSlots.Clear();
             ResetSearchDialogState();
+            pendingDeckId = null;
+            _ = UpdateDeckLoadingStateAsync(false);
             return;
         }
 
@@ -84,6 +94,23 @@ public sealed partial class TarotCardTable : IAsyncDisposable
             }
 
             ResetSearchDialogState();
+            pendingDeckId = string.IsNullOrWhiteSpace(currentDeckId) ? null : currentDeckId;
+
+            if (string.IsNullOrWhiteSpace(currentDeckId))
+            {
+                _ = UpdateDeckLoadingStateAsync(false);
+            }
+        }
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        if (pendingDeckId is { } deckId)
+        {
+            pendingDeckId = null;
+            await EnsureDeckCardsCachedAsync(deckId).ConfigureAwait(false);
         }
     }
 
@@ -353,24 +380,67 @@ public sealed partial class TarotCardTable : IAsyncDisposable
         ResetSearchDialogState();
     }
 
-    private async Task<DeckCards?> GetDeckCardsAsync(string deckId)
+    private async Task<DeckCards?> EnsureDeckCardsCachedAsync(string deckId)
     {
-        if (deckCardsCache.TryGetValue(deckId, out var cached))
+        if (string.IsNullOrWhiteSpace(deckId))
         {
+            await UpdateDeckLoadingStateAsync(false).ConfigureAwait(false);
+            return null;
+        }
+
+        return await GetDeckCardsAsync(deckId).ConfigureAwait(false);
+    }
+
+    private async Task<DeckCards?> GetDeckCardsAsync(string deckId, bool forceReload = false)
+    {
+        if (!forceReload && deckCardsCache.TryGetValue(deckId, out var cached))
+        {
+            LogService.LogDebug($"Kartenspiel '{cached.DeckDisplayName}' ist bereits im Cache verfügbar.");
+            await UpdateDeckLoadingStateAsync(false).ConfigureAwait(false);
             return cached;
         }
 
-        await DbHelper.InitializeAsync().ConfigureAwait(false);
-        var deck = await DbHelper.GetDeckAsync(deckId).ConfigureAwait(false);
-        var deckName = string.IsNullOrWhiteSpace(deck?.Name) ? deckId : deck!.Name!;
-        var deckDisplayName = CardSearchHelper.CreateDeckDisplayName(deckName);
-        var cards = await DbHelper.GetCardsByDeckAsync(deckId).ConfigureAwait(false);
-        var orderedCards = cards.OrderBy(card => CardSearchHelper.CreateDisplayName(deckDisplayName, card.Id), StringComparer.OrdinalIgnoreCase)
-                                .ToList();
+        return await LoadDeckCardsFromDatabaseAsync(deckId).ConfigureAwait(false);
+    }
 
-        var deckCards = new DeckCards(deckId, deckDisplayName, orderedCards);
-        deckCardsCache[deckId] = deckCards;
-        return deckCards;
+    private async Task<DeckCards?> LoadDeckCardsFromDatabaseAsync(string deckId)
+    {
+        if (string.IsNullOrWhiteSpace(deckId))
+        {
+            await UpdateDeckLoadingStateAsync(false).ConfigureAwait(false);
+            return null;
+        }
+
+        await UpdateDeckLoadingStateAsync(true).ConfigureAwait(false);
+
+        try
+        {
+            await DbHelper.InitializeAsync().ConfigureAwait(false);
+            var deck = await DbHelper.GetDeckAsync(deckId).ConfigureAwait(false);
+            var deckName = string.IsNullOrWhiteSpace(deck?.Name) ? deckId : deck!.Name!;
+            var deckDisplayName = CardSearchHelper.CreateDeckDisplayName(deckName);
+
+            LogService.LogDebug($"Lade Kartenspiel '{deckDisplayName}' ({deckId}) aus der Datenbank.");
+
+            var cards = await DbHelper.GetCardsByDeckAsync(deckId).ConfigureAwait(false);
+            var orderedCards = cards.OrderBy(card => CardSearchHelper.CreateDisplayName(deckDisplayName, card.Id), StringComparer.OrdinalIgnoreCase)
+                                    .ToList();
+
+            LogService.LogDebug($"Kartenspiel '{deckDisplayName}' wurde mit {orderedCards.Count} Karten in den Cache geladen.");
+
+            var deckCards = new DeckCards(deckId, deckDisplayName, orderedCards);
+            deckCardsCache[deckId] = deckCards;
+            return deckCards;
+        }
+        catch (Exception exception)
+        {
+            LogService.LogError($"Fehler beim Laden des Kartenspiels '{deckId}': {exception.Message}");
+            return null;
+        }
+        finally
+        {
+            await UpdateDeckLoadingStateAsync(false).ConfigureAwait(false);
+        }
     }
 
     private Task CloseSearchDialog()
@@ -393,6 +463,23 @@ public sealed partial class TarotCardTable : IAsyncDisposable
         }
 
         return Task.CompletedTask;
+    }
+
+    private async Task UpdateDeckLoadingStateAsync(bool isLoading)
+    {
+        if (isDeckLoading == isLoading)
+        {
+            return;
+        }
+
+        isDeckLoading = isLoading;
+
+        if (OnDeckLoadingChanged.HasDelegate)
+        {
+            await InvokeAsync(() => OnDeckLoadingChanged.InvokeAsync(isLoading));
+        }
+
+        await InvokeAsync(StateHasChanged);
     }
 
     private void ResetSearchDialogState()
