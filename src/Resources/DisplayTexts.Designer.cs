@@ -64,6 +64,7 @@ public static class DisplayTexts
 
     public static string NavigationSettingsDecks => GetString(nameof(NavigationSettingsDecks));
     public static string NavigationSettingsCardReading => GetString(nameof(NavigationSettingsCardReading));
+    public static string NavigationLogging => GetString(nameof(NavigationLogging));
     public static string NavigationInstructions => GetString(nameof(NavigationInstructions));
     public static string DatabasePageTitle => GetString(nameof(DatabasePageTitle));
     public static string DatabasePageHeader => GetString(nameof(DatabasePageHeader));
@@ -118,6 +119,12 @@ public static class DisplayTexts
     public static string InstructionsPageHeader => GetString(nameof(InstructionsPageHeader));
     public static string InstructionsTableOfContentsLabel => GetString(nameof(InstructionsTableOfContentsLabel));
     public static string InstructionsContentError => GetString(nameof(InstructionsContentError));
+    public static string LoggingPageTitle => GetString(nameof(LoggingPageTitle));
+    public static string LoggingPageHeader => GetString(nameof(LoggingPageHeader));
+    public static string LoggingPageDescription => GetString(nameof(LoggingPageDescription));
+    public static string LoggingCopyButtonLabel => GetString(nameof(LoggingCopyButtonLabel));
+    public static string LoggingClearButtonLabel => GetString(nameof(LoggingClearButtonLabel));
+    public static string LoggingEmptyMessage => GetString(nameof(LoggingEmptyMessage));
     public static string SettingsPageTitle => GetString(nameof(SettingsPageTitle));
     public static string SettingsPageHeader => GetString(nameof(SettingsPageHeader));
 
@@ -140,6 +147,8 @@ public static class DisplayTexts
     public static string SettingsSearchAutoClearDescription => GetString(nameof(SettingsSearchAutoClearDescription));
     public static string SettingsCheckForUpdatesLabel => GetString(nameof(SettingsCheckForUpdatesLabel));
     public static string SettingsCheckForUpdatesDescription => GetString(nameof(SettingsCheckForUpdatesDescription));
+    public static string SettingsLoggingMaxLinesLabel => GetString(nameof(SettingsLoggingMaxLinesLabel));
+    public static string SettingsLoggingMaxLinesDescription => GetString(nameof(SettingsLoggingMaxLinesDescription));
     public static string HelpButtonLabelFormat => GetString(nameof(HelpButtonLabelFormat));
     public static string HelpCloseButtonLabel => GetString(nameof(HelpCloseButtonLabel));
     public static string HelpNotFoundMessage => GetString(nameof(HelpNotFoundMessage));

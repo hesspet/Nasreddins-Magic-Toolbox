@@ -33,7 +33,14 @@ public static class ApplicationSettings
     public const string CardReadingChatGptApiUrlDefault = "";
     public const string CardReadingChatGptApiUrlKey = "CardReadingChatGptApiUrl";
 
+    public const int LogMaxLinesDefault = 1000;
+    public const int LogMaxLinesMinimum = 100;
+    public const int LogMaxLinesMaximum = 10000;
+    public const string LogMaxLinesKey = "LogMaxLines";
+
     public static int ClampCardScalePercent(int value) => Math.Clamp(value, CardScalePercentMinimum, CardScalePercentMaximum);
 
     public static int ClampSearchAutoClearDelaySeconds(int value) => Math.Clamp(value, SearchAutoClearDelayMinimumSeconds, SearchAutoClearDelayMaximumSeconds);
+
+    public static int ClampLogMaxLines(int value) => Math.Clamp(value, LogMaxLinesMinimum, LogMaxLinesMaximum);
 }
