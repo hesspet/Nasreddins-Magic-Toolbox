@@ -1,0 +1,26 @@
+.deck-selection-bar {
+    margin-bottom: 1rem;
+}
+
+.deck-selection-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.deck-search-action .btn {
+    min-height: 3rem;
+}
+
+@media (max-width: 576px) {
+    .deck-selection-controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .deck-search-action .btn {
+        width: 100%;
+    }
+}
+

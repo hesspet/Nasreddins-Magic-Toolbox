@@ -724,8 +724,6 @@ namespace Toolbox.Pages
 
         private sealed record DeckCardInfo(string DisplayName, string DeckId, string CardId, string Key, string ImageDataUrl, string Description);
 
-        private sealed record DeckOption(string DeckId, string DisplayName);
-
         private sealed record DeckCards(string DeckId, string DeckDisplayName, IReadOnlyList<Spielkarte> Cards);
     }
 }

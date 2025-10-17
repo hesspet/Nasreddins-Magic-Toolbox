@@ -1,0 +1,44 @@
+@using System.Linq
+@using Toolbox.Models
+
+<div class="deck-selection-bar">
+    @if (IsLoading)
+    {
+        <div class="deck-loading" role="status" aria-live="polite">
+            <div class="spinner-border text-primary me-3" aria-hidden="true"></div>
+            <span class="deck-loading-text">@LoadingText</span>
+        </div>
+    }
+    else
+    {
+        <div class="deck-selection-controls">
+            <div class="deck-search">
+                <select id="@SelectionElementId"
+                        class="form-select"
+                        title="@SelectionPlaceholderText"
+                        aria-label="@SelectionLabelText"
+                        value="@CurrentSelection"
+                        @onchange="HandleSelectionChanged">
+                    <option value="">@SelectionLabelText</option>
+                    @foreach (var option in DeckOptions ?? Enumerable.Empty<DeckOption>())
+                    {
+                        <option value="@option.DeckId">@option.DisplayName</option>
+                    }
+                </select>
+            </div>
+
+            @if (ShowSearchButton)
+            {
+                <div class="deck-search-action">
+                    <button type="button"
+                            class="btn btn-outline-secondary"
+                            disabled="@IsSearchDisabled"
+                            @onclick="HandleSearchClicked">
+                        @SearchButtonTextValue
+                    </button>
+                </div>
+            }
+        </div>
+    }
+</div>
+

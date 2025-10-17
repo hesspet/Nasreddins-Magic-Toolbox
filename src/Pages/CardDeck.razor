@@ -12,29 +12,12 @@
 
 <PageTitle>@DisplayTexts.TarotPageTitle</PageTitle>
 
-@if (isLoadingDecks)
-{
-    <div class="deck-loading" role="status" aria-live="polite">
-        <div class="spinner-border text-primary me-3" aria-hidden="true"></div>
-        <span class="deck-loading-text">@DisplayTexts.TarotDeckLoading</span>
-    </div>
-}
-else
-{
-    <div class="deck-search">
-        <select id="deckSelection"
-                class="form-select"
-                title="@DisplayTexts.TarotDeckSelectionPlaceholder"
-                aria-label="@DisplayTexts.TarotDeckSelectionLabel"
-                @bind="SelectedDeck">
-            <option value="">@DisplayTexts.TarotDeckSelectionLabel</option>
-            @foreach (var option in DeckOptions)
-            {
-                <option value="@option.DeckId">@option.DisplayName</option>
-            }
-        </select>
-    </div>
+<DeckSelectionBar IsLoading="isLoadingDecks"
+                  DeckOptions="DeckOptions"
+                  @bind-SelectedDeck="SelectedDeck" />
 
+@if (!isLoadingDecks)
+{
     <div class="deck-page">
         <div class="deck-search">
             <input id="cardNameInput"
