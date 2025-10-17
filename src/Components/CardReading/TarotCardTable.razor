@@ -60,6 +60,7 @@
                            @bind="searchTerm"
                            @bind:event="oninput"
                            @ref="searchInputRef"
+                           @onkeydown="HandleSearchKeyDown"
                            placeholder="@DisplayTexts.TarotSearchPlaceholder"
                            aria-describedby="@(searchResults.Count > 1 ? searchResultsDescriptionId : null)"
                            autocomplete="off" />
@@ -67,7 +68,7 @@
                     <div class="tarot-card-table__dialog-actions">
                         <button type="button"
                                 class="btn btn-primary"
-                                disabled="@isSearching"
+                                disabled="@(!CanPerformSearch)"
                                 @onclick="PerformSearchAsync">
                             @DisplayTexts.CardReadingSearchButtonLabel
                         </button>
