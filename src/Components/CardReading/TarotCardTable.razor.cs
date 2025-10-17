@@ -33,6 +33,9 @@ public sealed partial class TarotCardTable : IAsyncDisposable
     [Parameter]
     public string CardBackImage { get; set; } = TarotResourceHelper.CardBackImageDataUrl;
 
+    [Parameter]
+    public bool ShowCards { get; set; } = true;
+
     private string SurfaceStyle => cardStyle;
 
     protected override void OnParametersSet()
