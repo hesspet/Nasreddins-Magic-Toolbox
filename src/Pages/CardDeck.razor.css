@@ -81,7 +81,7 @@
 .deck-card img {
     max-width: min(100%, calc(24rem * var(--deck-card-scale, 1)));
     height: auto;
-    border-radius: 0.5rem;
+    border-radius: 0;
     box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.25);
 }
 
@@ -97,6 +97,7 @@
 
 .deck-card--compact img {
     max-width: min(100%, calc(12rem * var(--deck-card-scale, 1)));
+    border-radius: 0;
     box-shadow: 0 0.35rem 1rem rgba(0, 0, 0, 0.2);
 }
 
