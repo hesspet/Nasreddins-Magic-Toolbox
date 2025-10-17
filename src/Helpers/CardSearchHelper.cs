@@ -68,7 +68,10 @@ public static class CardSearchHelper
         {
             var candidate = candidates[index];
             var key = NormalizeForComparison(CreateKey(deckId, candidate?.Id ?? string.Empty));
-            if (key.Contains(normalizedSearch, StringComparison.Ordinal))
+            var descriptionKey = NormalizeForComparison(candidate?.Description ?? string.Empty);
+
+            if (key.Contains(normalizedSearch, StringComparison.Ordinal)
+                || descriptionKey.Contains(normalizedSearch, StringComparison.Ordinal))
             {
                 matches.Add(candidate);
             }
@@ -93,7 +96,10 @@ public static class CardSearchHelper
         {
             var candidate = candidates[index];
             var key = NormalizeForComparison(CreateKey(deckId, candidate?.Id ?? string.Empty));
-            if (key.Contains(normalizedSearch, StringComparison.Ordinal))
+            var descriptionKey = NormalizeForComparison(candidate?.Description ?? string.Empty);
+
+            if (key.Contains(normalizedSearch, StringComparison.Ordinal)
+                || descriptionKey.Contains(normalizedSearch, StringComparison.Ordinal))
             {
                 return index;
             }
