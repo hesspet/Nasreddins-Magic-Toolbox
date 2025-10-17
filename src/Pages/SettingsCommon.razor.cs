@@ -2,6 +2,7 @@ using System;
 using Microsoft.AspNetCore.Components;
 using Toolbox.Helpers;
 using Toolbox.Models;
+using LogLevel = Toolbox.Models.LogLevel;
 using Toolbox.Resources;
 using Toolbox.Settings;
 

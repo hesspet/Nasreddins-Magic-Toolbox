@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Toolbox;
 using Toolbox.Models;
+using LogLevel = Toolbox.Models.LogLevel;
 using Toolbox.Settings;
 
 namespace Toolbox.Helpers;
