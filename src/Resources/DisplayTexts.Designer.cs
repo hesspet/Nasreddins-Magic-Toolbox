@@ -30,6 +30,13 @@ public static class DisplayTexts
     public static string TarotDeckSelectionLabel => GetString(nameof(TarotDeckSelectionLabel));
     public static string TarotDeckSelectionPlaceholder => GetString(nameof(TarotDeckSelectionPlaceholder));
     public static string TarotDeckLoading => GetString(nameof(TarotDeckLoading));
+    public static string CardSearchPickerPlaceholder => GetString(nameof(CardSearchPickerPlaceholder));
+    public static string CardSearchDialogTitle => GetString(nameof(CardSearchDialogTitle));
+    public static string CardSearchDialogSearchButton => GetString(nameof(CardSearchDialogSearchButton));
+    public static string CardSearchDialogCancelButton => GetString(nameof(CardSearchDialogCancelButton));
+    public static string CardSearchDialogDeckMissing => GetString(nameof(CardSearchDialogDeckMissing));
+    public static string CardSearchDialogNoCardsInDeck => GetString(nameof(CardSearchDialogNoCardsInDeck));
+    public static string CardSearchDialogCurrentDeckFormat => GetString(nameof(CardSearchDialogCurrentDeckFormat));
     public static string CardReadingSingleCardPageTitle => GetString(nameof(CardReadingSingleCardPageTitle));
     public static string CardReadingSingleCardPageHeader => GetString(nameof(CardReadingSingleCardPageHeader));
     public static string CardReadingThreeCardPageTitle => GetString(nameof(CardReadingThreeCardPageTitle));
@@ -41,6 +48,7 @@ public static class DisplayTexts
     public static string CardReadingPathPageTitle => GetString(nameof(CardReadingPathPageTitle));
     public static string CardReadingPathPageHeader => GetString(nameof(CardReadingPathPageHeader));
     public static string CardReadingContentPlaceholder => GetString(nameof(CardReadingContentPlaceholder));
+    public static string CardReadingCardLabelFormat => GetString(nameof(CardReadingCardLabelFormat));
     public static string NavigationBrand => GetString(nameof(NavigationBrand));
     public static string NavigationToggleTitle => GetString(nameof(NavigationToggleTitle));
     public static string NavigationHome => GetString(nameof(NavigationHome));

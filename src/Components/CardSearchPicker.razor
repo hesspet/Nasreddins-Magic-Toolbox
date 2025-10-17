@@ -1,0 +1,64 @@
+<div class="card-search-picker">
+    <button type="button"
+            class="card-search-picker__trigger @(currentCard is not null ? "card-search-picker__trigger--has-card" : string.Empty)"
+            title="@TriggerTitle"
+            aria-label="@TriggerTitle"
+            @onclick="OpenDialog">
+        @if (currentCard is null || string.IsNullOrEmpty(currentCard.ImageDataUrl))
+        {
+            <span class="card-search-picker__placeholder">@PlaceholderText</span>
+        }
+        else
+        {
+            <figure class="card-search-picker__card">
+                <img src="@currentCard.ImageDataUrl" alt="@currentCard.DisplayName" class="card-search-picker__image" />
+                <figcaption class="card-search-picker__caption">@currentCard.DisplayName</figcaption>
+            </figure>
+        }
+    </button>
+</div>
+
+@if (isDialogVisible)
+{
+    <div class="card-search-overlay" role="dialog" aria-modal="true" aria-labelledby="@dialogTitleId" @onclick="CloseDialogFromOverlayAsync">
+        <div class="card-search-dialog" role="document" @onclick:stopPropagation="true">
+            <button type="button" class="card-search-dialog__close" @onclick="CloseDialogAsync" aria-label="@DisplayTexts.HelpCloseButtonLabel">&times;</button>
+            <div class="card-search-dialog__content">
+                <h2 id="@dialogTitleId" class="card-search-dialog__title">@DialogTitle</h2>
+
+                @if (!IsDeckSelected)
+                {
+                    <p class="card-search-dialog__message">@DeckMissingMessage</p>
+                }
+                else
+                {
+                    <form class="card-search-dialog__form" @onsubmit="SubmitSearchAsync" @onsubmit:preventDefault>
+                        @if (!string.IsNullOrEmpty(CurrentDeckMessage))
+                        {
+                            <p class="card-search-dialog__message">@CurrentDeckMessage</p>
+                        }
+
+                        <label for="@searchInputId" class="form-label">@DisplayTexts.TarotSearchLabel</label>
+                        <input id="@searchInputId"
+                               class="form-control"
+                               @bind="searchTerm"
+                               @bind:event="oninput"
+                               placeholder="@DisplayTexts.TarotSearchPlaceholder"
+                               autocomplete="off"
+                               spellcheck="false" />
+
+                        @if (!string.IsNullOrEmpty(errorMessage))
+                        {
+                            <p class="card-search-dialog__error">@errorMessage</p>
+                        }
+
+                        <div class="card-search-dialog__actions">
+                            <button type="submit" class="btn btn-primary" disabled="@isSearching">@SearchButtonLabel</button>
+                            <button type="button" class="btn btn-outline-secondary" @onclick="CloseDialogAsync">@CancelButtonLabel</button>
+                        </div>
+                    </form>
+                }
+            </div>
+        </div>
+    </div>
+}

@@ -85,6 +85,27 @@
   <data name="TarotDeckLoading" xml:space="preserve">
     <value>Lade Deck …</value>
   </data>
+  <data name="CardSearchPickerPlaceholder" xml:space="preserve">
+    <value>Hier klicken, um eine Spielkarte auszuwählen</value>
+  </data>
+  <data name="CardSearchDialogTitle" xml:space="preserve">
+    <value>Spielkarte suchen</value>
+  </data>
+  <data name="CardSearchDialogSearchButton" xml:space="preserve">
+    <value>Suchen</value>
+  </data>
+  <data name="CardSearchDialogCancelButton" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="CardSearchDialogDeckMissing" xml:space="preserve">
+    <value>Bitte wählen Sie zuerst ein Kartendeck aus.</value>
+  </data>
+  <data name="CardSearchDialogNoCardsInDeck" xml:space="preserve">
+    <value>Dieses Kartendeck enthält keine Spielkarten.</value>
+  </data>
+  <data name="CardSearchDialogCurrentDeckFormat" xml:space="preserve">
+    <value>Aktuelles Kartendeck: {0}</value>
+  </data>
   <data name="TarotSearchPlaceholder" xml:space="preserve">
     <value>Kartennamen eingeben</value>
   </data>
@@ -141,6 +162,9 @@
   </data>
   <data name="CardReadingContentPlaceholder" xml:space="preserve">
     <value>Weitere Inhalte folgen.</value>
+  </data>
+  <data name="CardReadingCardLabelFormat" xml:space="preserve">
+    <value>Karte {0}</value>
   </data>
   <data name="NavigationBrand" xml:space="preserve">
     <value>Toolbox</value>

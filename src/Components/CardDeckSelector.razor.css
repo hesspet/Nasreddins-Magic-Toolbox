@@ -1,0 +1,9 @@
+.card-deck-selector {
+    max-width: 420px;
+    margin-block: 0.5rem;
+}
+
+.card-deck-selector .form-select {
+    min-height: 3rem;
+    padding-block: 0.5rem;
+}
