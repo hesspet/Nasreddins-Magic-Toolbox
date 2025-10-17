@@ -17,8 +17,8 @@
 <p>@DisplayTexts.CardReadingContentPlaceholder</p>
 
 <TarotCardTable Spread="SpreadDefinition"
-                ShowCards="HasSelectedDeck"
-                SelectedDeckId="SelectedDeck"
+                ShowCards="@HasSelectedDeck"
+                SelectedDeckId="@SelectedDeck"
                 OnDeckLoadingChanged="HandleDeckLoadingChanged" />
 
 @code {
