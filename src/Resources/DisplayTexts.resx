@@ -205,6 +205,9 @@
   <data name="NavigationSettingsCardReading" xml:space="preserve">
     <value>Kartenlegen</value>
   </data>
+  <data name="NavigationLogging" xml:space="preserve">
+    <value>Logging</value>
+  </data>
   <data name="NavigationInstructions" xml:space="preserve">
     <value>Anleitung</value>
   </data>
@@ -367,6 +370,24 @@
   <data name="InstructionsContentError" xml:space="preserve">
     <value>Die Anleitung konnte nicht geladen werden.</value>
   </data>
+  <data name="LoggingPageTitle" xml:space="preserve">
+    <value>Logging</value>
+  </data>
+  <data name="LoggingPageHeader" xml:space="preserve">
+    <value>Anwendungsprotokoll</value>
+  </data>
+  <data name="LoggingPageDescription" xml:space="preserve">
+    <value>Hier kannst du die internen Protokollmeldungen der Anwendung einsehen. Die Einträge werden im Arbeitsspeicher gespeichert, damit sie auch auf Geräten ohne Entwicklerkonsole verfügbar sind.</value>
+  </data>
+  <data name="LoggingCopyButtonLabel" xml:space="preserve">
+    <value>Protokoll kopieren</value>
+  </data>
+  <data name="LoggingClearButtonLabel" xml:space="preserve">
+    <value>Protokoll leeren</value>
+  </data>
+  <data name="LoggingEmptyMessage" xml:space="preserve">
+    <value>Noch keine Protokolleinträge vorhanden.</value>
+  </data>
   <data name="SettingsPageTitle" xml:space="preserve">
     <value>Anwendungseinstellungen</value>
   </data>
@@ -426,6 +447,12 @@
   </data>
   <data name="SettingsCheckForUpdatesDescription" xml:space="preserve">
     <value>Wenn aktiviert, sucht die App beim Start automatisch nach verfügbaren Aktualisierungen.</value>
+  </data>
+  <data name="SettingsLoggingMaxLinesLabel" xml:space="preserve">
+    <value>Maximale Protokollzeilen</value>
+  </data>
+  <data name="SettingsLoggingMaxLinesDescription" xml:space="preserve">
+    <value>Legt fest, wie viele Zeilen im Protokoll gespeichert werden. Erreicht das Log den Grenzwert, werden ältere Einträge blockweise entfernt.</value>
   </data>
   <data name="HelpButtonLabelFormat" xml:space="preserve">
     <value>Hilfe zu „{0}“ anzeigen</value>

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Toolbox.Helpers;
 using Toolbox.Resources;
 using Toolbox.Settings;
 
@@ -38,6 +39,24 @@ public partial class SettingsCommon : SettingsPageBase, IDisposable
         {
             await LocalStorage.SetItemAsync(ApplicationSettings.CheckForUpdatesOnStartupKey, checkForUpdatesOnStartup);
         }
+
+        var storedLogMaxLines = await LocalStorage.GetItemAsync<int?>(ApplicationSettings.LogMaxLinesKey);
+
+        if (storedLogMaxLines.HasValue)
+        {
+            logMaxLines = ApplicationSettings.ClampLogMaxLines(storedLogMaxLines.Value);
+
+            if (storedLogMaxLines.Value != logMaxLines)
+            {
+                await LocalStorage.SetItemAsync(ApplicationSettings.LogMaxLinesKey, logMaxLines);
+            }
+        }
+        else
+        {
+            await LocalStorage.SetItemAsync(ApplicationSettings.LogMaxLinesKey, logMaxLines);
+        }
+
+        LogService.SetMaxEntries(logMaxLines);
     }
 
     private bool checkForUpdatesOnStartup = ApplicationSettings.CheckForUpdatesOnStartupDefault;
@@ -46,8 +65,13 @@ public partial class SettingsCommon : SettingsPageBase, IDisposable
 
     private int selectedDuration = ApplicationSettings.SplashScreenDurationDefaultSeconds;
 
+    private int logMaxLines = ApplicationSettings.LogMaxLinesDefault;
+
     [Inject]
     private ThemeService ThemeService { get; set; } = default!;
+
+    [Inject]
+    private InMemoryLogService LogService { get; set; } = default!;
 
     private void HandleThemeChanged(ThemePreference theme)
     {
@@ -87,6 +111,31 @@ public partial class SettingsCommon : SettingsPageBase, IDisposable
             await LocalStorage.SetItemAsync(ApplicationSettings.SplashScreenDurationKey, selectedDuration);
             StateHasChanged();
         }
+    }
+
+    private async Task OnLogMaxLinesChanged(ChangeEventArgs args)
+    {
+        if (args.Value is null)
+        {
+            return;
+        }
+
+        if (!int.TryParse(args.Value.ToString(), out var parsedValue))
+        {
+            return;
+        }
+
+        var clampedValue = ApplicationSettings.ClampLogMaxLines(parsedValue);
+
+        if (logMaxLines == clampedValue && parsedValue == clampedValue)
+        {
+            return;
+        }
+
+        logMaxLines = clampedValue;
+        await LocalStorage.SetItemAsync(ApplicationSettings.LogMaxLinesKey, logMaxLines);
+        LogService.SetMaxEntries(logMaxLines);
+        StateHasChanged();
     }
 
     private async Task OnThemePreferenceChanged(ChangeEventArgs args)

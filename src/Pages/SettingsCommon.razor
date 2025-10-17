@@ -78,4 +78,19 @@
     <p class="settings-description">@DisplayTexts.SettingsCheckForUpdatesDescription</p>
 </section>
 
+<section class="settings-section" aria-labelledby="log-max-lines-label">
+    <div class="settings-label-row">
+        <label id="log-max-lines-label" for="log-max-lines">@DisplayTexts.SettingsLoggingMaxLinesLabel</label>
+    </div>
+    <input
+        id="log-max-lines"
+        class="form-control"
+        type="number"
+        min="@ApplicationSettings.LogMaxLinesMinimum"
+        max="@ApplicationSettings.LogMaxLinesMaximum"
+        value="@logMaxLines"
+        @onchange="OnLogMaxLinesChanged" />
+    <p class="settings-description">@DisplayTexts.SettingsLoggingMaxLinesDescription</p>
+</section>
+
 

@@ -1,0 +1,29 @@
+@page "/logging"
+
+<PageTitle>@DisplayTexts.LoggingPageTitle</PageTitle>
+
+<h1 id="logging-page-header">@DisplayTexts.LoggingPageHeader</h1>
+
+<p class="logging-description">@DisplayTexts.LoggingPageDescription</p>
+
+<div class="log-toolbar" role="toolbar" aria-label="@DisplayTexts.LoggingPageHeader">
+    <button class="btn btn-secondary" @onclick="CopyToClipboardAsync" disabled="@isLogEmpty">
+        @DisplayTexts.LoggingCopyButtonLabel
+    </button>
+    <button class="btn btn-danger" @onclick="ClearLog" disabled="@isLogEmpty">
+        @DisplayTexts.LoggingClearButtonLabel
+    </button>
+</div>
+
+@if (isLogEmpty)
+{
+    <p class="logging-empty">@DisplayTexts.LoggingEmptyMessage</p>
+}
+
+<textarea
+    id="application-log"
+    class="form-control log-viewer"
+    readonly
+    spellcheck="false"
+    aria-labelledby="logging-page-header"
+    rows="20">@logContent</textarea>
