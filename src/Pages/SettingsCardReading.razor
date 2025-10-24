@@ -30,3 +30,34 @@
         value="@chatGptApiUrl"
         @oninput="OnApiUrlChanged" />
 </section>
+
+<section class="settings-section" aria-labelledby="card-reading-test-label">
+    <div class="settings-label-row">
+        <label id="card-reading-test-label" for="card-reading-test-button">Direkt ChatGPT Test</label>
+    </div>
+    <button
+        id="card-reading-test-button"
+        class="btn btn-primary"
+        @onclick="SendChatGptTestAsync"
+        disabled="@isSendingTest">
+        @if (isSendingTest)
+        {
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span class="visually-hidden">Bitte warten…</span>
+        }
+        else
+        {
+            <span>Direkt ChatGPT Test</span>
+        }
+    </button>
+
+    @if (!string.IsNullOrWhiteSpace(testErrorMessage))
+    {
+        <div class="text-danger mt-2" role="alert">@testErrorMessage</div>
+    }
+
+    <textarea
+        class="form-control mt-2"
+        rows="6"
+        readonly>@testResponse</textarea>
+</section>
