@@ -156,6 +156,10 @@ public partial class SettingsCardReading : SettingsPageBase
         {
             testErrorMessage = $"Fehler beim Senden der Testnachricht: {ex.Message}";
             LogService.LogError(nameof(testErrorMessage) + "=" + testErrorMessage + ex.StackTrace);
+            if (ex.InnerException is not null)
+            {
+                LogService.LogError("Innere Ausnahme: " + ex.InnerException.Message + ex.InnerException.StackTrace);
+            }
         }
         finally
         {
