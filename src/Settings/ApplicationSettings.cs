@@ -33,7 +33,7 @@ public static class ApplicationSettings
     public const string CardReadingGptApiKeyDefault = "";
     public const string CardReadingGptApiKeyKey = "CardReadingGptApiKey";
 
-    public const string CardReadingChatGptApiUrlDefault = "";
+    public const string CardReadingChatGptApiUrlDefault = "https://nasreddins-magic.de/api/chat";
     public const string CardReadingChatGptApiUrlKey = "CardReadingChatGptApiUrl";
 
     public const int LogMaxLinesDefault = 1000;
