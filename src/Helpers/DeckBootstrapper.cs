@@ -85,6 +85,11 @@ public sealed class DeckBootstrapper
 
         foreach (var (cardId, descriptionResourceName) in descriptionResources.OrderBy(pair => pair.Key, StringComparer.OrdinalIgnoreCase))
         {
+            if (cardId.StartsWith("_", StringComparison.Ordinal))
+            {
+                continue;
+            }
+
             if (!imageResources.TryGetValue(cardId, out var imageResourceName))
             {
                 throw new InvalidOperationException($"Image resource for card '{cardId}' was not found.");
