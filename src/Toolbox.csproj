@@ -40,6 +40,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Content Include="web.config_original" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<Resource Include="Resources\Images\TarotDeck_Wikipedia\Arcane_Major_00_Fool.jpg" />
 		<Resource Include="Resources\Images\TarotDeck_Wikipedia\Arcane_Major_00_Fool.md" />
 		<Resource Include="Resources\Images\TarotDeck_Wikipedia\Arcane_Major_01_Magician.jpg" />
