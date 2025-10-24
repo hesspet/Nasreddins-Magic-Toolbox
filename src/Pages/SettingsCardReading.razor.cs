@@ -13,23 +13,6 @@ namespace Toolbox.Pages;
 
 public partial class SettingsCardReading : SettingsPageBase
 {
-    private string gptApiKey = string.Empty;
-    private string chatGptApiUrl = string.Empty;
-    private string testResponse = string.Empty;
-    private string? testErrorMessage;
-    private bool isSendingTest;
-
-    [Inject]
-    private InMemoryLogService LogService { get; set; } = default!;
-
-    [Inject]
-    private HttpClient HttpClient { get; set; } = default!;
-
-    private static readonly JsonSerializerOptions ChatSerializerOptions = new(JsonSerializerDefaults.Web)
-    {
-        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-    };
-
     protected override void OnInitialized()
     {
         LogService.LogDebug($"Seite '{DisplayTexts.SettingsCardReadingPageTitle}' initialisiert.");
@@ -59,6 +42,39 @@ public partial class SettingsCardReading : SettingsPageBase
             chatGptApiUrl = ApplicationSettings.CardReadingChatGptApiUrlDefault;
             await LocalStorage.SetItemAsync(ApplicationSettings.CardReadingChatGptApiUrlKey, chatGptApiUrl);
         }
+    }
+
+    private static readonly JsonSerializerOptions ChatSerializerOptions = new(JsonSerializerDefaults.Web)
+    {
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+    };
+
+    private string chatGptApiUrl = string.Empty;
+    private string gptApiKey = string.Empty;
+    private bool isSendingTest;
+    private string? testErrorMessage;
+    private string testResponse = string.Empty;
+
+    [Inject]
+    private HttpClient HttpClient { get; set; } = default!;
+
+    [Inject]
+    private InMemoryLogService LogService { get; set; } = default!;
+
+    private static bool TryBuildRequestUri(string url, out Uri? requestUri)
+    {
+        if (Uri.TryCreate(url, UriKind.Absolute, out requestUri))
+        {
+            return true;
+        }
+
+        if (!string.IsNullOrWhiteSpace(url) && Uri.TryCreate($"https://{url}", UriKind.Absolute, out requestUri))
+        {
+            return true;
+        }
+
+        requestUri = null;
+        return false;
     }
 
     private async Task OnApiKeyChanged(ChangeEventArgs args)
@@ -125,17 +141,21 @@ public partial class SettingsCardReading : SettingsPageBase
                 else
                 {
                     testResponse = (await response.Content.ReadAsStringAsync()).Trim();
+                    LogService.LogInformation(nameof(testResponse) + "=" + testResponse);
                 }
             }
             else
             {
                 var errorContent = await response.Content.ReadAsStringAsync();
                 testErrorMessage = $"Fehler {response.StatusCode:D} ({response.StatusCode}): {errorContent}";
+
+                LogService.LogError(nameof(testErrorMessage) + "=" + testErrorMessage);
             }
         }
         catch (Exception ex)
         {
             testErrorMessage = $"Fehler beim Senden der Testnachricht: {ex.Message}";
+            LogService.LogError(nameof(testErrorMessage) + "=" + testErrorMessage + ex.StackTrace);
         }
         finally
         {
@@ -144,38 +164,13 @@ public partial class SettingsCardReading : SettingsPageBase
         }
     }
 
-    private static bool TryBuildRequestUri(string url, out Uri? requestUri)
+    private sealed class ChatChoice
     {
-        if (Uri.TryCreate(url, UriKind.Absolute, out requestUri))
+        [JsonPropertyName("message")]
+        public ChatMessage? Message
         {
-            return true;
+            get; set;
         }
-
-        if (!string.IsNullOrWhiteSpace(url) && Uri.TryCreate($"https://{url}", UriKind.Absolute, out requestUri))
-        {
-            return true;
-        }
-
-        requestUri = null;
-        return false;
-    }
-
-    private sealed class ChatRequest
-    {
-        [JsonPropertyName("model")]
-        public string? Model { get; set; }
-
-        [JsonPropertyName("messages")]
-        public IList<ChatMessage> Messages { get; set; } = new List<ChatMessage>();
-    }
-
-    private sealed class ChatMessage
-    {
-        [JsonPropertyName("role")]
-        public string? Role { get; set; }
-
-        [JsonPropertyName("content")]
-        public string? Content { get; set; }
     }
 
     private sealed class ChatCompletionResponse
@@ -184,9 +179,30 @@ public partial class SettingsCardReading : SettingsPageBase
         public List<ChatChoice> Choices { get; set; } = new();
     }
 
-    private sealed class ChatChoice
+    private sealed class ChatMessage
     {
-        [JsonPropertyName("message")]
-        public ChatMessage? Message { get; set; }
+        [JsonPropertyName("content")]
+        public string? Content
+        {
+            get; set;
+        }
+
+        [JsonPropertyName("role")]
+        public string? Role
+        {
+            get; set;
+        }
+    }
+
+    private sealed class ChatRequest
+    {
+        [JsonPropertyName("messages")]
+        public IList<ChatMessage> Messages { get; set; } = new List<ChatMessage>();
+
+        [JsonPropertyName("model")]
+        public string? Model
+        {
+            get; set;
+        }
     }
 }
