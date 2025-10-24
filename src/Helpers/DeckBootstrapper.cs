@@ -81,13 +81,13 @@ public sealed class DeckBootstrapper
             .Where(IsDescriptionResource)
             .ToDictionary(GetCardIdFromResourceName, name => name, StringComparer.OrdinalIgnoreCase);
 
-        var cards = new List<CardResource>(imageResources.Count);
+        var cards = new List<CardResource>(descriptionResources.Count);
 
-        foreach (var (cardId, imageResourceName) in imageResources.OrderBy(pair => pair.Key, StringComparer.OrdinalIgnoreCase))
+        foreach (var (cardId, descriptionResourceName) in descriptionResources.OrderBy(pair => pair.Key, StringComparer.OrdinalIgnoreCase))
         {
-            if (!descriptionResources.TryGetValue(cardId, out var descriptionResourceName))
+            if (!imageResources.TryGetValue(cardId, out var imageResourceName))
             {
-                throw new InvalidOperationException($"Description resource for card '{cardId}' was not found.");
+                throw new InvalidOperationException($"Image resource for card '{cardId}' was not found.");
             }
 
             var imageBytes = await ReadAllBytesAsync(imageResourceName).ConfigureAwait(false);
