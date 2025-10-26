@@ -1,0 +1,44 @@
+@page "/tests/foto-component"
+
+<PageTitle>Foto Component Test</PageTitle>
+
+<h1>Foto Component Test</h1>
+
+<button class="btn btn-primary" @onclick="TriggerCapture">Jetzt ein Bild aufnehmen</button>
+
+@if (!string.IsNullOrEmpty(_currentImageDataUrl))
+{
+    <div class="mt-3">
+        <img src="@_currentImageDataUrl" alt="Aufgenommenes Foto" style="max-width:300px;max-height:300px;width:auto;height:auto;" />
+    </div>
+}
+
+<FotoCaptureComponent @ref="_fotoComponent" OnPhotoCaptured="HandlePhotoCaptured" />
+
+@code {
+    private FotoCaptureComponent? _fotoComponent;
+    private string? _currentImageDataUrl;
+
+    [Inject]
+    private TemporaryImageStorage ImageStorage { get; set; } = default!;
+
+    private async Task TriggerCapture()
+    {
+        if (_fotoComponent is not null)
+        {
+            await _fotoComponent.TriggerCaptureAsync();
+        }
+    }
+
+    private Task HandlePhotoCaptured(string imageId)
+    {
+        _currentImageDataUrl = null;
+
+        if (ImageStorage.TryGetImage(imageId, out var image))
+        {
+            _currentImageDataUrl = image.ToDataUrl();
+        }
+
+        return Task.CompletedTask;
+    }
+}
