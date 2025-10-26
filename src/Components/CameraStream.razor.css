@@ -1,0 +1,51 @@
+.camera-stream {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.camera-stream-video {
+    width: 100%;
+    max-width: 640px;
+    align-self: center;
+    border-radius: 12px;
+    background: #000;
+}
+
+.camera-stream-canvas {
+    display: none;
+}
+
+.camera-stream-controls {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.camera-stream-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 8px;
+    background: var(--primary-color, #6c2bd9);
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.camera-stream-button[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.camera-stream-file-input {
+    display: none;
+}
+
+.camera-stream-file-input--visible {
+    display: block;
+}
+
+.camera-stream-status {
+    color: var(--bs-danger, #b91c1c);
+    font-size: 0.9rem;
+}

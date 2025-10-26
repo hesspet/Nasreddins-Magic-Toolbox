@@ -3,6 +3,7 @@
 @using Toolbox.Helpers
 @using Toolbox.Models
 @inject FaceAnalysisService AnalysisService
+@inject TemporaryImageStorage ImageStorage
 
 <PageTitle>@DisplayTexts.FaceAnalysisPageTitle</PageTitle>
 
@@ -10,7 +11,7 @@
 <p class="face-analysis-intro">@DisplayTexts.FaceAnalysisIntro</p>
 
 <div class="face-analysis-controls">
-    <InputFile OnChange="HandleFileSelected" accept="image/*" class="form-control" />
+    <CameraStream OnPhotoCaptured="HandlePhotoCapturedAsync" />
     @if (!string.IsNullOrWhiteSpace(_statusMessage))
     {
         <p class="face-analysis-status">@_statusMessage</p>
@@ -91,39 +92,38 @@
 }
 
 @code {
-    private const long MaxImageSize = 10 * 1024 * 1024;
     private string? _imageDataUrl;
     private string? _statusMessage;
     private FaceAnalysisResult? _analysisResult;
 
-    private async Task HandleFileSelected(InputFileChangeEventArgs changeEvent)
+    private Task HandlePhotoCapturedAsync(string imageId)
     {
         _statusMessage = null;
         _analysisResult = null;
         _imageDataUrl = null;
 
-        var file = changeEvent.File;
-        if (file is null)
+        if (!ImageStorage.TryGetImage(imageId, out var storedImage))
         {
-            return;
+            _statusMessage = string.Format(DisplayTexts.FaceAnalysisImageError, "Bild konnte nicht geladen werden.");
+            return Task.CompletedTask;
         }
 
         try
         {
-            var processedImage = await ImageProcessingHelper.LoadResizedImageAsync(
-                file,
-                MaxImageSize,
-                cancellationToken: default);
-
-            _imageDataUrl = $"data:{processedImage.ContentType};base64,{Convert.ToBase64String(processedImage.Data)}";
-
-            _analysisResult = AnalysisService.Analyze(processedImage.Data);
+            _imageDataUrl = storedImage.ToDataUrl();
+            _analysisResult = AnalysisService.Analyze(storedImage.Data);
             _statusMessage = BuildSummaryMessage(_analysisResult);
         }
         catch (Exception ex)
         {
             _statusMessage = string.Format(DisplayTexts.FaceAnalysisImageError, ex.Message);
         }
+        finally
+        {
+            ImageStorage.Remove(imageId);
+        }
+
+        return Task.CompletedTask;
     }
 
     private static string BuildSummaryMessage(FaceAnalysisResult result)

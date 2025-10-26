@@ -1,0 +1,222 @@
+@using Microsoft.AspNetCore.Components.Forms
+@implements IAsyncDisposable
+@inject IJSRuntime JSRuntime
+@inject TemporaryImageStorage ImageStorage
+
+<div class="camera-stream">
+    <video @ref="_videoElement" class="camera-stream-video" autoplay playsinline muted></video>
+    <canvas @ref="_canvasElement"
+            width="@CameraSettings.CaptureTargetWidth"
+            height="@CameraSettings.CaptureTargetHeight"
+            class="camera-stream-canvas"></canvas>
+
+    <div class="camera-stream-controls">
+        <button type="button"
+                class="camera-stream-button"
+                @onclick="CaptureAsync"
+                disabled="@(!_isStreamReady || _isCapturing)">
+            Foto aufnehmen
+        </button>
+        <button type="button"
+                class="camera-stream-button"
+                @onclick="TriggerFileInputAsync"
+                disabled="@(_module is null)">
+            Datei auswählen
+        </button>
+    </div>
+
+    <InputFile id="@_fileInputElementId"
+               accept="image/*"
+               capture="environment"
+               class="@( _isStreamReady ? "camera-stream-file-input" : "camera-stream-file-input camera-stream-file-input--visible" )"
+               OnChange="HandleFileSelected" />
+
+    @if (!string.IsNullOrWhiteSpace(_statusMessage))
+    {
+        <p class="camera-stream-status">@_statusMessage</p>
+    }
+</div>
+
+@code {
+    private readonly string _fileInputElementId = $"cameraStreamInput_{Guid.NewGuid():N}";
+    private IJSObjectReference? _module;
+    private ElementReference _videoElement;
+    private ElementReference _canvasElement;
+    private bool _isStreamReady;
+    private bool _isCapturing;
+    private string? _statusMessage;
+    private string? _currentImageId;
+
+    [Parameter]
+    public EventCallback<string> OnPhotoCaptured { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        try
+        {
+            _module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/cameraStream.js");
+            var initializationResult = await _module.InvokeAsync<InitializationResult>(
+                "initialize",
+                _videoElement,
+                _canvasElement,
+                CreateConstraintOptions(),
+                CreateCaptureOptions(),
+                _fileInputElementId);
+
+            _isStreamReady = initializationResult.Success;
+            _statusMessage = initializationResult.Success
+                ? null
+                : initializationResult.ErrorMessage ?? CameraSettings.BuildUnavailableMessage();
+        }
+        catch (JSException jsException)
+        {
+            _isStreamReady = false;
+            _statusMessage = $"{CameraSettings.BuildUnavailableMessage()} ({jsException.Message})";
+        }
+
+        if (!_isStreamReady)
+        {
+            await JSRuntime.InvokeVoidAsync("console.warn", _statusMessage);
+        }
+
+        StateHasChanged();
+    }
+
+    private async Task CaptureAsync()
+    {
+        if (_module is null || !_isStreamReady || _isCapturing)
+        {
+            return;
+        }
+
+        _isCapturing = true;
+        _statusMessage = null;
+
+        try
+        {
+            var bytes = await _module.InvokeAsync<byte[]>(
+                "captureFrame",
+                _videoElement,
+                _canvasElement,
+                CreateCaptureOptions());
+
+            if (bytes is null || bytes.Length == 0)
+            {
+                _statusMessage = CameraSettings.BuildCaptureErrorMessage("Keine Bilddaten empfangen.");
+                return;
+            }
+
+            await StoreAndNotifyAsync(bytes, CameraSettings.CaptureMimeType);
+        }
+        catch (JSException jsException)
+        {
+            _statusMessage = CameraSettings.BuildCaptureErrorMessage(jsException.Message);
+        }
+        finally
+        {
+            _isCapturing = false;
+        }
+    }
+
+    private async Task TriggerFileInputAsync()
+    {
+        if (_module is null)
+        {
+            return;
+        }
+
+        await _module.InvokeVoidAsync("triggerFileInput", _fileInputElementId);
+    }
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs _)
+    {
+        if (_module is null)
+        {
+            return;
+        }
+
+        try
+        {
+            var bytes = await _module.InvokeAsync<byte[]>(
+                "readFileFromInput",
+                _canvasElement,
+                _fileInputElementId,
+                CreateCaptureOptions());
+
+            if (bytes is not null && bytes.Length > 0)
+            {
+                await StoreAndNotifyAsync(bytes, CameraSettings.CaptureMimeType);
+            }
+        }
+        catch (JSException jsException)
+        {
+            _statusMessage = CameraSettings.BuildCaptureErrorMessage(jsException.Message);
+        }
+    }
+
+    private async Task StoreAndNotifyAsync(byte[] bytes, string contentType)
+    {
+        if (bytes.Length == 0)
+        {
+            return;
+        }
+
+        _statusMessage = null;
+        ImageStorage.Remove(_currentImageId);
+        var imageId = ImageStorage.StoreImage(bytes, contentType);
+        _currentImageId = imageId;
+
+        if (OnPhotoCaptured.HasDelegate)
+        {
+            await OnPhotoCaptured.InvokeAsync(imageId);
+        }
+    }
+
+    private static object CreateConstraintOptions() => new
+    {
+        idealWidth = CameraSettings.StreamIdealWidth,
+        maxWidth = CameraSettings.StreamMaxWidth,
+        idealHeight = CameraSettings.StreamIdealHeight,
+        maxHeight = CameraSettings.StreamMaxHeight,
+        idealFrameRate = CameraSettings.StreamIdealFrameRate,
+        facingMode = CameraSettings.StreamFacingMode
+    };
+
+    private static object CreateCaptureOptions() => new
+    {
+        targetWidth = CameraSettings.CaptureTargetWidth,
+        targetHeight = CameraSettings.CaptureTargetHeight,
+        mimeType = CameraSettings.CaptureMimeType,
+        quality = CameraSettings.CaptureQuality
+    };
+
+    public async ValueTask DisposeAsync()
+    {
+        if (_module is not null)
+        {
+            try
+            {
+                await _module.InvokeVoidAsync("dispose", _videoElement);
+                await _module.DisposeAsync();
+            }
+            catch (JSException)
+            {
+                // Ignore disposal errors.
+            }
+        }
+
+        ImageStorage.Remove(_currentImageId);
+    }
+
+    private sealed class InitializationResult
+    {
+        public bool Success { get; set; }
+
+        public string? ErrorMessage { get; set; }
+    }
+}
