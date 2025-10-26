@@ -21,5 +21,6 @@ builder.Services.AddScoped<ThemeService>();
 builder.Services.AddSingleton<HelpContentProvider>();
 builder.Services.AddSingleton<InMemoryLogService>();
 builder.Services.AddSingleton<TemporaryImageStorage>();
+builder.Services.AddSingleton<FaceAnalysisService>();
 
 await builder.Build().RunAsync();
