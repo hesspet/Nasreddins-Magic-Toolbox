@@ -108,7 +108,7 @@ public static class ImageProcessingHelper
             Sampler = KnownResamplers.Bicubic
         }));
 
-        var encoder = image.GetConfiguration().ImageFormatsManager.FindEncoder(imageFormat) ?? new PngEncoder();
+        var encoder = image.Configuration.ImageFormatsManager.FindEncoder(imageFormat) ?? new PngEncoder();
         var outputMimeType = encoder switch
         {
             PngEncoder => "image/png",
