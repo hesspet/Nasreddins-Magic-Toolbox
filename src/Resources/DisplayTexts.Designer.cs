@@ -65,6 +65,7 @@ public static class DisplayTexts
     public static string NavigationSettingsCardReading => GetString(nameof(NavigationSettingsCardReading));
     public static string NavigationLogging => GetString(nameof(NavigationLogging));
     public static string NavigationInstructions => GetString(nameof(NavigationInstructions));
+    public static string NavigationTests => GetString(nameof(NavigationTests));
     public static string DatabasePageTitle => GetString(nameof(DatabasePageTitle));
     public static string DatabasePageHeader => GetString(nameof(DatabasePageHeader));
     public static string DataInfoPageTitle => GetString(nameof(DataInfoPageTitle));
