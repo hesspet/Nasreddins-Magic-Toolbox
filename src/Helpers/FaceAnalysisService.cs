@@ -4,8 +4,26 @@ using Toolbox.Models;
 
 namespace Toolbox.Helpers;
 
+/// <summary>
+///     Analysiert Bilddaten heuristisch, um Hautbereiche und einfache Gesichtsmerkmale zu erkennen
+///     und daraus eine Aussage darüber abzuleiten, ob es sich wahrscheinlich um ein menschliches
+///     Gesicht handelt. Die Klasse verwendet ausschließlich Bildverarbeitung auf Pixelebene und
+///     kommt ohne externe KI- oder ML-Modelle aus.
+/// </summary>
 public sealed class FaceAnalysisService
 {
+    /// <summary>
+    ///     Führt die komplette Analyse eines Bildes durch. Dazu werden zunächst Mindestgrößen geprüft,
+    ///     anschließend Hautpixel markiert und daraus ein Gesichtsrahmen abgeleitet. Im Bereich des
+    ///     Rahmens werden wiederum Augen und Nase anhand von Helligkeits- und Farbverteilungen gesucht,
+    ///     um eine Vertrauensbewertung und die Wahrscheinlichkeit eines menschlichen Gesichts zu
+    ///     bestimmen.
+    /// </summary>
+    /// <param name="imageData">Die zu prüfenden Bilddaten im RGBA-Format.</param>
+    /// <returns>
+    ///     Ein <see cref="FaceAnalysisResult" />, das sowohl die gefundenen Regionen als auch
+    ///     Bewertungen zur Bedeckung und Plausibilität enthält.
+    /// </returns>
     public FaceAnalysisResult Analyze(ReadOnlySpan<byte> imageData)
     {
         if (imageData.IsEmpty)
@@ -145,6 +163,10 @@ public sealed class FaceAnalysisService
     private const float NoseLowerLumaThreshold = 0.35f;
     private const float NoseUpperLumaThreshold = 0.75f;
 
+    /// <summary>
+    ///     Ermittelt die durchschnittliche Vertrauensbewertung aller gefundenen Merkmale, um daraus
+    ///     eine Gesamtbewertung ableiten zu können.
+    /// </summary>
     private static double AverageConfidence(IEnumerable<FaceFeature> features)
     {
         double sum = 0d;
@@ -158,6 +180,9 @@ public sealed class FaceAnalysisService
         return count == 0 ? 0d : sum / count;
     }
 
+    /// <summary>
+    ///     Stellt sicher, dass ein Wert innerhalb eines definierten Bereichs bleibt.
+    /// </summary>
     private static float Clamp(float value, float min, float max)
     {
         if (value < min)
@@ -173,6 +198,11 @@ public sealed class FaceAnalysisService
         return value;
     }
 
+    /// <summary>
+    ///     Sucht innerhalb des Gesichtsrahmens nach einem dunklen Bereich, der die typische Position
+    ///     eines linken oder rechten Auges einnimmt. Grundlage sind Helligkeitsschwellen und eine
+    ///     Mindestbedeckung des Untersuchungsbereichs.
+    /// </summary>
     private static FaceFeature? DetectEye(Image<Rgba32> image, BoundingBox faceBox, int width, int height, bool isLeft)
     {
         var xStart = (int)(faceBox.X + (faceBox.Width * (isLeft ? 0.1f : 0.55f)));
@@ -241,6 +271,11 @@ public sealed class FaceAnalysisService
         return new FaceFeature(isLeft ? FaceFeatureKind.LeftEye : FaceFeatureKind.RightEye, bounds, coverage);
     }
 
+    /// <summary>
+    ///     Identifiziert im zentralen Bereich des Gesichts eine potenzielle Nase, indem Pixel mit
+    ///     passenden Helligkeits- und Farbkontrasten gezählt und zu einem Bereich zusammengefasst
+    ///     werden.
+    /// </summary>
     private static FaceFeature? DetectNose(Image<Rgba32> image, BoundingBox faceBox, int width, int height)
     {
         var xStart = (int)(faceBox.X + (faceBox.Width * 0.3f));
@@ -316,11 +351,18 @@ public sealed class FaceAnalysisService
         return new FaceFeature(FaceFeatureKind.Nose, bounds, coverage);
     }
 
+    /// <summary>
+    ///     Berechnet die wahrgenommene Helligkeit eines Pixels nach der ITU-R-BT.601-Formel.
+    /// </summary>
     private static float GetLuminance(Rgba32 pixel)
     {
         return ((0.299f * pixel.R) + (0.587f * pixel.G) + (0.114f * pixel.B)) / 255f;
     }
 
+    /// <summary>
+    ///     Prüft anhand mehrerer Farbräume (HSV und YCbCr), ob ein Pixel plausibel als Haut eingeordnet
+    ///     werden kann. Nur wenn beide Kriterien zutreffen, wird der Pixel als Hautpixel gewertet.
+    /// </summary>
     private static bool IsSkinPixel(Rgba32 pixel)
     {
         var r = pixel.R / 255f;
