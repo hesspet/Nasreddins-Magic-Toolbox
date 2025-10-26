@@ -5,7 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Forms;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.Formats.Bmp;
+using SixLabors.ImageSharp.Formats.Gif;
+using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.Formats.Tga;
+using SixLabors.ImageSharp.Formats.Tiff;
+using SixLabors.ImageSharp.Formats.Webp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 
@@ -59,9 +65,24 @@ public static class ImageProcessingHelper
             sourceStream.Position = 0;
         }
 
-        IImageFormat? imageFormat;
-        var imageInfo = Image.Identify(workingStream, out imageFormat);
-        if (imageInfo is null || imageFormat is null)
+        var decoderOptions = new DecoderOptions
+        {
+            Configuration = Configuration.Default
+        };
+
+        var imageInfo = Image.Identify(decoderOptions, workingStream);
+        if (imageInfo is null)
+        {
+            throw new InvalidDataException("Die ausgewählte Datei ist kein unterstütztes Bildformat.");
+        }
+
+        if (workingStream.CanSeek)
+        {
+            workingStream.Position = 0;
+        }
+
+        var imageFormat = Image.DetectFormat(workingStream);
+        if (imageFormat is null)
         {
             throw new InvalidDataException("Die ausgewählte Datei ist kein unterstütztes Bildformat.");
         }
@@ -88,7 +109,7 @@ public static class ImageProcessingHelper
             return new ProcessedImage(copyStream.ToArray(), mimeType);
         }
 
-        using var image = await Image.LoadAsync<Rgba32>(workingStream, cancellationToken).ConfigureAwait(false);
+        using var image = await Image.LoadAsync<Rgba32>(decoderOptions, workingStream, cancellationToken).ConfigureAwait(false);
 
         image.Mutate(context => context.Resize(new ResizeOptions
         {
@@ -97,12 +118,7 @@ public static class ImageProcessingHelper
             Sampler = KnownResamplers.Bicubic
         }));
 
-        var encoder = Configuration.Default.ImageFormatsManager.FindEncoder(imageFormat) ?? new PngEncoder();
-        var outputMimeType = encoder switch
-        {
-            PngEncoder => "image/png",
-            _ => mimeType
-        };
+        var (encoder, outputMimeType) = ResolveEncoder(imageFormat, mimeType);
 
         using var outputStream = new MemoryStream();
         await image.SaveAsync(outputStream, encoder, cancellationToken).ConfigureAwait(false);
@@ -111,4 +127,19 @@ public static class ImageProcessingHelper
     }
 
     public readonly record struct ProcessedImage(byte[] Data, string ContentType);
+
+    private static (IImageEncoder Encoder, string MimeType) ResolveEncoder(IImageFormat imageFormat, string fallbackMimeType)
+    {
+        return imageFormat switch
+        {
+            JpegFormat => (new JpegEncoder(), fallbackMimeType),
+            PngFormat => (new PngEncoder(), fallbackMimeType),
+            GifFormat => (new GifEncoder(), fallbackMimeType),
+            BmpFormat => (new BmpEncoder(), fallbackMimeType),
+            WebpFormat => (new WebpEncoder(), fallbackMimeType),
+            TgaFormat => (new TgaEncoder(), fallbackMimeType),
+            TiffFormat => (new TiffEncoder(), fallbackMimeType),
+            _ => (new PngEncoder(), "image/png")
+        };
+    }
 }
