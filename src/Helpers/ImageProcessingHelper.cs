@@ -6,7 +6,13 @@ using Microsoft.AspNetCore.Components.Forms;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.Advanced;
 using SixLabors.ImageSharp.Formats;
+using SixLabors.ImageSharp.Formats.Bmp;
+using SixLabors.ImageSharp.Formats.Gif;
+using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.Formats.Tga;
+using SixLabors.ImageSharp.Formats.Tiff;
+using SixLabors.ImageSharp.Formats.Webp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 
@@ -108,18 +114,40 @@ public static class ImageProcessingHelper
             Sampler = KnownResamplers.Bicubic
         }));
 
-        var encoder = image.Configuration.ImageFormatsManager.FindEncoder(imageFormat) ?? new PngEncoder();
-        var outputMimeType = encoder switch
-        {
-            PngEncoder => "image/png",
-            _ => mimeType
-        };
+        var encoder = GetEncoderForImageFormat(imageFormat) ?? new PngEncoder();
+        var outputMimeType = GetMimeTypeForEncoder(encoder, mimeType);
 
         using var outputStream = new MemoryStream();
         await image.SaveAsync(outputStream, encoder, cancellationToken).ConfigureAwait(false);
 
         return new ProcessedImage(outputStream.ToArray(), outputMimeType);
     }
+
+    private static IImageEncoder? GetEncoderForImageFormat(IImageFormat imageFormat)
+        => imageFormat switch
+        {
+            PngFormat => new PngEncoder(),
+            JpegFormat => new JpegEncoder(),
+            GifFormat => new GifEncoder(),
+            BmpFormat => new BmpEncoder(),
+            TgaFormat => new TgaEncoder(),
+            WebpFormat => new WebpEncoder(),
+            TiffFormat => new TiffEncoder(),
+            _ => null
+        };
+
+    private static string GetMimeTypeForEncoder(IImageEncoder encoder, string fallbackMimeType)
+        => encoder switch
+        {
+            PngEncoder => "image/png",
+            JpegEncoder => "image/jpeg",
+            GifEncoder => "image/gif",
+            BmpEncoder => "image/bmp",
+            TgaEncoder => "image/x-tga",
+            WebpEncoder => "image/webp",
+            TiffEncoder => "image/tiff",
+            _ => fallbackMimeType
+        };
 
     public readonly record struct ProcessedImage(byte[] Data, string ContentType);
 }
