@@ -1,5 +1,6 @@
 @page "/bildanalyse"
 @using System.Globalization
+@using Toolbox.Helpers
 @using Toolbox.Models
 @inject FaceAnalysisService AnalysisService
 
@@ -91,6 +92,7 @@
 
 @code {
     private const long MaxImageSize = 10 * 1024 * 1024;
+    private const int MaxImageDimension = 1280;
 
     private string? _imageDataUrl;
     private string? _statusMessage;
@@ -110,14 +112,15 @@
 
         try
         {
-            await using var readStream = file.OpenReadStream(MaxImageSize);
-            using var memoryStream = new MemoryStream();
-            await readStream.CopyToAsync(memoryStream);
-            var imageBytes = memoryStream.ToArray();
+            var processedImage = await ImageProcessingHelper.LoadResizedImageAsync(
+                file,
+                MaxImageSize,
+                MaxImageDimension,
+                cancellationToken: default);
 
-            _imageDataUrl = $"data:{file.ContentType};base64,{Convert.ToBase64String(imageBytes)}";
+            _imageDataUrl = $"data:{processedImage.ContentType};base64,{Convert.ToBase64String(processedImage.Data)}";
 
-            _analysisResult = AnalysisService.Analyze(imageBytes);
+            _analysisResult = AnalysisService.Analyze(processedImage.Data);
             _statusMessage = BuildSummaryMessage(_analysisResult);
         }
         catch (Exception ex)
