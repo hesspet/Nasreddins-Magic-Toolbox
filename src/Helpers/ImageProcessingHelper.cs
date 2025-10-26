@@ -64,9 +64,14 @@ public static class ImageProcessingHelper
             Configuration = Configuration.Default
         };
 
-        IImageFormat? imageFormat;
-        var imageInfo = Image.Identify(decoderOptions, workingStream, out imageFormat);
-        if (imageInfo is null || imageFormat is null)
+        var imageInfo = Image.Identify(decoderOptions, workingStream);
+        if (imageInfo is null)
+        {
+            throw new InvalidDataException("Die ausgewählte Datei ist kein unterstütztes Bildformat.");
+        }
+
+        var imageFormat = imageInfo.Metadata.DecodedImageFormat;
+        if (imageFormat is null)
         {
             throw new InvalidDataException("Die ausgewählte Datei ist kein unterstütztes Bildformat.");
         }
@@ -102,10 +107,7 @@ public static class ImageProcessingHelper
             Sampler = KnownResamplers.Bicubic
         }));
 
-        if (!Configuration.Default.ImageFormatsManager.TryFindEncoder(imageFormat, out var encoder))
-        {
-            encoder = new PngEncoder();
-        }
+        var encoder = imageFormat.CreateDefaultEncoder() ?? new PngEncoder();
         var outputMimeType = encoder switch
         {
             PngEncoder => "image/png",
