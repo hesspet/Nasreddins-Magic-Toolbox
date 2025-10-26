@@ -1,14 +1,15 @@
 @using Microsoft.AspNetCore.Components.Forms
+@using System
 @using System.IO
 @implements IAsyncDisposable
 @inject IJSRuntime JSRuntime
 @inject TemporaryImageStorage ImageStorage
 
-<InputFile @ref="_fileInput" class="foto-capture-input" accept="image/*" capture="environment" style="display:none" OnChange="HandleFileSelected" />
+<InputFile id="@_fileInputElementId" class="foto-capture-input" accept="image/*" capture="environment" style="display:none" OnChange="HandleFileSelected" />
 
 @code {
     private const long MaxUploadSize = 10 * 1024 * 1024;
-    private ElementReference _fileInput;
+    private readonly string _fileInputElementId = $"fotoCaptureInput_{Guid.NewGuid():N}";
     private IJSObjectReference? _module;
     private string? _currentImageId;
 
@@ -18,7 +19,7 @@
     public async Task TriggerCaptureAsync()
     {
         _module ??= await JSRuntime.InvokeAsync<IJSObjectReference>("import", "./js/cameraCapture.js");
-        await _module.InvokeVoidAsync("triggerFileInput", _fileInput);
+        await _module.InvokeVoidAsync("triggerFileInput", _fileInputElementId);
     }
 
     private async Task HandleFileSelected(InputFileChangeEventArgs args)

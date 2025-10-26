@@ -1,7 +1,8 @@
-export function triggerFileInput(element) {
-    if (!element) {
+export function triggerFileInput(elementId) {
+    if (!elementId) {
         return;
     }
 
-    element.click();
+    const element = document.getElementById(elementId);
+    element?.click();
 }
