@@ -1,0 +1,66 @@
+.face-analysis-intro {
+    margin-bottom: 1rem;
+}
+
+.face-analysis-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.face-analysis-status {
+    margin: 0;
+    font-weight: 500;
+}
+
+.face-analysis-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.face-analysis-images figure {
+    margin: 0;
+}
+
+.face-analysis-images img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
+}
+
+.face-analysis-annotated-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.face-analysis-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.face-outline {
+    fill: rgba(0, 0, 0, 0.08);
+    stroke: rgba(0, 0, 0, 0.6);
+    stroke-width: 3;
+}
+
+.feature-outline {
+    fill: rgba(0, 0, 0, 0.25);
+    stroke: #000;
+    stroke-width: 2;
+}
+
+.face-analysis-summary ul {
+    padding-left: 1.25rem;
+}
+
+.face-analysis-summary li {
+    margin-bottom: 0.25rem;
+}

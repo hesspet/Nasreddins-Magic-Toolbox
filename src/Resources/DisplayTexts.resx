@@ -267,6 +267,9 @@
   <data name="NavigationInstructions" xml:space="preserve">
     <value>Anleitung</value>
   </data>
+  <data name="NavigationFaceAnalysis" xml:space="preserve">
+    <value>Bildanalyse</value>
+  </data>
   <data name="DatabasePageTitle" xml:space="preserve">
     <value>Datenbank</value>
   </data>
@@ -446,6 +449,57 @@
   </data>
   <data name="LoggingSystemStartMessage" xml:space="preserve">
     <value>Systemstart abgeschlossen.</value>
+  </data>
+  <data name="FaceAnalysisPageTitle" xml:space="preserve">
+    <value>Bildanalyse</value>
+  </data>
+  <data name="FaceAnalysisIntro" xml:space="preserve">
+    <value>Lade ein Foto hoch oder nimm ein Bild mit deiner Kamera auf, um automatisch zu prüfen, ob ein Gesicht erkannt wird.</value>
+  </data>
+  <data name="FaceAnalysisOriginalCaption" xml:space="preserve">
+    <value>Original</value>
+  </data>
+  <data name="FaceAnalysisOriginalAlt" xml:space="preserve">
+    <value>Hochgeladenes Originalbild</value>
+  </data>
+  <data name="FaceAnalysisAnnotatedCaption" xml:space="preserve">
+    <value>Analyse</value>
+  </data>
+  <data name="FaceAnalysisAnnotatedAlt" xml:space="preserve">
+    <value>Analyse mit markierten Gesichtszügen</value>
+  </data>
+  <data name="FaceAnalysisSummaryHeading" xml:space="preserve">
+    <value>Analyseergebnis</value>
+  </data>
+  <data name="FaceAnalysisMessageNoFace" xml:space="preserve">
+    <value>Im Bild wurde kein Gesicht erkannt. Vermutlich ist kein Mensch zu sehen.</value>
+  </data>
+  <data name="FaceAnalysisMessageFaceButNotHuman" xml:space="preserve">
+    <value>Es wurden Hautbereiche gefunden, aber keine markanten Gesichtszüge. Bitte versuche ein anderes Foto.</value>
+  </data>
+  <data name="FaceAnalysisMessageHuman" xml:space="preserve">
+    <value>Ein menschliches Gesicht wurde erkannt. Markierte Merkmale: {0}. Vertrauenswert: {1}.</value>
+  </data>
+  <data name="FaceAnalysisFeatureLeftEye" xml:space="preserve">
+    <value>linkes Auge</value>
+  </data>
+  <data name="FaceAnalysisFeatureRightEye" xml:space="preserve">
+    <value>rechtes Auge</value>
+  </data>
+  <data name="FaceAnalysisFeatureNose" xml:space="preserve">
+    <value>Nase</value>
+  </data>
+  <data name="FaceAnalysisFeatureFallback" xml:space="preserve">
+    <value>keine Merkmale</value>
+  </data>
+  <data name="FaceAnalysisFeatureMissing" xml:space="preserve">
+    <value>{0}: nicht erkannt</value>
+  </data>
+  <data name="FaceAnalysisFeatureDetected" xml:space="preserve">
+    <value>{0}: erkannt (Signal {1})</value>
+  </data>
+  <data name="FaceAnalysisImageError" xml:space="preserve">
+    <value>Das Bild konnte nicht verarbeitet werden: {0}</value>
   </data>
   <data name="SettingsPageTitle" xml:space="preserve">
     <value>Anwendungseinstellungen</value>
