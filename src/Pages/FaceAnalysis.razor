@@ -92,8 +92,6 @@
 
 @code {
     private const long MaxImageSize = 10 * 1024 * 1024;
-    private const int MaxImageDimension = 1280;
-
     private string? _imageDataUrl;
     private string? _statusMessage;
     private FaceAnalysisResult? _analysisResult;
@@ -115,7 +113,6 @@
             var processedImage = await ImageProcessingHelper.LoadResizedImageAsync(
                 file,
                 MaxImageSize,
-                MaxImageDimension,
                 cancellationToken: default);
 
             _imageDataUrl = $"data:{processedImage.ContentType};base64,{Convert.ToBase64String(processedImage.Data)}";
