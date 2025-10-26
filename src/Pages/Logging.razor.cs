@@ -5,6 +5,7 @@ using Microsoft.JSInterop;
 using Toolbox.Helpers;
 using Toolbox.Layout;
 using Toolbox.Resources;
+using Toolbox.Services;
 using Toolbox.Settings;
 
 namespace Toolbox.Pages;

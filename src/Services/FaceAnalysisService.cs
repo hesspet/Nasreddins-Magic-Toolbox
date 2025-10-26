@@ -2,7 +2,7 @@ using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using Toolbox.Models;
 
-namespace Toolbox.Helpers;
+namespace Toolbox.Services;
 
 /// <summary>
 ///     Analysiert Bilddaten heuristisch, um Hautbereiche und einfache Gesichtsmerkmale zu erkennen
@@ -13,15 +13,15 @@ namespace Toolbox.Helpers;
 public sealed class FaceAnalysisService
 {
     /// <summary>
-    ///     Führt die komplette Analyse eines Bildes durch. Dazu werden zunächst Mindestgrößen geprüft,
-    ///     anschließend Hautpixel markiert und daraus ein Gesichtsrahmen abgeleitet. Im Bereich des
-    ///     Rahmens werden wiederum Augen und Nase anhand von Helligkeits- und Farbverteilungen gesucht,
-    ///     um eine Vertrauensbewertung und die Wahrscheinlichkeit eines menschlichen Gesichts zu
-    ///     bestimmen.
+    ///     Führt die komplette Analyse eines Bildes durch. Dazu werden zunächst Mindestgrößen
+    ///     geprüft, anschließend Hautpixel markiert und daraus ein Gesichtsrahmen abgeleitet. Im
+    ///     Bereich des Rahmens werden wiederum Augen und Nase anhand von Helligkeits- und
+    ///     Farbverteilungen gesucht, um eine Vertrauensbewertung und die Wahrscheinlichkeit eines
+    ///     menschlichen Gesichts zu bestimmen.
     /// </summary>
-    /// <param name="imageData">Die zu prüfenden Bilddaten im RGBA-Format.</param>
+    /// <param name="imageData"> Die zu prüfenden Bilddaten im RGBA-Format. </param>
     /// <returns>
-    ///     Ein <see cref="FaceAnalysisResult" />, das sowohl die gefundenen Regionen als auch
+    ///     Ein <see cref="FaceAnalysisResult"/>, das sowohl die gefundenen Regionen als auch
     ///     Bewertungen zur Bedeckung und Plausibilität enthält.
     /// </returns>
     public FaceAnalysisResult Analyze(ReadOnlySpan<byte> imageData)
@@ -58,7 +58,7 @@ public sealed class FaceAnalysisService
                     continue;
                 }
 
-                var index = (y * width) + x;
+                var index = y * width + x;
                 skinMask[index] = true;
                 totalSkin++;
 
@@ -91,7 +91,7 @@ public sealed class FaceAnalysisService
             return new FaceAnalysisResult(false, false, null, null, null, null, width, height, 0f, 0f);
         }
 
-        var faceBox = new BoundingBox(minX, minY, (maxX - minX) + 1, (maxY - minY) + 1);
+        var faceBox = new BoundingBox(minX, minY, maxX - minX + 1, maxY - minY + 1);
         var faceArea = Math.Max(1, (int)(faceBox.Width * faceBox.Height));
         var faceSkinCount = 0;
 
@@ -99,7 +99,7 @@ public sealed class FaceAnalysisService
         {
             for (var x = (int)faceBox.X; x < faceBox.Right && x < width; x++)
             {
-                if (skinMask[(y * width) + x])
+                if (skinMask[y * width + x])
                 {
                     faceSkinCount++;
                 }
@@ -141,8 +141,8 @@ public sealed class FaceAnalysisService
             : 0f;
 
         var coverageScore = Clamp((skinCoverage - MinimumFaceCoverage) / (1f - MinimumFaceCoverage), 0f, 1f);
-        var combinedConfidence = Clamp((coverageScore * 0.6f) + (featureConfidence * 0.4f), 0f, 1f);
-        var likelyHuman = features.Count > 0 && (hasEyePair || (hasAnyEye && hasNose));
+        var combinedConfidence = Clamp(coverageScore * 0.6f + featureConfidence * 0.4f, 0f, 1f);
+        var likelyHuman = features.Count > 0 && (hasEyePair || hasAnyEye && hasNose);
 
         return new FaceAnalysisResult(
             true,
@@ -199,16 +199,16 @@ public sealed class FaceAnalysisService
     }
 
     /// <summary>
-    ///     Sucht innerhalb des Gesichtsrahmens nach einem dunklen Bereich, der die typische Position
-    ///     eines linken oder rechten Auges einnimmt. Grundlage sind Helligkeitsschwellen und eine
-    ///     Mindestbedeckung des Untersuchungsbereichs.
+    ///     Sucht innerhalb des Gesichtsrahmens nach einem dunklen Bereich, der die typische
+    ///     Position eines linken oder rechten Auges einnimmt. Grundlage sind Helligkeitsschwellen
+    ///     und eine Mindestbedeckung des Untersuchungsbereichs.
     /// </summary>
     private static FaceFeature? DetectEye(Image<Rgba32> image, BoundingBox faceBox, int width, int height, bool isLeft)
     {
-        var xStart = (int)(faceBox.X + (faceBox.Width * (isLeft ? 0.1f : 0.55f)));
-        var xEnd = (int)(faceBox.X + (faceBox.Width * (isLeft ? 0.45f : 0.9f)));
-        var yStart = (int)(faceBox.Y + (faceBox.Height * 0.2f));
-        var yEnd = (int)(faceBox.Y + (faceBox.Height * 0.55f));
+        var xStart = (int)(faceBox.X + faceBox.Width * (isLeft ? 0.1f : 0.55f));
+        var xEnd = (int)(faceBox.X + faceBox.Width * (isLeft ? 0.45f : 0.9f));
+        var yStart = (int)(faceBox.Y + faceBox.Height * 0.2f);
+        var yEnd = (int)(faceBox.Y + faceBox.Height * 0.55f);
 
         xStart = Math.Clamp(xStart, 0, width - 1);
         xEnd = Math.Clamp(xEnd, 0, width);
@@ -267,21 +267,20 @@ public sealed class FaceAnalysisService
             return null;
         }
 
-        var bounds = new BoundingBox(minX, minY, (maxX - minX) + 1, (maxY - minY) + 1);
+        var bounds = new BoundingBox(minX, minY, maxX - minX + 1, maxY - minY + 1);
         return new FaceFeature(isLeft ? FaceFeatureKind.LeftEye : FaceFeatureKind.RightEye, bounds, coverage);
     }
 
     /// <summary>
     ///     Identifiziert im zentralen Bereich des Gesichts eine potenzielle Nase, indem Pixel mit
-    ///     passenden Helligkeits- und Farbkontrasten gezählt und zu einem Bereich zusammengefasst
-    ///     werden.
+    ///     passenden Helligkeits- und Farbkontrasten gezählt und zu einem Bereich zusammengefasst werden.
     /// </summary>
     private static FaceFeature? DetectNose(Image<Rgba32> image, BoundingBox faceBox, int width, int height)
     {
-        var xStart = (int)(faceBox.X + (faceBox.Width * 0.3f));
-        var xEnd = (int)(faceBox.X + (faceBox.Width * 0.7f));
-        var yStart = (int)(faceBox.Y + (faceBox.Height * 0.35f));
-        var yEnd = (int)(faceBox.Y + (faceBox.Height * 0.85f));
+        var xStart = (int)(faceBox.X + faceBox.Width * 0.3f);
+        var xEnd = (int)(faceBox.X + faceBox.Width * 0.7f);
+        var yStart = (int)(faceBox.Y + faceBox.Height * 0.35f);
+        var yEnd = (int)(faceBox.Y + faceBox.Height * 0.85f);
 
         xStart = Math.Clamp(xStart, 0, width - 1);
         xEnd = Math.Clamp(xEnd, 0, width);
@@ -347,7 +346,7 @@ public sealed class FaceAnalysisService
             return null;
         }
 
-        var bounds = new BoundingBox(minX, minY, (maxX - minX) + 1, (maxY - minY) + 1);
+        var bounds = new BoundingBox(minX, minY, maxX - minX + 1, maxY - minY + 1);
         return new FaceFeature(FaceFeatureKind.Nose, bounds, coverage);
     }
 
@@ -356,12 +355,13 @@ public sealed class FaceAnalysisService
     /// </summary>
     private static float GetLuminance(Rgba32 pixel)
     {
-        return ((0.299f * pixel.R) + (0.587f * pixel.G) + (0.114f * pixel.B)) / 255f;
+        return (0.299f * pixel.R + 0.587f * pixel.G + 0.114f * pixel.B) / 255f;
     }
 
     /// <summary>
-    ///     Prüft anhand mehrerer Farbräume (HSV und YCbCr), ob ein Pixel plausibel als Haut eingeordnet
-    ///     werden kann. Nur wenn beide Kriterien zutreffen, wird der Pixel als Hautpixel gewertet.
+    ///     Prüft anhand mehrerer Farbräume (HSV und YCbCr), ob ein Pixel plausibel als Haut
+    ///     eingeordnet werden kann. Nur wenn beide Kriterien zutreffen, wird der Pixel als
+    ///     Hautpixel gewertet.
     /// </summary>
     private static bool IsSkinPixel(Rgba32 pixel)
     {
@@ -378,15 +378,15 @@ public sealed class FaceAnalysisService
         {
             if (MathF.Abs(max - r) < 0.0001f)
             {
-                hue = ((g - b) / delta) % 6f;
+                hue = (g - b) / delta % 6f;
             }
             else if (MathF.Abs(max - g) < 0.0001f)
             {
-                hue = ((b - r) / delta) + 2f;
+                hue = (b - r) / delta + 2f;
             }
             else
             {
-                hue = ((r - g) / delta) + 4f;
+                hue = (r - g) / delta + 4f;
             }
 
             hue *= 60f;
@@ -404,8 +404,8 @@ public sealed class FaceAnalysisService
         var rByte = pixel.R;
         var gByte = pixel.G;
         var bByte = pixel.B;
-        var cb = 128f - (0.168736f * rByte) - (0.331264f * gByte) + (0.5f * bByte);
-        var cr = 128f + (0.5f * rByte) - (0.418688f * gByte) - (0.081312f * bByte);
+        var cb = 128f - 0.168736f * rByte - 0.331264f * gByte + 0.5f * bByte;
+        var cr = 128f + 0.5f * rByte - 0.418688f * gByte - 0.081312f * bByte;
         var isYcbcrSkin = cb >= 77f && cb <= 127f && cr >= 133f && cr <= 173f;
 
         return isHsvSkin && isYcbcrSkin;

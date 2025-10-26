@@ -2,7 +2,7 @@ using Toolbox.Models;
 using Toolbox.Settings;
 using LogLevel = Toolbox.Models.LogLevel;
 
-namespace Toolbox.Helpers;
+namespace Toolbox.Services;
 
 /// <summary>
 ///     Provides an in-memory application log that can be displayed inside the PWA.

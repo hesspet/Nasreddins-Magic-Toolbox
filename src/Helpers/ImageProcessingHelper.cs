@@ -14,9 +14,9 @@ namespace Toolbox.Helpers;
 public static class ImageProcessingHelper
 {
     /// <summary>
-    ///     Liest die vom Browser bereitgestellte Datei vollständig ein, achtet dabei auf die maximal
-    ///     erlaubte Dateigröße und liefert die rohen Bytes inklusive Content-Type zurück. Eine
-    ///     nachgelagerte Skalierung kann mit den Rohdaten erfolgen.
+    ///     Liest die vom Browser bereitgestellte Datei vollständig ein, achtet dabei auf die
+    ///     maximal erlaubte Dateigröße und liefert die rohen Bytes inklusive Content-Type zurück.
+    ///     Eine nachgelagerte Skalierung kann mit den Rohdaten erfolgen.
     /// </summary>
     public static async Task<ProcessedImage> LoadResizedImageAsync(
         IBrowserFile file,

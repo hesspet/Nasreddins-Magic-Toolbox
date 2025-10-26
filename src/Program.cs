@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using System.Globalization;
 using Toolbox;
 using Toolbox.Helpers;
+using Toolbox.Services;
 using Toolbox.Settings;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);

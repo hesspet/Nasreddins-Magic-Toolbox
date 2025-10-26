@@ -5,8 +5,8 @@ using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
-using Toolbox.Helpers;
 using Toolbox.Resources;
+using Toolbox.Services;
 using Toolbox.Settings;
 
 namespace Toolbox.Pages;
