@@ -127,11 +127,11 @@ public sealed class FaceAnalysisService
         var hasNose = nose is not null;
 
         var featureConfidence = features.Count > 0
-            ? MathF.Clamp((float)AverageConfidence(features) / 0.05f, 0f, 1f)
+            ? Clamp((float)AverageConfidence(features) / 0.05f, 0f, 1f)
             : 0f;
 
-        var coverageScore = MathF.Clamp((skinCoverage - MinimumFaceCoverage) / (1f - MinimumFaceCoverage), 0f, 1f);
-        var combinedConfidence = MathF.Clamp((coverageScore * 0.6f) + (featureConfidence * 0.4f), 0f, 1f);
+        var coverageScore = Clamp((skinCoverage - MinimumFaceCoverage) / (1f - MinimumFaceCoverage), 0f, 1f);
+        var combinedConfidence = Clamp((coverageScore * 0.6f) + (featureConfidence * 0.4f), 0f, 1f);
         var likelyHuman = features.Count > 0 && (hasEyePair || (hasAnyEye && hasNose));
 
         return new FaceAnalysisResult(
@@ -354,5 +354,20 @@ public sealed class FaceAnalysisService
     private static float GetLuminance(Rgba32 pixel)
     {
         return ((0.299f * pixel.R) + (0.587f * pixel.G) + (0.114f * pixel.B)) / 255f;
+    }
+
+    private static float Clamp(float value, float min, float max)
+    {
+        if (value < min)
+        {
+            return min;
+        }
+
+        if (value > max)
+        {
+            return max;
+        }
+
+        return value;
     }
 }
