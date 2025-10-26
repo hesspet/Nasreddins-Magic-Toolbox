@@ -1,0 +1,7 @@
+.test-main-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0;
+}
