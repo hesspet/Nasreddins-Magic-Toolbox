@@ -1,30 +1,15 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using Toolbox.Models;
 using Toolbox.Resources;
 
 namespace Toolbox.Helpers;
 
 /// <summary>
-/// Copies the built-in card deck from embedded resources into IndexedDB on startup.
+///     Copies the built-in card deck from embedded resources into IndexedDB on startup.
 /// </summary>
 public sealed class DeckBootstrapper
 {
-    private const string DeckName = "TarotDeck_Wikipedia";
-    private const int StreamBufferSize = 16 * 1024;
-
-    private static readonly Assembly ResourceAssembly = typeof(DisplayTexts).Assembly;
-    private static readonly string DeckResourcePrefix = $"{typeof(DisplayTexts).Namespace}.Images.{DeckName}.";
-
-    private readonly IndexedDbHelper dbHelper;
-    private readonly ILogger<DeckBootstrapper>? logger;
-
     public DeckBootstrapper(IndexedDbHelper dbHelper, ILogger<DeckBootstrapper>? logger = null)
     {
         this.dbHelper = dbHelper ?? throw new ArgumentNullException(nameof(dbHelper));
@@ -32,7 +17,7 @@ public sealed class DeckBootstrapper
     }
 
     /// <summary>
-    /// Ensures the built-in card deck exists in IndexedDB.
+    ///     Ensures the built-in card deck exists in IndexedDB.
     /// </summary>
     public async Task EnsureDefaultDeckAsync()
     {
@@ -69,6 +54,37 @@ public sealed class DeckBootstrapper
         logger?.LogInformation("Successfully imported deck '{Deck}' with {Count} cards.", DeckName, cards.Count);
     }
 
+    private const string DeckName = "TarotDeck_Wikipedia";
+    private const int StreamBufferSize = 16 * 1024;
+
+    private static readonly string DeckResourcePrefix = $"{typeof(DisplayTexts).Namespace}.Images.{DeckName}.";
+    private static readonly Assembly ResourceAssembly = typeof(DisplayTexts).Assembly;
+    private readonly IndexedDbHelper dbHelper;
+    private readonly ILogger<DeckBootstrapper>? logger;
+
+    private static string GetCardIdFromResourceName(string resourceName)
+    {
+        var relativeName = resourceName[DeckResourcePrefix.Length..];
+        var fileName = Path.GetFileName(relativeName);
+        var cardId = Path.GetFileNameWithoutExtension(fileName);
+
+        if (string.IsNullOrWhiteSpace(cardId))
+        {
+            throw new InvalidOperationException($"Unable to determine card id from resource '{resourceName}'.");
+        }
+
+        return cardId;
+    }
+
+    private static bool IsDescriptionResource(string resourceName) =>
+        resourceName.StartsWith(DeckResourcePrefix, StringComparison.OrdinalIgnoreCase)
+        && resourceName.EndsWith(".md", StringComparison.OrdinalIgnoreCase);
+
+    private static bool IsImageResource(string resourceName) =>
+        resourceName.StartsWith(DeckResourcePrefix, StringComparison.OrdinalIgnoreCase)
+        && (resourceName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase)
+            || resourceName.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase));
+
     private static async Task<List<CardResource>> LoadCardsFromResourcesAsync()
     {
         var resourceNames = ResourceAssembly.GetManifestResourceNames();
@@ -102,29 +118,6 @@ public sealed class DeckBootstrapper
         }
 
         return cards;
-    }
-
-    private static bool IsImageResource(string resourceName) =>
-        resourceName.StartsWith(DeckResourcePrefix, StringComparison.OrdinalIgnoreCase)
-        && (resourceName.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase)
-            || resourceName.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase));
-
-    private static bool IsDescriptionResource(string resourceName) =>
-        resourceName.StartsWith(DeckResourcePrefix, StringComparison.OrdinalIgnoreCase)
-        && resourceName.EndsWith(".md", StringComparison.OrdinalIgnoreCase);
-
-    private static string GetCardIdFromResourceName(string resourceName)
-    {
-        var relativeName = resourceName[DeckResourcePrefix.Length..];
-        var fileName = Path.GetFileName(relativeName);
-        var cardId = Path.GetFileNameWithoutExtension(fileName);
-
-        if (string.IsNullOrWhiteSpace(cardId))
-        {
-            throw new InvalidOperationException($"Unable to determine card id from resource '{resourceName}'.");
-        }
-
-        return cardId;
     }
 
     private static async Task<byte[]> ReadAllBytesAsync(string resourceName)

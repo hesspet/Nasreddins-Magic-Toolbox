@@ -1,12 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Toolbox.Models;
 
 namespace Toolbox.Helpers;
 
 /// <summary>
-/// Provides shared helper methods for card search and formatting.
+///     Provides shared helper methods for card search and formatting.
 /// </summary>
 public static class CardSearchHelper
 {
@@ -38,16 +35,29 @@ public static class CardSearchHelper
         return string.Concat(filtered);
     }
 
-    public static string NormalizeForComparison(string value)
+    public static int FindFirstMatchingCardIndex(IReadOnlyList<Spielkarte> candidates, string deckId, string normalizedSearch)
     {
-        if (string.IsNullOrWhiteSpace(value))
+        if (candidates is null || candidates.Count == 0)
         {
-            return string.Empty;
+            return -1;
         }
 
-        var filtered = value.Where(char.IsLetterOrDigit)
-                            .Select(char.ToLowerInvariant);
-        return string.Concat(filtered);
+        if (string.IsNullOrEmpty(normalizedSearch))
+        {
+            return 0;
+        }
+
+        for (var index = 0; index < candidates.Count; index++)
+        {
+            var candidate = candidates[index];
+            var key = NormalizeForComparison(CreateKey(deckId, candidate?.Id ?? string.Empty));
+            if (key.Contains(normalizedSearch, StringComparison.Ordinal))
+            {
+                return index;
+            }
+        }
+
+        return -1;
     }
 
     public static IReadOnlyList<Spielkarte> FindMatchingCards(IReadOnlyList<Spielkarte> candidates, string deckId, string normalizedSearch)
@@ -77,28 +87,15 @@ public static class CardSearchHelper
         return matches;
     }
 
-    public static int FindFirstMatchingCardIndex(IReadOnlyList<Spielkarte> candidates, string deckId, string normalizedSearch)
+    public static string NormalizeForComparison(string value)
     {
-        if (candidates is null || candidates.Count == 0)
+        if (string.IsNullOrWhiteSpace(value))
         {
-            return -1;
+            return string.Empty;
         }
 
-        if (string.IsNullOrEmpty(normalizedSearch))
-        {
-            return 0;
-        }
-
-        for (var index = 0; index < candidates.Count; index++)
-        {
-            var candidate = candidates[index];
-            var key = NormalizeForComparison(CreateKey(deckId, candidate?.Id ?? string.Empty));
-            if (key.Contains(normalizedSearch, StringComparison.Ordinal))
-            {
-                return index;
-            }
-        }
-
-        return -1;
+        var filtered = value.Where(char.IsLetterOrDigit)
+                            .Select(char.ToLowerInvariant);
+        return string.Concat(filtered);
     }
 }

@@ -1,36 +1,20 @@
-using System.Text.Json;
 using Microsoft.JSInterop;
+using System.Text.Json;
 
 namespace Toolbox.Helpers;
 
 /// <summary>
-/// Provides strongly typed helpers for accessing the browser local storage.
+///     Provides strongly typed helpers for accessing the browser local storage.
 /// </summary>
 public class LocalStorageHelper
 {
-    private static readonly JsonSerializerOptions SerializerOptions = new()
-    {
-        PropertyNameCaseInsensitive = true
-    };
-
-    private readonly IJSRuntime _jsRuntime;
-
     public LocalStorageHelper(IJSRuntime jsRuntime)
     {
         _jsRuntime = jsRuntime;
     }
 
     /// <summary>
-    /// Stores a value in the browser local storage.
-    /// </summary>
-    public async Task SetItemAsync<T>(string key, T value)
-    {
-        var payload = JsonSerializer.Serialize(value, SerializerOptions);
-        await _jsRuntime.InvokeVoidAsync("localStorage.setItem", key, payload);
-    }
-
-    /// <summary>
-    /// Reads a value from the browser local storage.
+    ///     Reads a value from the browser local storage.
     /// </summary>
     public async Task<T?> GetItemAsync<T>(string key)
     {
@@ -56,10 +40,26 @@ public class LocalStorageHelper
     }
 
     /// <summary>
-    /// Removes a value from the browser local storage.
+    ///     Removes a value from the browser local storage.
     /// </summary>
     public async Task RemoveItemAsync(string key)
     {
         await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", key);
     }
+
+    /// <summary>
+    ///     Stores a value in the browser local storage.
+    /// </summary>
+    public async Task SetItemAsync<T>(string key, T value)
+    {
+        var payload = JsonSerializer.Serialize(value, SerializerOptions);
+        await _jsRuntime.InvokeVoidAsync("localStorage.setItem", key, payload);
+    }
+
+    private static readonly JsonSerializerOptions SerializerOptions = new()
+    {
+        PropertyNameCaseInsensitive = true
+    };
+
+    private readonly IJSRuntime _jsRuntime;
 }

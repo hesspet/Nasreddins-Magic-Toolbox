@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using Toolbox.Models;
@@ -8,12 +6,6 @@ namespace Toolbox.Helpers;
 
 public sealed class FaceAnalysisService
 {
-    private const float MinimumSkinFraction = 0.0125f;
-    private const float MinimumFaceCoverage = 0.28f;
-    private const float EyeDarknessThreshold = 0.38f;
-    private const float NoseLowerLumaThreshold = 0.35f;
-    private const float NoseUpperLumaThreshold = 0.75f;
-
     public FaceAnalysisResult Analyze(ReadOnlySpan<byte> imageData)
     {
         if (imageData.IsEmpty)
@@ -147,6 +139,12 @@ public sealed class FaceAnalysisService
             combinedConfidence);
     }
 
+    private const float EyeDarknessThreshold = 0.38f;
+    private const float MinimumFaceCoverage = 0.28f;
+    private const float MinimumSkinFraction = 0.0125f;
+    private const float NoseLowerLumaThreshold = 0.35f;
+    private const float NoseUpperLumaThreshold = 0.75f;
+
     private static double AverageConfidence(IEnumerable<FaceFeature> features)
     {
         double sum = 0d;
@@ -158,6 +156,21 @@ public sealed class FaceAnalysisService
         }
 
         return count == 0 ? 0d : sum / count;
+    }
+
+    private static float Clamp(float value, float min, float max)
+    {
+        if (value < min)
+        {
+            return min;
+        }
+
+        if (value > max)
+        {
+            return max;
+        }
+
+        return value;
     }
 
     private static FaceFeature? DetectEye(Image<Rgba32> image, BoundingBox faceBox, int width, int height, bool isLeft)
@@ -303,6 +316,11 @@ public sealed class FaceAnalysisService
         return new FaceFeature(FaceFeatureKind.Nose, bounds, coverage);
     }
 
+    private static float GetLuminance(Rgba32 pixel)
+    {
+        return ((0.299f * pixel.R) + (0.587f * pixel.G) + (0.114f * pixel.B)) / 255f;
+    }
+
     private static bool IsSkinPixel(Rgba32 pixel)
     {
         var r = pixel.R / 255f;
@@ -349,25 +367,5 @@ public sealed class FaceAnalysisService
         var isYcbcrSkin = cb >= 77f && cb <= 127f && cr >= 133f && cr <= 173f;
 
         return isHsvSkin && isYcbcrSkin;
-    }
-
-    private static float GetLuminance(Rgba32 pixel)
-    {
-        return ((0.299f * pixel.R) + (0.587f * pixel.G) + (0.114f * pixel.B)) / 255f;
-    }
-
-    private static float Clamp(float value, float min, float max)
-    {
-        if (value < min)
-        {
-            return min;
-        }
-
-        if (value > max)
-        {
-            return max;
-        }
-
-        return value;
     }
 }

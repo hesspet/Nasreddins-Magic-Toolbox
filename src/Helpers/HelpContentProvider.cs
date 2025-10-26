@@ -1,30 +1,23 @@
-using System.Collections.Concurrent;
-using System.IO;
-using System.Reflection;
 using Markdig;
-using System.Threading;
+using System.Collections.Concurrent;
+using System.Reflection;
 
 namespace Toolbox.Helpers;
 
 /// <summary>
-/// Lädt Hilfetexte aus eingebetteten Markdown-Ressourcen und wandelt sie in HTML um.
+///     Lädt Hilfetexte aus eingebetteten Markdown-Ressourcen und wandelt sie in HTML um.
 /// </summary>
 public sealed class HelpContentProvider
 {
-    private static readonly MarkdownPipeline Pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
-    private readonly Assembly assembly = typeof(HelpContentProvider).Assembly;
-    private readonly ConcurrentDictionary<string, string> htmlCache = new(StringComparer.OrdinalIgnoreCase);
-    private readonly Lazy<Dictionary<string, string>> resourceLookup;
-
     public HelpContentProvider()
     {
         resourceLookup = new Lazy<Dictionary<string, string>>(BuildResourceLookup, LazyThreadSafetyMode.ExecutionAndPublication);
     }
 
     /// <summary>
-    /// Liefert den Hilfetext für den angegebenen Schlüssel als HTML-Markup.
+    ///     Liefert den Hilfetext für den angegebenen Schlüssel als HTML-Markup.
     /// </summary>
-    /// <param name="key">Der logische Schlüssel, in der Regel die ID des Steuerelements.</param>
+    /// <param name="key"> Der logische Schlüssel, in der Regel die ID des Steuerelements. </param>
     public Task<string?> GetHelpHtmlAsync(string key)
     {
         if (string.IsNullOrWhiteSpace(key))
@@ -58,6 +51,25 @@ public sealed class HelpContentProvider
         return Task.FromResult<string?>(html);
     }
 
+    private static readonly MarkdownPipeline Pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+    private readonly Assembly assembly = typeof(HelpContentProvider).Assembly;
+    private readonly ConcurrentDictionary<string, string> htmlCache = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Lazy<Dictionary<string, string>> resourceLookup;
+
+    private static string? ExtractKeyFromResourceName(string resourceName)
+    {
+        var helpIndex = resourceName.IndexOf(".Help.", StringComparison.OrdinalIgnoreCase);
+
+        if (helpIndex < 0)
+        {
+            return null;
+        }
+
+        var keyStart = helpIndex + ".Help.".Length;
+        var key = resourceName[keyStart..^3];
+        return key;
+    }
+
     private Dictionary<string, string> BuildResourceLookup()
     {
         var resources = assembly.GetManifestResourceNames();
@@ -79,19 +91,5 @@ public sealed class HelpContentProvider
         }
 
         return lookup;
-    }
-
-    private static string? ExtractKeyFromResourceName(string resourceName)
-    {
-        var helpIndex = resourceName.IndexOf(".Help.", StringComparison.OrdinalIgnoreCase);
-
-        if (helpIndex < 0)
-        {
-            return null;
-        }
-
-        var keyStart = helpIndex + ".Help.".Length;
-        var key = resourceName[keyStart..^3];
-        return key;
     }
 }

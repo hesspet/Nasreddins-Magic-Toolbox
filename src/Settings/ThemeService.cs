@@ -1,19 +1,13 @@
-using System;
 using Microsoft.JSInterop;
 using Toolbox.Helpers;
 
 namespace Toolbox.Settings;
 
 /// <summary>
-/// Provides centralized theme management and persists the selected preference.
+///     Provides centralized theme management and persists the selected preference.
 /// </summary>
 public class ThemeService
 {
-    private readonly IJSRuntime _jsRuntime;
-    private readonly LocalStorageHelper _localStorage;
-    private Task? _initializationTask;
-    private ThemePreference _currentTheme = ApplicationSettings.ThemePreferenceDefault;
-
     public ThemeService(IJSRuntime jsRuntime, LocalStorageHelper localStorage)
     {
         _jsRuntime = jsRuntime;
@@ -45,6 +39,17 @@ public class ThemeService
         ThemeChanged?.Invoke(theme);
     }
 
+    private readonly IJSRuntime _jsRuntime;
+    private readonly LocalStorageHelper _localStorage;
+    private ThemePreference _currentTheme = ApplicationSettings.ThemePreferenceDefault;
+    private Task? _initializationTask;
+
+    private async Task ApplyThemeAsync(ThemePreference theme)
+    {
+        var themeName = theme == ThemePreference.Dark ? "dark" : "light";
+        await _jsRuntime.InvokeVoidAsync("theme.applyTheme", themeName);
+    }
+
     private async Task InitializeAsyncCore()
     {
         var storedValue = await _localStorage.GetItemAsync<string>(ApplicationSettings.ThemePreferenceKey);
@@ -60,11 +65,5 @@ public class ThemeService
         }
 
         await ApplyThemeAsync(_currentTheme);
-    }
-
-    private async Task ApplyThemeAsync(ThemePreference theme)
-    {
-        var themeName = theme == ThemePreference.Dark ? "dark" : "light";
-        await _jsRuntime.InvokeVoidAsync("theme.applyTheme", themeName);
     }
 }

@@ -10,6 +10,6 @@ public sealed record LogEntry(DateTimeOffset Timestamp, LogLevel Level, string M
     /// <summary>
     ///     Formats the log entry for display in the logging view.
     /// </summary>
-    /// <returns>A string that contains the timestamp, log level and message.</returns>
+    /// <returns> A string that contains the timestamp, log level and message. </returns>
     public string ToDisplayString() => $"[{Timestamp:HH:mm:ss}] [{Level.ToDisplayString()}] {Message}";
 }
