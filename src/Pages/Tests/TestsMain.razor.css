@@ -1,0 +1,17 @@
+.tests-menu {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tests-menu .menu {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.tests-menu .menu-button {
+    min-width: 12rem;
+}
