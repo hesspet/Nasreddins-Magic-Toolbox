@@ -1,0 +1,179 @@
+@page "/bildanalyse"
+@using System.Globalization
+@using Toolbox.Models
+@inject FaceAnalysisService AnalysisService
+
+<PageTitle>@DisplayTexts.FaceAnalysisPageTitle</PageTitle>
+
+<h1>@DisplayTexts.FaceAnalysisPageTitle</h1>
+<p class="face-analysis-intro">@DisplayTexts.FaceAnalysisIntro</p>
+
+<div class="face-analysis-controls">
+    <InputFile OnChange="HandleFileSelected" accept="image/*" class="form-control" />
+    @if (!string.IsNullOrWhiteSpace(_statusMessage))
+    {
+        <p class="face-analysis-status">@_statusMessage</p>
+    }
+</div>
+
+@if (!string.IsNullOrEmpty(_imageDataUrl))
+{
+    <section class="face-analysis-images">
+        <figure>
+            <figcaption>@DisplayTexts.FaceAnalysisOriginalCaption</figcaption>
+            <img src="@_imageDataUrl" alt="@DisplayTexts.FaceAnalysisOriginalAlt" />
+        </figure>
+
+        <figure>
+            <figcaption>@DisplayTexts.FaceAnalysisAnnotatedCaption</figcaption>
+            <div class="face-analysis-annotated-wrapper">
+                <img src="@_imageDataUrl" alt="@DisplayTexts.FaceAnalysisAnnotatedAlt" />
+                @if (_analysisResult is not null && _analysisResult.HasFace)
+                {
+                    <svg class="face-analysis-overlay"
+                         viewBox="0 0 @_analysisResult.ImageWidth @_analysisResult.ImageHeight"
+                         xmlns="http://www.w3.org/2000/svg"
+                         role="presentation">
+                        @if (_analysisResult.FaceBounds is BoundingBox face)
+                        {
+                            <rect class="face-outline"
+                                  x="@face.X"
+                                  y="@face.Y"
+                                  width="@face.Width"
+                                  height="@face.Height" />
+                        }
+
+                        @if (_analysisResult.LeftEye is FaceFeature leftEye)
+                        {
+                            <rect class="feature-outline"
+                                  x="@leftEye.Bounds.X"
+                                  y="@leftEye.Bounds.Y"
+                                  width="@leftEye.Bounds.Width"
+                                  height="@leftEye.Bounds.Height" />
+                        }
+
+                        @if (_analysisResult.RightEye is FaceFeature rightEye)
+                        {
+                            <rect class="feature-outline"
+                                  x="@rightEye.Bounds.X"
+                                  y="@rightEye.Bounds.Y"
+                                  width="@rightEye.Bounds.Width"
+                                  height="@rightEye.Bounds.Height" />
+                        }
+
+                        @if (_analysisResult.Nose is FaceFeature nose)
+                        {
+                            <rect class="feature-outline"
+                                  x="@nose.Bounds.X"
+                                  y="@nose.Bounds.Y"
+                                  width="@nose.Bounds.Width"
+                                  height="@nose.Bounds.Height" />
+                        }
+                    </svg>
+                }
+            </div>
+        </figure>
+    </section>
+}
+
+@if (_analysisResult is not null)
+{
+    <section class="face-analysis-summary">
+        <h2>@DisplayTexts.FaceAnalysisSummaryHeading</h2>
+        <p>@BuildSummaryMessage(_analysisResult)</p>
+        <ul>
+            <li>@DescribeFeature(_analysisResult.LeftEye, DisplayTexts.FaceAnalysisFeatureLeftEye)</li>
+            <li>@DescribeFeature(_analysisResult.RightEye, DisplayTexts.FaceAnalysisFeatureRightEye)</li>
+            <li>@DescribeFeature(_analysisResult.Nose, DisplayTexts.FaceAnalysisFeatureNose)</li>
+        </ul>
+    </section>
+}
+
+@code {
+    private const long MaxImageSize = 10 * 1024 * 1024;
+
+    private string? _imageDataUrl;
+    private string? _statusMessage;
+    private FaceAnalysisResult? _analysisResult;
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs changeEvent)
+    {
+        _statusMessage = null;
+        _analysisResult = null;
+        _imageDataUrl = null;
+
+        var file = changeEvent.File;
+        if (file is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await using var readStream = file.OpenReadStream(MaxImageSize);
+            using var memoryStream = new MemoryStream();
+            await readStream.CopyToAsync(memoryStream);
+            var imageBytes = memoryStream.ToArray();
+
+            _imageDataUrl = $"data:{file.ContentType};base64,{Convert.ToBase64String(imageBytes)}";
+
+            _analysisResult = AnalysisService.Analyze(imageBytes);
+            _statusMessage = BuildSummaryMessage(_analysisResult);
+        }
+        catch (Exception ex)
+        {
+            _statusMessage = string.Format(DisplayTexts.FaceAnalysisImageError, ex.Message);
+        }
+    }
+
+    private static string BuildSummaryMessage(FaceAnalysisResult result)
+    {
+        if (!result.HasFace)
+        {
+            return DisplayTexts.FaceAnalysisMessageNoFace;
+        }
+
+        if (!result.IsLikelyHuman)
+        {
+            return DisplayTexts.FaceAnalysisMessageFaceButNotHuman;
+        }
+
+        var features = new List<string>();
+        if (result.LeftEye is not null)
+        {
+            features.Add(DisplayTexts.FaceAnalysisFeatureLeftEye);
+        }
+
+        if (result.RightEye is not null)
+        {
+            features.Add(DisplayTexts.FaceAnalysisFeatureRightEye);
+        }
+
+        if (result.Nose is not null)
+        {
+            features.Add(DisplayTexts.FaceAnalysisFeatureNose);
+        }
+
+        var featureSummary = features.Count > 0
+            ? string.Join(", ", features)
+            : DisplayTexts.FaceAnalysisFeatureFallback;
+
+        return string.Format(
+            DisplayTexts.FaceAnalysisMessageHuman,
+            featureSummary,
+            result.ConfidenceScore.ToString("P0", CultureInfo.CurrentCulture));
+    }
+
+    private static string DescribeFeature(FaceFeature? feature, string label)
+    {
+        if (feature is null)
+        {
+            return string.Format(DisplayTexts.FaceAnalysisFeatureMissing, label);
+        }
+
+        return string.Format(
+            DisplayTexts.FaceAnalysisFeatureDetected,
+            label,
+            feature.Confidence.ToString("P1", CultureInfo.CurrentCulture));
+    }
+}

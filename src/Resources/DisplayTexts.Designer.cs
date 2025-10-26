@@ -65,6 +65,7 @@ public static class DisplayTexts
     public static string NavigationSettingsCardReading => GetString(nameof(NavigationSettingsCardReading));
     public static string NavigationLogging => GetString(nameof(NavigationLogging));
     public static string NavigationInstructions => GetString(nameof(NavigationInstructions));
+    public static string NavigationFaceAnalysis => GetString(nameof(NavigationFaceAnalysis));
     public static string NavigationTests => GetString(nameof(NavigationTests));
     public static string DatabasePageTitle => GetString(nameof(DatabasePageTitle));
     public static string DatabasePageHeader => GetString(nameof(DatabasePageHeader));
@@ -126,6 +127,23 @@ public static class DisplayTexts
     public static string LoggingClearButtonLabel => GetString(nameof(LoggingClearButtonLabel));
     public static string LoggingEmptyMessage => GetString(nameof(LoggingEmptyMessage));
     public static string LoggingSystemStartMessage => GetString(nameof(LoggingSystemStartMessage));
+    public static string FaceAnalysisPageTitle => GetString(nameof(FaceAnalysisPageTitle));
+    public static string FaceAnalysisIntro => GetString(nameof(FaceAnalysisIntro));
+    public static string FaceAnalysisOriginalCaption => GetString(nameof(FaceAnalysisOriginalCaption));
+    public static string FaceAnalysisOriginalAlt => GetString(nameof(FaceAnalysisOriginalAlt));
+    public static string FaceAnalysisAnnotatedCaption => GetString(nameof(FaceAnalysisAnnotatedCaption));
+    public static string FaceAnalysisAnnotatedAlt => GetString(nameof(FaceAnalysisAnnotatedAlt));
+    public static string FaceAnalysisSummaryHeading => GetString(nameof(FaceAnalysisSummaryHeading));
+    public static string FaceAnalysisMessageNoFace => GetString(nameof(FaceAnalysisMessageNoFace));
+    public static string FaceAnalysisMessageFaceButNotHuman => GetString(nameof(FaceAnalysisMessageFaceButNotHuman));
+    public static string FaceAnalysisMessageHuman => GetString(nameof(FaceAnalysisMessageHuman));
+    public static string FaceAnalysisFeatureLeftEye => GetString(nameof(FaceAnalysisFeatureLeftEye));
+    public static string FaceAnalysisFeatureRightEye => GetString(nameof(FaceAnalysisFeatureRightEye));
+    public static string FaceAnalysisFeatureNose => GetString(nameof(FaceAnalysisFeatureNose));
+    public static string FaceAnalysisFeatureFallback => GetString(nameof(FaceAnalysisFeatureFallback));
+    public static string FaceAnalysisFeatureMissing => GetString(nameof(FaceAnalysisFeatureMissing));
+    public static string FaceAnalysisFeatureDetected => GetString(nameof(FaceAnalysisFeatureDetected));
+    public static string FaceAnalysisImageError => GetString(nameof(FaceAnalysisImageError));
     public static string SettingsPageTitle => GetString(nameof(SettingsPageTitle));
     public static string SettingsPageHeader => GetString(nameof(SettingsPageHeader));
 
