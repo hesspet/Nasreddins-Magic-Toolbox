@@ -1,0 +1,99 @@
+@page "/tests/foto-component"
+@using System
+@using Toolbox.Helpers
+@using Toolbox.Models
+@inject TemporaryImageStore ImageStore
+
+<h1>FotoComponent Testseite</h1>
+<p class="text-muted">Nutze diese Seite, um die Fotoaufnahme-Komponente manuell zu testen.</p>
+
+<FotoComponent OnPhotoCaptured="HandlePhotoCaptured"
+               OnError="HandleError"
+               ButtonText="Foto aufnehmen"
+               ShowPreview="true" />
+
+@if (!string.IsNullOrWhiteSpace(statusMessage))
+{
+    <div class="@statusCssClass" role="status">@statusMessage</div>
+}
+
+@if (lastResult is not null)
+{
+    <section class="mt-3">
+        <h2>Letztes Ergebnis</h2>
+        <dl class="row">
+            <dt class="col-sm-3">Bild-ID</dt>
+            <dd class="col-sm-9"><code>@lastResult.ImageId</code></dd>
+            <dt class="col-sm-3">Dateiname</dt>
+            <dd class="col-sm-9">@lastResult.FileName</dd>
+            <dt class="col-sm-3">Inhaltstyp</dt>
+            <dd class="col-sm-9">@lastResult.ContentType</dd>
+            <dt class="col-sm-3">Größe</dt>
+            <dd class="col-sm-9">@FormatSize(lastResult.Size)</dd>
+        </dl>
+
+        @if (!string.IsNullOrEmpty(StoredPreviewUrl))
+        {
+            <div class="card mt-3">
+                <div class="card-header">Vorschau aus dem Zwischenspeicher</div>
+                <div class="card-body text-center">
+                    <img src="@StoredPreviewUrl" alt="Zwischengespeichertes Foto" class="img-fluid rounded" />
+                </div>
+            </div>
+        }
+    </section>
+}
+
+@code {
+    private PhotoCaptureResult? lastResult;
+    private string? statusMessage;
+    private string statusCssClass = "alert alert-info";
+    private string? StoredPreviewUrl => BuildStoredPreviewUrl();
+
+    private Task HandlePhotoCaptured(PhotoCaptureResult result)
+    {
+        lastResult = result;
+        statusMessage = $"Foto gespeichert (ID: {result.ImageId})";
+        statusCssClass = "alert alert-success";
+        return Task.CompletedTask;
+    }
+
+    private Task HandleError(string? error)
+    {
+        statusMessage = string.IsNullOrWhiteSpace(error)
+            ? "Es ist ein unbekannter Fehler aufgetreten."
+            : error;
+        statusCssClass = "alert alert-danger";
+        return Task.CompletedTask;
+    }
+
+    private string FormatSize(long size)
+    {
+        if (size <= 0)
+        {
+            return "0 B";
+        }
+
+        string[] suffixes = ["B", "KB", "MB", "GB", "TB"];
+        var index = (int)Math.Floor(Math.Log(size, 1024));
+        index = Math.Clamp(index, 0, suffixes.Length - 1);
+        var formatted = size / Math.Pow(1024, index);
+        return $"{formatted:0.##} {suffixes[index]}";
+    }
+
+    private string? BuildStoredPreviewUrl()
+    {
+        if (lastResult is null)
+        {
+            return null;
+        }
+
+        if (!ImageStore.TryGetImage(lastResult.ImageId, out var image) || image is null)
+        {
+            return null;
+        }
+
+        var type = string.IsNullOrWhiteSpace(image.ContentType) ? "image/jpeg" : image.ContentType;
+        return $"data:{type};base64,{Convert.ToBase64String(image.Data)}";
+    }
+}

@@ -20,5 +20,6 @@ builder.Services.AddScoped<DeckBootstrapper>();
 builder.Services.AddScoped<ThemeService>();
 builder.Services.AddSingleton<HelpContentProvider>();
 builder.Services.AddSingleton<InMemoryLogService>();
+builder.Services.AddScoped<TemporaryImageStore>();
 
 await builder.Build().RunAsync();
