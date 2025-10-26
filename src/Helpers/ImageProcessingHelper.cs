@@ -59,8 +59,13 @@ public static class ImageProcessingHelper
             sourceStream.Position = 0;
         }
 
+        var decoderOptions = new DecoderOptions
+        {
+            Configuration = Configuration.Default
+        };
+
         IImageFormat? imageFormat;
-        var imageInfo = Image.Identify(workingStream, out imageFormat);
+        var imageInfo = Image.Identify(decoderOptions, workingStream, out imageFormat);
         if (imageInfo is null || imageFormat is null)
         {
             throw new InvalidDataException("Die ausgewählte Datei ist kein unterstütztes Bildformat.");
@@ -88,7 +93,7 @@ public static class ImageProcessingHelper
             return new ProcessedImage(copyStream.ToArray(), mimeType);
         }
 
-        using var image = await Image.LoadAsync<Rgba32>(workingStream, cancellationToken).ConfigureAwait(false);
+        using var image = await Image.LoadAsync<Rgba32>(decoderOptions, workingStream, cancellationToken).ConfigureAwait(false);
 
         image.Mutate(context => context.Resize(new ResizeOptions
         {
@@ -97,7 +102,10 @@ public static class ImageProcessingHelper
             Sampler = KnownResamplers.Bicubic
         }));
 
-        var encoder = Configuration.Default.ImageFormatsManager.FindEncoder(imageFormat) ?? new PngEncoder();
+        if (!Configuration.Default.ImageFormatsManager.TryFindEncoder(imageFormat, out var encoder))
+        {
+            encoder = new PngEncoder();
+        }
         var outputMimeType = encoder switch
         {
             PngEncoder => "image/png",
