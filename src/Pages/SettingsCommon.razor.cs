@@ -1,5 +1,6 @@
 using System;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 using Toolbox.Models;
 using LogLevel = Toolbox.Models.LogLevel;
 using Toolbox.Resources;
@@ -32,6 +33,8 @@ public partial class SettingsCommon : SettingsPageBase, IDisposable
         {
             await LocalStorage.SetItemAsync(ApplicationSettings.SplashScreenDurationKey, selectedDuration);
         }
+
+        offlineModeEnabled = await LocalStorage.GetOfflineModeEnabledAsync();
 
         var storedUpdatePreference = await LocalStorage.GetItemAsync<bool?>(ApplicationSettings.CheckForUpdatesOnStartupKey);
 
@@ -83,6 +86,7 @@ public partial class SettingsCommon : SettingsPageBase, IDisposable
     }
 
     private bool checkForUpdatesOnStartup = ApplicationSettings.CheckForUpdatesOnStartupDefault;
+    private bool offlineModeEnabled = ApplicationSettings.OfflineModeEnabledDefault;
 
     private ThemePreference selectedTheme = ApplicationSettings.ThemePreferenceDefault;
 
@@ -96,6 +100,9 @@ public partial class SettingsCommon : SettingsPageBase, IDisposable
 
     [Inject]
     private InMemoryLogService LogService { get; set; } = default!;
+
+    [Inject]
+    private IJSRuntime JsRuntime { get; set; } = default!;
 
     private void HandleThemeChanged(ThemePreference theme)
     {
@@ -119,6 +126,35 @@ public partial class SettingsCommon : SettingsPageBase, IDisposable
         }
 
         await LocalStorage.SetItemAsync(ApplicationSettings.CheckForUpdatesOnStartupKey, checkForUpdatesOnStartup);
+        StateHasChanged();
+    }
+
+    private async Task OnOfflineModeChanged(ChangeEventArgs args)
+    {
+        bool newValue;
+
+        if (args.Value is bool boolValue)
+        {
+            newValue = boolValue;
+        }
+        else if (args.Value is string stringValue && bool.TryParse(stringValue, out var parsedValue))
+        {
+            newValue = parsedValue;
+        }
+        else
+        {
+            return;
+        }
+
+        if (offlineModeEnabled == newValue)
+        {
+            return;
+        }
+
+        offlineModeEnabled = newValue;
+
+        await LocalStorage.SetOfflineModeEnabledAsync(offlineModeEnabled);
+        await NotifyServiceWorkerAboutOfflineModeAsync();
         StateHasChanged();
     }
 
@@ -221,4 +257,21 @@ public partial class SettingsCommon : SettingsPageBase, IDisposable
         LogLevel.Debug => DisplayTexts.SettingsLoggingLogLevelOptionDebug,
         _ => level.ToString(),
     };
+
+    private async Task NotifyServiceWorkerAboutOfflineModeAsync()
+    {
+        if (JsRuntime is null)
+        {
+            return;
+        }
+
+        try
+        {
+            await JsRuntime.InvokeVoidAsync("nasreddinsMagicToolbox.setOfflineMode", offlineModeEnabled);
+        }
+        catch (JSException ex)
+        {
+            LogService.LogWarning($"Offline-Modus konnte nicht an den Service Worker gemeldet werden: {ex.Message}");
+        }
+    }
 }

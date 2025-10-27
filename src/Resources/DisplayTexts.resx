@@ -555,6 +555,15 @@
   <data name="SettingsSearchAutoClearDescription" xml:space="preserve">
     <value>Legt fest, nach wie vielen Sekunden ohne weitere Eingabe das Suchfeld geleert wird. Der Wert 0 deaktiviert das automatische Löschen. Für die meisten Anwendungsfälle sind 5 Sekunden ein guter Ausgangspunkt.</value>
   </data>
+  <data name="SettingsOfflineModeLabel" xml:space="preserve">
+    <value>Offline-Modus aktivieren</value>
+  </data>
+  <data name="SettingsOfflineModeDescription" xml:space="preserve">
+    <value>Im Offline-Modus nutzt die App ausschließlich lokale Daten und Caches. Netzwerkanfragen werden blockiert, was sich für Tests ohne Internetverbindung eignet.</value>
+  </data>
+  <data name="SettingsOfflineModeUnavailableMessage" xml:space="preserve">
+    <value>Der Offline-Modus ist aktiv. Diese Funktion steht nur mit Internetverbindung zur Verfügung.</value>
+  </data>
   <data name="SettingsCheckForUpdatesLabel" xml:space="preserve">
     <value>Beim Start auf Update prüfen</value>
   </data>

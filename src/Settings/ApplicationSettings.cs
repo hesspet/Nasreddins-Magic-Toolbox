@@ -18,6 +18,8 @@ public static class ApplicationSettings
     public const int CardScalePercentMinimum = 20;
     public const bool CheckForUpdatesOnStartupDefault = true;
     public const string CheckForUpdatesOnStartupKey = "CheckForUpdatesOnStartup";
+    public const bool OfflineModeEnabledDefault = false;
+    public const string OfflineModeEnabledKey = "OfflineModeEnabled";
     public const LogLevel LogLevelDefault = Config.DefaultLogLevel;
     public const string LogLevelKey = "LogLevel";
     public const int LogMaxLinesDefault = 1000;

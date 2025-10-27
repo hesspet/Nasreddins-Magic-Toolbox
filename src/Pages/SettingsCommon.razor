@@ -57,6 +57,27 @@
     <p class="settings-description">@DisplayTexts.SettingsSplashDurationDescription</p>
 </section>
 
+<section class="settings-section" aria-labelledby="offline-mode-label">
+    <div class="form-check form-switch">
+        <input
+            id="offline-mode-toggle"
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            checked="@offlineModeEnabled"
+            @onchange="OnOfflineModeChanged" />
+        <div class="settings-label-row">
+            <label id="offline-mode-label" class="form-check-label" for="offline-mode-toggle">
+                @DisplayTexts.SettingsOfflineModeLabel
+            </label>
+            <HelpButton
+                AriaLabel="@GetHelpButtonLabel(DisplayTexts.SettingsOfflineModeLabel)"
+                OnClick="@(() => ShowHelpAsync("offline-mode", DisplayTexts.SettingsOfflineModeLabel))" />
+        </div>
+    </div>
+    <p class="settings-description">@DisplayTexts.SettingsOfflineModeDescription</p>
+</section>
+
 <section class="settings-section" aria-labelledby="update-check-label">
     <div class="form-check form-switch">
         <input

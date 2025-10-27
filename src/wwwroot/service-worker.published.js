@@ -6,8 +6,15 @@ self.addEventListener('install', event => event.waitUntil(onInstall(event)));
 self.addEventListener('activate', event => event.waitUntil(onActivate(event)));
 self.addEventListener('fetch', event => event.respondWith(onFetch(event)));
 self.addEventListener('message', event => {
-    if (event?.data?.type === 'SKIP_WAITING') {
+    const messageType = event?.data?.type;
+
+    if (messageType === 'SKIP_WAITING') {
         self.skipWaiting();
+        return;
+    }
+
+    if (messageType === 'SET_OFFLINE_MODE') {
+        offlineModeEnabled = event?.data?.enabled === true;
     }
 });
 
@@ -15,6 +22,7 @@ const cacheNamePrefix = 'offline-cache-';
 const cacheName = `${cacheNamePrefix}${self.assetsManifest.version}`;
 const offlineAssetsInclude = [/\.dll$/, /\.pdb$/, /\.wasm/, /\.html/, /\.js$/, /\.json$/, /\.css$/, /\.woff$/, /\.png$/, /\.jpe?g$/, /\.gif$/, /\.ico$/, /\.blat$/, /\.dat$/];
 const offlineAssetsExclude = [/^service-worker\.js$/];
+let offlineModeEnabled = false;
 
 // Replace with your base path if you are hosting on a subfolder. Ensure there is a trailing '/'.
 const base = "/";
@@ -43,18 +51,32 @@ async function onActivate(event) {
 }
 
 async function onFetch(event) {
-    let cachedResponse = null;
     if (event.request.method === 'GET') {
-        // For all navigation requests, try to serve index.html from cache,
-        // unless that request is for an offline resource.
-        // If you need some URLs to be server-rendered, edit the following check to exclude those URLs
         const shouldServeIndexHtml = event.request.mode === 'navigate'
             && !manifestUrlList.some(url => url === event.request.url);
 
         const request = shouldServeIndexHtml ? 'index.html' : event.request;
         const cache = await caches.open(cacheName);
-        cachedResponse = await cache.match(request);
+        const cachedResponse = await cache.match(request);
+
+        if (offlineModeEnabled) {
+            if (cachedResponse) {
+                return cachedResponse;
+            }
+
+            return new Response(
+                'Offline-Modus aktiv. Die angeforderte Ressource ist nicht im Cache verfügbar.',
+                {
+                    status: 503,
+                    statusText: 'Service Unavailable',
+                    headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+                });
+        }
+
+        if (cachedResponse) {
+            return cachedResponse;
+        }
     }
 
-    return cachedResponse || fetch(event.request);
+    return fetch(event.request);
 }

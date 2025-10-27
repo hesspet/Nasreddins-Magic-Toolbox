@@ -39,7 +39,7 @@
         id="card-reading-test-button"
         class="btn btn-primary"
         @onclick="SendChatGptTestAsync"
-        disabled="@isSendingTest">
+        disabled="@(isSendingTest || offlineModeEnabled)">
         @if (isSendingTest)
         {
             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -51,7 +51,11 @@
         }
     </button>
 
-    @if (!string.IsNullOrWhiteSpace(testErrorMessage))
+    @if (offlineModeEnabled)
+    {
+        <div class="alert alert-info mt-2" role="status">@DisplayTexts.SettingsOfflineModeUnavailableMessage</div>
+    }
+    else if (!string.IsNullOrWhiteSpace(testErrorMessage))
     {
         <div class="text-danger mt-2" role="alert">@testErrorMessage</div>
     }

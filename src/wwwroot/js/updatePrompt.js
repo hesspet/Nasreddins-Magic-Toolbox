@@ -4,7 +4,10 @@
     }
 
     let hasControllerChanged = false;
+    let latestRegistration = null;
+
     const updateSettingKey = 'CheckForUpdatesOnStartup';
+    const offlineModeKey = 'OfflineModeEnabled';
 
     function shouldCheckForUpdatesOnStartup() {
         try {
@@ -22,6 +25,30 @@
         }
     }
 
+    function isOfflineModeEnabled() {
+        try {
+            const storedValue = window.localStorage.getItem(offlineModeKey);
+
+            if (storedValue === null || storedValue === undefined) {
+                return false;
+            }
+
+            const parsedValue = JSON.parse(storedValue);
+            if (typeof parsedValue === 'boolean') {
+                return parsedValue;
+            }
+
+            if (typeof parsedValue === 'string') {
+                return parsedValue.toLowerCase() === 'true';
+            }
+
+            return false;
+        } catch (error) {
+            console.warn('Konnte Einstellung für den Offline-Modus nicht auslesen:', error);
+            return false;
+        }
+    }
+
     function promptUserForUpdate(registration) {
         const waitingWorker = registration.waiting;
 
@@ -35,17 +62,60 @@
         }
     }
 
-    const shouldCheckForUpdates = shouldCheckForUpdatesOnStartup();
+    function tryPostMessage(worker) {
+        if (!worker) {
+            return;
+        }
+
+        try {
+            worker.postMessage({ type: 'SET_OFFLINE_MODE', enabled: offlineModeEnabled });
+        } catch (error) {
+            console.warn('Konnte Offline-Status nicht an Service Worker senden:', error);
+        }
+    }
+
+    function notifyServiceWorkerAboutOfflineMode() {
+        tryPostMessage(navigator.serviceWorker.controller);
+
+        if (latestRegistration) {
+            tryPostMessage(latestRegistration.installing);
+            tryPostMessage(latestRegistration.waiting);
+            tryPostMessage(latestRegistration.active);
+        }
+    }
+
+    function setOfflineMode(enabled) {
+        const isEnabled = enabled === true || enabled === 'true';
+        const wasEnabled = offlineModeEnabled;
+
+        offlineModeEnabled = isEnabled;
+        notifyServiceWorkerAboutOfflineMode();
+
+        if (!offlineModeEnabled && wasEnabled && wantsUpdateCheck && latestRegistration && latestRegistration.waiting) {
+            promptUserForUpdate(latestRegistration);
+        }
+    }
+
+    const wantsUpdateCheck = shouldCheckForUpdatesOnStartup();
+    let offlineModeEnabled = isOfflineModeEnabled();
+
+    window.nasreddinsMagicToolbox = window.nasreddinsMagicToolbox || {};
+    window.nasreddinsMagicToolbox.setOfflineMode = setOfflineMode;
+
+    notifyServiceWorkerAboutOfflineMode();
 
     navigator.serviceWorker
         .register('service-worker.js')
         .then(registration => {
-            if (!shouldCheckForUpdates) {
-                return;
+            latestRegistration = registration;
+            notifyServiceWorkerAboutOfflineMode();
+
+            if (wantsUpdateCheck && !offlineModeEnabled && registration.waiting) {
+                promptUserForUpdate(registration);
             }
 
-            if (registration.waiting) {
-                promptUserForUpdate(registration);
+            if (!wantsUpdateCheck) {
+                return;
             }
 
             registration.addEventListener('updatefound', () => {
@@ -55,7 +125,7 @@
                 }
 
                 newWorker.addEventListener('statechange', () => {
-                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller && wantsUpdateCheck && !offlineModeEnabled) {
                         promptUserForUpdate(registration);
                     }
                 });
@@ -63,14 +133,26 @@
         })
         .catch(error => console.error('Service Worker Registrierung fehlgeschlagen:', error));
 
-    if (shouldCheckForUpdates) {
-        navigator.serviceWorker.addEventListener('controllerchange', () => {
-            if (hasControllerChanged) {
-                return;
-            }
+    navigator.serviceWorker.ready
+        .then(registration => {
+            latestRegistration = registration;
+            notifyServiceWorkerAboutOfflineMode();
+        })
+        .catch(() => { });
 
-            hasControllerChanged = true;
-            window.location.reload();
-        });
-    }
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+        notifyServiceWorkerAboutOfflineMode();
+
+        if (hasControllerChanged) {
+            return;
+        }
+
+        hasControllerChanged = true;
+
+        if (!wantsUpdateCheck || offlineModeEnabled) {
+            return;
+        }
+
+        window.location.reload();
+    });
 })();
