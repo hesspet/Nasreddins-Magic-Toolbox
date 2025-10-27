@@ -7,10 +7,45 @@
 @inject FaceAnalysisService AnalysisService
 @inject TemporaryImageStorage ImageStorage
 @inject LocalStorageHelper LocalStorage
+@inject IndexedDbHelper DbHelper
 
 <PageTitle>@DisplayTexts.FaceAnalysisPageTitle</PageTitle>
 
 <h1>@DisplayTexts.FaceAnalysisPageTitle</h1>
+
+<div class="face-analysis-card-selection">
+    <DeckSelectionBar IsLoading="_isLoadingDecks"
+                      DeckOptions="_deckOptions"
+                      @bind-SelectedDeck="SelectedDeck"
+                      ShowSearchButton="false"
+                      SearchEnabled="CanSearchCards" />
+
+    <div class="face-analysis-card-search">
+        <input id="@_cardSearchInputId"
+               class="form-control"
+               @bind="CardSearchTerm"
+               @bind:event="oninput"
+               placeholder="@DisplayTexts.TarotSearchLabel"
+               title="@DisplayTexts.TarotSearchPlaceholder"
+               aria-label="@DisplayTexts.TarotSearchLabel"
+               disabled="@(!CanSearchCards)" />
+    </div>
+
+    @if (ShouldShowCardNotFound)
+    {
+        <p class="face-analysis-card-search-error">@DisplayTexts.TarotSearchNotFound</p>
+    }
+
+    @if (_selectedCard is not null)
+    {
+        <figure class="face-analysis-card-preview">
+            <img src="@(SelectedCardImageDataUrl ?? string.Empty)"
+                 alt="@_selectedCard.DisplayName" />
+            <figcaption>@_selectedCard.DisplayName</figcaption>
+        </figure>
+    }
+</div>
+
 <p class="face-analysis-intro">@DisplayTexts.FaceAnalysisIntro</p>
 
 <div class="face-analysis-controls">
@@ -140,6 +175,24 @@
 }
 
 @code {
+    private readonly Dictionary<string, DeckCards> _deckCardsCache = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, string> _deckDisplayNames = new(StringComparer.OrdinalIgnoreCase);
+    private readonly string _cardSearchInputId = $"faceAnalysisCardSearch_{System.Guid.NewGuid():N}";
+    private IReadOnlyList<DeckOption> _deckOptions = Array.Empty<DeckOption>();
+    private DeckCardInfo? _selectedCard;
+    private string _selectedDeck = string.Empty;
+    private string _cardSearchTerm = string.Empty;
+    public byte[]? SelectedCardImageBytes
+    {
+        get; private set;
+    }
+
+    public string? SelectedCardImageDataUrl
+    {
+        get; private set;
+    }
+    private bool _isLoadingDecks;
+    private bool _isDeckDataLoading;
     private string? _imageDataUrl;
     private string? _statusMessage;
     private FaceAnalysisResult? _analysisResult;
@@ -151,7 +204,56 @@
     private bool _showNose;
     private bool _isRefreshing;
 
+    private bool CanSearchCards => !_isLoadingDecks && !_isDeckDataLoading && !string.IsNullOrWhiteSpace(_selectedDeck);
+
+    private bool ShouldShowCardNotFound => !string.IsNullOrWhiteSpace(_cardSearchTerm)
+                                           && !_isDeckDataLoading
+                                           && !string.IsNullOrWhiteSpace(_selectedDeck)
+                                           && _selectedCard is null;
+
+    private string SelectedDeck
+    {
+        get => _selectedDeck;
+        set
+        {
+            var normalized = value ?? string.Empty;
+
+            if (string.Equals(_selectedDeck, normalized, StringComparison.Ordinal))
+            {
+                return;
+            }
+
+            _selectedDeck = normalized;
+            _cardSearchTerm = string.Empty;
+            ClearSelectedCard();
+
+            _ = InvokeAsync(HandleDeckSelectionChangedAsync);
+        }
+    }
+
+    private string CardSearchTerm
+    {
+        get => _cardSearchTerm;
+        set
+        {
+            var newValue = value ?? string.Empty;
+
+            if (string.Equals(_cardSearchTerm, newValue, StringComparison.Ordinal))
+            {
+                return;
+            }
+
+            _cardSearchTerm = newValue;
+            _ = InvokeAsync(UpdateSelectedCardAsync);
+        }
+    }
+
     protected override async Task OnInitializedAsync()
+    {
+        await Task.WhenAll(LoadOverlayPreferencesAsync(), InitializeDeckSelectionAsync());
+    }
+
+    private async Task LoadOverlayPreferencesAsync()
     {
         var storedPreferences = await LocalStorage.GetItemAsync<FaceOverlayPreferences>(ApplicationSettings.FaceAnalysisOverlayPreferencesKey);
 
@@ -161,11 +263,149 @@
             _showLeftEye = storedPreferences.ShowLeftEye;
             _showRightEye = storedPreferences.ShowRightEye;
             _showNose = storedPreferences.ShowNose;
+            return;
+        }
+
+        await SaveOverlayPreferencesAsync();
+    }
+
+    private async Task InitializeDeckSelectionAsync()
+    {
+        try
+        {
+            _isLoadingDecks = true;
+            await DbHelper.InitializeAsync();
+
+            var decks = await DbHelper.GetAllDecksAsync();
+            var orderedOptions = decks.Where(deck => !string.IsNullOrWhiteSpace(deck?.Id))
+                                      .Select(deck =>
+                                      {
+                                          var deckId = deck!.Id!;
+                                          var name = string.IsNullOrWhiteSpace(deck.Name) ? deckId : deck.Name!;
+                                          return new DeckOption(deckId, CardSearchHelper.CreateDeckDisplayName(name));
+                                      })
+                                      .OrderBy(option => option.DisplayName, StringComparer.OrdinalIgnoreCase)
+                                      .ToList();
+
+            _deckOptions = orderedOptions;
+            _deckDisplayNames.Clear();
+
+            foreach (var option in orderedOptions)
+            {
+                _deckDisplayNames[option.DeckId] = option.DisplayName;
+            }
+        }
+        finally
+        {
+            _isLoadingDecks = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private async Task HandleDeckSelectionChangedAsync()
+    {
+        if (string.IsNullOrWhiteSpace(_selectedDeck))
+        {
+            _cardSearchTerm = string.Empty;
+            ClearSelectedCard();
+            StateHasChanged();
+            return;
+        }
+
+        await UpdateSelectedCardAsync();
+    }
+
+    private async Task UpdateSelectedCardAsync()
+    {
+        var deckId = _selectedDeck;
+
+        if (string.IsNullOrWhiteSpace(deckId))
+        {
+            ClearSelectedCard();
+            await InvokeAsync(StateHasChanged);
+            return;
+        }
+
+        if (!_deckCardsCache.TryGetValue(deckId, out var deckCards))
+        {
+            _isDeckDataLoading = true;
+            await InvokeAsync(StateHasChanged);
+
+            try
+            {
+                deckCards = await LoadDeckCardsFromDatabaseAsync(deckId);
+                _deckCardsCache[deckId] = deckCards;
+            }
+            finally
+            {
+                _isDeckDataLoading = false;
+            }
+        }
+
+        if (deckCards is null || deckCards.Cards.Count == 0)
+        {
+            ClearSelectedCard();
+            await InvokeAsync(StateHasChanged);
+            return;
+        }
+
+        SelectCardFromDeck(deckCards, _cardSearchTerm);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task<DeckCards> LoadDeckCardsFromDatabaseAsync(string deckId)
+    {
+        var cards = await DbHelper.GetCardsByDeckAsync(deckId);
+        var deckDisplayName = GetDeckDisplayName(deckId);
+        var orderedCards = cards.OrderBy(card => CardSearchHelper.CreateDisplayName(deckDisplayName, card.Id), StringComparer.OrdinalIgnoreCase)
+                                .ToList();
+        return new DeckCards(deckId, deckDisplayName, orderedCards);
+    }
+
+    private string GetDeckDisplayName(string deckId)
+    {
+        if (_deckDisplayNames.TryGetValue(deckId, out var displayName) && !string.IsNullOrWhiteSpace(displayName))
+        {
+            return displayName;
+        }
+
+        return CardSearchHelper.CreateDeckDisplayName(deckId);
+    }
+
+    private void SelectCardFromDeck(DeckCards deckCards, string searchTerm)
+    {
+        var normalized = CardSearchHelper.NormalizeForComparison(searchTerm);
+        Spielkarte? match;
+
+        if (string.IsNullOrEmpty(normalized))
+        {
+            match = deckCards.Cards.FirstOrDefault();
         }
         else
         {
-            await SaveOverlayPreferencesAsync();
+            match = CardSearchHelper.FindMatchingCards(deckCards.Cards, deckCards.DeckId, normalized).FirstOrDefault();
         }
+
+        if (match is null)
+        {
+            ClearSelectedCard();
+            return;
+        }
+
+        var displayName = CardSearchHelper.CreateDisplayName(deckCards.DeckDisplayName, match.Id);
+        var imageBytes = match.Image?.ToArray() ?? Array.Empty<byte>();
+        var imageDataUrl = CardSearchHelper.CreateImageDataUrl(match.Image);
+
+        _selectedCard = new DeckCardInfo(deckCards.DeckId, match.Id ?? string.Empty, displayName, imageDataUrl);
+        SelectedCardImageBytes = imageBytes;
+        SelectedCardImageDataUrl = imageDataUrl;
+    }
+
+    private void ClearSelectedCard()
+    {
+        _selectedCard = null;
+        SelectedCardImageBytes = null;
+        SelectedCardImageDataUrl = null;
     }
 
     private Task HandlePhotoCapturedAsync(string imageId)
@@ -316,6 +556,10 @@
             label,
             feature.Confidence.ToString("P1", CultureInfo.CurrentCulture));
     }
+
+    private sealed record DeckCardInfo(string DeckId, string CardId, string DisplayName, string ImageDataUrl);
+
+    private sealed record DeckCards(string DeckId, string DeckDisplayName, IReadOnlyList<Spielkarte> Cards);
 
     private sealed class FaceOverlayPreferences
     {
