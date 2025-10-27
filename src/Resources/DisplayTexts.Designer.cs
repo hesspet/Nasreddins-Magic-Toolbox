@@ -133,6 +133,12 @@ public static class DisplayTexts
     public static string FaceAnalysisOriginalAlt => GetString(nameof(FaceAnalysisOriginalAlt));
     public static string FaceAnalysisAnnotatedCaption => GetString(nameof(FaceAnalysisAnnotatedCaption));
     public static string FaceAnalysisAnnotatedAlt => GetString(nameof(FaceAnalysisAnnotatedAlt));
+    public static string FaceAnalysisOverlayOptionsHeading => GetString(nameof(FaceAnalysisOverlayOptionsHeading));
+    public static string FaceAnalysisOverlayOptionFace => GetString(nameof(FaceAnalysisOverlayOptionFace));
+    public static string FaceAnalysisOverlayOptionLeftEye => GetString(nameof(FaceAnalysisOverlayOptionLeftEye));
+    public static string FaceAnalysisOverlayOptionRightEye => GetString(nameof(FaceAnalysisOverlayOptionRightEye));
+    public static string FaceAnalysisOverlayOptionNose => GetString(nameof(FaceAnalysisOverlayOptionNose));
+    public static string FaceAnalysisRefreshButton => GetString(nameof(FaceAnalysisRefreshButton));
     public static string FaceAnalysisSummaryHeading => GetString(nameof(FaceAnalysisSummaryHeading));
     public static string FaceAnalysisMessageNoFace => GetString(nameof(FaceAnalysisMessageNoFace));
     public static string FaceAnalysisMessageFaceButNotHuman => GetString(nameof(FaceAnalysisMessageFaceButNotHuman));

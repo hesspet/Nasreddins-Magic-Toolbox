@@ -9,6 +9,32 @@
     margin-bottom: 1.5rem;
 }
 
+.face-analysis-overlay-options {
+    margin-bottom: 1.5rem;
+}
+
+.face-analysis-overlay-options h2 {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+}
+
+.face-analysis-overlay-options ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.face-analysis-overlay-options label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+}
+
 .face-analysis-status {
     margin: 0;
     font-weight: 500;
@@ -55,6 +81,27 @@
     fill: rgba(0, 0, 0, 0.25);
     stroke: #000;
     stroke-width: 2;
+}
+
+.face-analysis-refresh {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    background-color: var(--accent-color, #2563eb);
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.face-analysis-refresh:disabled {
+    background-color: rgba(37, 99, 235, 0.4);
+    cursor: not-allowed;
 }
 
 .face-analysis-summary ul {
