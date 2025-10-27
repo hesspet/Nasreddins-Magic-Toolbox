@@ -1,0 +1,222 @@
+@using System.Globalization
+@using System.IO
+@using Toolbox.Models
+@using SixLabors.ImageSharp
+@using SixLabors.ImageSharp.Formats
+@using SixLabors.ImageSharp.Formats.Jpeg
+@using SixLabors.ImageSharp.Formats.Png
+@using SixLabors.ImageSharp.PixelFormats
+@using SixLabors.ImageSharp.Processing
+
+@if (_errorMessage is not null)
+{
+    <p class="face-card-overlay__error">@_errorMessage</p>
+}
+else if (_mergedDataUrl is not null)
+{
+    <figure class="face-card-overlay__figure">
+        <img src="@_mergedDataUrl" alt="@BuildAltText()" />
+        @if (!string.IsNullOrWhiteSpace(CardDescription))
+        {
+            <figcaption>@CardDescription</figcaption>
+        }
+    </figure>
+}
+
+@code {
+    private const int ForeheadMargin = 20;
+    private string? _mergedDataUrl;
+    private string? _errorMessage;
+    private string? _lastMergeKey;
+
+    [Parameter]
+    public byte[]? PhotoImageBytes
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public string? PhotoContentType
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public FaceAnalysisResult? AnalysisResult
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public byte[]? CardImageBytes
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public string? CardDescription
+    {
+        get; set;
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        var mergeKey = BuildMergeKey();
+
+        if (string.Equals(_lastMergeKey, mergeKey, StringComparison.Ordinal))
+        {
+            return;
+        }
+
+        _lastMergeKey = mergeKey;
+
+        if (mergeKey is null)
+        {
+            _mergedDataUrl = null;
+            _errorMessage = null;
+            return;
+        }
+
+        try
+        {
+            _errorMessage = null;
+            _mergedDataUrl = await MergeImagesAsync();
+        }
+        catch (Exception ex)
+        {
+            _mergedDataUrl = null;
+            _errorMessage = $"Bild konnte nicht erstellt werden: {ex.Message}";
+        }
+    }
+
+    private string? BuildMergeKey()
+    {
+        if (PhotoImageBytes is null
+            || CardImageBytes is null
+            || AnalysisResult?.Nose is null
+            || string.IsNullOrWhiteSpace(PhotoContentType))
+        {
+            return null;
+        }
+
+        var nose = AnalysisResult.Nose.Bounds;
+        var hash = HashCode.Combine(
+            PhotoImageBytes.Length,
+            CardImageBytes.Length,
+            nose.X,
+            nose.Y,
+            nose.Width,
+            nose.Height,
+            PhotoContentType);
+
+        return hash.ToString(CultureInfo.InvariantCulture);
+    }
+
+    private async Task<string?> MergeImagesAsync()
+    {
+        if (PhotoImageBytes is null
+            || CardImageBytes is null
+            || AnalysisResult?.Nose is null
+            || string.IsNullOrWhiteSpace(PhotoContentType))
+        {
+            return null;
+        }
+
+        await Task.Yield();
+
+        using var photoImage = Image.Load<Rgba32>(PhotoImageBytes, out var photoFormat);
+        using var cardImage = Image.Load<Rgba32>(CardImageBytes);
+
+        var noseBounds = AnalysisResult.Nose.Bounds;
+        var noseTop = Math.Clamp(noseBounds.Y, 0f, photoImage.Height);
+        var availableHeight = Math.Max(0f, noseTop - ForeheadMargin);
+
+        if (availableHeight <= 1f)
+        {
+            return BuildDataUrl(PhotoImageBytes, ResolveOutputContentType(photoFormat, PhotoContentType));
+        }
+
+        var scale = availableHeight / cardImage.Height;
+        if (scale <= 0f)
+        {
+            return BuildDataUrl(PhotoImageBytes, ResolveOutputContentType(photoFormat, PhotoContentType));
+        }
+
+        var targetWidth = (int)Math.Max(1, Math.Round(cardImage.Width * scale));
+        var targetHeight = (int)Math.Max(1, Math.Round(cardImage.Height * scale));
+
+        if (targetHeight > photoImage.Height)
+        {
+            scale = (float)photoImage.Height / cardImage.Height;
+            targetHeight = (int)Math.Max(1, Math.Round(cardImage.Height * scale));
+            targetWidth = (int)Math.Max(1, Math.Round(cardImage.Width * scale));
+        }
+
+        cardImage.Mutate(ctx => ctx.Resize(new Size(targetWidth, targetHeight)));
+
+        var noseCenterX = noseBounds.X + (noseBounds.Width / 2f);
+        var halfCardWidth = targetWidth / 2f;
+        var minCenterX = halfCardWidth;
+        var maxCenterX = Math.Max(halfCardWidth, photoImage.Width - halfCardWidth);
+        var alignedCenterX = Math.Clamp(noseCenterX, minCenterX, maxCenterX);
+        var cardX = (int)Math.Round(alignedCenterX - halfCardWidth);
+        var cardY = (int)Math.Round(Math.Max(0f, noseTop - targetHeight));
+
+        photoImage.Mutate(ctx => ctx.DrawImage(cardImage, new Point(cardX, cardY), 1f));
+
+        using var stream = new MemoryStream();
+        var encoder = ResolveEncoder(photoFormat, PhotoContentType);
+        photoImage.Save(stream, encoder);
+
+        return BuildDataUrl(stream.ToArray(), ResolveOutputContentType(photoFormat, PhotoContentType));
+    }
+
+    private static IImageEncoder ResolveEncoder(IImageFormat? format, string? contentType)
+    {
+        if (format is not null)
+        {
+            var encoder = Configuration.Default.ImageFormatsManager.FindEncoder(format);
+            if (encoder is not null)
+            {
+                return encoder;
+            }
+        }
+
+        if (string.Equals(contentType, "image/png", StringComparison.OrdinalIgnoreCase))
+        {
+            return new PngEncoder();
+        }
+
+        return new JpegEncoder();
+    }
+
+    private static string ResolveOutputContentType(IImageFormat? format, string? fallback)
+    {
+        if (!string.IsNullOrWhiteSpace(format?.DefaultMimeType))
+        {
+            return format!.DefaultMimeType!;
+        }
+
+        if (!string.IsNullOrWhiteSpace(fallback))
+        {
+            return fallback!;
+        }
+
+        return "image/jpeg";
+    }
+
+    private static string BuildDataUrl(byte[] data, string contentType)
+    {
+        return $"data:{contentType};base64,{Convert.ToBase64String(data)}";
+    }
+
+    private string BuildAltText()
+    {
+        if (!string.IsNullOrWhiteSpace(CardDescription))
+        {
+            return $"Foto mit eingeblendeter Karte {CardDescription}";
+        }
+
+        return "Foto mit eingeblendeter Spielkarte";
+    }
+}
