@@ -1,0 +1,28 @@
+.face-analysis-capture {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.face-analysis-capture__status {
+    margin: 0;
+    font-weight: 600;
+}
+
+.face-analysis-capture__preview {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.face-analysis-capture__preview img {
+    max-width: min(100%, 480px);
+    border-radius: 1rem;
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+}
+
+.face-analysis-capture__preview figcaption {
+    font-size: 0.95rem;
+    color: rgba(15, 23, 42, 0.75);
+}

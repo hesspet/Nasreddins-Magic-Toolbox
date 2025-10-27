@@ -1,0 +1,90 @@
+<div class="face-analysis-step">
+    <div class="face-analysis-step__card">
+        <header class="face-analysis-step__header">
+            <h2>Schritt 2: Bild erfassen</h2>
+            @if (!string.IsNullOrWhiteSpace(CardDisplayName))
+            {
+                <p>Karte: @CardDisplayName</p>
+            }
+        </header>
+
+        <section class="face-analysis-capture">
+            <CameraStream OnPhotoCaptured="OnPhotoCaptured" />
+
+            @if (!string.IsNullOrWhiteSpace(StatusMessage))
+            {
+                <p class="face-analysis-capture__status">@StatusMessage</p>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(ImageDataUrl))
+            {
+                <figure class="face-analysis-capture__preview">
+                    <img src="@ImageDataUrl" alt="Aufgenommenes Foto" />
+                    <figcaption>Bitte prüfen Sie das Bild, bevor Sie die Analyse starten.</figcaption>
+                </figure>
+            }
+        </section>
+
+        <footer class="face-analysis-step__footer">
+            <button type="button"
+                    class="fluent-button fluent-button--secondary"
+                    @onclick="OnBack">Zurück</button>
+            <button type="button"
+                    class="fluent-button"
+                    disabled="@(!IsStartEnabled || IsAnalyzing)"
+                    @onclick="OnStartAnalysis">
+                @(IsAnalyzing ? "Analyse läuft …" : "Start Analyse")
+            </button>
+        </footer>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback OnBack
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public EventCallback<string> OnPhotoCaptured
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public EventCallback OnStartAnalysis
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public string? StatusMessage
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public string? ImageDataUrl
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public bool IsAnalyzing
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public bool IsStartEnabled
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public string? CardDisplayName
+    {
+        get; set;
+    }
+}

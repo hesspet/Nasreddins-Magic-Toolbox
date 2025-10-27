@@ -1,0 +1,147 @@
+@using Toolbox.Components.CardReading
+
+<div class="face-analysis-step">
+    <div class="face-analysis-step__card">
+        <header class="face-analysis-step__header">
+            <h2>@DisplayTexts.FaceAnalysisPageTitle</h2>
+            <p>@IntroText</p>
+        </header>
+
+        <section class="face-analysis-deck">
+            <DeckSelectionBar IsLoading="IsLoadingDecks"
+                              DeckOptions="DeckOptions"
+                              SelectedDeck="SelectedDeck"
+                              SelectedDeckChanged="SelectedDeckChanged"
+                              ShowSearchButton="false"
+                              SearchEnabled="CanSearchCards" />
+
+            <div class="face-analysis-deck__search">
+                <input id="faceAnalysisCardSearch"
+                       class="form-control"
+                       value="@CardSearchTerm"
+                       @oninput="OnCardSearch"
+                       placeholder="@DisplayTexts.TarotSearchLabel"
+                       title="@DisplayTexts.TarotSearchPlaceholder"
+                       aria-label="@DisplayTexts.TarotSearchLabel"
+                       disabled="@(!CanSearchCards)" />
+            </div>
+
+            @if (IsDeckDataLoading)
+            {
+                <p class="face-analysis-deck__loading">Karten werden geladen …</p>
+            }
+
+            @if (ShouldShowCardNotFound)
+            {
+                <p class="face-analysis-deck__error">@DisplayTexts.TarotSearchNotFound</p>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(SelectedCardImageDataUrl))
+            {
+                <figure class="face-analysis-deck__preview">
+                    <img src="@SelectedCardImageDataUrl" alt="@SelectedCardDisplayName" />
+                    <figcaption>@SelectedCardDisplayName</figcaption>
+                </figure>
+            }
+        </section>
+
+        <footer class="face-analysis-step__footer">
+            <button type="button"
+                    class="fluent-button"
+                    disabled="@(!IsNextEnabled)"
+                    @onclick="OnNext">Weiter</button>
+        </footer>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string IntroText
+    {
+        get; set;
+    } = string.Empty;
+
+    [Parameter]
+    public IReadOnlyList<DeckOption> DeckOptions
+    {
+        get; set;
+    } = Array.Empty<DeckOption>();
+
+    [Parameter]
+    public bool IsLoadingDecks
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public bool IsDeckDataLoading
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public string SelectedDeck
+    {
+        get; set;
+    } = string.Empty;
+
+    [Parameter]
+    public EventCallback<string> SelectedDeckChanged
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public string CardSearchTerm
+    {
+        get; set;
+    } = string.Empty;
+
+    [Parameter]
+    public EventCallback<string> CardSearchTermChanged
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public bool CanSearchCards
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public bool ShouldShowCardNotFound
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public string? SelectedCardDisplayName
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public string? SelectedCardImageDataUrl
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public bool IsNextEnabled
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public EventCallback OnNext
+    {
+        get; set;
+    }
+
+    private Task OnCardSearch(ChangeEventArgs args)
+    {
+        var value = args?.Value?.ToString() ?? string.Empty;
+        return CardSearchTermChanged.InvokeAsync(value);
+    }
+}

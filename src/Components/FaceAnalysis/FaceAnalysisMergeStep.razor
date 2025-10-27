@@ -1,0 +1,74 @@
+@using Toolbox.Models
+
+<div class="face-analysis-step">
+    <div class="face-analysis-step__card">
+        <header class="face-analysis-step__header">
+            <h2>Schritt 4: Merge Ergebnis</h2>
+            <p>Überprüfen Sie das kombinierte Bild und gehen Sie bei Bedarf zurück.</p>
+        </header>
+
+        <section class="face-analysis-merge">
+            @if (CanMerge)
+            {
+                <FaceAnalysisCardOverlay PhotoImageBytes="PhotoImageBytes"
+                                          PhotoContentType="PhotoContentType"
+                                          AnalysisResult="AnalysisResult"
+                                          CardImageBytes="CardImageBytes"
+                                          CardDescription="CardDescription" />
+            }
+            else
+            {
+                <p class="face-analysis-merge__placeholder">Es sind nicht genügend Daten vorhanden, um ein Bild zu erstellen.</p>
+            }
+        </section>
+
+        <footer class="face-analysis-step__footer">
+            <button type="button"
+                    class="fluent-button fluent-button--secondary"
+                    @onclick="OnBack">Zurück</button>
+        </footer>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback OnBack
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public FaceAnalysisResult? AnalysisResult
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public byte[]? PhotoImageBytes
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public string? PhotoContentType
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public byte[]? CardImageBytes
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public string? CardDescription
+    {
+        get; set;
+    }
+
+    private bool CanMerge => PhotoImageBytes is not null
+                              && CardImageBytes is not null
+                              && AnalysisResult?.Nose is not null
+                              && !string.IsNullOrWhiteSpace(PhotoContentType);
+}

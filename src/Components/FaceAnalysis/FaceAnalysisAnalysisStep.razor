@@ -1,0 +1,279 @@
+@using System.Globalization
+@using Toolbox.Models
+
+<div class="face-analysis-step">
+    <div class="face-analysis-step__card">
+        <header class="face-analysis-step__header">
+            <h2>Schritt 3: Analyse prüfen</h2>
+            @if (!string.IsNullOrWhiteSpace(SummaryMessage))
+            {
+                <p>@SummaryMessage</p>
+            }
+        </header>
+
+        <section class="face-analysis-analysis">
+            <div class="face-analysis-analysis__options">
+                <h3>@DisplayTexts.FaceAnalysisOverlayOptionsHeading</h3>
+                <ul>
+                    <li>
+                        <label>
+                            <input type="checkbox"
+                                   checked="@ShowFaceOutline"
+                                   @onchange="HandleFaceOutlineChanged" />
+                            <span>@DisplayTexts.FaceAnalysisOverlayOptionFace</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox"
+                                   checked="@ShowLeftEye"
+                                   @onchange="HandleLeftEyeChanged" />
+                            <span>@DisplayTexts.FaceAnalysisOverlayOptionLeftEye</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox"
+                                   checked="@ShowRightEye"
+                                   @onchange="HandleRightEyeChanged" />
+                            <span>@DisplayTexts.FaceAnalysisOverlayOptionRightEye</span>
+                        </label>
+                    </li>
+                    <li>
+                        <label>
+                            <input type="checkbox"
+                                   checked="@ShowNose"
+                                   @onchange="HandleNoseChanged" />
+                            <span>@DisplayTexts.FaceAnalysisOverlayOptionNose</span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(ImageDataUrl))
+            {
+                <div class="face-analysis-analysis__images">
+                    <figure>
+                        <figcaption>@DisplayTexts.FaceAnalysisOriginalCaption</figcaption>
+                        <img src="@ImageDataUrl" alt="@DisplayTexts.FaceAnalysisOriginalAlt" />
+                    </figure>
+
+                    <figure>
+                        <figcaption>@DisplayTexts.FaceAnalysisAnnotatedCaption</figcaption>
+                        <div class="face-analysis-analysis__overlay-wrapper">
+                            <img src="@ImageDataUrl" alt="@DisplayTexts.FaceAnalysisAnnotatedAlt" />
+                            @if (AnalysisResult is not null && AnalysisResult.HasFace)
+                            {
+                                <svg class="face-analysis-analysis__overlay"
+                                     viewBox="0 0 @AnalysisResult.ImageWidth @AnalysisResult.ImageHeight"
+                                     xmlns="http://www.w3.org/2000/svg"
+                                     role="presentation">
+                                    @if (ShowFaceOutline && AnalysisResult.FaceBounds is BoundingBox face)
+                                    {
+                                        <rect class="face-outline"
+                                              x="@face.X"
+                                              y="@face.Y"
+                                              width="@face.Width"
+                                              height="@face.Height" />
+                                    }
+
+                                    @if (ShowLeftEye && AnalysisResult.LeftEye is FaceFeature leftEye)
+                                    {
+                                        <rect class="feature-outline"
+                                              x="@leftEye.Bounds.X"
+                                              y="@leftEye.Bounds.Y"
+                                              width="@leftEye.Bounds.Width"
+                                              height="@leftEye.Bounds.Height" />
+                                    }
+
+                                    @if (ShowRightEye && AnalysisResult.RightEye is FaceFeature rightEye)
+                                    {
+                                        <rect class="feature-outline"
+                                              x="@rightEye.Bounds.X"
+                                              y="@rightEye.Bounds.Y"
+                                              width="@rightEye.Bounds.Width"
+                                              height="@rightEye.Bounds.Height" />
+                                    }
+
+                                    @if (ShowNose && AnalysisResult.Nose is FaceFeature nose)
+                                    {
+                                        <rect class="feature-outline"
+                                              x="@nose.Bounds.X"
+                                              y="@nose.Bounds.Y"
+                                              width="@nose.Bounds.Width"
+                                              height="@nose.Bounds.Height" />
+                                    }
+                                </svg>
+                            }
+                        </div>
+                    </figure>
+                </div>
+            }
+        </section>
+
+        @if (AnalysisResult is not null)
+        {
+            <section class="face-analysis-analysis__summary">
+                <h3>@DisplayTexts.FaceAnalysisSummaryHeading</h3>
+                <ul>
+                    <li>@DescribeFeature(AnalysisResult.LeftEye, DisplayTexts.FaceAnalysisFeatureLeftEye)</li>
+                    <li>@DescribeFeature(AnalysisResult.RightEye, DisplayTexts.FaceAnalysisFeatureRightEye)</li>
+                    <li>@DescribeFeature(AnalysisResult.Nose, DisplayTexts.FaceAnalysisFeatureNose)</li>
+                </ul>
+            </section>
+        }
+
+        <footer class="face-analysis-step__footer face-analysis-step__footer--split">
+            <button type="button"
+                    class="fluent-button fluent-button--secondary"
+                    @onclick="OnBack">Zurück</button>
+            <div class="face-analysis-step__actions">
+                <button type="button"
+                        class="fluent-button fluent-button--ghost"
+                        disabled="@(!CanRefresh || IsRefreshing)"
+                        @onclick="OnRefresh">
+                    @(IsRefreshing ? "Aktualisiere …" : DisplayTexts.FaceAnalysisRefreshButton)
+                </button>
+                <button type="button"
+                        class="fluent-button"
+                        disabled="@(AnalysisResult is null)"
+                        @onclick="OnStartMerge">Start Merge</button>
+            </div>
+        </footer>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public EventCallback OnBack
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public EventCallback OnStartMerge
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public EventCallback OnRefresh
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public FaceAnalysisResult? AnalysisResult
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public string? ImageDataUrl
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public string? SummaryMessage
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public bool IsRefreshing
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public bool CanRefresh
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public bool ShowFaceOutline
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public bool ShowLeftEye
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public bool ShowRightEye
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public bool ShowNose
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public EventCallback<bool> OnShowFaceOutlineChanged
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public EventCallback<bool> OnShowLeftEyeChanged
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public EventCallback<bool> OnShowRightEyeChanged
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public EventCallback<bool> OnShowNoseChanged
+    {
+        get; set;
+    }
+
+    private Task HandleFaceOutlineChanged(ChangeEventArgs args) => OnShowFaceOutlineChanged.InvokeAsync(ParseCheckbox(args));
+
+    private Task HandleLeftEyeChanged(ChangeEventArgs args) => OnShowLeftEyeChanged.InvokeAsync(ParseCheckbox(args));
+
+    private Task HandleRightEyeChanged(ChangeEventArgs args) => OnShowRightEyeChanged.InvokeAsync(ParseCheckbox(args));
+
+    private Task HandleNoseChanged(ChangeEventArgs args) => OnShowNoseChanged.InvokeAsync(ParseCheckbox(args));
+
+    private static bool ParseCheckbox(ChangeEventArgs args)
+    {
+        if (args.Value is bool boolValue)
+        {
+            return boolValue;
+        }
+
+        if (args.Value is string stringValue)
+        {
+            return string.Equals(stringValue, "true", StringComparison.OrdinalIgnoreCase)
+                   || string.Equals(stringValue, "on", StringComparison.OrdinalIgnoreCase);
+        }
+
+        return false;
+    }
+
+    private static string DescribeFeature(FaceFeature? feature, string label)
+    {
+        if (feature is null)
+        {
+            return string.Format(DisplayTexts.FaceAnalysisFeatureMissing, label);
+        }
+
+        return string.Format(
+            DisplayTexts.FaceAnalysisFeatureDetected,
+            label,
+            feature.Confidence.ToString("P1", CultureInfo.CurrentCulture));
+    }
+}
