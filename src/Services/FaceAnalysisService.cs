@@ -1,3 +1,4 @@
+using System.IO;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using Toolbox.Models;
@@ -31,7 +32,9 @@ public sealed class FaceAnalysisService
             return new FaceAnalysisResult(false, false, null, null, null, null, 0, 0, 0f, 0f);
         }
 
-        using var image = Image.Load<Rgba32>(imageData);
+        var imageBytes = imageData.ToArray();
+        using var imageStream = new MemoryStream(imageBytes);
+        using var image = Image.Load<Rgba32>(imageStream);
 
         var width = image.Width;
         var height = image.Height;

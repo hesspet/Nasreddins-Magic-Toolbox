@@ -124,8 +124,12 @@ else if (_mergedDataUrl is not null)
 
         await Task.Yield();
 
-        using var photoImage = Image.Load<Rgba32>(PhotoImageBytes, out var photoFormat);
-        using var cardImage = Image.Load<Rgba32>(CardImageBytes);
+        using var photoStream = new MemoryStream(PhotoImageBytes);
+        var photoFormat = Image.DetectFormat(photoStream);
+        photoStream.Position = 0;
+        using var photoImage = Image.Load<Rgba32>(photoStream);
+        using var cardStream = new MemoryStream(CardImageBytes);
+        using var cardImage = Image.Load<Rgba32>(cardStream);
 
         var noseBounds = AnalysisResult.Nose.Bounds;
         var noseTop = Math.Clamp(noseBounds.Y, 0f, photoImage.Height);
@@ -173,13 +177,14 @@ else if (_mergedDataUrl is not null)
 
     private static IImageEncoder ResolveEncoder(IImageFormat? format, string? contentType)
     {
-        if (format is not null)
+        if (format is PngFormat)
         {
-            var encoder = Configuration.Default.ImageFormatsManager.FindEncoder(format);
-            if (encoder is not null)
-            {
-                return encoder;
-            }
+            return new PngEncoder();
+        }
+
+        if (format is JpegFormat)
+        {
+            return new JpegEncoder();
         }
 
         if (string.Equals(contentType, "image/png", StringComparison.OrdinalIgnoreCase))
