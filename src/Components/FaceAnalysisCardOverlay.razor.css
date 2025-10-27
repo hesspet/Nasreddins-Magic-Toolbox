@@ -1,0 +1,21 @@
+.face-card-overlay__figure {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.face-card-overlay__figure img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.35);
+}
+
+.face-card-overlay__figure figcaption {
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+.face-card-overlay__error {
+    color: var(--bs-danger);
+    margin-top: 1.5rem;
+}
