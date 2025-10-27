@@ -2,6 +2,37 @@
     margin-bottom: 1rem;
 }
 
+.face-analysis-card-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.face-analysis-card-search {
+    max-width: 320px;
+}
+
+.face-analysis-card-search-error {
+    margin: 0;
+    color: var(--bs-danger, #dc3545);
+    font-weight: 500;
+}
+
+.face-analysis-card-preview {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.face-analysis-card-preview img {
+    max-height: 200px;
+    width: auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
+}
+
 .face-analysis-controls {
     display: flex;
     flex-direction: column;
