@@ -2,6 +2,7 @@
 @using System.IO
 @using Toolbox.Models
 @using SixLabors.ImageSharp
+@using SixLabors.ImageSharp.Advanced
 @using SixLabors.ImageSharp.Formats
 @using SixLabors.ImageSharp.Formats.Jpeg
 @using SixLabors.ImageSharp.Formats.Png
@@ -25,6 +26,7 @@ else if (_mergedDataUrl is not null)
 
 @code {
     private const int ForeheadMargin = 20;
+    private const float FeatherSizeFraction = 0.08f;
     private string? _mergedDataUrl;
     private string? _errorMessage;
     private string? _lastMergeKey;
@@ -158,6 +160,9 @@ else if (_mergedDataUrl is not null)
 
         cardImage.Mutate(ctx => ctx.Resize(new Size(targetWidth, targetHeight)));
 
+        var featherSize = Math.Max(4, (int)Math.Round(Math.Min(targetWidth, targetHeight) * FeatherSizeFraction));
+        ApplyFeatheredBorder(cardImage, featherSize);
+
         var noseCenterX = noseBounds.X + (noseBounds.Width / 2f);
         var halfCardWidth = targetWidth / 2f;
         var minCenterX = halfCardWidth;
@@ -213,6 +218,44 @@ else if (_mergedDataUrl is not null)
     private static string BuildDataUrl(byte[] data, string contentType)
     {
         return $"data:{contentType};base64,{Convert.ToBase64String(data)}";
+    }
+
+    private static void ApplyFeatheredBorder(Image<Rgba32> image, int featherSize)
+    {
+        if (featherSize <= 0)
+        {
+            return;
+        }
+
+        var maxX = image.Width - 1;
+        var maxY = image.Height - 1;
+
+        image.ProcessPixelRows(accessor =>
+        {
+            for (var y = 0; y < image.Height; y++)
+            {
+                var row = accessor.GetRowSpan(y);
+                var distanceY = Math.Min(y, maxY - y);
+
+                for (var x = 0; x < image.Width; x++)
+                {
+                    var distanceX = Math.Min(x, maxX - x);
+                    var minDistance = Math.Min(distanceX, distanceY);
+
+                    if (minDistance >= featherSize)
+                    {
+                        continue;
+                    }
+
+                    var normalized = Math.Clamp(minDistance / (float)featherSize, 0f, 1f);
+                    var blend = normalized * normalized;
+                    var pixel = row[x];
+                    var newAlpha = Math.Round(pixel.A * blend, MidpointRounding.AwayFromZero);
+                    pixel.A = (byte)Math.Clamp(newAlpha, 0d, 255d);
+                    row[x] = pixel;
+                }
+            }
+        });
     }
 
     private string BuildAltText()
