@@ -4,6 +4,7 @@
 @using Toolbox.Models
 @using Toolbox.Services
 @using Toolbox.Settings
+@using Toolbox.Components.FaceAnalysis
 @inject FaceAnalysisService AnalysisService
 @inject TemporaryImageStorage ImageStorage
 @inject LocalStorageHelper LocalStorage
@@ -13,189 +14,87 @@
 
 <h1>@DisplayTexts.FaceAnalysisPageTitle</h1>
 
-<div class="face-analysis-card-selection">
-    <DeckSelectionBar IsLoading="_isLoadingDecks"
-                      DeckOptions="_deckOptions"
-                      @bind-SelectedDeck="SelectedDeck"
-                      ShowSearchButton="false"
-                      SearchEnabled="CanSearchCards" />
-
-    <div class="face-analysis-card-search">
-        <input id="@_cardSearchInputId"
-               class="form-control"
-               @bind="CardSearchTerm"
-               @bind:event="oninput"
-               placeholder="@DisplayTexts.TarotSearchLabel"
-               title="@DisplayTexts.TarotSearchPlaceholder"
-               aria-label="@DisplayTexts.TarotSearchLabel"
-               disabled="@(!CanSearchCards)" />
-    </div>
-
-    @if (ShouldShowCardNotFound)
+<div class="face-analysis-workflow">
+    @switch (_currentStep)
     {
-        <p class="face-analysis-card-search-error">@DisplayTexts.TarotSearchNotFound</p>
-    }
-
-    @if (_selectedCard is not null)
-    {
-        <figure class="face-analysis-card-preview">
-            <img src="@(SelectedCardImageDataUrl ?? string.Empty)"
-                 alt="@_selectedCard.DisplayName" />
-            <figcaption>@_selectedCard.DisplayName</figcaption>
-        </figure>
+        case FaceAnalysisStep.DeckSelection:
+            <FaceAnalysisDeckSelectionStep IntroText="@DisplayTexts.FaceAnalysisIntro"
+                                           DeckOptions="_deckOptions"
+                                           IsLoadingDecks="_isLoadingDecks"
+                                           IsDeckDataLoading="_isDeckDataLoading"
+                                           SelectedDeck="_selectedDeck"
+                                           SelectedDeckChanged="HandleDeckSelectionChangedAsync"
+                                           CardSearchTerm="_cardSearchTerm"
+                                           CardSearchTermChanged="HandleCardSearchTermChangedAsync"
+                                           CanSearchCards="CanSearchCards"
+                                           ShouldShowCardNotFound="ShouldShowCardNotFound"
+                                           SelectedCardDisplayName="@_selectedCard?.DisplayName"
+                                           SelectedCardImageDataUrl="SelectedCardImageDataUrl"
+                                           OnNext="GoToCaptureStep"
+                                           IsNextEnabled="SelectedCardImageBytes is not null" />
+            break;
+        case FaceAnalysisStep.Capture:
+            <FaceAnalysisCaptureStep OnBack="GoToDeckSelectionStep"
+                                     OnPhotoCaptured="HandlePhotoCapturedAsync"
+                                     OnStartAnalysis="StartAnalysisAsync"
+                                     StatusMessage="_captureStatusMessage"
+                                     ImageDataUrl="_imageDataUrl"
+                                     IsAnalyzing="_isAnalyzing"
+                                     IsStartEnabled="_lastImageData is not null"
+                                     CardDisplayName="@_selectedCard?.DisplayName" />
+            break;
+        case FaceAnalysisStep.Analysis:
+            <FaceAnalysisAnalysisStep OnBack="ReturnToCaptureStep"
+                                      OnStartMerge="GoToMergeStep"
+                                      AnalysisResult="_analysisResult"
+                                      ImageDataUrl="_imageDataUrl"
+                                      SummaryMessage="_analysisSummary"
+                                      IsRefreshing="_isRefreshing"
+                                      CanRefresh="_lastImageData is not null && !_isAnalyzing"
+                                      ShowFaceOutline="_showFaceOutline"
+                                      ShowLeftEye="_showLeftEye"
+                                      ShowRightEye="_showRightEye"
+                                      ShowNose="_showNose"
+                                      OnShowFaceOutlineChanged="OnShowFaceOutlineChanged"
+                                      OnShowLeftEyeChanged="OnShowLeftEyeChanged"
+                                      OnShowRightEyeChanged="OnShowRightEyeChanged"
+                                      OnShowNoseChanged="OnShowNoseChanged"
+                                      OnRefresh="RefreshAnalysisAsync" />
+            break;
+        case FaceAnalysisStep.Merge:
+            <FaceAnalysisMergeStep OnBack="ReturnToAnalysisStep"
+                                   AnalysisResult="_analysisResult"
+                                   PhotoImageBytes="_lastImageData"
+                                   PhotoContentType="_lastImageContentType"
+                                   CardImageBytes="SelectedCardImageBytes"
+                                   CardDescription="@_selectedCard?.DisplayName" />
+            break;
     }
 </div>
-
-<p class="face-analysis-intro">@DisplayTexts.FaceAnalysisIntro</p>
-
-<div class="face-analysis-controls">
-    <CameraStream OnPhotoCaptured="HandlePhotoCapturedAsync" />
-    @if (!string.IsNullOrWhiteSpace(_statusMessage))
-    {
-        <p class="face-analysis-status">@_statusMessage</p>
-    }
-</div>
-
-@if (!string.IsNullOrEmpty(_imageDataUrl))
-{
-    <section class="face-analysis-overlay-options">
-        <h2>@DisplayTexts.FaceAnalysisOverlayOptionsHeading</h2>
-        <ul>
-            <li>
-                <label>
-                    <InputCheckbox Value="@_showFaceOutline"
-                                   ValueChanged="OnShowFaceOutlineChanged"
-                                   ValueExpression="() => _showFaceOutline" />
-                    <span>@DisplayTexts.FaceAnalysisOverlayOptionFace</span>
-                </label>
-            </li>
-            <li>
-                <label>
-                    <InputCheckbox Value="@_showLeftEye"
-                                   ValueChanged="OnShowLeftEyeChanged"
-                                   ValueExpression="() => _showLeftEye" />
-                    <span>@DisplayTexts.FaceAnalysisOverlayOptionLeftEye</span>
-                </label>
-            </li>
-            <li>
-                <label>
-                    <InputCheckbox Value="@_showRightEye"
-                                   ValueChanged="OnShowRightEyeChanged"
-                                   ValueExpression="() => _showRightEye" />
-                    <span>@DisplayTexts.FaceAnalysisOverlayOptionRightEye</span>
-                </label>
-            </li>
-            <li>
-                <label>
-                    <InputCheckbox Value="@_showNose"
-                                   ValueChanged="OnShowNoseChanged"
-                                   ValueExpression="() => _showNose" />
-                    <span>@DisplayTexts.FaceAnalysisOverlayOptionNose</span>
-                </label>
-            </li>
-        </ul>
-    </section>
-
-    <section class="face-analysis-images">
-        <figure>
-            <figcaption>@DisplayTexts.FaceAnalysisOriginalCaption</figcaption>
-            <img src="@_imageDataUrl" alt="@DisplayTexts.FaceAnalysisOriginalAlt" />
-        </figure>
-
-        <figure>
-            <figcaption>@DisplayTexts.FaceAnalysisAnnotatedCaption</figcaption>
-            <div class="face-analysis-annotated-wrapper">
-                <img src="@_imageDataUrl" alt="@DisplayTexts.FaceAnalysisAnnotatedAlt" />
-                @if (_analysisResult is not null && _analysisResult.HasFace)
-                {
-                    <svg class="face-analysis-overlay"
-                         viewBox="0 0 @_analysisResult.ImageWidth @_analysisResult.ImageHeight"
-                         xmlns="http://www.w3.org/2000/svg"
-                         role="presentation">
-                        @if (_showFaceOutline && _analysisResult.FaceBounds is BoundingBox face)
-                        {
-                            <rect class="face-outline"
-                                  x="@face.X"
-                                  y="@face.Y"
-                                  width="@face.Width"
-                                  height="@face.Height" />
-                        }
-
-                        @if (_showLeftEye && _analysisResult.LeftEye is FaceFeature leftEye)
-                        {
-                            <rect class="feature-outline"
-                                  x="@leftEye.Bounds.X"
-                                  y="@leftEye.Bounds.Y"
-                                  width="@leftEye.Bounds.Width"
-                                  height="@leftEye.Bounds.Height" />
-                        }
-
-                        @if (_showRightEye && _analysisResult.RightEye is FaceFeature rightEye)
-                        {
-                            <rect class="feature-outline"
-                                  x="@rightEye.Bounds.X"
-                                  y="@rightEye.Bounds.Y"
-                                  width="@rightEye.Bounds.Width"
-                                  height="@rightEye.Bounds.Height" />
-                        }
-
-                        @if (_showNose && _analysisResult.Nose is FaceFeature nose)
-                        {
-                            <rect class="feature-outline"
-                                  x="@nose.Bounds.X"
-                                  y="@nose.Bounds.Y"
-                                  width="@nose.Bounds.Width"
-                                  height="@nose.Bounds.Height" />
-                        }
-                    </svg>
-                }
-            </div>
-        </figure>
-    </section>
-
-    <button type="button"
-            class="face-analysis-refresh"
-            @onclick="RefreshAnalysisAsync"
-            disabled="@(_isRefreshing || _lastImageData is null)">
-        @DisplayTexts.FaceAnalysisRefreshButton
-    </button>
-}
-
-@if (_analysisResult is not null)
-{
-    <section class="face-analysis-summary">
-        <h2>@DisplayTexts.FaceAnalysisSummaryHeading</h2>
-        <p>@BuildSummaryMessage(_analysisResult)</p>
-        <ul>
-            <li>@DescribeFeature(_analysisResult.LeftEye, DisplayTexts.FaceAnalysisFeatureLeftEye)</li>
-            <li>@DescribeFeature(_analysisResult.RightEye, DisplayTexts.FaceAnalysisFeatureRightEye)</li>
-            <li>@DescribeFeature(_analysisResult.Nose, DisplayTexts.FaceAnalysisFeatureNose)</li>
-        </ul>
-    </section>
-}
-
-@if (_analysisResult is not null
-    && _analysisResult.Nose is not null
-    && _analysisResult.HasFace
-    && SelectedCardImageBytes is not null
-    && _lastImageData is not null
-    && !string.IsNullOrWhiteSpace(_lastImageContentType))
-{
-    <FaceAnalysisCardOverlay PhotoImageBytes="_lastImageData"
-                              PhotoContentType="_lastImageContentType"
-                              AnalysisResult="_analysisResult"
-                              CardImageBytes="SelectedCardImageBytes"
-                              CardDescription="@_selectedCard?.DisplayName" />
-}
 
 @code {
     private readonly Dictionary<string, DeckCards> _deckCardsCache = new(StringComparer.OrdinalIgnoreCase);
     private readonly Dictionary<string, string> _deckDisplayNames = new(StringComparer.OrdinalIgnoreCase);
-    private readonly string _cardSearchInputId = $"faceAnalysisCardSearch_{System.Guid.NewGuid():N}";
     private IReadOnlyList<DeckOption> _deckOptions = Array.Empty<DeckOption>();
     private DeckCardInfo? _selectedCard;
     private string _selectedDeck = string.Empty;
     private string _cardSearchTerm = string.Empty;
+    private FaceAnalysisStep _currentStep = FaceAnalysisStep.DeckSelection;
+    private bool _isLoadingDecks;
+    private bool _isDeckDataLoading;
+    private string? _imageDataUrl;
+    private string? _captureStatusMessage;
+    private string? _analysisSummary;
+    private FaceAnalysisResult? _analysisResult;
+    private byte[]? _lastImageData;
+    private string? _lastImageContentType;
+    private bool _showFaceOutline = true;
+    private bool _showLeftEye;
+    private bool _showRightEye;
+    private bool _showNose;
+    private bool _isRefreshing;
+    private bool _isAnalyzing;
+
     public byte[]? SelectedCardImageBytes
     {
         get; private set;
@@ -205,18 +104,6 @@
     {
         get; private set;
     }
-    private bool _isLoadingDecks;
-    private bool _isDeckDataLoading;
-    private string? _imageDataUrl;
-    private string? _statusMessage;
-    private FaceAnalysisResult? _analysisResult;
-    private byte[]? _lastImageData;
-    private string? _lastImageContentType;
-    private bool _showFaceOutline = true;
-    private bool _showLeftEye;
-    private bool _showRightEye;
-    private bool _showNose;
-    private bool _isRefreshing;
 
     private bool CanSearchCards => !_isLoadingDecks && !_isDeckDataLoading && !string.IsNullOrWhiteSpace(_selectedDeck);
 
@@ -225,46 +112,51 @@
                                            && !string.IsNullOrWhiteSpace(_selectedDeck)
                                            && _selectedCard is null;
 
-    private string SelectedDeck
-    {
-        get => _selectedDeck;
-        set
-        {
-            var normalized = value ?? string.Empty;
-
-            if (string.Equals(_selectedDeck, normalized, StringComparison.Ordinal))
-            {
-                return;
-            }
-
-            _selectedDeck = normalized;
-            _cardSearchTerm = string.Empty;
-            ClearSelectedCard();
-
-            _ = InvokeAsync(HandleDeckSelectionChangedAsync);
-        }
-    }
-
-    private string CardSearchTerm
-    {
-        get => _cardSearchTerm;
-        set
-        {
-            var newValue = value ?? string.Empty;
-
-            if (string.Equals(_cardSearchTerm, newValue, StringComparison.Ordinal))
-            {
-                return;
-            }
-
-            _cardSearchTerm = newValue;
-            _ = InvokeAsync(UpdateSelectedCardAsync);
-        }
-    }
-
     protected override async Task OnInitializedAsync()
     {
         await Task.WhenAll(LoadOverlayPreferencesAsync(), InitializeDeckSelectionAsync());
+    }
+
+    private Task HandleDeckSelectionChangedAsync(string value)
+    {
+        var normalized = value ?? string.Empty;
+
+        if (string.Equals(_selectedDeck, normalized, StringComparison.Ordinal))
+        {
+            return Task.CompletedTask;
+        }
+
+        _selectedDeck = normalized;
+        _cardSearchTerm = string.Empty;
+        ClearSelectedCard();
+
+        return InvokeAsync(HandleDeckSelectionChangedInternalAsync);
+    }
+
+    private Task HandleDeckSelectionChangedInternalAsync()
+    {
+        if (string.IsNullOrWhiteSpace(_selectedDeck))
+        {
+            _cardSearchTerm = string.Empty;
+            ClearSelectedCard();
+            StateHasChanged();
+            return Task.CompletedTask;
+        }
+
+        return UpdateSelectedCardAsync();
+    }
+
+    private Task HandleCardSearchTermChangedAsync(string value)
+    {
+        var newValue = value ?? string.Empty;
+
+        if (string.Equals(_cardSearchTerm, newValue, StringComparison.Ordinal))
+        {
+            return Task.CompletedTask;
+        }
+
+        _cardSearchTerm = newValue;
+        return InvokeAsync(UpdateSelectedCardAsync);
     }
 
     private async Task LoadOverlayPreferencesAsync()
@@ -314,19 +206,6 @@
             _isLoadingDecks = false;
             await InvokeAsync(StateHasChanged);
         }
-    }
-
-    private async Task HandleDeckSelectionChangedAsync()
-    {
-        if (string.IsNullOrWhiteSpace(_selectedDeck))
-        {
-            _cardSearchTerm = string.Empty;
-            ClearSelectedCard();
-            StateHasChanged();
-            return;
-        }
-
-        await UpdateSelectedCardAsync();
     }
 
     private async Task UpdateSelectedCardAsync()
@@ -422,18 +301,19 @@
         SelectedCardImageDataUrl = null;
     }
 
-    private Task HandlePhotoCapturedAsync(string imageId)
+    private async Task HandlePhotoCapturedAsync(string imageId)
     {
-        _statusMessage = null;
+        _captureStatusMessage = null;
         _analysisResult = null;
+        _analysisSummary = null;
         _imageDataUrl = null;
         _lastImageData = null;
         _lastImageContentType = null;
 
         if (!ImageStorage.TryGetImage(imageId, out var storedImage))
         {
-            _statusMessage = string.Format(DisplayTexts.FaceAnalysisImageError, "Bild konnte nicht geladen werden.");
-            return Task.CompletedTask;
+            _captureStatusMessage = string.Format(DisplayTexts.FaceAnalysisImageError, "Bild konnte nicht geladen werden.");
+            return;
         }
 
         try
@@ -441,19 +321,47 @@
             _lastImageData = storedImage.Data;
             _lastImageContentType = storedImage.ContentType;
             _imageDataUrl = storedImage.ToDataUrl();
-            _analysisResult = AnalysisService.Analyze(storedImage.Data);
-            _statusMessage = BuildSummaryMessage(_analysisResult);
         }
         catch (Exception ex)
         {
-            _statusMessage = string.Format(DisplayTexts.FaceAnalysisImageError, ex.Message);
+            _captureStatusMessage = string.Format(DisplayTexts.FaceAnalysisImageError, ex.Message);
+            _lastImageData = null;
+            _lastImageContentType = null;
+            _imageDataUrl = null;
         }
         finally
         {
             ImageStorage.Remove(imageId);
         }
+    }
 
-        return Task.CompletedTask;
+    private async Task StartAnalysisAsync()
+    {
+        if (_lastImageData is null || string.IsNullOrWhiteSpace(_lastImageContentType))
+        {
+            _captureStatusMessage = string.Format(DisplayTexts.FaceAnalysisImageError, "Es wurde kein Bild geladen.");
+            return;
+        }
+
+        _isAnalyzing = true;
+        _captureStatusMessage = null;
+        _analysisSummary = null;
+
+        try
+        {
+            _analysisResult = AnalysisService.Analyze(_lastImageData);
+            _analysisSummary = _analysisResult is null ? null : BuildSummaryMessage(_analysisResult);
+            _currentStep = FaceAnalysisStep.Analysis;
+        }
+        catch (Exception ex)
+        {
+            _captureStatusMessage = string.Format(DisplayTexts.FaceAnalysisImageError, ex.Message);
+        }
+        finally
+        {
+            _isAnalyzing = false;
+            await InvokeAsync(StateHasChanged);
+        }
     }
 
     private async Task RefreshAnalysisAsync()
@@ -469,11 +377,11 @@
         {
             _imageDataUrl = BuildDataUrl(_lastImageData, _lastImageContentType);
             _analysisResult = AnalysisService.Analyze(_lastImageData);
-            _statusMessage = _analysisResult is null ? null : BuildSummaryMessage(_analysisResult);
+            _analysisSummary = _analysisResult is null ? null : BuildSummaryMessage(_analysisResult);
         }
         catch (Exception ex)
         {
-            _statusMessage = string.Format(DisplayTexts.FaceAnalysisImageError, ex.Message);
+            _analysisSummary = string.Format(DisplayTexts.FaceAnalysisImageError, ex.Message);
         }
         finally
         {
@@ -481,28 +389,28 @@
         }
     }
 
-    private async Task OnShowFaceOutlineChanged(bool value)
+    private Task OnShowFaceOutlineChanged(bool value)
     {
         _showFaceOutline = value;
-        await SaveOverlayPreferencesAsync();
+        return SaveOverlayPreferencesAsync();
     }
 
-    private async Task OnShowLeftEyeChanged(bool value)
+    private Task OnShowLeftEyeChanged(bool value)
     {
         _showLeftEye = value;
-        await SaveOverlayPreferencesAsync();
+        return SaveOverlayPreferencesAsync();
     }
 
-    private async Task OnShowRightEyeChanged(bool value)
+    private Task OnShowRightEyeChanged(bool value)
     {
         _showRightEye = value;
-        await SaveOverlayPreferencesAsync();
+        return SaveOverlayPreferencesAsync();
     }
 
-    private async Task OnShowNoseChanged(bool value)
+    private Task OnShowNoseChanged(bool value)
     {
         _showNose = value;
-        await SaveOverlayPreferencesAsync();
+        return SaveOverlayPreferencesAsync();
     }
 
     private Task SaveOverlayPreferencesAsync()
@@ -558,17 +466,29 @@
             result.ConfidenceScore.ToString("P0", CultureInfo.CurrentCulture));
     }
 
-    private static string DescribeFeature(FaceFeature? feature, string label)
+    private void GoToCaptureStep()
     {
-        if (feature is null)
-        {
-            return string.Format(DisplayTexts.FaceAnalysisFeatureMissing, label);
-        }
+        _currentStep = FaceAnalysisStep.Capture;
+    }
 
-        return string.Format(
-            DisplayTexts.FaceAnalysisFeatureDetected,
-            label,
-            feature.Confidence.ToString("P1", CultureInfo.CurrentCulture));
+    private void GoToDeckSelectionStep()
+    {
+        _currentStep = FaceAnalysisStep.DeckSelection;
+    }
+
+    private void ReturnToCaptureStep()
+    {
+        _currentStep = FaceAnalysisStep.Capture;
+    }
+
+    private void GoToMergeStep()
+    {
+        _currentStep = FaceAnalysisStep.Merge;
+    }
+
+    private void ReturnToAnalysisStep()
+    {
+        _currentStep = FaceAnalysisStep.Analysis;
     }
 
     private sealed record DeckCardInfo(string DeckId, string CardId, string DisplayName, string ImageDataUrl);
@@ -596,5 +516,13 @@
         {
             get; set;
         }
+    }
+
+    private enum FaceAnalysisStep
+    {
+        DeckSelection,
+        Capture,
+        Analysis,
+        Merge
     }
 }

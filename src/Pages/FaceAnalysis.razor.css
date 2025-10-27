@@ -1,144 +1,125 @@
-.face-analysis-intro {
-    margin-bottom: 1rem;
-}
-
-.face-analysis-card-selection {
+:global(.face-analysis-workflow) {
+    min-height: 70vh;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    margin-bottom: 1.5rem;
-}
-
-.face-analysis-card-search {
-    max-width: 320px;
-}
-
-.face-analysis-card-search-error {
-    margin: 0;
-    color: var(--bs-danger, #dc3545);
-    font-weight: 500;
-}
-
-.face-analysis-card-preview {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-}
-
-.face-analysis-card-preview img {
-    max-height: 200px;
-    width: auto;
-    border-radius: 0.5rem;
-    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
-}
-
-.face-analysis-controls {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.face-analysis-overlay-options {
-    margin-bottom: 1.5rem;
-}
-
-.face-analysis-overlay-options h2 {
-    margin: 0 0 0.5rem;
-    font-size: 1.1rem;
-}
-
-.face-analysis-overlay-options ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.face-analysis-overlay-options label {
-    display: inline-flex;
+    justify-content: center;
     align-items: center;
-    gap: 0.5rem;
-    cursor: pointer;
-    user-select: none;
+    padding: 1rem 0 3rem;
 }
 
-.face-analysis-status {
-    margin: 0;
-    font-weight: 500;
-}
-
-.face-analysis-images {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.face-analysis-images figure {
-    margin: 0;
-}
-
-.face-analysis-images img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 0.5rem;
-    box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
-}
-
-.face-analysis-annotated-wrapper {
-    position: relative;
-    display: inline-block;
-}
-
-.face-analysis-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
+:global(.face-analysis-step) {
     width: 100%;
-    height: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0 1rem;
 }
 
-.face-outline {
-    fill: rgba(0, 0, 0, 0.08);
-    stroke: rgba(0, 0, 0, 0.6);
-    stroke-width: 3;
+:global(.face-analysis-step__card) {
+    width: min(960px, 100%);
+    background: var(--bs-body-bg, #ffffff);
+    color: var(--bs-body-color, #111827);
+    border-radius: 1.25rem;
+    box-shadow: 0 24px 48px rgba(15, 23, 42, 0.16);
+    padding: clamp(1.5rem, 2vw, 2.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
-.feature-outline {
-    fill: rgba(0, 0, 0, 0.25);
-    stroke: #000;
-    stroke-width: 2;
+:global(.face-analysis-step__header h2) {
+    margin: 0 0 0.25rem;
+    font-size: clamp(1.5rem, 2vw, 2rem);
+    font-weight: 700;
 }
 
-.face-analysis-refresh {
+:global(.face-analysis-step__header p) {
+    margin: 0;
+    color: rgba(15, 23, 42, 0.75);
+    font-size: 1rem;
+}
+
+:global(.face-analysis-step__footer) {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+:global(.face-analysis-step__footer--split) {
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+:global(.face-analysis-step__actions) {
+    display: flex;
+    gap: 0.75rem;
+}
+
+:global(.fluent-button) {
+    --fluent-primary: #2563eb;
+    --fluent-on-primary: #ffffff;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.5rem 1rem;
+    padding: 0.6rem 1.4rem;
+    border-radius: 999px;
     border: none;
-    border-radius: 0.5rem;
-    background-color: var(--accent-color, #2563eb);
-    color: #fff;
-    font-size: 1rem;
     font-weight: 600;
+    font-size: 1rem;
+    background: var(--fluent-primary);
+    color: var(--fluent-on-primary);
     cursor: pointer;
-    transition: background-color 0.2s ease-in-out;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
 }
 
-.face-analysis-refresh:disabled {
-    background-color: rgba(37, 99, 235, 0.4);
+:global(.fluent-button:hover:enabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 24px rgba(37, 99, 235, 0.35);
+}
+
+:global(.fluent-button:active:enabled) {
+    transform: translateY(0);
+    box-shadow: 0 8px 16px rgba(37, 99, 235, 0.28);
+}
+
+:global(.fluent-button:disabled) {
     cursor: not-allowed;
+    opacity: 0.6;
+    box-shadow: none;
 }
 
-.face-analysis-summary ul {
-    padding-left: 1.25rem;
+:global(.fluent-button--secondary) {
+    background: rgba(15, 23, 42, 0.08);
+    color: rgba(15, 23, 42, 0.9);
+    box-shadow: none;
 }
 
-.face-analysis-summary li {
-    margin-bottom: 0.25rem;
+:global(.fluent-button--secondary:hover:enabled) {
+    background: rgba(15, 23, 42, 0.12);
+}
+
+:global(.fluent-button--ghost) {
+    background: transparent;
+    color: var(--fluent-primary);
+    box-shadow: none;
+}
+
+:global(.fluent-button--ghost:hover:enabled) {
+    background: rgba(37, 99, 235, 0.1);
+}
+
+@media (max-width: 600px) {
+    :global(.face-analysis-step__card) {
+        border-radius: 1rem;
+        padding: 1.25rem;
+    }
+
+    :global(.face-analysis-step__footer),
+    :global(.face-analysis-step__footer--split),
+    :global(.face-analysis-step__actions) {
+        flex-direction: column;
+        align-items: stretch;
+    }
 }

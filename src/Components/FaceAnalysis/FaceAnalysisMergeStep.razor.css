@@ -1,0 +1,10 @@
+.face-analysis-merge {
+    display: flex;
+    justify-content: center;
+}
+
+.face-analysis-merge__placeholder {
+    margin: 0;
+    font-weight: 600;
+    color: rgba(15, 23, 42, 0.7);
+}
