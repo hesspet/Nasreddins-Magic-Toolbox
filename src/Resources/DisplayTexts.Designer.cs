@@ -164,6 +164,9 @@ public static class DisplayTexts
     public static string SettingsCardScaleDescription => GetString(nameof(SettingsCardScaleDescription));
     public static string SettingsSearchAutoClearLabel => GetString(nameof(SettingsSearchAutoClearLabel));
     public static string SettingsSearchAutoClearDescription => GetString(nameof(SettingsSearchAutoClearDescription));
+    public static string SettingsOfflineModeLabel => GetString(nameof(SettingsOfflineModeLabel));
+    public static string SettingsOfflineModeDescription => GetString(nameof(SettingsOfflineModeDescription));
+    public static string SettingsOfflineModeUnavailableMessage => GetString(nameof(SettingsOfflineModeUnavailableMessage));
     public static string SettingsCheckForUpdatesLabel => GetString(nameof(SettingsCheckForUpdatesLabel));
     public static string SettingsCheckForUpdatesDescription => GetString(nameof(SettingsCheckForUpdatesDescription));
     public static string SettingsLoggingLogLevelLabel => GetString(nameof(SettingsLoggingLogLevelLabel));

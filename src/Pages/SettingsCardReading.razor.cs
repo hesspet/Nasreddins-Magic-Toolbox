@@ -42,6 +42,8 @@ public partial class SettingsCardReading : SettingsPageBase
             chatGptApiUrl = ApplicationSettings.CardReadingChatGptApiUrlDefault;
             await LocalStorage.SetItemAsync(ApplicationSettings.CardReadingChatGptApiUrlKey, chatGptApiUrl);
         }
+
+        offlineModeEnabled = await LocalStorage.GetOfflineModeEnabledAsync();
     }
 
     private static readonly JsonSerializerOptions ChatSerializerOptions = new(JsonSerializerDefaults.Web)
@@ -54,6 +56,7 @@ public partial class SettingsCardReading : SettingsPageBase
     private bool isSendingTest;
     private string? testErrorMessage;
     private string testResponse = string.Empty;
+    private bool offlineModeEnabled;
 
     [Inject]
     private HttpClient HttpClient { get; set; } = default!;
@@ -95,6 +98,16 @@ public partial class SettingsCardReading : SettingsPageBase
     {
         if (isSendingTest)
         {
+            return;
+        }
+
+        offlineModeEnabled = await LocalStorage.GetOfflineModeEnabledAsync();
+
+        if (offlineModeEnabled)
+        {
+            testErrorMessage = DisplayTexts.SettingsOfflineModeUnavailableMessage;
+            testResponse = string.Empty;
+            StateHasChanged();
             return;
         }
 

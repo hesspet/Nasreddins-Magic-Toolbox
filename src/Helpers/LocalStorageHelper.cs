@@ -1,5 +1,6 @@
 using Microsoft.JSInterop;
 using System.Text.Json;
+using Toolbox.Settings;
 
 namespace Toolbox.Helpers;
 
@@ -55,6 +56,27 @@ public class LocalStorageHelper
         var payload = JsonSerializer.Serialize(value, SerializerOptions);
         await _jsRuntime.InvokeVoidAsync("localStorage.setItem", key, payload);
     }
+
+    /// <summary>
+    ///     Returns the current offline mode setting, ensuring the default value is present in local storage.
+    /// </summary>
+    public async Task<bool> GetOfflineModeEnabledAsync()
+    {
+        var storedValue = await GetItemAsync<bool?>(ApplicationSettings.OfflineModeEnabledKey);
+
+        if (storedValue.HasValue)
+        {
+            return storedValue.Value;
+        }
+
+        await SetOfflineModeEnabledAsync(ApplicationSettings.OfflineModeEnabledDefault);
+        return ApplicationSettings.OfflineModeEnabledDefault;
+    }
+
+    /// <summary>
+    ///     Stores the offline mode setting in local storage.
+    /// </summary>
+    public Task SetOfflineModeEnabledAsync(bool enabled) => SetItemAsync(ApplicationSettings.OfflineModeEnabledKey, enabled);
 
     private static readonly JsonSerializerOptions SerializerOptions = new()
     {
