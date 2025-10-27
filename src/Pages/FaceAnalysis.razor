@@ -3,8 +3,10 @@
 @using Toolbox.Helpers
 @using Toolbox.Models
 @using Toolbox.Services
+@using Toolbox.Settings
 @inject FaceAnalysisService AnalysisService
 @inject TemporaryImageStorage ImageStorage
+@inject LocalStorageHelper LocalStorage
 
 <PageTitle>@DisplayTexts.FaceAnalysisPageTitle</PageTitle>
 
@@ -21,6 +23,44 @@
 
 @if (!string.IsNullOrEmpty(_imageDataUrl))
 {
+    <section class="face-analysis-overlay-options">
+        <h2>@DisplayTexts.FaceAnalysisOverlayOptionsHeading</h2>
+        <ul>
+            <li>
+                <label>
+                    <InputCheckbox Value="@_showFaceOutline"
+                                   ValueChanged="OnShowFaceOutlineChanged"
+                                   ValueExpression="() => _showFaceOutline" />
+                    <span>@DisplayTexts.FaceAnalysisOverlayOptionFace</span>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <InputCheckbox Value="@_showLeftEye"
+                                   ValueChanged="OnShowLeftEyeChanged"
+                                   ValueExpression="() => _showLeftEye" />
+                    <span>@DisplayTexts.FaceAnalysisOverlayOptionLeftEye</span>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <InputCheckbox Value="@_showRightEye"
+                                   ValueChanged="OnShowRightEyeChanged"
+                                   ValueExpression="() => _showRightEye" />
+                    <span>@DisplayTexts.FaceAnalysisOverlayOptionRightEye</span>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <InputCheckbox Value="@_showNose"
+                                   ValueChanged="OnShowNoseChanged"
+                                   ValueExpression="() => _showNose" />
+                    <span>@DisplayTexts.FaceAnalysisOverlayOptionNose</span>
+                </label>
+            </li>
+        </ul>
+    </section>
+
     <section class="face-analysis-images">
         <figure>
             <figcaption>@DisplayTexts.FaceAnalysisOriginalCaption</figcaption>
@@ -37,7 +77,7 @@
                          viewBox="0 0 @_analysisResult.ImageWidth @_analysisResult.ImageHeight"
                          xmlns="http://www.w3.org/2000/svg"
                          role="presentation">
-                        @if (_analysisResult.FaceBounds is BoundingBox face)
+                        @if (_showFaceOutline && _analysisResult.FaceBounds is BoundingBox face)
                         {
                             <rect class="face-outline"
                                   x="@face.X"
@@ -46,7 +86,7 @@
                                   height="@face.Height" />
                         }
 
-                        @if (_analysisResult.LeftEye is FaceFeature leftEye)
+                        @if (_showLeftEye && _analysisResult.LeftEye is FaceFeature leftEye)
                         {
                             <rect class="feature-outline"
                                   x="@leftEye.Bounds.X"
@@ -55,7 +95,7 @@
                                   height="@leftEye.Bounds.Height" />
                         }
 
-                        @if (_analysisResult.RightEye is FaceFeature rightEye)
+                        @if (_showRightEye && _analysisResult.RightEye is FaceFeature rightEye)
                         {
                             <rect class="feature-outline"
                                   x="@rightEye.Bounds.X"
@@ -64,7 +104,7 @@
                                   height="@rightEye.Bounds.Height" />
                         }
 
-                        @if (_analysisResult.Nose is FaceFeature nose)
+                        @if (_showNose && _analysisResult.Nose is FaceFeature nose)
                         {
                             <rect class="feature-outline"
                                   x="@nose.Bounds.X"
@@ -77,6 +117,13 @@
             </div>
         </figure>
     </section>
+
+    <button type="button"
+            class="face-analysis-refresh"
+            @onclick="RefreshAnalysisAsync"
+            disabled="@(_isRefreshing || _lastImageData is null)">
+        @DisplayTexts.FaceAnalysisRefreshButton
+    </button>
 }
 
 @if (_analysisResult is not null)
@@ -96,12 +143,38 @@
     private string? _imageDataUrl;
     private string? _statusMessage;
     private FaceAnalysisResult? _analysisResult;
+    private byte[]? _lastImageData;
+    private string? _lastImageContentType;
+    private bool _showFaceOutline = true;
+    private bool _showLeftEye;
+    private bool _showRightEye;
+    private bool _showNose;
+    private bool _isRefreshing;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var storedPreferences = await LocalStorage.GetItemAsync<FaceOverlayPreferences>(ApplicationSettings.FaceAnalysisOverlayPreferencesKey);
+
+        if (storedPreferences is not null)
+        {
+            _showFaceOutline = storedPreferences.ShowFaceOutline;
+            _showLeftEye = storedPreferences.ShowLeftEye;
+            _showRightEye = storedPreferences.ShowRightEye;
+            _showNose = storedPreferences.ShowNose;
+        }
+        else
+        {
+            await SaveOverlayPreferencesAsync();
+        }
+    }
 
     private Task HandlePhotoCapturedAsync(string imageId)
     {
         _statusMessage = null;
         _analysisResult = null;
         _imageDataUrl = null;
+        _lastImageData = null;
+        _lastImageContentType = null;
 
         if (!ImageStorage.TryGetImage(imageId, out var storedImage))
         {
@@ -111,6 +184,8 @@
 
         try
         {
+            _lastImageData = storedImage.Data;
+            _lastImageContentType = storedImage.ContentType;
             _imageDataUrl = storedImage.ToDataUrl();
             _analysisResult = AnalysisService.Analyze(storedImage.Data);
             _statusMessage = BuildSummaryMessage(_analysisResult);
@@ -126,6 +201,70 @@
 
         return Task.CompletedTask;
     }
+
+    private async Task RefreshAnalysisAsync()
+    {
+        if (_lastImageData is null || string.IsNullOrWhiteSpace(_lastImageContentType))
+        {
+            return;
+        }
+
+        _isRefreshing = true;
+
+        try
+        {
+            _imageDataUrl = BuildDataUrl(_lastImageData, _lastImageContentType);
+            _analysisResult = AnalysisService.Analyze(_lastImageData);
+            _statusMessage = _analysisResult is null ? null : BuildSummaryMessage(_analysisResult);
+        }
+        catch (Exception ex)
+        {
+            _statusMessage = string.Format(DisplayTexts.FaceAnalysisImageError, ex.Message);
+        }
+        finally
+        {
+            _isRefreshing = false;
+        }
+    }
+
+    private async Task OnShowFaceOutlineChanged(bool value)
+    {
+        _showFaceOutline = value;
+        await SaveOverlayPreferencesAsync();
+    }
+
+    private async Task OnShowLeftEyeChanged(bool value)
+    {
+        _showLeftEye = value;
+        await SaveOverlayPreferencesAsync();
+    }
+
+    private async Task OnShowRightEyeChanged(bool value)
+    {
+        _showRightEye = value;
+        await SaveOverlayPreferencesAsync();
+    }
+
+    private async Task OnShowNoseChanged(bool value)
+    {
+        _showNose = value;
+        await SaveOverlayPreferencesAsync();
+    }
+
+    private Task SaveOverlayPreferencesAsync()
+    {
+        var preferences = new FaceOverlayPreferences
+        {
+            ShowFaceOutline = _showFaceOutline,
+            ShowLeftEye = _showLeftEye,
+            ShowRightEye = _showRightEye,
+            ShowNose = _showNose
+        };
+
+        return LocalStorage.SetItemAsync(ApplicationSettings.FaceAnalysisOverlayPreferencesKey, preferences);
+    }
+
+    private static string BuildDataUrl(byte[] data, string contentType) => $"data:{contentType};base64,{Convert.ToBase64String(data)}";
 
     private static string BuildSummaryMessage(FaceAnalysisResult result)
     {
@@ -176,5 +315,28 @@
             DisplayTexts.FaceAnalysisFeatureDetected,
             label,
             feature.Confidence.ToString("P1", CultureInfo.CurrentCulture));
+    }
+
+    private sealed class FaceOverlayPreferences
+    {
+        public bool ShowFaceOutline
+        {
+            get; set;
+        } = true;
+
+        public bool ShowLeftEye
+        {
+            get; set;
+        }
+
+        public bool ShowRightEye
+        {
+            get; set;
+        }
+
+        public bool ShowNose
+        {
+            get; set;
+        }
     }
 }

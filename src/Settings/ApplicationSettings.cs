@@ -34,6 +34,7 @@ public static class ApplicationSettings
     public const string SplashScreenDurationKey = "SplashScreenDurationSeconds";
     public const ThemePreference ThemePreferenceDefault = ThemePreference.Light;
     public const string ThemePreferenceKey = "ThemePreference";
+    public const string FaceAnalysisOverlayPreferencesKey = "FaceAnalysisOverlayPreferences";
     public static LogLevel[] LogLevelOptions { get; } = Enum.GetValues<LogLevel>();
     public static int[] SplashScreenDurationOptions { get; } = [0, 5, 10, 60];
 

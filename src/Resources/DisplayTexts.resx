@@ -468,6 +468,24 @@
   <data name="FaceAnalysisAnnotatedAlt" xml:space="preserve">
     <value>Analyse mit markierten Gesichtszügen</value>
   </data>
+  <data name="FaceAnalysisOverlayOptionsHeading" xml:space="preserve">
+    <value>Anzuzeigende Rahmen</value>
+  </data>
+  <data name="FaceAnalysisOverlayOptionFace" xml:space="preserve">
+    <value>Gesicht</value>
+  </data>
+  <data name="FaceAnalysisOverlayOptionLeftEye" xml:space="preserve">
+    <value>Linkes Auge</value>
+  </data>
+  <data name="FaceAnalysisOverlayOptionRightEye" xml:space="preserve">
+    <value>Rechtes Auge</value>
+  </data>
+  <data name="FaceAnalysisOverlayOptionNose" xml:space="preserve">
+    <value>Nase</value>
+  </data>
+  <data name="FaceAnalysisRefreshButton" xml:space="preserve">
+    <value>Analyse aktualisieren</value>
+  </data>
   <data name="FaceAnalysisSummaryHeading" xml:space="preserve">
     <value>Analyseergebnis</value>
   </data>
