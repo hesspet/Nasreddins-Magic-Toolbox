@@ -1,0 +1,29 @@
+id: q-001
+title: Bekannte Zauberer der Geschichte - Wissen 
+prompt: |
+  Einer der bekanntesten Zauberer "Dai Vernon" hatte eine Ehrenbezeichnung bzw. Spitznahmen?
+  Wie wurde er genannt?
+
+allowsMultiple: false  # true, wenn mehrere Antworten korrekt sein dürfen
+
+options:
+  - text: The Wonder Wizard
+    isCorrect: false
+    # description: Optionale Zusatzinformation zur Antwort
+  - text: The Professor
+    isCorrect: true
+  - text: Dai The Profi
+    isCorrect: false
+  - text: The Expert At The Card Table
+    isCorrect: false
+
+explanation: |
+  Dai Vernon (geb. David Frederick Winfield Verner) war ein US-kanadischer Zauberkünstler und Autor. 
+  Unter dem Spitznamen „Der Professor“ bekannt geworden, gilt Vernon als einer der einflussreichsten 
+  Zauberkünstler des 20. Jahrhunderts. Sein Leitgedanke „Be natural“ ist ein wichtiger Grundstein 
+  für das heutige Verständnis von moderner Zauberkunst. Seine Routinen zu Ringspiel und Becherspiel 
+  sind wegweisend und bilden das Grundgerüst der meisten Vorführungen dieser beiden Klassiker. 
+  Die letzten Jahre seines Lebens verbrachte er im berühmten Magic Castle in Hollywood.
+
+tags:
+  - optionales-tag

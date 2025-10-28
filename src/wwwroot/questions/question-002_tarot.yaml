@@ -1,7 +1,7 @@
-id: q-tarot
+id: q-002
 title: Tarot-Wissen
 prompt: |
-  Welche Aussagen treffen auf das große Arkana des Tarot zu?
+  Welche Aussagen treffen auf das große Arkana des Tarot zu? (2 richtige Antworten)
 allowsMultiple: true
 options:
   - text: Es umfasst 22 Karten von Der Narr bis Die Welt.

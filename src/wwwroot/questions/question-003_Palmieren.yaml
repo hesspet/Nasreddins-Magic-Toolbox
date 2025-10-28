@@ -1,0 +1,35 @@
+id: q-003
+title: Zauberkunst - Wissen
+prompt: |
+  Was ist Palmieren?
+allowsMultiple: false  # true, wenn mehrere Antworten korrekt sein dürfen
+options:
+  - text: Der verdeckte Austausch einer Karte während des Spiels
+    isCorrect: false
+    # description: Optionale Zusatzinformation zur Antwort
+  - text: Das bewusste Lenken der Aufmerksamkeit durch Sprache, Blick und Körpersprache
+    isCorrect: false
+    # description: Optionale Zusatzinformation zur Antwort
+  - text: Das unauffällige Verbergen eines Gegenstands in der Handfläche, um ihn scheinbar verschwinden oder erscheinen zu lassen. 
+    isCorrect: true
+    # description: Optionale Zusatzinformation zur Antwort
+  - text: Das gezielte Beeinflussen eines Zuschauers, damit er eine vorbestimmte Wahl trifft
+    isCorrect: false
+    # description: Optionale Zusatzinformation zur Antwort
+
+explanation: |
+  „Palmieren“ bezeichnet in der Zauberkunst das unauffällige Verbergen eines Gegenstands in der Handfläche, 
+  sodass das Publikum überzeugt ist, die Hand sei leer, obwohl sie heimlich etwas hält. Ziel ist nicht 
+  bloß das Festhalten, sondern ein natürlich wirkender Ruhe- und Bewegungsfluss, der keinerlei „Griffspannung“ 
+  verrät und mit Blickführung (Misdirection) harmoniert. Je nach Objekt und Situation nutzt man unterschiedliche 
+  Techniken, etwa Classic Palm und Finger Palm bei Münzen, Thumb Palm oder Back Palm für Karten sowie 
+  Varianten, die speziell fürs Laden, Austauschen oder unbemerktes Wegschaffen (ditch) optimiert sind. 
+  Entscheidend sind Winkelkontrolle, entspannte Fingerhaltung und der Mut, die Hand ganz normal zu benutzen: 
+  zeigen, gestikulieren, etwas aufheben. Ein sauberes Palmieren erlaubt Verschwinden, Erscheinen, Transpositionen 
+  und magische Transformationen, weil der Gegenstand „aus dem Spiel“ wirkt, obwohl er jederzeit verfügbar 
+  bleibt. Gute Palmagen entstehen durch langsames Üben vor dem Spiegel oder auf Video, Fokus auf Natürlichkeit 
+  statt Verkrampfung und das Timing im Zusammenspiel mit Sprache und Blick. Kurz: Palmieren ist die zentrale 
+  Fertigkeit, mit der du Geheimnisse buchstäblich in der Hand behältst.
+
+tags:
+  - optionales-tag
