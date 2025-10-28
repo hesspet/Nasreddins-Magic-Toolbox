@@ -29,9 +29,9 @@
                                            CanSearchCards="CanSearchCards"
                                            ShouldShowCardNotFound="ShouldShowCardNotFound"
                                            SelectedCardDisplayName="@_selectedCard?.DisplayName"
-                                           SelectedCardImageDataUrl="SelectedCardImageDataUrl"
+                                           SelectedCardImageDataUrl="@SelectedCardImageDataUrl"
                                            OnNext="GoToCaptureStep"
-                                           IsNextEnabled="SelectedCardImageBytes is not null" />
+                                           IsNextEnabled="@(SelectedCardImageBytes is not null)" />
             break;
         case FaceAnalysisStep.Capture:
             <FaceAnalysisCaptureStep OnBack="GoToDeckSelectionStep"
