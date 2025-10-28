@@ -198,7 +198,7 @@
 
     protected override Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender && !_timeExpired && TimeLimitSeconds > 0 && _questionStates.Count > 0)
+        if (!_timeExpired && TimeLimitSeconds > 0 && _questionStates.Count > 0 && _timer is null)
         {
             StartTimer();
         }
