@@ -1,0 +1,18 @@
+id: q-017
+title: Verdecktes Kartenhalten
+prompt: |
+  Wären Sie so freundlich, mir mitzuteilen, wie wir den seitlichen Griff nennen, bei dem eine Karte scheinbar verschwunden ist, tatsächlich jedoch entlang der Handkante ruht? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: Tenkai Palm
+    isCorrect: true
+  - text: Edge Conceal
+    isCorrect: false
+  - text: Mondgriff
+    isCorrect: false
+  - text: Runenhalt
+    isCorrect: false
+explanation: |
+  Der Tenkai Palm ist eine Technik, bei der die Karte seitlich entlang der Hand verborgen wird, ohne die Hand schließen zu müssen.
+tags:
+  - kartenkunst

@@ -1,0 +1,18 @@
+id: q-014
+title: Flammender Akzent
+prompt: |
+  Dürfte ich Sie freundlich fragen, wie wir das spezielle Papier nennen, das in einem Lichtblitz ohne Rauch verbrennt und oft zum magischen Auftakt eingesetzt wird? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: Flash Paper
+    isCorrect: true
+  - text: Phönixpergament
+    isCorrect: false
+  - text: Runenblatt
+    isCorrect: false
+  - text: Astralpapier
+    isCorrect: false
+explanation: |
+  Flash Paper, auch Nitrocellulosepapier, brennt extrem schnell und hell, wodurch dramatische magische Effekte entstehen.
+tags:
+  - pyromagie

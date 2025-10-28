@@ -1,0 +1,18 @@
+id: q-018
+title: Geheimriss in der Mentalmagie
+prompt: |
+  Würden Sie mir bitte schildern, wie wir die Technik nennen, bei der ein notiertes Wort scheinbar zerrissen wird, wir jedoch heimlich den zentralen Teil sichern, um die Eingebung vorzutragen? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: Center Tear
+    isCorrect: true
+  - text: Lunarer Riss
+    isCorrect: false
+  - text: Arkaner Faltgriff
+    isCorrect: false
+  - text: Geistiger Split
+    isCorrect: false
+explanation: |
+  Der Center Tear erlaubt Mentalisten, einen zentralen Abschnitt eines Zettels zu behalten und so das Geheimnis der Zuschauenden zu erfahren.
+tags:
+  - mentalmagie

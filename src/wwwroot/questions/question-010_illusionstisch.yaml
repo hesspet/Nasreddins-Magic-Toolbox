@@ -1,0 +1,18 @@
+id: q-010
+title: Unsichtbare Fäden
+prompt: |
+  Würden Sie mir bitte verraten, wie wir den hauchdünnen Faden nennen, mit dem schwebende Karten und Ringe inszeniert werden? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: Unsichtbares Elastic Thread
+    isCorrect: true
+  - text: Geisterleine
+    isCorrect: false
+  - text: Schattenstrang
+    isCorrect: false
+  - text: Runenschnur
+    isCorrect: false
+explanation: |
+  Invisible Elastic Thread ist ein dehnbarer, nahezu unsichtbarer Faden, der häufig für Schwebeeffekte und Animationen genutzt wird.
+tags:
+  - buehnenmagie

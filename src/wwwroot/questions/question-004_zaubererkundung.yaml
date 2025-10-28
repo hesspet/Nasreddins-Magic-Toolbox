@@ -1,0 +1,18 @@
+id: q-004
+title: Begriff für die verborgene Ablage
+prompt: |
+  Würden Sie so freundlich sein, mir zu verraten, wie wir Zauberinnen und Zauberer die verborgene Ablage am Bühnenrand nennen, auf der wir Requisiten unbemerkt bereitlegen? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: Servante
+    isCorrect: true
+  - text: Palming-Brett
+    isCorrect: false
+  - text: Arkanes Pult
+    isCorrect: false
+  - text: Runentisch
+    isCorrect: false
+explanation: |
+  Die Servante ist eine verdeckte Ablagefläche hinter dem Tisch, die es ermöglicht, Requisiten unbemerkt aufzunehmen oder abzulegen.
+tags:
+  - zauberkunst

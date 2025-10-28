@@ -1,0 +1,18 @@
+id: q-024
+title: Versteck am Daumen
+prompt: |
+  Wären Sie so freundlich, mir zu verraten, wie wir die hohle Kappe nennen, die unauffällig über dem Daumen sitzt und Seidentücher verschwinden lässt? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: Thumb Tip
+    isCorrect: true
+  - text: Daumenkuppel
+    isCorrect: false
+  - text: Schattenfinger
+    isCorrect: false
+  - text: Astralspitze
+    isCorrect: false
+explanation: |
+  Der Thumb Tip ist ein klassisches Hilfsmittel der Zauberkunst und ermöglicht das heimliche Behalten kleiner Gegenstände.
+tags:
+  - gimmicks

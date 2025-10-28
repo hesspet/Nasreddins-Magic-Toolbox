@@ -1,0 +1,18 @@
+id: q-009
+title: Geheimnisse der verlinkten Ringe
+prompt: |
+  Wären Sie so freundlich, mir mitzuteilen, welche beiden Fachbegriffe wir für spezielle Hilfsmittel verwenden, mit denen ein Ringroutine vorbereitet wird, bevor das Publikum den Zauber wahrnimmt? (Bitte wählen Sie 2 Antworten)
+allowsMultiple: true
+options:
+  - text: Schlüsselring
+    isCorrect: true
+  - text: Stoßverbindung
+    isCorrect: true
+  - text: Drachenfalz
+    isCorrect: false
+  - text: Nebelkante
+    isCorrect: false
+explanation: |
+  Beim Zauber der Chinese Linking Rings kommen häufig ein speziell geschlitzter Schlüsselring und das verdeckte Aneinanderstoßen zweier Ringe zum Einsatz.
+tags:
+  - ringkunst

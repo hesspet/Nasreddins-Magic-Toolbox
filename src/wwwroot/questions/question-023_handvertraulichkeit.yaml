@@ -1,0 +1,18 @@
+id: q-023
+title: Geheimer Abstandshalter
+prompt: |
+  Dürfte ich freundlich erfragen, wie wir den kleinen Spalt nennen, den wir mit dem kleinen Finger halten, um ein Kartenspiel unauffällig zu kontrollieren? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: Pinky Break
+    isCorrect: true
+  - text: Schattenkerbe
+    isCorrect: false
+  - text: Lunar Gap
+    isCorrect: false
+  - text: Arcane Hold
+    isCorrect: false
+explanation: |
+  Der Pinky Break ist ein unauffälliger Abstand mit dem kleinen Finger, der vielfältige Kartentechniken vorbereitet.
+tags:
+  - kartenkunst

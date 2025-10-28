@@ -1,0 +1,18 @@
+id: q-025
+title: Weltmeisterschaft der Zauberkunst
+prompt: |
+  Dürfte ich Sie höflich fragen, wie der internationale Wettbewerb heißt, bei dem alle drei Jahre die Besten unserer Zunft um die Grand-Prix-Trophäe kämpfen? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: FISM World Championships
+    isCorrect: true
+  - text: Arkaner Konklave
+    isCorrect: false
+  - text: Global Wizard Summit
+    isCorrect: false
+  - text: Illusion Masters Cup
+    isCorrect: false
+explanation: |
+  Die FISM World Championships of Magic gelten als Weltmeisterschaft der Zauberkunst und zeichnen Spitzenleistungen aus.
+tags:
+  - gemeinschaft

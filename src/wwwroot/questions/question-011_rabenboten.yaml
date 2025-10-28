@@ -1,0 +1,18 @@
+id: q-011
+title: Werkzeug für Münzverschwinden
+prompt: |
+  Dürfte ich höflich nachfragen, wie wir den apparativen Helfer nennen, der eine Münze pfeilschnell in den Ärmel zieht und so ein augenblickliches Verschwinden ermöglicht? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: Der Raven
+    isCorrect: true
+  - text: Drachenfänger
+    isCorrect: false
+  - text: Schattenfänger
+    isCorrect: false
+  - text: Mondschlinge
+    isCorrect: false
+explanation: |
+  Der Raven ist ein magnetischer Zugmechanismus, mit dem Münzen blitzschnell aus Sicht der Zuschauer verschwinden können.
+tags:
+  - gimmicks

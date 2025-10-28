@@ -1,0 +1,18 @@
+id: q-013
+title: Geheime Manteltasche
+prompt: |
+  Wären Sie so freundlich, mir zu nennen, wie wir die unsichtbare Tasche im Mantelinneren bezeichnen, in der während einer Nummer Gegenstände verschwinden? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: Topit
+    isCorrect: true
+  - text: Schattenkammer
+    isCorrect: false
+  - text: Arkanschlupf
+    isCorrect: false
+  - text: Geistertasche
+    isCorrect: false
+explanation: |
+  Der Topit ist eine diskret im Mantel eingenähte Tasche, die Gegenstände geräuschlos verschwinden lässt.
+tags:
+  - buehnenmagie

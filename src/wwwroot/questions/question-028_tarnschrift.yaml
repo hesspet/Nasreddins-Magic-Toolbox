@@ -1,0 +1,18 @@
+id: q-028
+title: Geheimzeichen auf Spielkarten
+prompt: |
+  Dürfte ich höflich erfahren, wie wir ein Kartenspiel nennen, dessen Rückseiten mit verborgenen Zeichen versehen sind, damit wir die Werte im Verborgenen lesen können? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: Marked Deck
+    isCorrect: true
+  - text: Shadow Pack
+    isCorrect: false
+  - text: Lunar Script Deck
+    isCorrect: false
+  - text: Arcane Glyph Cards
+    isCorrect: false
+explanation: |
+  Ein Marked Deck trägt unauffällige Markierungen auf den Rückseiten, sodass der Zauberer Kartenwerte heimlich erkennt.
+tags:
+  - kartenkunst

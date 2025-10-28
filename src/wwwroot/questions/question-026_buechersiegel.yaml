@@ -1,0 +1,18 @@
+id: q-026
+title: Standardwerk der Ausbildung
+prompt: |
+  Wären Sie so freundlich, mir mitzuteilen, wie der vielbändige Kurs heißt, der seit Jahrzehnten als Lehrbuch unserer Kunst gilt und zahllose Routinen erklärt? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: Tarbell Course in Magic
+    isCorrect: true
+  - text: Arcane Compendium
+    isCorrect: false
+  - text: Grimoire der Moderne
+    isCorrect: false
+  - text: Meisterbuch der Illusionen
+    isCorrect: false
+explanation: |
+  Der Tarbell Course in Magic ist eine umfangreiche Lehrsammlung, die Generationen von Zauberkünstlern geprägt hat.
+tags:
+  - literatur

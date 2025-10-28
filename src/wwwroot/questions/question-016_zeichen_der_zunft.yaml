@@ -1,0 +1,18 @@
+id: q-016
+title: Geheimschrift der Mentalisten
+prompt: |
+  Dürfte ich Sie ersuchen, mir zu nennen, welche beiden Hilfsmittel wir Mentalmagier verwenden, um unbemerkt Zahlen oder Worte niederzuschreiben, nachdem das Orakel gesprochen hat? (Bitte wählen Sie 2 Antworten)
+allowsMultiple: true
+options:
+  - text: Swami Gimmick
+    isCorrect: true
+  - text: Boone Writer
+    isCorrect: true
+  - text: Runenreif
+    isCorrect: false
+  - text: Astralgriffel
+    isCorrect: false
+explanation: |
+  Sowohl das Swami Gimmick als auch der Boone Writer gehören zur Familie der Nail Writer und erlauben das geheime Mitschreiben in Mentaldarbietungen.
+tags:
+  - mentalmagie
