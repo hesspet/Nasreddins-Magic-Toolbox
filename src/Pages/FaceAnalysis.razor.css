@@ -110,6 +110,28 @@
     background: rgba(37, 99, 235, 0.1);
 }
 
+:global(.fluent-spinner) {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    border: 0.2rem solid rgba(37, 99, 235, 0.2);
+    border-top-color: rgba(37, 99, 235, 0.85);
+    animation: fluent-spinner-rotate 0.8s linear infinite;
+    flex-shrink: 0;
+}
+
+:global(.fluent-spinner--small) {
+    width: 1rem;
+    height: 1rem;
+    border-width: 0.18rem;
+}
+
+:global(@keyframes fluent-spinner-rotate) {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 @media (max-width: 600px) {
     :global(.face-analysis-step__card) {
         border-radius: 1rem;

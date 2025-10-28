@@ -17,7 +17,11 @@
                 class="camera-stream-button"
                 @onclick="CaptureAsync"
                 disabled="@(!_isStreamReady || _isCapturing)">
-            Foto aufnehmen
+            @if (_isCapturing)
+            {
+                <span class="fluent-spinner fluent-spinner--small" aria-hidden="true"></span>
+            }
+            <span>Foto aufnehmen</span>
         </button>
         <button type="button"
                 class="camera-stream-button"
@@ -99,6 +103,7 @@
 
         _isCapturing = true;
         _statusMessage = null;
+        StateHasChanged();
 
         try
         {
@@ -123,6 +128,7 @@
         finally
         {
             _isCapturing = false;
+            StateHasChanged();
         }
     }
 
@@ -144,14 +150,18 @@
             return;
         }
 
-        if (_module is null)
-        {
-            await StoreFileFromInputAsync(file);
-            return;
-        }
+        _isCapturing = true;
+        _statusMessage = null;
+        StateHasChanged();
 
         try
         {
+            if (_module is null)
+            {
+                await StoreFileFromInputAsync(file);
+                return;
+            }
+
             var bytes = await _module.InvokeAsync<byte[]>(
                 "readFileFromInput",
                 _canvasElement,
@@ -166,6 +176,11 @@
         catch (JSException jsException)
         {
             _statusMessage = CameraSettings.BuildCaptureErrorMessage(jsException.Message);
+        }
+        finally
+        {
+            _isCapturing = false;
+            StateHasChanged();
         }
     }
 

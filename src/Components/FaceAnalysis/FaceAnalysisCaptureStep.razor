@@ -37,7 +37,15 @@
                     class="fluent-button"
                     disabled="@(!IsStartEnabled || IsAnalyzing)"
                     @onclick="OnStartAnalysis">
-                @(IsAnalyzing ? "Analyse läuft …" : "Start Analyse")
+                @if (IsAnalyzing)
+                {
+                    <span class="fluent-spinner fluent-spinner--small" aria-hidden="true"></span>
+                    <span>Analyse läuft …</span>
+                }
+                else
+                {
+                    <span>Start Analyse</span>
+                }
             </button>
         </footer>
     </div>
