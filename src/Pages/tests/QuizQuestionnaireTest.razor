@@ -1,0 +1,57 @@
+@page "/tests/quiz-questionnaire"
+
+<PageTitle>Quiz Fragebogen Test</PageTitle>
+
+<h1>Quiz-Komponente – Testseite</h1>
+
+<p>
+    Diese Seite lädt die neue Quiz-Komponente mit den im Verzeichnis <code>wwwroot/questions</code> hinterlegten YAML-Dateien.
+    Jede Antwort wird sofort ausgewertet. Der Countdown zeigt das verbleibende Zeitfenster an.
+</p>
+
+<section class="quiz-demo">
+    <QuizQuestionnaire Title="Demo-Fragebogen" QuestionCount="3" TimeLimitSeconds="90" CompletionChanged="OnQuizCompleted" />
+</section>
+
+@if (_lastResult is not null)
+{
+    <section class="quiz-result-panel">
+        <h2>Aktueller Auswertungsstatus</h2>
+        <p>
+            @if (_lastResult.TimeExpired)
+            {
+                <span class="badge bg-danger">Zeit abgelaufen</span>
+            }
+            else if (_lastResult.AllCorrect)
+            {
+                <span class="badge bg-success">Alle Antworten korrekt</span>
+            }
+            else
+            {
+                <span class="badge bg-warning text-dark">Antworten noch prüfen</span>
+            }
+        </p>
+        <p>
+            @_lastResult.CorrectAnswers von @_lastResult.TotalQuestions Fragen aktuell korrekt.
+        </p>
+    </section>
+}
+
+<section class="quiz-files-hint">
+    <h2>Fragen pflegen</h2>
+    <p>
+        Um neue Fragen zu hinterlegen, legen Sie zusätzliche YAML-Dateien im Ordner <code>wwwroot/questions</code> ab und
+        ergänzen Sie deren Namen in <code>manifest.json</code>. Die Datei <code>question.template.yaml</code> dient als Vorlage.
+    </p>
+</section>
+
+@code {
+    private QuestionnaireResult? _lastResult;
+
+    private Task OnQuizCompleted(QuestionnaireResult result)
+    {
+        _lastResult = result;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+}

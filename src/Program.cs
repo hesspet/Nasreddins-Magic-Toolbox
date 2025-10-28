@@ -4,6 +4,7 @@ using System.Globalization;
 using Toolbox;
 using Toolbox.Helpers;
 using Toolbox.Services;
+using Toolbox.Services.Questionnaire;
 using Toolbox.Settings;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -23,5 +24,6 @@ builder.Services.AddSingleton<HelpContentProvider>();
 builder.Services.AddSingleton<InMemoryLogService>();
 builder.Services.AddSingleton<TemporaryImageStorage>();
 builder.Services.AddSingleton<FaceAnalysisService>();
+builder.Services.AddScoped<QuestionnaireService>();
 
 await builder.Build().RunAsync();

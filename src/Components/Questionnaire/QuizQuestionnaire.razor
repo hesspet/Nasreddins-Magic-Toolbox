@@ -1,0 +1,356 @@
+@using Toolbox.Services.Questionnaire
+@implements IDisposable
+@inject QuestionnaireService QuestionnaireService
+
+<div class="quiz-questionnaire">
+    @if (_isLoading)
+    {
+        <div class="quiz-status quiz-status-loading">Fragen werden geladen …</div>
+    }
+    else if (!string.IsNullOrWhiteSpace(_loadError))
+    {
+        <div class="quiz-status quiz-status-error">@_loadError</div>
+    }
+    else if (_questionStates.Count == 0)
+    {
+        <div class="quiz-status quiz-status-empty">Keine Fragen vorhanden.</div>
+    }
+    else
+    {
+        <header class="quiz-header">
+            <div class="quiz-header-text">
+                @if (!string.IsNullOrWhiteSpace(Title))
+                {
+                    <h2>@Title</h2>
+                }
+                <p>@(_questionStates.Count == 1 ? "1 Frage" : $"{_questionStates.Count} Fragen") – sofortige Auswertung nach jeder Auswahl.</p>
+            </div>
+            @if (TimeLimitSeconds > 0)
+            {
+                <div class="quiz-timer @(IsCriticalTime ? "quiz-timer-critical" : null)">
+                    <span class="quiz-timer-label">Verbleibende Zeit</span>
+                    <span class="quiz-timer-value">@FormattedRemainingTime</span>
+                </div>
+            }
+        </header>
+
+        <section class="quiz-body">
+            @foreach (var state in _questionStates)
+            {
+                var cardClasses = $"quiz-card {(state.IsCorrect is true ? "quiz-card-correct" : state.IsCorrect is false ? "quiz-card-incorrect" : string.Empty)}";
+                <article class="@cardClasses" @key="state.Question.Id">
+                    <header class="quiz-card-header">
+                        <div class="quiz-card-title">@state.Question.Title</div>
+                        <div class="quiz-card-meta">
+                            <span class="quiz-card-mode">@(state.Question.AllowsMultiple ? "Mehrfachauswahl" : "Einzelauswahl")</span>
+                        </div>
+                    </header>
+                    <p class="quiz-card-question">@state.Question.Prompt</p>
+                    <ul class="quiz-options">
+                        @for (var index = 0; index < state.Question.Options.Count; index++)
+                        {
+                            var option = state.Question.Options[index];
+                            var isChecked = state.SelectedOptionIndices.Contains(index);
+                            var optionClasses = new List<string> { "quiz-option" };
+                            if (_timeExpired)
+                            {
+                                optionClasses.Add("quiz-option-disabled");
+                            }
+                            if (state.IsEvaluated)
+                            {
+                                if (state.CorrectOptionIndices.Contains(index))
+                                {
+                                    optionClasses.Add("quiz-option-correct-answer");
+                                }
+                                if (isChecked && !state.CorrectOptionIndices.Contains(index))
+                                {
+                                    optionClasses.Add("quiz-option-selected-wrong");
+                                }
+                                if (state.IsCorrect is true && isChecked)
+                                {
+                                    optionClasses.Add("quiz-option-selected-correct");
+                                }
+                            }
+
+                            <li class="@string.Join(" ", optionClasses)">
+                                <label>
+                                    <input type="checkbox"
+                                           disabled="@(_timeExpired)"
+                                           checked="@isChecked"
+                                           @onchange="async args => await OnOptionChangedAsync(state, index, args)" />
+                                    <span class="quiz-option-text">@option.Text</span>
+                                </label>
+                                @if (!string.IsNullOrWhiteSpace(option.Description))
+                                {
+                                    <div class="quiz-option-description">@option.Description</div>
+                                }
+                            </li>
+                        }
+                    </ul>
+                    <footer class="quiz-feedback">
+                        @if (_timeExpired && !state.IsAnswered)
+                        {
+                            <span class="quiz-feedback-info">Zeit abgelaufen – keine Auswahl getroffen.</span>
+                        }
+                        else if (state.IsCorrect is true)
+                        {
+                            <span class="quiz-feedback-correct">Richtig beantwortet.</span>
+                        }
+                        else if (state.IsCorrect is false && state.IsEvaluated)
+                        {
+                            <span class="quiz-feedback-incorrect">Noch nicht korrekt.</span>
+                        }
+
+                        @if (!string.IsNullOrWhiteSpace(state.Question.Explanation) && state.IsEvaluated)
+                        {
+                            <div class="quiz-feedback-explanation">@state.Question.Explanation</div>
+                        }
+                    </footer>
+                </article>
+            }
+        </section>
+
+        <footer class="quiz-summary">
+            <div class="quiz-summary-stats">
+                <span class="quiz-summary-value">@_questionStates.Count(q => q.IsCorrect == true) / @_questionStates.Count</span>
+                <span class="quiz-summary-label">Fragen aktuell korrekt beantwortet</span>
+            </div>
+            @if (_timeExpired)
+            {
+                <div class="quiz-summary-message">Die Zeit ist abgelaufen. Anpassungen sind nicht mehr möglich.</div>
+            }
+            else if (AllAnswered && AllCorrect)
+            {
+                <div class="quiz-summary-message quiz-summary-success">Alle Antworten sind korrekt!</div>
+            }
+        </footer>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int QuestionCount { get; set; } = 3;
+
+    [Parameter]
+    public int TimeLimitSeconds { get; set; } = 120;
+
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public EventCallback<QuestionnaireResult> CompletionChanged { get; set; }
+
+    private readonly List<QuestionState> _questionStates = new();
+    private bool _isLoading = true;
+    private string? _loadError;
+    private System.Timers.Timer? _timer;
+    private int _remainingSeconds;
+    private bool _timeExpired;
+    private QuestionnaireResult? _lastPublishedResult;
+
+    private bool AllAnswered => _questionStates.All(q => q.IsAnswered);
+    private bool AllCorrect => _questionStates.All(q => q.IsCorrect == true);
+    private bool IsCriticalTime => TimeLimitSeconds > 0 && _remainingSeconds <= Math.Max(10, TimeLimitSeconds / 5);
+
+    private string FormattedRemainingTime => TimeSpan.FromSeconds(Math.Max(_remainingSeconds, 0)).ToString("mm\:ss");
+
+    protected override async Task OnInitializedAsync()
+    {
+        _remainingSeconds = Math.Max(TimeLimitSeconds, 0);
+
+        try
+        {
+            var allQuestions = await QuestionnaireService.LoadAllQuestionsAsync();
+            if (allQuestions.Count == 0)
+            {
+                _loadError = "Es konnten keine Fragen geladen werden.";
+                return;
+            }
+
+            var selectedQuestions = allQuestions
+                .OrderBy(_ => Random.Shared.Next())
+                .Take(Math.Min(QuestionCount <= 0 ? allQuestions.Count : QuestionCount, allQuestions.Count))
+                .ToList();
+
+            if (selectedQuestions.Count == 0)
+            {
+                _loadError = "Es konnten keine Fragen ausgewählt werden.";
+                return;
+            }
+
+            foreach (var question in selectedQuestions)
+            {
+                _questionStates.Add(new QuestionState(question));
+            }
+
+            await PublishResultAsync(force: true);
+        }
+        catch (Exception ex)
+        {
+            _loadError = $"Fragen konnten nicht geladen werden: {ex.Message}";
+        }
+        finally
+        {
+            _isLoading = false;
+        }
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !_timeExpired && TimeLimitSeconds > 0 && _questionStates.Count > 0)
+        {
+            StartTimer();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private void StartTimer()
+    {
+        if (_timer is not null || TimeLimitSeconds <= 0)
+        {
+            return;
+        }
+
+        _timer = new System.Timers.Timer(1000)
+        {
+            AutoReset = true,
+            Enabled = true
+        };
+
+        _timer.Elapsed += async (_, _) => await HandleTimerAsync();
+        _timer.Start();
+    }
+
+    private async Task HandleTimerAsync()
+    {
+        if (_timeExpired)
+        {
+            return;
+        }
+
+        if (_remainingSeconds > 0)
+        {
+            _remainingSeconds--;
+        }
+
+        if (_remainingSeconds <= 0)
+        {
+            _timeExpired = true;
+            StopTimer();
+            await PublishResultAsync(force: true);
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void StopTimer()
+    {
+        if (_timer is null)
+        {
+            return;
+        }
+
+        _timer.Stop();
+        _timer.Dispose();
+        _timer = null;
+    }
+
+    private async Task OnOptionChangedAsync(QuestionState state, int optionIndex, ChangeEventArgs args)
+    {
+        if (_timeExpired)
+        {
+            return;
+        }
+
+        var isChecked = args.Value switch
+        {
+            bool boolean => boolean,
+            string text when bool.TryParse(text, out var parsed) => parsed,
+            _ => false
+        };
+
+        if (!state.Question.AllowsMultiple && isChecked)
+        {
+            state.SelectedOptionIndices.Clear();
+        }
+
+        if (isChecked)
+        {
+            state.SelectedOptionIndices.Add(optionIndex);
+        }
+        else
+        {
+            state.SelectedOptionIndices.Remove(optionIndex);
+        }
+
+        await EvaluateQuestionAsync(state);
+    }
+
+    private async Task EvaluateQuestionAsync(QuestionState state)
+    {
+        state.IsAnswered = state.SelectedOptionIndices.Count > 0;
+
+        if (state.IsAnswered)
+        {
+            state.IsCorrect = state.SelectedOptionIndices.SetEquals(state.CorrectOptionIndices);
+            state.IsEvaluated = true;
+        }
+        else
+        {
+            state.IsCorrect = null;
+            state.IsEvaluated = false;
+        }
+
+        await PublishResultAsync();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task PublishResultAsync(bool force = false)
+    {
+        var result = new QuestionnaireResult(
+            AllCorrect,
+            _questionStates.Count(q => q.IsCorrect == true),
+            _questionStates.Count,
+            _timeExpired);
+
+        if (force || _lastPublishedResult != result)
+        {
+            _lastPublishedResult = result;
+            if (CompletionChanged.HasDelegate)
+            {
+                await CompletionChanged.InvokeAsync(result);
+            }
+        }
+    }
+
+    public void Dispose()
+    {
+        StopTimer();
+    }
+
+    private sealed class QuestionState
+    {
+        public QuestionState(QuizQuestion question)
+        {
+            Question = question;
+            CorrectOptionIndices = question.Options
+                .Select((option, index) => (option, index))
+                .Where(tuple => tuple.option.IsCorrect)
+                .Select(tuple => tuple.index)
+                .ToHashSet();
+        }
+
+        public QuizQuestion Question { get; }
+
+        public HashSet<int> SelectedOptionIndices { get; } = new();
+
+        public HashSet<int> CorrectOptionIndices { get; }
+
+        public bool IsAnswered { get; set; }
+
+        public bool? IsCorrect { get; set; }
+
+        public bool IsEvaluated { get; set; }
+    }
+}

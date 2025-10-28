@@ -1,0 +1,20 @@
+id: q-basics
+title: Grundlagen des Fragebogens
+prompt: |
+  Was zeichnet den Fragebogen in der Magic Toolbox aus?
+allowsMultiple: true
+options:
+  - text: Jede Frage liegt als eigenständige YAML-Datei vor.
+    isCorrect: true
+  - text: Zur Auswertung ist zwingend eine Datenbank erforderlich.
+    isCorrect: false
+  - text: Mehrere Antworten können richtig sein.
+    isCorrect: true
+  - text: Die Fragen lassen sich mit einem beliebigen Texteditor bearbeiten.
+    isCorrect: true
+explanation: |
+  Die Fragen liegen als einfache Dateien vor und benötigen keine Datenbank.
+  Mehrere Antworten können richtig sein, daher kommen Kontrollkästchen zum Einsatz.
+tags:
+  - toolbox
+  - konzept

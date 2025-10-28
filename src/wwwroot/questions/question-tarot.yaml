@@ -1,0 +1,20 @@
+id: q-tarot
+title: Tarot-Wissen
+prompt: |
+  Welche Aussagen treffen auf das große Arkana des Tarot zu?
+allowsMultiple: true
+options:
+  - text: Es umfasst 22 Karten von Der Narr bis Die Welt.
+    isCorrect: true
+  - text: Alle Karten gehören zu den vier Farben der kleinen Arkana.
+    isCorrect: false
+  - text: Karten wie Die Hohepriesterin oder Der Wagen zählen dazu.
+    isCorrect: true
+  - text: Die Karten werden ausschließlich in numerischer Reihenfolge gelegt.
+    isCorrect: false
+explanation: |
+  Das große Arkana besteht aus 22 Trumpfkarten, darunter Die Hohepriesterin und Der Wagen.
+  Die vier Farben finden sich dagegen in der kleinen Arkana wieder.
+tags:
+  - tarot
+  - kartenwissen
