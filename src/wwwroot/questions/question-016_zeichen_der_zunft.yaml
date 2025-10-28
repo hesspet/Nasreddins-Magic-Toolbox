@@ -1,7 +1,8 @@
 id: q-016
 title: Geheimschrift der Mentalisten
 prompt: |
-  Dürfte ich Sie ersuchen, mir zu nennen, welche beiden Hilfsmittel wir Mentalmagier verwenden, um unbemerkt Zahlen oder Worte niederzuschreiben, nachdem das Orakel gesprochen hat? (Bitte wählen Sie 2 Antworten)
+  Dürfte ich Sie ersuchen, mir zu nennen, welche beiden Hilfsmittel wir Mentalmagier verwenden, 
+  um unbemerkt Zahlen oder Worte niederzuschreiben, nachdem das Orakel gesprochen hat? (Bitte wählen Sie 2 Antworten)
 allowsMultiple: true
 options:
   - text: Swami Gimmick

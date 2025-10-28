@@ -1,7 +1,8 @@
 id: q-032
 title: Kodex der Geheimhaltung
 prompt: |
-  Dürfte ich höflich erfahren, wie wir das Gelöbnis nennen, in dem wir versprechen, die Geheimnisse unserer Kunst nur an würdige Eingeweihte weiterzugeben? (Bitte wählen Sie 1 Antwort)
+  Dürfte ich höflich erfahren, wie wir das Gelöbnis nennen, in dem wir versprechen, 
+  die Geheimnisse unserer Kunst nur an würdige Eingeweihte weiterzugeben? (Bitte wählen Sie 1 Antwort)
 allowsMultiple: false
 options:
   - text: Magician's Oath

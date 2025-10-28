@@ -1,7 +1,8 @@
 id: q-025
 title: Weltmeisterschaft der Zauberkunst
 prompt: |
-  Dürfte ich Sie höflich fragen, wie der internationale Wettbewerb heißt, bei dem alle drei Jahre die Besten unserer Zunft um die Grand-Prix-Trophäe kämpfen? (Bitte wählen Sie 1 Antwort)
+  Dürfte ich Sie höflich fragen, wie der internationale Wettbewerb heißt, 
+  bei dem alle drei Jahre die Besten unserer Zunft um die Grand-Prix-Trophäe kämpfen? (Bitte wählen Sie 1 Antwort)
 allowsMultiple: false
 options:
   - text: FISM World Championships

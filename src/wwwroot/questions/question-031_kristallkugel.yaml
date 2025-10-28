@@ -1,7 +1,8 @@
 id: q-031
 title: Werkzeuge der Séance
 prompt: |
-  Wären Sie so freundlich, mir mitzuteilen, welche beiden Utensilien wir traditionell in Séancen verwenden, damit Botschaften scheinbar aus dem Jenseits erscheinen? (Bitte wählen Sie 2 Antworten)
+  Wären Sie so freundlich, mir mitzuteilen, welche beiden Utensilien wir traditionell 
+  in Séancen verwenden, damit Botschaften scheinbar aus dem Jenseits erscheinen? (Bitte wählen Sie 2 Antworten)
 allowsMultiple: true
 options:
   - text: Spirit Slates

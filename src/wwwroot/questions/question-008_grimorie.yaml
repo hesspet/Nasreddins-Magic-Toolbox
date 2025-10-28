@@ -1,7 +1,8 @@
 id: q-008
 title: Klassische Auswahltechnik
 prompt: |
-  Dürfte ich erfahren, wie wir die Kartenwahl nennen, bei der die Zuschauerin scheinbar frei entscheidet, wir sie jedoch sanft zu einer bestimmten Karte führen? (Bitte wählen Sie 1 Antwort)
+  Dürfte ich erfahren, wie wir die Kartenwahl nennen, bei der die Zuschauerin scheinbar 
+  frei entscheidet, wir sie jedoch sanft zu einer bestimmten Karte führen? (Bitte wählen Sie 1 Antwort)
 allowsMultiple: false
 options:
   - text: Klassische Force

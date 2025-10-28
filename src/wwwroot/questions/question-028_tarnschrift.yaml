@@ -1,7 +1,8 @@
 id: q-028
 title: Geheimzeichen auf Spielkarten
 prompt: |
-  Dürfte ich höflich erfahren, wie wir ein Kartenspiel nennen, dessen Rückseiten mit verborgenen Zeichen versehen sind, damit wir die Werte im Verborgenen lesen können? (Bitte wählen Sie 1 Antwort)
+  Dürfte ich höflich erfahren, wie wir ein Kartenspiel nennen, dessen Rückseiten mit verborgenen Zeichen 
+  versehen sind, damit wir die Werte im Verborgenen lesen können? (Bitte wählen Sie 1 Antwort)
 allowsMultiple: false
 options:
   - text: Marked Deck

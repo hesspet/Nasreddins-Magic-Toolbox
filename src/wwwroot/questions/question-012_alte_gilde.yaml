@@ -1,7 +1,8 @@
 id: q-012
 title: Treffpunkt der Zauberergilde
 prompt: |
-  Würden Sie mir bitte verraten, wie das legendäre Klubhaus in Hollywood heißt, in dem sich Zauberinnen und Zauberer zum Austausch arcana treffen? (Bitte wählen Sie 1 Antwort)
+  Würden Sie mir bitte verraten, wie das legendäre Klubhaus in Hollywood heißt, 
+  in dem sich Zauberinnen und Zauberer zum Austausch arcana treffen? (Bitte wählen Sie 1 Antwort)
 allowsMultiple: false
 options:
   - text: The Magic Castle

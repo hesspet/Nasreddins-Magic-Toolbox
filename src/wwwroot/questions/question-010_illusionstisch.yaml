@@ -1,7 +1,8 @@
 id: q-010
 title: Unsichtbare Fäden
 prompt: |
-  Würden Sie mir bitte verraten, wie wir den hauchdünnen Faden nennen, mit dem schwebende Karten und Ringe inszeniert werden? (Bitte wählen Sie 1 Antwort)
+  Würden Sie mir bitte verraten, wie wir den hauchdünnen Faden nennen, 
+  mit dem schwebende Karten und Ringe inszeniert werden? (Bitte wählen Sie 1 Antwort)
 allowsMultiple: false
 options:
   - text: Unsichtbares Elastic Thread

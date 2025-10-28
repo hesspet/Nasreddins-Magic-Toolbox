@@ -1,7 +1,8 @@
 id: q-029
 title: Gesteuertes Kartenstapel-System
 prompt: |
-  Wären Sie so freundlich, mir mitzuteilen, wie das klassische Kartenstapelsystem heißt, das auf der Reihenfolge +3 basiert und uns jede Karte vorhersagen lässt? (Bitte wählen Sie 1 Antwort)
+  Wären Sie so freundlich, mir mitzuteilen, wie das klassische Kartenstapelsystem heißt, 
+  das auf der Reihenfolge +3 basiert und uns jede Karte vorhersagen lässt? (Bitte wählen Sie 1 Antwort)
 allowsMultiple: false
 options:
   - text: Si Stebbins Stack

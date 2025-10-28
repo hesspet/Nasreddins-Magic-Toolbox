@@ -1,7 +1,8 @@
 id: q-007
 title: Technik der Münzmagie
 prompt: |
-  Wären Sie so freundlich, mir zu erläutern, wie wir den Handgriff nennen, bei dem eine Münze scheinbar in die andere Hand wandert, tatsächlich jedoch heimlich gehalten wird? (Bitte wählen Sie 1 Antwort)
+  Wären Sie so freundlich, mir zu erläutern, wie wir den Handgriff nennen, bei dem 
+  eine Münze scheinbar in die andere Hand wandert, tatsächlich jedoch heimlich gehalten wird? (Bitte wählen Sie 1 Antwort)
 allowsMultiple: false
 options:
   - text: Franzosenabzug
@@ -13,6 +14,7 @@ options:
   - text: Runenwurf
     isCorrect: false
 explanation: |
-  Die Französische Abgabe ist eine klassische Scheingabe der Münzmagie, bei der die Münze in der ursprünglichen Hand verbleibt.
+  Die Französische Abgabe ist eine klassische Scheingabe der 
+  Münzmagie, bei der die Münze in der ursprünglichen Hand verbleibt.
 tags:
   - muenzkunst

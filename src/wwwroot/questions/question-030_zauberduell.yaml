@@ -1,7 +1,8 @@
 id: q-030
 title: Sprachliche Beeinflussung
 prompt: |
-  Dürfte ich Sie höflich bitten, mir mitzuteilen, wie wir das sprachliche Manöver nennen, mit dem wir durch geschickte Formulierungen eine scheinbar freie Wahl steuern? (Bitte wählen Sie 1 Antwort)
+  Dürfte ich Sie höflich bitten, mir mitzuteilen, wie wir das sprachliche Manöver nennen, 
+  mit dem wir durch geschickte Formulierungen eine scheinbar freie Wahl steuern? (Bitte wählen Sie 1 Antwort)
 allowsMultiple: false
 options:
   - text: Equivoque

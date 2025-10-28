@@ -1,7 +1,8 @@
 id: q-022
 title: Klassiker der Seilmagie
 prompt: |
-  Wären Sie so freundlich, mir mitzuteilen, welche beiden Routinen wir in der Seilmagie als echte Klassiker betrachten, wenn es um Längenverwandlungen und Wiederherstellungen geht? (Bitte wählen Sie 2 Antworten)
+  Wären Sie so freundlich, mir mitzuteilen, welche beiden Routinen wir in der Seilmagie 
+  als echte Klassiker betrachten, wenn es um Längenverwandlungen und Wiederherstellungen geht? (Bitte wählen Sie 2 Antworten)
 allowsMultiple: true
 options:
   - text: Professor's Nightmare

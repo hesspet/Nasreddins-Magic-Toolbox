@@ -1,16 +1,17 @@
 id: q-005
 title: Grundgriff der Kartenkunst
 prompt: |
-  Wären Sie so zuvorkommend, mir mitzuteilen, wie wir den Griff nennen, bei dem heimlich zwei Spielkarten als eine präsentiert werden? (Bitte wählen Sie 1 Antwort)
+  Wären Sie so zuvorkommend, mir mitzuteilen, wie wir den Griff nennen, bei dem heimlich 
+  zwei Spielkarten als eine präsentiert werden? (Bitte wählen Sie 1 Antwort)
 allowsMultiple: false
 options:
-  - text: Doppelte Drehung
+  - text: Doppelte Drehung (Double Turn)
     isCorrect: false
-  - text: Doppelter Lift
+  - text: Doppelter Lift (Double Lift)
     isCorrect: true
-  - text: Schleiergriff
+  - text: Schleiergriff (Veil Grip)
     isCorrect: false
-  - text: Lunarer Fächer
+  - text: Lunarer Fächer (Lunar Fan)
     isCorrect: false
 explanation: |
   Der doppelte Lift ist ein grundlegender Griff der Kartenmagie, bei dem zwei Karten wie eine einzelne gehandhabt werden.

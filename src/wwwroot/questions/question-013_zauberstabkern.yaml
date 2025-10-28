@@ -1,7 +1,8 @@
 id: q-013
 title: Geheime Manteltasche
 prompt: |
-  Wären Sie so freundlich, mir zu nennen, wie wir die unsichtbare Tasche im Mantelinneren bezeichnen, in der während einer Nummer Gegenstände verschwinden? (Bitte wählen Sie 1 Antwort)
+  Wären Sie so freundlich, mir zu nennen, wie wir die unsichtbare Tasche im Mantelinneren bezeichnen, 
+  in der während einer Nummer Gegenstände verschwinden? (Bitte wählen Sie 1 Antwort)
 allowsMultiple: false
 options:
   - text: Topit

@@ -1,7 +1,8 @@
 id: q-033
 title: Historisches Zauberwerk
 prompt: |
-  Wären Sie so freundlich, mir mitzuteilen, wie das früh gedruckte Werk heißt, das 1584 viele Zauberkunststücke beschrieb und unsere Chronik bis heute prägt? (Bitte wählen Sie 1 Antwort)
+  Wären Sie so freundlich, mir mitzuteilen, wie das früh gedruckte Werk heißt, 
+  das 1584 viele Zauberkunststücke beschrieb und unsere Chronik bis heute prägt? (Bitte wählen Sie 1 Antwort)
 allowsMultiple: false
 options:
   - text: The Discoverie of Witchcraft

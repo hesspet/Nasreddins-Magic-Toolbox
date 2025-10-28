@@ -1,7 +1,8 @@
 id: q-020
 title: Geheimnis der Schrankillusion
 prompt: |
-  Wären Sie so freundlich, mir zu verraten, wie wir Zauberkünstler die verborgene Öffnung im Bühnenboden nennen, durch die eine Assistentin lautlos entschwindet? (Bitte wählen Sie 1 Antwort)
+  Wären Sie so freundlich, mir zu verraten, wie wir Zauberkünstler die verborgene Öffnung 
+  im Bühnenboden nennen, durch die eine Assistentin lautlos entschwindet? (Bitte wählen Sie 1 Antwort)
 allowsMultiple: false
 options:
   - text: Falltür
