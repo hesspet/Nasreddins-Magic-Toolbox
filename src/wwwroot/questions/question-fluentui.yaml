@@ -1,0 +1,17 @@
+id: q-fluentui
+title: Fluent UI Orientierung
+prompt: |
+  Woran orientiert sich das Design der Quiz-Komponente?
+allowsMultiple: false
+options:
+  - text: An der Microsoft Fluent UI Designsprache.
+    isCorrect: true
+  - text: An Bootstrap 3.
+    isCorrect: false
+  - text: Am Material Design der ersten Generation.
+    isCorrect: false
+explanation: |
+  Farb- und Typografieentscheidungen orientieren sich an Fluent UI.
+tags:
+  - design
+  - fluentui

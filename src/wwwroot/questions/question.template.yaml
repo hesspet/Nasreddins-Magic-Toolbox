@@ -1,0 +1,23 @@
+# Beispiel-Vorlage für eine Quiz-Frage
+# Jede Frage steht in einer eigenen Datei und verwendet YAML.
+# Kommentare beginnen mit # und können beim Schreiben entfernt werden.
+
+id: q-template
+title: Kurzer Titel der Frage
+prompt: |
+  Beschreibe hier die eigentliche Frage. Mehrzeilige Texte sind möglich.
+
+allowsMultiple: false  # true, wenn mehrere Antworten korrekt sein dürfen
+
+options:
+  - text: Erste Antwortmöglichkeit
+    isCorrect: false
+    description: Optionale Zusatzinformation zur Antwort
+  - text: Zweite Antwortmöglichkeit
+    isCorrect: true
+
+explanation: |
+  Optionale Erläuterung, die nach der Auswertung angezeigt wird.
+
+tags:
+  - optionales-tag
