@@ -18,6 +18,7 @@
             <div class="face-analysis-deck__search">
                 <input id="faceAnalysisCardSearch"
                        class="form-control"
+                       @ref="cardSearchInputRef"
                        value="@CardSearchTerm"
                        @oninput="OnCardSearch"
                        placeholder="@DisplayTexts.TarotSearchLabel"
@@ -51,8 +52,18 @@
         <footer class="face-analysis-step__footer">
             <button type="button"
                     class="fluent-button"
+                    title="Weiter zum nächsten Schritt"
+                    aria-label="Weiter zum nächsten Schritt"
                     disabled="@(!IsNextEnabled)"
-                    @onclick="OnNext">Weiter</button>
+                    @onclick="OnNext">
+                <span class="fluent-button__icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" role="img" focusable="false">
+                        <path d="M5.75 4.75a.75.75 0 0 1 .743-.648h8.69l-2.72-2.72a.75.75 0 0 1 1.06-1.06l4.5 4.5a.75.75 0 0 1 0 1.06l-4.5 4.5a.75.75 0 0 1-1.06-1.06l2.72-2.72H6.493A.75.75 0 0 1 5.75 6.5v-1.75Z"
+                              fill="currentColor" />
+                    </svg>
+                </span>
+                <span>Weiter</span>
+            </button>
         </footer>
     </div>
 </div>
@@ -142,9 +153,44 @@
         get; set;
     }
 
+    [Parameter]
+    public int SearchFocusRequestId
+    {
+        get; set;
+    }
+
+    private ElementReference cardSearchInputRef;
+    private bool shouldFocusSearchInput;
+    private int lastProcessedFocusRequestId;
+
     private Task OnCardSearch(ChangeEventArgs args)
     {
         var value = args?.Value?.ToString() ?? string.Empty;
         return CardSearchTermChanged.InvokeAsync(value);
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (SearchFocusRequestId != 0 && SearchFocusRequestId != lastProcessedFocusRequestId)
+        {
+            lastProcessedFocusRequestId = SearchFocusRequestId;
+            shouldFocusSearchInput = true;
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!shouldFocusSearchInput)
+        {
+            return;
+        }
+
+        if (!CanSearchCards)
+        {
+            return;
+        }
+
+        shouldFocusSearchInput = false;
+        await cardSearchInputRef.FocusAsync();
     }
 }

@@ -124,12 +124,39 @@
         }
 
         <footer class="face-analysis-step__footer face-analysis-step__footer--split">
-            <button type="button"
-                    class="fluent-button fluent-button--secondary"
-                    @onclick="OnBack">Zurück</button>
+            <div class="face-analysis-step__actions">
+                <button type="button"
+                        class="fluent-button fluent-button--secondary"
+                        title="Zum vorherigen Schritt"
+                        aria-label="Zum vorherigen Schritt"
+                        @onclick="OnBack">
+                    <span class="fluent-button__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" role="img" focusable="false">
+                            <path d="M13 3.5a1 1 0 0 1 0 2H8.41l3.3 3.29a1 1 0 0 1-1.32 1.5l-.1-.08-4.5-4.5a1 1 0 0 1 0-1.42l4.5-4.5a1 1 0 0 1 1.5 1.32l-.08.1L8.4 3.5H13Z"
+                                  fill="currentColor" />
+                        </svg>
+                    </span>
+                    <span>Zurück</span>
+                </button>
+                <button type="button"
+                        class="fluent-button fluent-button--ghost"
+                        title="Workflow neu starten"
+                        aria-label="Workflow neu starten"
+                        @onclick="OnRestart">
+                    <span class="fluent-button__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" role="img" focusable="false">
+                            <path d="M20.5 4.75a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V7.56l-.22.22a8 8 0 1 1-5.65-2.34.75.75 0 1 1 0 1.5 6.5 6.5 0 1 0 4.6 1.9l-.23-.22V9.5a.75.75 0 0 1-1.5 0v-4a.75.75 0 0 1 .75-.75h3Z"
+                                  fill="currentColor" />
+                        </svg>
+                    </span>
+                    <span>Restart</span>
+                </button>
+            </div>
             <div class="face-analysis-step__actions">
                 <button type="button"
                         class="fluent-button fluent-button--ghost"
+                        title="Analyse aktualisieren"
+                        aria-label="Analyse aktualisieren"
                         disabled="@(!CanRefresh || IsRefreshing)"
                         @onclick="OnRefresh">
                     @if (IsRefreshing)
@@ -139,13 +166,29 @@
                     }
                     else
                     {
+                        <span class="fluent-button__icon" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" role="img" focusable="false">
+                                <path d="M12 4a8 8 0 0 1 7.75 6.25.75.75 0 0 1-1.47.3A6.5 6.5 0 1 0 18.5 12h-1.75a.75.75 0 0 1-.1-1.5H20a.75.75 0 0 1 .75.75V17a.75.75 0 0 1-1.5 0v-1.94A8 8 0 1 1 12 4Z"
+                                      fill="currentColor" />
+                            </svg>
+                        </span>
                         <span>@DisplayTexts.FaceAnalysisRefreshButton</span>
                     }
                 </button>
                 <button type="button"
                         class="fluent-button"
+                        title="Merge starten"
+                        aria-label="Merge starten"
                         disabled="@(AnalysisResult is null)"
-                        @onclick="OnStartMerge">Start Merge</button>
+                        @onclick="OnStartMerge">
+                    <span class="fluent-button__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" role="img" focusable="false">
+                            <path d="M5.75 6a1 1 0 0 1 1-1h10.5a1 1 0 0 1 .83 1.56l-5.25 7.5a1 1 0 0 1-1.66 0l-5.25-7.5A1 1 0 0 1 5.75 6Zm1.9 1.5L12 13.38l4.35-5.88H7.65ZM6.75 16h10.5a1 1 0 1 1 0 2H6.75a1 1 0 1 1 0-2Z"
+                                  fill="currentColor" />
+                        </svg>
+                    </span>
+                    <span>Start Merge</span>
+                </button>
             </div>
         </footer>
     </div>
@@ -160,6 +203,12 @@
 
     [Parameter]
     public EventCallback OnStartMerge
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public EventCallback OnRestart
     {
         get; set;
     }

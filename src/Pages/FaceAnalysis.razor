@@ -30,6 +30,7 @@
                                            ShouldShowCardNotFound="@ShouldShowCardNotFound"
                                            SelectedCardDisplayName="@_selectedCard?.DisplayName"
                                            SelectedCardImageDataUrl="@SelectedCardImageDataUrl"
+                                           SearchFocusRequestId="@_searchFocusRequestId"
                                            OnNext="@GoToCaptureStep"
                                            IsNextEnabled="@(SelectedCardImageBytes is not null)" />
             break;
@@ -37,6 +38,7 @@
             <FaceAnalysisCaptureStep OnBack="@GoToDeckSelectionStep"
                                      OnPhotoCaptured="@HandlePhotoCapturedAsync"
                                      OnStartAnalysis="@StartAnalysisAsync"
+                                     OnRestart="@RestartWorkflow"
                                      StatusMessage="@_captureStatusMessage"
                                      ImageDataUrl="@_imageDataUrl"
                                      IsAnalyzing="@_isAnalyzing"
@@ -45,6 +47,7 @@
             break;
         case FaceAnalysisStep.Analysis:
             <FaceAnalysisAnalysisStep OnBack="@ReturnToCaptureStep"
+                                      OnRestart="@RestartWorkflow"
                                       OnStartMerge="@GoToMergeStep"
                                       AnalysisResult="@_analysisResult"
                                       ImageDataUrl="@_imageDataUrl"
@@ -63,6 +66,7 @@
             break;
         case FaceAnalysisStep.Merge:
             <FaceAnalysisMergeStep OnBack="@ReturnToAnalysisStep"
+                                   OnRestart="@RestartWorkflow"
                                    AnalysisResult="@_analysisResult"
                                    PhotoImageBytes="@_lastImageData"
                                    PhotoContentType="@_lastImageContentType"
@@ -82,6 +86,7 @@
     private FaceAnalysisStep _currentStep = FaceAnalysisStep.DeckSelection;
     private bool _isLoadingDecks;
     private bool _isDeckDataLoading;
+    private int _searchFocusRequestId;
     private string? _imageDataUrl;
     private string? _captureStatusMessage;
     private string? _analysisSummary;
@@ -489,6 +494,22 @@
     private void ReturnToAnalysisStep()
     {
         _currentStep = FaceAnalysisStep.Analysis;
+    }
+
+    private void RestartWorkflow()
+    {
+        _currentStep = FaceAnalysisStep.DeckSelection;
+        _cardSearchTerm = string.Empty;
+        _captureStatusMessage = null;
+        _analysisSummary = null;
+        _analysisResult = null;
+        _imageDataUrl = null;
+        _lastImageData = null;
+        _lastImageContentType = null;
+        _isAnalyzing = false;
+        _isRefreshing = false;
+        ClearSelectedCard();
+        _searchFocusRequestId++;
     }
 
     private sealed record DeckCardInfo(string DeckId, string CardId, string DisplayName, string ImageDataUrl);

@@ -110,6 +110,20 @@
     background: rgba(37, 99, 235, 0.1);
 }
 
+:global(.fluent-button__icon) {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+:global(.fluent-button__icon svg) {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+}
+
 :global(.fluent-spinner) {
     width: 1.5rem;
     height: 1.5rem;
