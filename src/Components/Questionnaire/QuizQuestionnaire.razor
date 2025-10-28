@@ -36,10 +36,14 @@
         </header>
 
         <section class="quiz-body">
-            @foreach (var state in _questionStates)
+            @for (var questionIndex = 0; questionIndex < _questionStates.Count; questionIndex++)
             {
+                var state = _questionStates[questionIndex];
                 var cardClasses = $"quiz-card {(state.IsCorrect is true ? "quiz-card-correct" : state.IsCorrect is false ? "quiz-card-incorrect" : string.Empty)}";
-                <article class="@cardClasses" @key="state.Question.Id">
+                var inputType = state.Question.AllowsMultiple ? "checkbox" : "radio";
+                var optionGroupName = BuildOptionGroupName(state, questionIndex);
+
+                <article class="@cardClasses" @key="GetQuestionKey(state, questionIndex)">
                     <header class="quiz-card-header">
                         <div class="quiz-card-title">@state.Question.Title</div>
                         <div class="quiz-card-meta">
@@ -75,7 +79,9 @@
 
                             <li class="@string.Join(" ", optionClasses)">
                                 <label>
-                                    <input type="checkbox"
+                                    <input type="@inputType"
+                                           name="@optionGroupName"
+                                           value="@index"
                                            disabled="@(_timeExpired)"
                                            checked="@isChecked"
                                            @onchange="async args => await OnOptionChangedAsync(state, index, args)" />
@@ -142,6 +148,7 @@
     public EventCallback<QuestionnaireResult> CompletionChanged { get; set; }
 
     private readonly List<QuestionState> _questionStates = new();
+    private readonly string _componentUid = $"quiz-{System.Guid.NewGuid():N}";
     private bool _isLoading = true;
     private string? _loadError;
     private System.Timers.Timer? _timer;
@@ -267,8 +274,10 @@
         var isChecked = args.Value switch
         {
             bool boolean => boolean,
-            string text when bool.TryParse(text, out var parsed) => parsed,
+            string text when bool.TryParse(text, out var parsedBool) => parsedBool,
             string text when string.Equals(text, "on", System.StringComparison.OrdinalIgnoreCase) => true,
+            string text when int.TryParse(text, System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture, out var parsedIndex) => parsedIndex == optionIndex,
+            null => false,
             _ => false
         };
 
@@ -287,6 +296,20 @@
         }
 
         await EvaluateQuestionAsync(state);
+    }
+
+    private static string GetQuestionKey(QuestionState state, int questionIndex) =>
+        string.IsNullOrWhiteSpace(state.Question.Id)
+            ? $"question-{questionIndex}"
+            : state.Question.Id;
+
+    private string BuildOptionGroupName(QuestionState state, int questionIndex)
+    {
+        var baseName = !string.IsNullOrWhiteSpace(state.Question.Id)
+            ? state.Question.Id
+            : $"question-{questionIndex}";
+
+        return $"{_componentUid}-{baseName}";
     }
 
     private async Task EvaluateQuestionAsync(QuestionState state)
