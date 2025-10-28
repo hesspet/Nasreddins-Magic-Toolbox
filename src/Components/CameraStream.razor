@@ -1,4 +1,6 @@
 @using Microsoft.AspNetCore.Components.Forms
+@using System
+@using System.IO
 @implements IAsyncDisposable
 @inject IJSRuntime JSRuntime
 @inject TemporaryImageStorage ImageStorage
@@ -38,6 +40,7 @@
 </div>
 
 @code {
+    private const long MaxUploadSize = 10 * 1024 * 1024;
     private readonly string _fileInputElementId = $"cameraStreamInput_{Guid.NewGuid():N}";
     private IJSObjectReference? _module;
     private ElementReference _videoElement;
@@ -133,10 +136,17 @@
         await _module.InvokeVoidAsync("triggerFileInput", _fileInputElementId);
     }
 
-    private async Task HandleFileSelected(InputFileChangeEventArgs _)
+    private async Task HandleFileSelected(InputFileChangeEventArgs args)
     {
+        var file = args?.File;
+        if (file is null)
+        {
+            return;
+        }
+
         if (_module is null)
         {
+            await StoreFileFromInputAsync(file);
             return;
         }
 
@@ -156,6 +166,22 @@
         catch (JSException jsException)
         {
             _statusMessage = CameraSettings.BuildCaptureErrorMessage(jsException.Message);
+        }
+    }
+
+    private async Task StoreFileFromInputAsync(IBrowserFile file)
+    {
+        try
+        {
+            await using var readStream = file.OpenReadStream(MaxUploadSize);
+            using var memoryStream = new MemoryStream();
+            await readStream.CopyToAsync(memoryStream);
+
+            await StoreAndNotifyAsync(memoryStream.ToArray(), file.ContentType);
+        }
+        catch (Exception ex)
+        {
+            _statusMessage = CameraSettings.BuildCaptureErrorMessage(ex.Message);
         }
     }
 

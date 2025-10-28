@@ -26,3 +26,10 @@
     font-size: 0.95rem;
     color: rgba(15, 23, 42, 0.75);
 }
+
+.face-analysis-capture__placeholder {
+    margin: 0;
+    font-size: 0.95rem;
+    font-style: italic;
+    color: rgba(15, 23, 42, 0.7);
+}
