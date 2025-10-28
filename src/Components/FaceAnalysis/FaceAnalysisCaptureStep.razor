@@ -29,12 +29,39 @@
             }
         </section>
 
-        <footer class="face-analysis-step__footer">
-            <button type="button"
-                    class="fluent-button fluent-button--secondary"
-                    @onclick="OnBack">Zurück</button>
+        <footer class="face-analysis-step__footer face-analysis-step__footer--split">
+            <div class="face-analysis-step__actions">
+                <button type="button"
+                        class="fluent-button fluent-button--secondary"
+                        title="Zum vorherigen Schritt"
+                        aria-label="Zum vorherigen Schritt"
+                        @onclick="OnBack">
+                    <span class="fluent-button__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" role="img" focusable="false">
+                            <path d="M13 3.5a1 1 0 0 1 0 2H8.41l3.3 3.29a1 1 0 0 1-1.32 1.5l-.1-.08-4.5-4.5a1 1 0 0 1 0-1.42l4.5-4.5a1 1 0 0 1 1.5 1.32l-.08.1L8.4 3.5H13Z"
+                                  fill="currentColor" />
+                        </svg>
+                    </span>
+                    <span>Zurück</span>
+                </button>
+                <button type="button"
+                        class="fluent-button fluent-button--ghost"
+                        title="Workflow neu starten"
+                        aria-label="Workflow neu starten"
+                        @onclick="OnRestart">
+                    <span class="fluent-button__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" role="img" focusable="false">
+                            <path d="M20.5 4.75a.75.75 0 0 1 .75.75v4a.75.75 0 0 1-1.5 0V7.56l-.22.22a8 8 0 1 1-5.65-2.34.75.75 0 1 1 0 1.5 6.5 6.5 0 1 0 4.6 1.9l-.23-.22V9.5a.75.75 0 0 1-1.5 0v-4a.75.75 0 0 1 .75-.75h3Z"
+                                  fill="currentColor" />
+                        </svg>
+                    </span>
+                    <span>Restart</span>
+                </button>
+            </div>
             <button type="button"
                     class="fluent-button"
+                    title="Analyse starten"
+                    aria-label="Analyse starten"
                     disabled="@(!IsStartEnabled || IsAnalyzing)"
                     @onclick="OnStartAnalysis">
                 @if (IsAnalyzing)
@@ -44,6 +71,12 @@
                 }
                 else
                 {
+                    <span class="fluent-button__icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" role="img" focusable="false">
+                            <path d="M6.75 4.43a1 1 0 0 1 1.5-.86l9 5.57a1 1 0 0 1 0 1.72l-9 5.57a1 1 0 0 1-1.5-.86V4.43Z"
+                                  fill="currentColor" />
+                        </svg>
+                    </span>
                     <span>Start Analyse</span>
                 }
             </button>
@@ -66,6 +99,12 @@
 
     [Parameter]
     public EventCallback OnStartAnalysis
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public EventCallback OnRestart
     {
         get; set;
     }
