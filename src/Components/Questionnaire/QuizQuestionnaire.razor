@@ -153,7 +153,7 @@
     private bool AllCorrect => _questionStates.All(q => q.IsCorrect == true);
     private bool IsCriticalTime => TimeLimitSeconds > 0 && _remainingSeconds <= Math.Max(10, TimeLimitSeconds / 5);
 
-    private string FormattedRemainingTime => TimeSpan.FromSeconds(Math.Max(_remainingSeconds, 0)).ToString("mm\:ss");
+    private string FormattedRemainingTime => TimeSpan.FromSeconds(Math.Max(_remainingSeconds, 0)).ToString("mm':'ss");
 
     protected override async Task OnInitializedAsync()
     {
