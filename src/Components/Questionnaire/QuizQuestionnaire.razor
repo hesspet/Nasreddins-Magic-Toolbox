@@ -2,6 +2,7 @@
 @using Toolbox.Services.Questionnaire
 @implements IDisposable
 @inject QuestionnaireService QuestionnaireService
+@inject Toolbox.Services.InMemoryLogService LogService
 
 <div class="quiz-questionnaire">
     @if (_isLoading)
@@ -168,10 +169,13 @@
 
         try
         {
+            LogService.LogDebug($"[{_componentUid}] Initialisiere Fragebogen mit QuestionCount={QuestionCount}, TimeLimitSeconds={TimeLimitSeconds}.");
             var allQuestions = await QuestionnaireService.LoadAllQuestionsAsync();
+            LogService.LogDebug($"[{_componentUid}] Vom Service wurden {allQuestions.Count} Fragen geladen.");
             if (allQuestions.Count == 0)
             {
                 _loadError = "Es konnten keine Fragen geladen werden.";
+                LogService.LogWarning($"[{_componentUid}] Es wurden keine Fragen geladen – Fehlermeldung wird angezeigt.");
                 return;
             }
 
@@ -179,16 +183,20 @@
                 .OrderBy(_ => Random.Shared.Next())
                 .Take(Math.Min(QuestionCount <= 0 ? allQuestions.Count : QuestionCount, allQuestions.Count))
                 .ToList();
+            LogService.LogDebug($"[{_componentUid}] {selectedQuestions.Count} Fragen für den Fragebogen ausgewählt (Zielanzahl={QuestionCount}).");
 
             if (selectedQuestions.Count == 0)
             {
                 _loadError = "Es konnten keine Fragen ausgewählt werden.";
+                LogService.LogWarning($"[{_componentUid}] Nach der Auswahl sind keine Fragen übrig – Fehlermeldung wird angezeigt.");
                 return;
             }
 
             foreach (var question in selectedQuestions)
             {
-                _questionStates.Add(new QuestionState(question));
+                var state = new QuestionState(question);
+                _questionStates.Add(state);
+                LogService.LogDebug($"[{_componentUid}] Frage '{GetQuestionLogLabel(state, _questionStates.Count - 1)}' mit {state.Question.Options.Count} Optionen vorbereitet. Mehrfachauswahl={(state.Question.AllowsMultiple ? "ja" : "nein")}.");
             }
 
             await PublishResultAsync(force: true);
@@ -196,10 +204,12 @@
         catch (Exception ex)
         {
             _loadError = $"Fragen konnten nicht geladen werden: {ex.Message}";
+            LogService.LogError($"[{_componentUid}] Fehler beim Laden der Fragen: {ex}");
         }
         finally
         {
             _isLoading = false;
+            LogService.LogDebug($"[{_componentUid}] Initialisierung abgeschlossen. Gesamtfragen={_questionStates.Count}.");
         }
     }
 
@@ -228,6 +238,7 @@
 
         _timer.Elapsed += async (_, _) => await HandleTimerAsync();
         _timer.Start();
+        LogService.LogDebug($"[{_componentUid}] Countdown gestartet mit {_remainingSeconds} Sekunden Restzeit.");
     }
 
     private async Task HandleTimerAsync()
@@ -247,6 +258,7 @@
             _timeExpired = true;
             StopTimer();
             await PublishResultAsync(force: true);
+            LogService.LogInformation($"[{_componentUid}] Zeitlimit erreicht – Antworten werden eingefroren.");
         }
 
         await InvokeAsync(StateHasChanged);
@@ -262,12 +274,14 @@
         _timer.Stop();
         _timer.Dispose();
         _timer = null;
+        LogService.LogDebug($"[{_componentUid}] Countdown gestoppt. Restzeit={_remainingSeconds} Sekunden, Zeit abgelaufen={_timeExpired}.");
     }
 
     private async Task OnOptionChangedAsync(QuestionState state, int optionIndex, ChangeEventArgs args)
     {
         if (_timeExpired)
         {
+            LogService.LogWarning($"[{_componentUid}] Eingabe ignoriert, da das Zeitlimit überschritten ist (Frage '{GetQuestionLogLabel(state)}', OptionIndex={optionIndex}).");
             return;
         }
 
@@ -281,9 +295,12 @@
             _ => false
         };
 
+        LogService.LogDebug($"[{_componentUid}] Auswahländerung für Frage '{GetQuestionLogLabel(state)}': OptionIndex={optionIndex}, RawValue='{args.Value ?? "<null>"}', AlsAusgewähltInterpret={isChecked}.");
+
         if (!state.Question.AllowsMultiple && isChecked)
         {
             state.SelectedOptionIndices.Clear();
+            LogService.LogDebug($"[{_componentUid}] Einzelantwort-Frage '{GetQuestionLogLabel(state)}': Vorherige Auswahl zurückgesetzt.");
         }
 
         if (isChecked)
@@ -329,6 +346,7 @@
                 {
                     state.SelectedOptionIndices.Add(index);
                 }
+                LogService.LogWarning($"[{_componentUid}] Ungültige Antwort-Indizes entfernt für Frage '{GetQuestionLogLabel(state)}'. Aktuelle Auswahl: {string.Join(",", state.SelectedOptionIndices.OrderBy(index => index))}.");
             }
 
             var hasWrongSelection = state.SelectedOptionIndices
@@ -341,11 +359,13 @@
 
             state.IsCorrect = !hasWrongSelection && !isMissingRequired;
             state.IsEvaluated = true;
+            LogService.LogDebug($"[{_componentUid}] Bewertung abgeschlossen für Frage '{GetQuestionLogLabel(state)}': Auswahl={string.Join(",", state.SelectedOptionIndices.OrderBy(index => index))}, Korrekt={state.IsCorrect}.");
         }
         else
         {
             state.IsCorrect = null;
             state.IsEvaluated = false;
+            LogService.LogDebug($"[{_componentUid}] Auswahl für Frage '{GetQuestionLogLabel(state)}' wurde entfernt.");
         }
 
         await PublishResultAsync();
@@ -367,12 +387,18 @@
             {
                 await CompletionChanged.InvokeAsync(result);
             }
+            LogService.LogInformation($"[{_componentUid}] Ergebnisse aktualisiert (force={force}): Korrekt={result.CorrectAnswers}/{result.TotalQuestions}, AlleKorrekt={result.AllCorrect}, ZeitAbgelaufen={result.TimeExpired}.");
+        }
+        else
+        {
+            LogService.LogDebug($"[{_componentUid}] Ergebnis unverändert – keine Aktualisierung erforderlich.");
         }
     }
 
     public void Dispose()
     {
         StopTimer();
+        LogService.LogDebug($"[{_componentUid}] Komponente wird entsorgt.");
     }
 
     private sealed class QuestionState
@@ -398,5 +424,18 @@
         public bool? IsCorrect { get; set; }
 
         public bool IsEvaluated { get; set; }
+    }
+
+    private static string GetQuestionLogLabel(QuestionState state, int? optionIndex = null)
+    {
+        var baseLabel = !string.IsNullOrWhiteSpace(state.Question.Id)
+            ? state.Question.Id
+            : string.IsNullOrWhiteSpace(state.Question.Title)
+                ? "<ohne Kennung>"
+                : state.Question.Title;
+
+        return optionIndex.HasValue
+            ? $"{baseLabel}/#{optionIndex.Value}"
+            : baseLabel;
     }
 }
