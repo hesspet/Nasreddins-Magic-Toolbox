@@ -55,8 +55,9 @@
                     <ul class="quiz-options">
                         @for (var index = 0; index < state.Question.Options.Count; index++)
                         {
-                            var option = state.Question.Options[index];
-                            var isChecked = state.SelectedOptionIndices.Contains(index);
+                            var optionIndex = index;
+                            var option = state.Question.Options[optionIndex];
+                            var isChecked = state.SelectedOptionIndices.Contains(optionIndex);
                             var optionClasses = new List<string> { "quiz-option" };
                             if (_timeExpired)
                             {
@@ -64,11 +65,11 @@
                             }
                             if (state.IsEvaluated)
                             {
-                                if (state.CorrectOptionIndices.Contains(index))
+                                if (state.CorrectOptionIndices.Contains(optionIndex))
                                 {
                                     optionClasses.Add("quiz-option-correct-answer");
                                 }
-                                if (isChecked && !state.CorrectOptionIndices.Contains(index))
+                                if (isChecked && !state.CorrectOptionIndices.Contains(optionIndex))
                                 {
                                     optionClasses.Add("quiz-option-selected-wrong");
                                 }
@@ -82,10 +83,10 @@
                                 <label>
                                     <input type="@inputType"
                                            name="@optionGroupName"
-                                           value="@index"
+                                           value="@optionIndex"
                                            disabled="@(_timeExpired)"
                                            checked="@isChecked"
-                                           @onchange="async args => await OnOptionChangedAsync(state, index, args)" />
+                                           @onchange="async args => await OnOptionChangedAsync(state, optionIndex, args)" />
                                     <span class="quiz-option-text">@option.Text</span>
                                 </label>
                                 @if (!string.IsNullOrWhiteSpace(option.Description))
