@@ -1,0 +1,18 @@
+id: q-029
+title: Gesteuertes Kartenstapel-System
+prompt: |
+  Wären Sie so freundlich, mir mitzuteilen, wie das klassische Kartenstapelsystem heißt, das auf der Reihenfolge +3 basiert und uns jede Karte vorhersagen lässt? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: Si Stebbins Stack
+    isCorrect: true
+  - text: Lunar Progression
+    isCorrect: false
+  - text: Arcane Spiral
+    isCorrect: false
+  - text: Mystic Ladder
+    isCorrect: false
+explanation: |
+  Der Si Stebbins Stack folgt einem festen Zyklus, meist in Vierergruppen mit einem Wertabstand von drei, wodurch Vorhersagen möglich werden.
+tags:
+  - stapeltechnik

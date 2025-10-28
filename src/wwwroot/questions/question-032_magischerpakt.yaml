@@ -1,0 +1,18 @@
+id: q-032
+title: Kodex der Geheimhaltung
+prompt: |
+  Dürfte ich höflich erfahren, wie wir das Gelöbnis nennen, in dem wir versprechen, die Geheimnisse unserer Kunst nur an würdige Eingeweihte weiterzugeben? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: Magician's Oath
+    isCorrect: true
+  - text: Covenant of Shadows
+    isCorrect: false
+  - text: Runenpakt
+    isCorrect: false
+  - text: Arcane Treaty
+    isCorrect: false
+explanation: |
+  Der Magician's Oath verpflichtet Zauberkünstler, Geheimnisse zu wahren und sie nur verantwortungsvoll zu lehren.
+tags:
+  - ethik

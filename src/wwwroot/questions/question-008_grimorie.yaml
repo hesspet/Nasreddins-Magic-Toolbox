@@ -1,0 +1,18 @@
+id: q-008
+title: Klassische Auswahltechnik
+prompt: |
+  Dürfte ich erfahren, wie wir die Kartenwahl nennen, bei der die Zuschauerin scheinbar frei entscheidet, wir sie jedoch sanft zu einer bestimmten Karte führen? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: Klassische Force
+    isCorrect: true
+  - text: Runische Auswahl
+    isCorrect: false
+  - text: Arcane Switch
+    isCorrect: false
+  - text: Phantomschnitt
+    isCorrect: false
+explanation: |
+  Die klassische Force ist eine traditionelle Technik, bei der durch Timing und Führung eine bestimmte Karte scheinbar frei gewählt wird.
+tags:
+  - kartenkunst

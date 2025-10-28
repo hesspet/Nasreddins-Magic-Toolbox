@@ -1,0 +1,18 @@
+id: q-015
+title: Unsichtbare Armbänder
+prompt: |
+  Wären Sie so freundlich, mir mitzuteilen, wie wir die feinen, dehnbaren Fadenkreise nennen, die ums Handgelenk getragen werden und spontane Schwebeeffekte ermöglichen? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: Loops
+    isCorrect: true
+  - text: Orbitale
+    isCorrect: false
+  - text: Lunarkreise
+    isCorrect: false
+  - text: Schattenreifen
+    isCorrect: false
+explanation: |
+  Loops sind elastische Fadenringe, die unauffällig getragen werden können und schnelle Animations- sowie Schwebeeffekte erlauben.
+tags:
+  - unsichtbarefaeden

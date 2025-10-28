@@ -1,0 +1,18 @@
+id: q-027
+title: Requisiten des Becherspiels
+prompt: |
+  Würden Sie mir bitte verraten, welche beiden Bestandteile wir traditionell bereithalten, um das klassische Becherspiel vorzuführen? (Bitte wählen Sie 2 Antworten)
+allowsMultiple: true
+options:
+  - text: Drei Metallbecher
+    isCorrect: true
+  - text: Schaumbälle
+    isCorrect: true
+  - text: Tarotkartenfächer
+    isCorrect: false
+  - text: Schlangenseide
+    isCorrect: false
+explanation: |
+  Das Becherspiel benötigt in der klassischen Form drei Becher sowie kleine Bälle, die mehrfach erscheinen, verschwinden und wandern.
+tags:
+  - becherspiel

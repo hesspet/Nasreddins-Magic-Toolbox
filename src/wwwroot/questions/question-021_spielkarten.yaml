@@ -1,0 +1,18 @@
+id: q-021
+title: Spezielles Kartenspiel
+prompt: |
+  Dürfte ich höflich fragen, wie wir das Kartenspiel nennen, dessen Kartenlängen alternieren, sodass wir mühelos dieselbe Karte vorzeigen können? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: Svengali-Deck
+    isCorrect: true
+  - text: Arcana-Pack
+    isCorrect: false
+  - text: Runen-Fächer
+    isCorrect: false
+  - text: Mystic Stack
+    isCorrect: false
+explanation: |
+  Das Svengali-Deck besteht aus abwechselnd gekürzten und regulären Karten, wodurch forcierte Effekte möglich werden.
+tags:
+  - kartenkunst

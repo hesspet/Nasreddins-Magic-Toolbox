@@ -1,0 +1,18 @@
+id: q-019
+title: Scheinbare Münzübertragung
+prompt: |
+  Dürfte ich höflich erfragen, wie wir den Münzverschwindegriff nennen, bei dem der Blick der Zuschauerin glaubt, die Münze gleite sichtbar in die andere Hand, obwohl sie bleibt, wo sie war? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: Retention Vanish
+    isCorrect: true
+  - text: Phantomsprung
+    isCorrect: false
+  - text: Schattenwurf
+    isCorrect: false
+  - text: Lunar Drop
+    isCorrect: false
+explanation: |
+  Der Retention Vanish nutzt einen optischen Nachhall, damit die Münze scheinbar in die andere Hand gleitet, obwohl sie verborgen bleibt.
+tags:
+  - muenzkunst

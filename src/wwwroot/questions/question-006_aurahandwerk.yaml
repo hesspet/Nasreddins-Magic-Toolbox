@@ -1,0 +1,18 @@
+id: q-006
+title: Begriff der Blickführung
+prompt: |
+  Dürfte ich Sie bitten, mir zu schildern, wie wir Zauberkünstler die Kunst nennen, durch Gestik und Blickrichtung die Aufmerksamkeit vom Geheimnis abzulenken? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: Misdirection
+    isCorrect: true
+  - text: Mana-Umleitung
+    isCorrect: false
+  - text: Fokuszauber
+    isCorrect: false
+  - text: Arkaner Tanz
+    isCorrect: false
+explanation: |
+  Unter Misdirection versteht man die absichtliche Ablenkung der Zuschaueraufmerksamkeit, um das Geheimnis einer Illusion zu schützen.
+tags:
+  - buehnenmagie

@@ -1,0 +1,18 @@
+id: q-020
+title: Geheimnis der Schrankillusion
+prompt: |
+  Wären Sie so freundlich, mir zu verraten, wie wir Zauberkünstler die verborgene Öffnung im Bühnenboden nennen, durch die eine Assistentin lautlos entschwindet? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: Falltür
+    isCorrect: true
+  - text: Schattenpforte
+    isCorrect: false
+  - text: Nebelspalt
+    isCorrect: false
+  - text: Astralluke
+    isCorrect: false
+explanation: |
+  Die Falltür ist ein klassisches Illusionsgeheimnis, das eine schnelle und unsichtbare Evakuierung aus einer Kiste ermöglicht.
+tags:
+  - grossillusion

@@ -1,0 +1,18 @@
+id: q-012
+title: Treffpunkt der Zauberergilde
+prompt: |
+  Würden Sie mir bitte verraten, wie das legendäre Klubhaus in Hollywood heißt, in dem sich Zauberinnen und Zauberer zum Austausch arcana treffen? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: The Magic Castle
+    isCorrect: true
+  - text: Hall of Illusions
+    isCorrect: false
+  - text: Arcane Assembly
+    isCorrect: false
+  - text: Conjurors' Keep
+    isCorrect: false
+explanation: |
+  Das Magic Castle in Hollywood ist das berühmte Klubhaus der Academy of Magical Arts und Treffpunkt vieler Zauberkünstler.
+tags:
+  - gemeinschaft

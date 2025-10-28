@@ -1,0 +1,18 @@
+id: q-030
+title: Sprachliche Beeinflussung
+prompt: |
+  Dürfte ich Sie höflich bitten, mir mitzuteilen, wie wir das sprachliche Manöver nennen, mit dem wir durch geschickte Formulierungen eine scheinbar freie Wahl steuern? (Bitte wählen Sie 1 Antwort)
+allowsMultiple: false
+options:
+  - text: Equivoque
+    isCorrect: true
+  - text: Verbal Force
+    isCorrect: false
+  - text: Runenrede
+    isCorrect: false
+  - text: Luna Script
+    isCorrect: false
+explanation: |
+  Equivoque, auch Magician's Choice genannt, steuert Entscheidungen durch doppeldeutige Aussagen und führt so zum gewünschten Ergebnis.
+tags:
+  - mentalmagie
