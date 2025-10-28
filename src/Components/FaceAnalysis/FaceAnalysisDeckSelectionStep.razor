@@ -28,7 +28,10 @@
 
             @if (IsDeckDataLoading)
             {
-                <p class="face-analysis-deck__loading">Karten werden geladen …</p>
+                <div class="face-analysis-deck__loading" role="status" aria-live="polite">
+                    <span class="fluent-spinner" aria-hidden="true"></span>
+                    <span>Karten werden geladen …</span>
+                </div>
             }
 
             @if (ShouldShowCardNotFound)

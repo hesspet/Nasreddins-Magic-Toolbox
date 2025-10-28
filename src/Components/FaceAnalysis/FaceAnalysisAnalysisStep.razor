@@ -132,7 +132,15 @@
                         class="fluent-button fluent-button--ghost"
                         disabled="@(!CanRefresh || IsRefreshing)"
                         @onclick="OnRefresh">
-                    @(IsRefreshing ? "Aktualisiere …" : DisplayTexts.FaceAnalysisRefreshButton)
+                    @if (IsRefreshing)
+                    {
+                        <span class="fluent-spinner fluent-spinner--small" aria-hidden="true"></span>
+                        <span>Aktualisiere …</span>
+                    }
+                    else
+                    {
+                        <span>@DisplayTexts.FaceAnalysisRefreshButton</span>
+                    }
                 </button>
                 <button type="button"
                         class="fluent-button"

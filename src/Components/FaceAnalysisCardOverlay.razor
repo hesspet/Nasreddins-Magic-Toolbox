@@ -23,6 +23,13 @@ else if (_mergedDataUrl is not null)
         }
     </figure>
 }
+else if (_isMerging)
+{
+    <div class="face-card-overlay__loading" role="status" aria-live="polite">
+        <span class="fluent-spinner" aria-hidden="true"></span>
+        <span>Bild wird erstellt …</span>
+    </div>
+}
 
 @code {
     private const int ForeheadMargin = 20;
@@ -30,6 +37,7 @@ else if (_mergedDataUrl is not null)
     private string? _mergedDataUrl;
     private string? _errorMessage;
     private string? _lastMergeKey;
+    private bool _isMerging;
 
     [Parameter]
     public byte[]? PhotoImageBytes
@@ -74,6 +82,7 @@ else if (_mergedDataUrl is not null)
 
         if (mergeKey is null)
         {
+            _isMerging = false;
             _mergedDataUrl = null;
             _errorMessage = null;
             return;
@@ -81,13 +90,19 @@ else if (_mergedDataUrl is not null)
 
         try
         {
+            _isMerging = true;
             _errorMessage = null;
+            _mergedDataUrl = null;
             _mergedDataUrl = await MergeImagesAsync();
         }
         catch (Exception ex)
         {
             _mergedDataUrl = null;
             _errorMessage = $"Bild konnte nicht erstellt werden: {ex.Message}";
+        }
+        finally
+        {
+            _isMerging = false;
         }
     }
 
