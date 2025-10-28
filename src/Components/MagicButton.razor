@@ -1,0 +1,250 @@
+<button class="@CssClass"
+        type="@Type"
+        disabled="@IsEffectivelyDisabled"
+        @onclick="OnClick"
+        @attributes="ComputedAttributes">
+    @if (IsLoading)
+    {
+        <span class="fluent-spinner @SpinnerCssClass" aria-hidden="true"></span>
+        @if (LoadingContent is not null)
+        {
+            @LoadingContent
+        }
+        else if (!string.IsNullOrWhiteSpace(LoadingText))
+        {
+            <span>@LoadingText</span>
+        }
+    }
+    else
+    {
+        @if (StartIcon is not null)
+        {
+            <span class="fluent-button__icon" aria-hidden="true">
+                @StartIcon
+            </span>
+        }
+
+        @ChildContent
+
+        @if (EndIcon is not null)
+        {
+            <span class="fluent-button__icon fluent-button__icon--end" aria-hidden="true">
+                @EndIcon
+            </span>
+        }
+    }
+</button>
+
+@code {
+    private string _additionalClass = string.Empty;
+    private IReadOnlyDictionary<string, object>? _computedAttributes;
+
+    [Parameter]
+    public RenderFragment? ChildContent
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public RenderFragment? StartIcon
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public RenderFragment? EndIcon
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public RenderFragment? LoadingContent
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public string? LoadingText
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public bool IsLoading
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public MagicButtonSpinnerSize SpinnerSize
+    {
+        get; set;
+    } = MagicButtonSpinnerSize.Small;
+
+    [Parameter]
+    public MagicButtonVariant Variant
+    {
+        get; set;
+    } = MagicButtonVariant.Primary;
+
+    [Parameter]
+    public bool IconOnly
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public bool Disabled
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public bool DisableOnLoading
+    {
+        get; set;
+    } = true;
+
+    [Parameter]
+    public string Type
+    {
+        get; set;
+    } = "button";
+
+    [Parameter]
+    public string? AriaLabel
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public string? Title
+    {
+        get; set;
+    }
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> OnClick
+    {
+        get; set;
+    }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IReadOnlyDictionary<string, object>? AdditionalAttributes
+    {
+        get; set;
+    }
+
+    private bool IsEffectivelyDisabled => Disabled || (IsLoading && DisableOnLoading);
+
+    private string CssClass
+    {
+        get
+        {
+            var classes = new List<string> { "fluent-button" };
+
+            switch (Variant)
+            {
+                case MagicButtonVariant.Secondary:
+                    classes.Add("fluent-button--secondary");
+                    break;
+                case MagicButtonVariant.Ghost:
+                    classes.Add("fluent-button--ghost");
+                    break;
+            }
+
+            if (IconOnly)
+            {
+                classes.Add("fluent-button--icon-only");
+            }
+
+            if (!string.IsNullOrWhiteSpace(_additionalClass))
+            {
+                classes.Add(_additionalClass);
+            }
+
+            return string.Join(' ', classes);
+        }
+    }
+
+    private string SpinnerCssClass => SpinnerSize switch
+    {
+        MagicButtonSpinnerSize.Small => "fluent-spinner--small",
+        _ => string.Empty,
+    };
+
+    private IReadOnlyDictionary<string, object>? ComputedAttributes => _computedAttributes;
+
+    protected override void OnParametersSet()
+    {
+        Dictionary<string, object>? attributes = null;
+
+        if (AdditionalAttributes is not null)
+        {
+            attributes = new Dictionary<string, object>(AdditionalAttributes, StringComparer.OrdinalIgnoreCase);
+
+            if (attributes.TryGetValue("class", out var classValue) && classValue is not null)
+            {
+                _additionalClass = Convert.ToString(classValue) ?? string.Empty;
+                attributes.Remove("class");
+            }
+            else
+            {
+                _additionalClass = string.Empty;
+            }
+
+            if (attributes.TryGetValue("disabled", out var disabledValue) && disabledValue is not null)
+            {
+                if (disabledValue is bool disabledBool)
+                {
+                    Disabled = disabledBool;
+                }
+                else if (bool.TryParse(Convert.ToString(disabledValue), out var parsedDisabled))
+                {
+                    Disabled = parsedDisabled;
+                }
+
+                attributes.Remove("disabled");
+            }
+
+            if (attributes.TryGetValue("type", out var typeValue) && typeValue is not null)
+            {
+                Type = Convert.ToString(typeValue) ?? Type;
+                attributes.Remove("type");
+            }
+        }
+        else
+        {
+            _additionalClass = string.Empty;
+        }
+
+        attributes ??= new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+
+        if (!string.IsNullOrWhiteSpace(AriaLabel))
+        {
+            attributes["aria-label"] = AriaLabel!;
+        }
+
+        if (!string.IsNullOrWhiteSpace(Title))
+        {
+            attributes["title"] = Title!;
+        }
+
+        _computedAttributes = attributes.Count == 0
+            ? null
+            : attributes;
+    }
+}
+
+public enum MagicButtonVariant
+{
+    Primary,
+    Secondary,
+    Ghost,
+}
+
+public enum MagicButtonSpinnerSize
+{
+    Small,
+    Medium,
+}
