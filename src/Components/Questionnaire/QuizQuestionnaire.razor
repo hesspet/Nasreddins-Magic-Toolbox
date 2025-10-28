@@ -318,7 +318,28 @@
 
         if (state.IsAnswered)
         {
-            state.IsCorrect = state.SelectedOptionIndices.SetEquals(state.CorrectOptionIndices);
+            var sanitizedSelection = state.SelectedOptionIndices
+                .Where(index => index >= 0 && index < state.Question.Options.Count)
+                .ToHashSet();
+
+            if (sanitizedSelection.Count != state.SelectedOptionIndices.Count)
+            {
+                state.SelectedOptionIndices.Clear();
+                foreach (var index in sanitizedSelection)
+                {
+                    state.SelectedOptionIndices.Add(index);
+                }
+            }
+
+            var hasWrongSelection = state.SelectedOptionIndices
+                .Except(state.CorrectOptionIndices)
+                .Any();
+
+            var isMissingRequired = state.CorrectOptionIndices
+                .Except(state.SelectedOptionIndices)
+                .Any();
+
+            state.IsCorrect = !hasWrongSelection && !isMissingRequired;
             state.IsEvaluated = true;
         }
         else
