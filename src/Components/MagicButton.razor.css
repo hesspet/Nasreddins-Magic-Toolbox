@@ -71,6 +71,23 @@
     fill: currentColor;
 }
 
+:global(.fluent-button__icon fluent-icon) {
+    width: 100%;
+    height: 100%;
+}
+
+:global(.fluent-icon--button) {
+    width: 100%;
+    height: 100%;
+    color: currentColor;
+    display: inline-flex;
+}
+
+:global(.fluent-icon--button)::part(icon) {
+    width: 100%;
+    height: 100%;
+}
+
 :global(.fluent-spinner) {
     width: 1.5rem;
     height: 1.5rem;
