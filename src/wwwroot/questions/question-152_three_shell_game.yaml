@@ -1,0 +1,19 @@
+id: q-152
+title: Muschelschalen-Trick
+prompt: |
+  Darf ich höflich fragen, wie das Straßenspiel heißt, bei dem eine Erbse unter drei Schalen verborgen und durch geschicktes Austauschen vor Zuschauenden verborgen wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Three Shell Game
+    isCorrect: true
+  - text: Fast Cups
+    isCorrect: false
+  - text: Find the Ace
+    isCorrect: false
+  - text: Bean Drop
+    isCorrect: false
+explanation: |
+  Beim Three Shell Game wird eine kleine Erbse unter Schalen verschoben und mittels Shills kontrolliert.
+tags:
+  - straßenkunst
+  - klassiker

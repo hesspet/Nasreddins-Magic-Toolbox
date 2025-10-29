@@ -1,0 +1,19 @@
+id: q-168
+title: Duo mit weißen Tigern
+prompt: |
+  Hätten Sie die Güte zu benennen, welches magische Duo für seine Arbeit mit weißen Tigern im Mirage in Las Vegas berühmt wurde? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Siegfried & Roy
+    isCorrect: true
+  - text: Penn & Teller
+    isCorrect: false
+  - text: The Pendragons
+    isCorrect: false
+  - text: The Illusionists
+    isCorrect: false
+explanation: |
+  Siegfried Fischbacher und Roy Horn verbanden Tierdressur und Illusionen zu spektakulären Shows.
+tags:
+  - persoenlichkeiten
+  - grossillusion

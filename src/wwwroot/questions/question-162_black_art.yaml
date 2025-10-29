@@ -1,0 +1,19 @@
+id: q-162
+title: Verdeckte Dunkeltechnik
+prompt: |
+  Würden Sie mir mitteilen, wie die Bühnentechnik heißt, bei der schwarze Requisiten vor schwarzem Hintergrund unsichtbar werden, um unerwartete Erscheinungen zu ermöglichen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Black Art
+    isCorrect: true
+  - text: Black Mirror
+    isCorrect: false
+  - text: Gauze Fade
+    isCorrect: false
+  - text: Shadow Box
+    isCorrect: false
+explanation: |
+  Black Art nutzt schwarze Samtflächen und Beleuchtung, um Objekte optisch verschwinden zu lassen.
+tags:
+  - buehne
+  - prinzipien

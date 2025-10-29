@@ -1,0 +1,19 @@
+id: q-126
+title: Seitlicher Diebstahl
+prompt: |
+  Gestatten Sie mir die Frage, wie die Technik heißt, bei der eine gewählte Karte während des Zusammenführens der Karten seitlich herausgezogen und palmiert wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Side Steal
+    isCorrect: true
+  - text: Hofzinser Cull
+    isCorrect: false
+  - text: Diagonal Palm Shift
+    isCorrect: false
+  - text: Clip Steal
+    isCorrect: false
+explanation: |
+  Der Side Steal ermöglicht das heimliche Abziehen einer Karte aus einem Fächer oder Deck.
+tags:
+  - kartenkunst
+  - techniken

@@ -1,0 +1,19 @@
+id: q-150
+title: Karte in der Geldbörse
+prompt: |
+  Gestatten Sie mir die Frage, wie der Effekt heißt, bei dem eine unterschriebene Karte aus dem Deck verschwindet und später in einer verschlossenen Brieftasche auftaucht? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Card to Wallet
+    isCorrect: true
+  - text: Card in Lemon
+    isCorrect: false
+  - text: Card Under Glass
+    isCorrect: false
+  - text: Card Through Window
+    isCorrect: false
+explanation: |
+  Card to Wallet ist ein klassischer Abschluss vieler Close-up-Programme und nutzt spezielle Geldbörsen.
+tags:
+  - kartenkunst
+  - routinen

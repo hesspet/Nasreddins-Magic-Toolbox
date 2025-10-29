@@ -1,0 +1,19 @@
+id: q-075
+title: Sprachliches Forcieren
+prompt: |
+  Gestatten Sie mir die Frage, wie wir die Technik nennen, bei der durch geschickte Formulierungen mehrere Optionen angeboten, aber gezielt interpretierbar gehalten werden, um ein gewünschtes Ergebnis zu erzwingen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Equivoque (Magician's Choice)
+    isCorrect: true
+  - text: Billet Switch
+    isCorrect: false
+  - text: Instant Stooge
+    isCorrect: false
+  - text: One-Ahead
+    isCorrect: false
+explanation: |
+  Equivoque nutzt sprachliche Zweideutigkeit, um scheinbare Entscheidungsfreiheit zu gewähren und dennoch das Ergebnis zu kontrollieren.
+tags:
+  - mentalmagie
+  - forcen

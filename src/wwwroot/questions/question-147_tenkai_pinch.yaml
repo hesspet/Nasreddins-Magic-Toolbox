@@ -1,0 +1,19 @@
+id: q-147
+title: Seitliche Klemmhaltung
+prompt: |
+  Hätten Sie die Güte zu erklären, wie die Position heißt, bei der eine Münze zwischen Daumenwurzel und Zeigefingerseite gehalten wird, um sie seitlich vor Blicken zu verbergen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Tenkai Pinch
+    isCorrect: true
+  - text: JW Grip
+    isCorrect: false
+  - text: Edge Grip
+    isCorrect: false
+  - text: Goshman Pinch
+    isCorrect: false
+explanation: |
+  Der Tenkai Pinch hält eine Münze seitlich der Hand und ermöglicht Erscheinungen und Verschwinden.
+tags:
+  - muenzen
+  - manipulation

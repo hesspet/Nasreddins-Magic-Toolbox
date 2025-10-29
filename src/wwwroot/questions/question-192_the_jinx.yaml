@@ -1,0 +1,19 @@
+id: q-192
+title: Klassisches Mentalistenmagazin
+prompt: |
+  Würden Sie mir mitteilen, welcher Mentalist die Zeitschrift 'The Jinx' herausgab und zahlreiche Techniken wie den One-Ahead-Principle popularisierte? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Ted Annemann
+    isCorrect: true
+  - text: Al Baker
+    isCorrect: false
+  - text: Stewart James
+    isCorrect: false
+  - text: Orville Meyer
+    isCorrect: false
+explanation: |
+  Ted Annemann veröffentlichte 1934–1941 'The Jinx' und prägte die Mentalmagie nachhaltig.
+tags:
+  - literatur
+  - mentalmagie

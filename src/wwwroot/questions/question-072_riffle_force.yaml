@@ -1,0 +1,19 @@
+id: q-072
+title: Abhebezwang
+prompt: |
+  Hätten Sie die Freundlichkeit zu beschreiben, wie wir das Forcen nennen, bei dem während eines Riffelns an einer vorbestimmten Stelle gestoppt wird, um die gewünschte Karte zu präsentieren? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Riffle Force
+    isCorrect: true
+  - text: Slip Cut
+    isCorrect: false
+  - text: Hindu Force
+    isCorrect: false
+  - text: Cut Deeper Force
+    isCorrect: false
+explanation: |
+  Beim Riffle Force wird an einer markierten Stelle angehalten, sodass die forcierte Karte scheinbar frei ausgewählt wird.
+tags:
+  - kartenkunst
+  - forcen

@@ -1,0 +1,19 @@
+id: q-104
+title: Ringreise zum Schlüsselbund
+prompt: |
+  Hätten Sie die Güte zu benennen, wie das Close-up-Kunststück heißt, bei dem ein geliehener Ring verschwindet und an einem Schlüsselanhänger wieder auftaucht? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Ring Flight
+    isCorrect: true
+  - text: Ring and Rope
+    isCorrect: false
+  - text: Ring Leader
+    isCorrect: false
+  - text: Ring to Egg
+    isCorrect: false
+explanation: |
+  Ring Flight verwendet einen Rückzugsmechanismus oder ein Duplikat, um einen Ring scheinbar auf Reisen zu schicken.
+tags:
+  - close-up
+  - requisiten

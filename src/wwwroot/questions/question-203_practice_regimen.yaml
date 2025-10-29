@@ -1,0 +1,19 @@
+id: q-203
+title: Trainingsgewohnheiten
+prompt: |
+  Hätten Sie die Güte zu beschreiben, wie wir das tägliche Üben grundlegender Griffe und Routinen bezeichnen, das Zauberkünstlern hilft, Bewegungen zu automatisieren? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Rehearsal
+    isCorrect: true
+  - text: Recital
+    isCorrect: false
+  - text: Lecture
+    isCorrect: false
+  - text: Revue
+    isCorrect: false
+explanation: |
+  Regelmäßiges Rehearsal sorgt für natürliche Bewegungen und verlässliche Performances.
+tags:
+  - ausbildung
+  - praxis

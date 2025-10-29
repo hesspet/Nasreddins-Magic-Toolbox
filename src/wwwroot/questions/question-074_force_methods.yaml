@@ -1,0 +1,21 @@
+id: q-074
+title: Begriffe des Forcierens
+prompt: |
+  Würden Sie mir bitte die Begriffe nennen, die etablierte Methoden darstellen, um eine scheinbar freie Wahl auf eine bestimmte Karte zu lenken? (Wären Sie so freundlich, 3 Antworten auszuwählen?)
+allowsMultiple: true
+options:
+  - text: Classic Force
+    isCorrect: true
+  - text: Equivoque
+    isCorrect: true
+  - text: Hindu Shuffle Force
+    isCorrect: true
+  - text: Faro Retain
+    isCorrect: false
+  - text: Reverse Fan
+    isCorrect: false
+explanation: |
+  Classic Force, Equivoque und Hindu Shuffle Force sind gebräuchliche Verfahren, um Entscheidungen subtil zu steuern.
+tags:
+  - kartenkunst
+  - forcen

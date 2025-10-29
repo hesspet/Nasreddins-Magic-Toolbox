@@ -1,0 +1,19 @@
+id: q-079
+title: Heimlicher Writer
+prompt: |
+  Würden Sie mir sagen, wie das kleine Stift- oder Bleifach heißt, das am Daumen befestigt wird, um heimlich Zahlen oder Worte auf einen Zettel zu schreiben? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Swami Gimmick (Nail Writer)
+    isCorrect: true
+  - text: Impression Pad
+    isCorrect: false
+  - text: Thumb Tip
+    isCorrect: false
+  - text: Boondoggle
+    isCorrect: false
+explanation: |
+  Der Swami Gimmick ermöglicht das heimliche Ergänzen oder Verändern von Vorhersagen direkt vor den Augen des Publikums.
+tags:
+  - mentalmagie
+  - requisiten

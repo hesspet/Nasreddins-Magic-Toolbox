@@ -1,0 +1,19 @@
+id: q-200
+title: Bamberg-Dynastie
+prompt: |
+  Würden Sie mir mitteilen, wie der bürgerliche Name des Zauberkünstlers Okito lautet, der das Okito Coin Box-Prinzip populär machte? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Theo Bamberg
+    isCorrect: true
+  - text: David Bamberg
+    isCorrect: false
+  - text: Jasper Maskelyne
+    isCorrect: false
+  - text: Karl Germain
+    isCorrect: false
+explanation: |
+  Okito war der Künstlername von Theo Bamberg aus der bekannten Zauberfamilie.
+tags:
+  - geschichte
+  - muenzen

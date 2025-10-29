@@ -1,0 +1,21 @@
+id: q-201
+title: Magierinnen im Rampenlicht
+prompt: |
+  Dürfte ich Sie bitten, die Künstlerinnen auszuwählen, die als bedeutende Zauberinnen internationale Anerkennung erhielten? (Wären Sie so freundlich, 3 Antworten auszuwählen?)
+allowsMultiple: true
+options:
+  - text: Juliana Chen
+    isCorrect: true
+  - text: Fay Presto
+    isCorrect: true
+  - text: Suzanne the Magician
+    isCorrect: true
+  - text: Milt Larsen
+    isCorrect: false
+  - text: Chan Canasta
+    isCorrect: false
+explanation: |
+  Juliana Chen, Fay Presto und Suzanne gewannen bedeutende Preise und prägten moderne Zauberkunst.
+tags:
+  - persoenlichkeiten
+  - geschichte

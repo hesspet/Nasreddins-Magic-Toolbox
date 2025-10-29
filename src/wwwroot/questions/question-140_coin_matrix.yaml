@@ -1,0 +1,19 @@
+id: q-140
+title: Münzassemblage
+prompt: |
+  Darf ich höflich fragen, wie die Close-up-Routine heißt, bei der vier Münzen unter Karten diagonal verteilt werden und nacheinander unter einer Karte zusammentreffen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Coin Matrix
+    isCorrect: true
+  - text: Chink-a-Chink
+    isCorrect: false
+  - text: Hanging Coins
+    isCorrect: false
+  - text: Shadow Coins
+    isCorrect: false
+explanation: |
+  Coin Matrix nutzt verdeckte Transfers und Coverkarten, um eine Münzassemblage zu zeigen.
+tags:
+  - muenzen
+  - routinen

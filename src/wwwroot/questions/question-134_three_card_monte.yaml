@@ -1,0 +1,19 @@
+id: q-134
+title: Straßenklassiker mit Königin
+prompt: |
+  Gestatten Sie mir die Frage, wie das Hütchenspiel mit drei Karten heißt, bei dem Zuschauende die Lage der Geldkarte erraten sollen, aber durch falsches Umlegen scheitern? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Three-Card Monte
+    isCorrect: true
+  - text: Chase the Ace
+    isCorrect: false
+  - text: Fast and Loose
+    isCorrect: false
+  - text: Pick a Card
+    isCorrect: false
+explanation: |
+  Three-Card Monte nutzt Grifftechniken wie das Hype, um die Gewinnkarte zu verbergen.
+tags:
+  - straßenkunst
+  - klassiker

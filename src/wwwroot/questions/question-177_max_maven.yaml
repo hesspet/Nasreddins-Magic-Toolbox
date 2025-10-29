@@ -1,0 +1,19 @@
+id: q-177
+title: Gedankenmeister
+prompt: |
+  Darf ich höflich fragen, wie der US-amerikanische Mentalist heißt, der unter anderem die Serie 'Mindgames' moderierte und für seine analytischen Essays bekannt war? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Max Maven
+    isCorrect: true
+  - text: Earle
+    isCorrect: false
+  - text: Kreskin
+    isCorrect: false
+  - text: Bob Cassidy
+    isCorrect: false
+explanation: |
+  Max Maven (Phil Goldstein) beeinflusste die Mentalmagie mit kreativen Routinen und Essays.
+tags:
+  - persoenlichkeiten
+  - mentalmagie

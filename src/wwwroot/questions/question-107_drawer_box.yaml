@@ -1,0 +1,19 @@
+id: q-107
+title: Schubfachproduktion
+prompt: |
+  Gestatten Sie mir die Frage, wie die Box heißt, bei der ein leer gezeigtes Schubfach geschlossen wird und beim erneuten Öffnen Tücher oder Tauben enthält? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Drawer Box
+    isCorrect: true
+  - text: Mirror Box
+    isCorrect: false
+  - text: Tip-Over Box
+    isCorrect: false
+  - text: Lota Vase
+    isCorrect: false
+explanation: |
+  Die Drawer Box besitzt eine versteckte Kammer, die beim Öffnen gewechselt wird, um Erscheinen zu ermöglichen.
+tags:
+  - buehne
+  - produktionen

@@ -1,0 +1,19 @@
+id: q-036
+title: Verborgene Taschenkunst
+prompt: |
+  Wären Sie so freundlich zu verraten, wie das geheime Stofffach im Sakko bezeichnet wird, in das Gegenstände unbemerkt geworfen werden können? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Topit
+    isCorrect: true
+  - text: Pull Pocket
+    isCorrect: false
+  - text: Servante
+    isCorrect: false
+  - text: Change Pocket
+    isCorrect: false
+explanation: |
+  Der Topit ist eine verdeckte Tasche im Jackettsaum, die zum diskreten Verschwindenlassen von Requisiten dient.
+tags:
+  - buehne
+  - requisiten

@@ -1,0 +1,19 @@
+id: q-164
+title: Sekundenschneller Kostümwechsel
+prompt: |
+  Hätten Sie die Güte zu erläutern, wie die Spezialdisziplin heißt, bei der Künstler innerhalb von Augenblicken mehrfach komplette Kostüme wechseln, häufig unterstützt durch Helfer? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Quick Change
+    isCorrect: true
+  - text: Shadow Change
+    isCorrect: false
+  - text: Flash Dress
+    isCorrect: false
+  - text: Transformers
+    isCorrect: false
+explanation: |
+  Quick Change Performances verwenden Reißverschlüsse, Klett und Double Costumes für blitzschnelle Wechsel.
+tags:
+  - buehne
+  - kostuem

@@ -1,0 +1,19 @@
+id: q-100
+title: Unsichtbare Fadentechnik
+prompt: |
+  Hätten Sie die Güte zu sagen, wie das mechanische Hilfsmittel heißt, das feine Fäden automatisch aufrollt, damit Schwebeeffekte diskret kontrolliert werden können? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Invisible Thread Reel (ITR)
+    isCorrect: true
+  - text: Reel Change
+    isCorrect: false
+  - text: Thread Loop
+    isCorrect: false
+  - text: Spider Pen
+    isCorrect: false
+explanation: |
+  Ein Invisible Thread Reel zieht feine Fäden selbstständig ein und erlaubt kontrollierte Levitationen von Tüchern oder Ringen.
+tags:
+  - requisiten
+  - levitation

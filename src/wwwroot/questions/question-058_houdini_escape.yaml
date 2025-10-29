@@ -1,0 +1,19 @@
+id: q-058
+title: Meister der Fesseln
+prompt: |
+  Gestatten Sie mir die Frage, welcher Künstler als 'Handcuff King' berühmt wurde, indem er sich aus Handschellen, Ketten und Wassertanks befreite? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Harry Houdini
+    isCorrect: true
+  - text: Howard Thurston
+    isCorrect: false
+  - text: Alexander Herrmann
+    isCorrect: false
+  - text: P.C. Sorcar
+    isCorrect: false
+explanation: |
+  Harry Houdini machte spektakuläre Entfesselungen zum Markenzeichen seiner Shows und trat weltweit damit auf.
+tags:
+  - geschichte
+  - entfesselung

@@ -1,0 +1,19 @@
+id: q-081
+title: Ein-Schritt-Vorsprung
+prompt: |
+  Darf ich höflich fragen, wie das Prinzip heißt, bei dem der Vortragende stets eine Information mehr weiß als das Publikum glaubt, um scheinbare Vorhersagen nacheinander zu enthüllen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: One-Ahead Principle
+    isCorrect: true
+  - text: Dual Reality
+    isCorrect: false
+  - text: Instant Stooging
+    isCorrect: false
+  - text: Progressive Anagram
+    isCorrect: false
+explanation: |
+  Beim One-Ahead-Prinzip wird immer eine Information vorausgeschrieben, sodass spätere Enthüllungen scheinbar unmöglich wirken.
+tags:
+  - mentalmagie
+  - prinzipien

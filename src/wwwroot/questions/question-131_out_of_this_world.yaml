@@ -1,0 +1,19 @@
+id: q-131
+title: Trennung von Farben
+prompt: |
+  Gestatten Sie mir die Frage, wie der Effekt heißt, bei dem eine Zuschauerin intuitiv rote und schwarze Karten trennt, obwohl sie nur die Rückseiten sieht? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Out of This World
+    isCorrect: true
+  - text: Do as I Do
+    isCorrect: false
+  - text: Miracle Monte
+    isCorrect: false
+  - text: Gemini Twins
+    isCorrect: false
+explanation: |
+  Out of This World von Paul Curry gilt als eine der stärksten selbstarbeitenden Kartenroutinen.
+tags:
+  - kartenkunst
+  - klassiker

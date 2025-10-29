@@ -1,0 +1,19 @@
+id: q-129
+title: Durcheinander ordnet sich
+prompt: |
+  Würden Sie mir erläutern, wie der Kartenklassiker heißt, bei dem ein scheinbar chaotisches Gemisch aus Karten mit Vorder- und Rückseiten sich plötzlich wieder richtig sortiert, bis auf eine gewählte Karte? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Triumph
+    isCorrect: true
+  - text: Ambitious Card
+    isCorrect: false
+  - text: Oil and Water
+    isCorrect: false
+  - text: Collectors
+    isCorrect: false
+explanation: |
+  Triumph basiert auf falschen Mischtechniken und zeigt eine einzige Karte verkehrt herum.
+tags:
+  - kartenkunst
+  - klassiker

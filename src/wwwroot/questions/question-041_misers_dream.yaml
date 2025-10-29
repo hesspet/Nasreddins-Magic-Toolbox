@@ -1,0 +1,19 @@
+id: q-041
+title: Münzregen aus der Luft
+prompt: |
+  Hätten Sie die Freundlichkeit, den Namen der Routine zu nennen, bei der scheinbar endlos Münzen aus der Luft in einen Eimer fallen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Miser's Dream
+    isCorrect: true
+  - text: Coin Ladder
+    isCorrect: false
+  - text: Okito Coin Box
+    isCorrect: false
+  - text: Matrix Coins
+    isCorrect: false
+explanation: |
+  Der Miser's Dream ist eine klassische Münzroutine, die auf Palmiertechniken und geschickter Produktion basiert.
+tags:
+  - muenzen
+  - klassiker

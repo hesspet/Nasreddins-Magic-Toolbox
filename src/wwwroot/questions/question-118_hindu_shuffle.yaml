@@ -1,0 +1,19 @@
+id: q-118
+title: Hindu-Mischtechnik
+prompt: |
+  Darf ich höflich fragen, wie das Mischen heißt, bei dem ein Kartenpaket von oben in die andere Hand geworfen wird, während die unterste Karte erhalten bleibt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Hindu Shuffle
+    isCorrect: true
+  - text: Greek Shuffle
+    isCorrect: false
+  - text: Overhand Shuffle
+    isCorrect: false
+  - text: Faro Shuffle
+    isCorrect: false
+explanation: |
+  Der Hindu Shuffle ist in Asien verbreitet und eignet sich hervorragend für Forces und Kontrollen.
+tags:
+  - kartenkunst
+  - techniken

@@ -1,0 +1,19 @@
+id: q-172
+title: Straßenmagie am Thames
+prompt: |
+  Gestatten Sie mir die Frage, wie der britische Zauberkünstler heißt, der in seiner Serie 'Magician Impossible' moderne Straßenmagie zeigte und scheinbar über die Themse lief? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Dynamo
+    isCorrect: true
+  - text: Troy
+    isCorrect: false
+  - text: Steven Brundage
+    isCorrect: false
+  - text: David Blaine
+    isCorrect: false
+explanation: |
+  Dynamo alias Steven Frayne erlangte weltweite Aufmerksamkeit durch TV-Stunts in urbaner Umgebung.
+tags:
+  - persoenlichkeiten
+  - strassenkunst

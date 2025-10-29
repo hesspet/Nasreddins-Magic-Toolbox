@@ -1,0 +1,19 @@
+id: q-103
+title: Kettenfangspiel
+prompt: |
+  Gestatten Sie mir die Frage, wie das Gaukler-Spiel heißt, bei dem eine Kette auf dem Tisch gelegt wird und Zuschauende raten, ob sie sich festzieht oder löst? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Endless Chain (Fast and Loose)
+    isCorrect: true
+  - text: Chain Escape
+    isCorrect: false
+  - text: Ring Release
+    isCorrect: false
+  - text: Linking Game
+    isCorrect: false
+explanation: |
+  Die Endless Chain, auch Fast and Loose, nutzt geschickte Schlaufenführung, um den Ausgang zu bestimmen.
+tags:
+  - straßenkunst
+  - klassiker

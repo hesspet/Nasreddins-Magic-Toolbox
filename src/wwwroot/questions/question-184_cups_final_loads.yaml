@@ -1,0 +1,21 @@
+id: q-184
+title: Überraschende Endladungen
+prompt: |
+  Hätten Sie die Güte auszuwählen, welche Gegenstände häufig als finale Erscheinungen beim Cups-and-Balls-Spiel genutzt werden? (Wären Sie so freundlich, 2 Antworten auszuwählen?)
+allowsMultiple: true
+options:
+  - text: Zitronen
+    isCorrect: true
+  - text: Billiardbälle
+    isCorrect: true
+  - text: Spielkartenfächer
+    isCorrect: false
+  - text: Messingglocken
+    isCorrect: false
+  - text: Seidenfächer
+    isCorrect: false
+explanation: |
+  Große Früchte, Billiard- oder Tennisbälle dienen als überraschende Final Loads beim Becherspiel.
+tags:
+  - close-up
+  - klassiker

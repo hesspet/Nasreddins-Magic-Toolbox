@@ -1,0 +1,19 @@
+id: q-045
+title: Verwandlung der Münzen
+prompt: |
+  Gestatten Sie mir die Frage, wie die Sequenz heißt, in der eine Münze mehrfach ihre Erscheinung wechselt, während sie sichtbar in den Händen gerieben wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Spellbound
+    isCorrect: true
+  - text: Wild Coin
+    isCorrect: false
+  - text: Tenkai Pennies
+    isCorrect: false
+  - text: Coin Thru Hand
+    isCorrect: false
+explanation: |
+  Die Spellbound-Sequenz kombiniert mehrere Münzwechsel und demonstriert fließende Verwandlungen im Close-up-Bereich.
+tags:
+  - muenzen
+  - manipulation

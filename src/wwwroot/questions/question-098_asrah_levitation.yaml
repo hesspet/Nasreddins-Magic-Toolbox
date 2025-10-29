@@ -1,0 +1,19 @@
+id: q-098
+title: Schwebende Assistentin
+prompt: |
+  Darf ich höflich erfragen, wie die klassische Levitation heißt, bei der eine Person unter einem Tuch schwebt und schließlich in der Luft verschwindet? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Asrah Levitation
+    isCorrect: true
+  - text: Balducci Levitation
+    isCorrect: false
+  - text: Flying
+    isCorrect: false
+  - text: Walking Knot
+    isCorrect: false
+explanation: |
+  Die Asrah Levitation von Servais Le Roy kombiniert Tücher, formbare Rahmen und Geheimmechanik, um ein Verschwinden in der Luft zu zeigen.
+tags:
+  - grossillusion
+  - levitation

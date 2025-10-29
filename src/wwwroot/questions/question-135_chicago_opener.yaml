@@ -1,0 +1,19 @@
+id: q-135
+title: Karte mit Farbwechselrücken
+prompt: |
+  Würden Sie mir erläutern, wie die Kartenroutine heißt, bei der eine gewählte Karte als einzige eine andere Rückenfarbe erhält und später eine neue Auswahl ebenso markiert erscheint? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Chicago Opener (Red Hot Mama)
+    isCorrect: true
+  - text: Invisible Deck
+    isCorrect: false
+  - text: Brainwave
+    isCorrect: false
+  - text: Color Monte
+    isCorrect: false
+explanation: |
+  Der Chicago Opener kombiniert eine markierte Karte mit einem erneuten Force, um zwei Überraschungen zu liefern.
+tags:
+  - kartenkunst
+  - routinen

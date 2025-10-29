@@ -1,0 +1,19 @@
+id: q-088
+title: Buchstabierte Enthüllung
+prompt: |
+  Hätten Sie die Freundlichkeit zu erläutern, wie das Prinzip heißt, bei dem durch Ja-Nein-Fragen zu Buchstaben Schritt für Schritt ein Gedanke eingegrenzt wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Progressive Anagram
+    isCorrect: true
+  - text: Swami Script
+    isCorrect: false
+  - text: Instant Stooge
+    isCorrect: false
+  - text: Open Prediction
+    isCorrect: false
+explanation: |
+  Progressive Anagramme nutzen strukturierte Wortlisten, um mit wenigen Fragen ein Wort zu identifizieren.
+tags:
+  - mentalmagie
+  - prinzipien

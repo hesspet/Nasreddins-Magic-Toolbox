@@ -1,0 +1,19 @@
+id: q-080
+title: Abdruckgerät
+prompt: |
+  Gestatten Sie mir die Frage, wie wir das Hilfsmittel nennen, das eine unauffällige Kopie eines von der Zuschauerin geschriebenen Wortes erstellt, etwa durch Kohlepapier oder Mikrokapseln? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Impression Device
+    isCorrect: true
+  - text: Billet Knife
+    isCorrect: false
+  - text: Spirit Slate
+    isCorrect: false
+  - text: Force Pad
+    isCorrect: false
+explanation: |
+  Ein Impression Device zeichnet Notizen heimlich auf und liefert Mentalistinnen die benötigten Informationen.
+tags:
+  - mentalmagie
+  - requisiten

@@ -1,0 +1,19 @@
+id: q-078
+title: Blick in den Zettel
+prompt: |
+  Hätten Sie die Güte zu erklären, wie die Technik heißt, bei der ein gefalteter Zettel scheinbar zerrissen wird, wobei der mittlere Teil heimlich entnommen wird, um den Inhalt zu lesen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Center Tear
+    isCorrect: true
+  - text: Acidus Novus
+    isCorrect: false
+  - text: Switch Fold
+    isCorrect: false
+  - text: Confabulation
+    isCorrect: false
+explanation: |
+  Der Center Tear erlaubt den Zugriff auf den zentralen Teil eines Zettels, ohne dass die Zuschauenden etwas bemerken.
+tags:
+  - mentalmagie
+  - techniken

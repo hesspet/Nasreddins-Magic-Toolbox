@@ -1,0 +1,19 @@
+id: q-044
+title: Grundlage der Münzkunst
+prompt: |
+  Darf ich Sie darum bitten, die grundlegende Münzhaltung zu benennen, bei der eine Münze in der Handfläche verborgen wird, während die Hand scheinbar leer wirkt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Classic Palm
+    isCorrect: true
+  - text: Finger Palm
+    isCorrect: false
+  - text: Back Palm
+    isCorrect: false
+  - text: Thumb Palm
+    isCorrect: false
+explanation: |
+  Der Classic Palm gilt als fundamentale Technik der Münzzauberei und erlaubt Produktion wie Verschwinden auf engstem Raum.
+tags:
+  - muenzen
+  - grundlagen

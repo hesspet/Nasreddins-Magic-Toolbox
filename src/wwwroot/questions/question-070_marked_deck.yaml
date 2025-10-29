@@ -1,0 +1,19 @@
+id: q-070
+title: Geheime Rückenmarkierung
+prompt: |
+  Darf ich höflich fragen, wie wir ein Kartenspiel nennen, dessen Rückseiten diskret verändert wurden, um Werte und Farben ablesen zu können? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Marked Deck
+    isCorrect: true
+  - text: Stacked Deck
+    isCorrect: false
+  - text: Gaff Deck
+    isCorrect: false
+  - text: Blank Deck
+    isCorrect: false
+explanation: |
+  Ein Marked Deck ermöglicht das unauffällige Ablesen der Zuschauerkarte und erweitert Routinen um mentale Komponenten.
+tags:
+  - kartenkunst
+  - gaff

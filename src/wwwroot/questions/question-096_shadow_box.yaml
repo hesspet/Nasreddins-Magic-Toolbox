@@ -1,0 +1,19 @@
+id: q-096
+title: Silhouettenerscheinung
+prompt: |
+  Würden Sie mir verraten, wie die Illusion genannt wird, bei der hinter einer beleuchteten Leinwand Schatten erscheinen und schließlich eine Person real hervortritt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Shadow Box
+    isCorrect: true
+  - text: Black Art
+    isCorrect: false
+  - text: Ghost Cabinet
+    isCorrect: false
+  - text: Shadowgraph
+    isCorrect: false
+explanation: |
+  Die Shadow Box erzeugt eine dramatische Erscheinung durch Silhouetten und eine verdeckte Person hinter der Leinwand.
+tags:
+  - grossillusion
+  - erscheinung

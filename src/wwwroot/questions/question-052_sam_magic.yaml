@@ -1,0 +1,19 @@
+id: q-052
+title: Traditionsreiche US-Organisation
+prompt: |
+  Darf ich Sie fragen, wie die älteste Zaubervereinigung der Vereinigten Staaten heißt, deren berühmtestes Mitglied Harry Houdini als Präsident diente? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Society of American Magicians
+    isCorrect: true
+  - text: Academy of Magical Arts
+    isCorrect: false
+  - text: The Maskelyne League
+    isCorrect: false
+  - text: Magischer Zirkel von Deutschland
+    isCorrect: false
+explanation: |
+  Die Society of American Magicians (S.A.M.) existiert seit 1902 und setzt sich für Professionalität und Ethik in der Zauberkunst ein.
+tags:
+  - organisationen
+  - geschichte

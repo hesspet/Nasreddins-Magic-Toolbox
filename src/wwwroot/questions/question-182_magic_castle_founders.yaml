@@ -1,0 +1,19 @@
+id: q-182
+title: Familie hinter dem Schloss
+prompt: |
+  Gestatten Sie mir die Frage, welche Brüder das Magic Castle in Los Angeles gründeten und die Academy of Magical Arts etablierten? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Milt und Bill Larsen
+    isCorrect: true
+  - text: David und Dania
+    isCorrect: false
+  - text: Doug und Steve Henning
+    isCorrect: false
+  - text: Johnny und Joanie Thompson
+    isCorrect: false
+explanation: |
+  Die Brüder Milt und Bill Larsen eröffneten 1963 das Magic Castle als Clubhaus der AMA.
+tags:
+  - geschichte
+  - organisationen

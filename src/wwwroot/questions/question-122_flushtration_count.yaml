@@ -1,0 +1,19 @@
+id: q-122
+title: Täuschender Abwurf
+prompt: |
+  Würden Sie mir mitteilen, wie das Zählverfahren heißt, bei dem Karten auf den Tisch fallen gelassen werden und dabei immer dieselbe Rückseite zeigen, um den Eindruck identischer Karten zu erzeugen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Flushtration Count
+    isCorrect: true
+  - text: Hammond Count
+    isCorrect: false
+  - text: Double Lift Count
+    isCorrect: false
+  - text: Twist Count
+    isCorrect: false
+explanation: |
+  Der Flushtration Count zeigt immer dieselbe Karte, während andere Karten verborgen bleiben.
+tags:
+  - kartenkunst
+  - techniken

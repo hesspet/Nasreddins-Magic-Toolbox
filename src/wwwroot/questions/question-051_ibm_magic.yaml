@@ -1,0 +1,19 @@
+id: q-051
+title: Internationale Bruderschaft
+prompt: |
+  Gestatten Sie mir die Frage, wie die weltweit größte Zaubervereinigung heißt, die 1922 in Buffalo gegründet wurde und heute unter einem blauen Siegel firmiert? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: International Brotherhood of Magicians
+    isCorrect: true
+  - text: Society of American Magicians
+    isCorrect: false
+  - text: Fédération Internationale des Sociétés Magiques
+    isCorrect: false
+  - text: Academy of Magical Arts
+    isCorrect: false
+explanation: |
+  Die International Brotherhood of Magicians (IBM) verbindet Zauberer weltweit durch lokale Ringe und jährlich stattfindende Kongresse.
+tags:
+  - organisationen
+  - geschichte

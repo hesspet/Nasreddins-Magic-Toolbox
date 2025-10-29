@@ -1,0 +1,19 @@
+id: q-097
+title: Schwebender Besen
+prompt: |
+  Gestatten Sie mir die Frage, wie die Levitation heißt, bei der eine Assistentin scheinbar auf einem Besen balanciert und frei im Raum schwebt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Broom Suspension
+    isCorrect: true
+  - text: Asrah Levitation
+    isCorrect: false
+  - text: Pendragons' Flight
+    isCorrect: false
+  - text: Elevator
+    isCorrect: false
+explanation: |
+  Die Broom Suspension von Okito zeigt eine levitierende Person, die nur auf einem scheinbar dünnen Stab ruht.
+tags:
+  - grossillusion
+  - levitation
