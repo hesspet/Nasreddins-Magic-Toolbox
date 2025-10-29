@@ -1,7 +1,8 @@
 id: q-163
 title: Halbdurchsichtiger Vorhang
 prompt: |
-  Darf ich höflich fragen, wie wir den Gaze-Vorhang nennen, der bei frontaler Beleuchtung opak wirkt, bei Hinterbeleuchtung jedoch transparent wird und so Erscheinungen erlaubt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich höflich fragen, wie wir den Gaze-Vorhang nennen, der bei frontaler Beleuchtung opak 
+  wirkt, bei Hinterbeleuchtung jedoch transparent wird und so Erscheinungen erlaubt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Scrim

@@ -1,7 +1,8 @@
 id: q-156
 title: Ei im Säckchen
 prompt: |
-  Darf ich fragen, wie das Requisit heißt, bei dem ein Ei mehrfach aus einem scheinbar leeren Beutel erscheint, verschwindet und sogar in Zuschauerhänden auftaucht? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich fragen, wie das Requisit heißt, bei dem ein Ei mehrfach aus einem scheinbar leeren Beutel 
+  erscheint, verschwindet und sogar in Zuschauerhänden auftaucht? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Egg Bag

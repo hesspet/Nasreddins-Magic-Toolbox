@@ -1,7 +1,8 @@
 id: q-070
 title: Geheime Rückenmarkierung
 prompt: |
-  Darf ich höflich fragen, wie wir ein Kartenspiel nennen, dessen Rückseiten diskret verändert wurden, um Werte und Farben ablesen zu können? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich höflich fragen, wie wir ein Kartenspiel nennen, dessen Rückseiten 
+  diskret verändert wurden, um Werte und Farben ablesen zu können? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Marked Deck

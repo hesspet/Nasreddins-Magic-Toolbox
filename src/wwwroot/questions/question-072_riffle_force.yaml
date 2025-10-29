@@ -1,7 +1,9 @@
 id: q-072
 title: Abhebezwang
 prompt: |
-  Hätten Sie die Freundlichkeit zu beschreiben, wie wir das Forcen nennen, bei dem während eines Riffelns an einer vorbestimmten Stelle gestoppt wird, um die gewünschte Karte zu präsentieren? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Freundlichkeit zu beschreiben, wie wir das Forcen nennen, bei dem während 
+  eines Riffelns an einer vorbestimmten Stelle gestoppt wird, um die gewünschte Karte zu präsentieren? 
+  (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Riffle Force

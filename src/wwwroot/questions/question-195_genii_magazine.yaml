@@ -1,7 +1,8 @@
 id: q-195
 title: Zauberfachzeitschrift
 prompt: |
-  Gestatten Sie mir die Frage, wie die seit 1936 bestehende Zeitschrift heißt, die von William Larsen Sr. gegründet wurde und heute von Richard Kaufman herausgegeben wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie die seit 1936 bestehende Zeitschrift heißt, die von 
+  William Larsen Sr. gegründet wurde und heute von Richard Kaufman herausgegeben wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Genii

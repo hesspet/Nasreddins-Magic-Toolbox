@@ -1,7 +1,8 @@
 id: q-068
 title: Merkspruch für Kartenfolge
 prompt: |
-  Gestatten Sie mir die Frage, wie die klassische Kartenordnung heißt, die mit dem Merksatz 'Eight Kings threatened to save' gelernt wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie die klassische Kartenordnung heißt, die mit dem Merksatz 
+  'Eight Kings threatened to save' gelernt wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Eight Kings Stack

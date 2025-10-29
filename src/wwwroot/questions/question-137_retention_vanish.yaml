@@ -1,7 +1,8 @@
 id: q-137
 title: Glaubhaftes Verschwinden
 prompt: |
-  Hätten Sie die Güte zu erläutern, wie die Münztechnik heißt, bei der eine Münze scheinbar in die andere Hand gelegt wird, während das Auge noch den letzten Moment der Sichtbarkeit wahrnimmt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Güte zu erläutern, wie die Münztechnik heißt, bei der eine Münze scheinbar in 
+  die andere Hand gelegt wird, während das Auge noch den letzten Moment der Sichtbarkeit wahrnimmt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Retention Vanish

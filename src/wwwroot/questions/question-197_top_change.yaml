@@ -1,7 +1,8 @@
 id: q-197
 title: Geheimer Kartentausch
 prompt: |
-  Darf ich höflich fragen, wie die Technik heißt, bei der während des Zeigens einer Karte heimlich die oberste Karte des Decks ausgetauscht wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich höflich fragen, wie die Technik heißt, bei der während des Zeigens einer 
+  Karte heimlich die oberste Karte des Decks ausgetauscht wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Top Change

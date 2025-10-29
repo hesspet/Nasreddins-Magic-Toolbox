@@ -1,7 +1,8 @@
 id: q-082
 title: Zusammengetragene Vorhersage
 prompt: |
-  Würden Sie mir mitteilen, wie der Effekt heißt, bei dem mehrere frei gewählte Details später in einer vorbereiteten Notiz exakt wiedergefunden werden, etwa in einem Umschlag? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir mitteilen, wie der Effekt heißt, bei dem mehrere frei gewählte Details später in einer 
+  vorbereiteten Notiz exakt wiedergefunden werden, etwa in einem Umschlag? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Confabulation

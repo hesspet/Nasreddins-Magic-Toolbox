@@ -1,7 +1,8 @@
 id: q-140
 title: Münzassemblage
 prompt: |
-  Darf ich höflich fragen, wie die Close-up-Routine heißt, bei der vier Münzen unter Karten diagonal verteilt werden und nacheinander unter einer Karte zusammentreffen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich höflich fragen, wie die Close-up-Routine heißt, bei der vier Münzen unter Karten 
+  diagonal verteilt werden und nacheinander unter einer Karte zusammentreffen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Coin Matrix

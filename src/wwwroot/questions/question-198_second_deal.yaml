@@ -1,7 +1,8 @@
 id: q-198
 title: Manipuliertes Austeilen
 prompt: |
-  Gestatten Sie mir die Frage, wie das Falschgeben heißt, bei dem die oberste Karte beibehalten wird, während scheinbar vom Deck verteilt wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie das Falschgeben heißt, bei dem die oberste Karte beibehalten 
+  wird, während scheinbar vom Deck verteilt wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Second Deal

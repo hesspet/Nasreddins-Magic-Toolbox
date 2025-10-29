@@ -1,7 +1,8 @@
 id: q-048
 title: Ausgeschnittenes Kartenspiel
 prompt: |
-  Darf ich fragen, wie das Präparat heißt, bei dem die Kanten eines Kartenspiels leicht kegelförmig beschnitten werden, um eine gewählte Karte ertasten zu können? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich fragen, wie das Präparat heißt, bei dem die Kanten eines Kartenspiels leicht 
+  kegelförmig beschnitten werden, um eine gewählte Karte ertasten zu können? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Stripper Deck

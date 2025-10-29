@@ -1,7 +1,8 @@
 id: q-158
 title: Tanzender Stock
 prompt: |
-  Würden Sie mir erläutern, wie die Illusion heißt, bei der ein Spazierstock scheinbar eigenständig in der Luft tanzt und der Zauberer nur leicht führt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir erläutern, wie die Illusion heißt, bei der ein Spazierstock scheinbar 
+  eigenständig in der Luft tanzt und der Zauberer nur leicht führt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Dancing Cane

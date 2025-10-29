@@ -1,7 +1,8 @@
 id: q-038
 title: Klassiker mit Bechern
 prompt: |
-  Darf ich Sie bitten zu benennen, wie der Klassiker heißt, bei dem kleine Bälle unter Bechern erscheinen, wandern und transformieren? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich Sie bitten zu benennen, wie der Klassiker heißt, bei dem kleine Bälle unter Bechern erscheinen, 
+  wandern und transformieren? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Cups and Balls (Becherspiel)

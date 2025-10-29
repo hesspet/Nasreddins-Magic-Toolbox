@@ -1,7 +1,8 @@
 id: q-125
 title: Palmieren der Unterkarte
 prompt: |
-  Dürfte ich erfahren, wie die Technik heißt, bei der die unterste Karte des Decks heimlich in die Handfläche gelangt, während das Deck scheinbar unbewegt bleibt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Dürfte ich erfahren, wie die Technik heißt, bei der die unterste Karte des Decks heimlich in die 
+  Handfläche gelangt, während das Deck scheinbar unbewegt bleibt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Bottom Palm

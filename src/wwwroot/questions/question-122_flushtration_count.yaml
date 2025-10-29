@@ -1,7 +1,8 @@
 id: q-122
 title: Täuschender Abwurf
 prompt: |
-  Würden Sie mir mitteilen, wie das Zählverfahren heißt, bei dem Karten auf den Tisch fallen gelassen werden und dabei immer dieselbe Rückseite zeigen, um den Eindruck identischer Karten zu erzeugen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir mitteilen, wie das Zählverfahren heißt, bei dem Karten auf den Tisch fallen gelassen werden 
+  und dabei immer dieselbe Rückseite zeigen, um den Eindruck identischer Karten zu erzeugen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Flushtration Count

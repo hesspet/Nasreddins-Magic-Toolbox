@@ -1,7 +1,8 @@
 id: q-044
 title: Grundlage der Münzkunst
 prompt: |
-  Darf ich Sie darum bitten, die grundlegende Münzhaltung zu benennen, bei der eine Münze in der Handfläche verborgen wird, während die Hand scheinbar leer wirkt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich Sie darum bitten, die grundlegende Münzhaltung zu benennen, bei der eine Münze 
+  in der Handfläche verborgen wird, während die Hand scheinbar leer wirkt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Classic Palm

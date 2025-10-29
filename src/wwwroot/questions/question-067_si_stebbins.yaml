@@ -1,7 +1,8 @@
 id: q-067
 title: Zyklische Reihenfolge
 prompt: |
-  Dürfte ich fragen, wie das bekannte Kartenmuster heißt, bei dem Werte in Abständen von drei steigen und die Farben rot-schwarz alternieren? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Dürfte ich fragen, wie das bekannte Kartenmuster heißt, bei dem Werte in Abständen von drei 
+  steigen und die Farben rot-schwarz alternieren? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Si Stebbins

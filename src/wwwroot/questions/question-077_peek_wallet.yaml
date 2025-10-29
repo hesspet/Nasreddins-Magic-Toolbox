@@ -1,7 +1,8 @@
 id: q-077
 title: Einsicht ins Notizbuch
 prompt: |
-  Darf ich Sie bitten zu beschreiben, wie das Hilfsmittel heißt, das wie eine Brieftasche aussieht und es ermöglicht, heimlich einen geschriebenen Gedanken einzusehen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich Sie bitten zu beschreiben, wie das Hilfsmittel heißt, das wie eine Brieftasche 
+  aussieht und es ermöglicht, heimlich einen geschriebenen Gedanken einzusehen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Peek Wallet

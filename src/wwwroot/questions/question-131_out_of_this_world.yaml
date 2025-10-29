@@ -1,7 +1,8 @@
 id: q-131
 title: Trennung von Farben
 prompt: |
-  Gestatten Sie mir die Frage, wie der Effekt heißt, bei dem eine Zuschauerin intuitiv rote und schwarze Karten trennt, obwohl sie nur die Rückseiten sieht? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie der Effekt heißt, bei dem eine Zuschauerin intuitiv rote 
+  und schwarze Karten trennt, obwohl sie nur die Rückseiten sieht? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Out of This World

@@ -1,7 +1,8 @@
 id: q-087
 title: Eindrucksvolle Charakteranalyse
 prompt: |
-  Gestatten Sie mir die Frage, wie wir die Gesprächstechnik nennen, bei der allgemeine Aussagen gemacht und passend interpretiert werden, um persönliche Erkenntnisse zu suggerieren? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie wir die Gesprächstechnik nennen, bei der allgemeine Aussagen gemacht und 
+  passend interpretiert werden, um persönliche Erkenntnisse zu suggerieren? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Cold Reading

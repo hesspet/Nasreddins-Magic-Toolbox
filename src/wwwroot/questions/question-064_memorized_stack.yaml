@@ -1,7 +1,8 @@
 id: q-064
 title: Gemerkte Reihenfolge
 prompt: |
-  Darf ich höflich fragen, wie wir ein Kartenspiel nennen, dessen Reihenfolge vollständig gelernt wurde, um jederzeit Positionen und Werte abrufen zu können? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich höflich fragen, wie wir ein Kartenspiel nennen, dessen Reihenfolge vollständig 
+  gelernt wurde, um jederzeit Positionen und Werte abrufen zu können? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Memorized Stack

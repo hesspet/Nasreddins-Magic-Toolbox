@@ -1,7 +1,8 @@
 id: q-168
 title: Duo mit weißen Tigern
 prompt: |
-  Hätten Sie die Güte zu benennen, welches magische Duo für seine Arbeit mit weißen Tigern im Mirage in Las Vegas berühmt wurde? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Güte zu benennen, welches magische Duo für seine Arbeit mit weißen Tigern im Mirage 
+  in Las Vegas berühmt wurde? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Siegfried & Roy

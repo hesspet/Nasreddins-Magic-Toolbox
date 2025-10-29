@@ -1,7 +1,8 @@
 id: q-036
 title: Verborgene Taschenkunst
 prompt: |
-  Wären Sie so freundlich zu verraten, wie das geheime Stofffach im Sakko bezeichnet wird, in das Gegenstände unbemerkt geworfen werden können? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Wären Sie so freundlich zu verraten, wie das geheime Stofffach im Sakko bezeichnet wird, in das Gegenstände unbemerkt
+  geworfen werden können? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Topit

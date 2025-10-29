@@ -1,7 +1,8 @@
 id: q-193
 title: Internationale Verbände
 prompt: |
-  Hätten Sie die Güte, die weltweit bedeutenden Zaubervereinigungen auszuwählen, die seit Jahrzehnten Mitgliederzeitschriften herausgeben? (Wären Sie so freundlich, 3 Antworten auszuwählen?)
+  Hätten Sie die Güte, die weltweit bedeutenden Zaubervereinigungen auszuwählen, 
+  die seit Jahrzehnten Mitgliederzeitschriften herausgeben? (Wären Sie so freundlich, 3 Antworten auszuwählen?)
 allowsMultiple: true
 options:
   - text: International Brotherhood of Magicians

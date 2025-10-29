@@ -1,7 +1,8 @@
 id: q-172
 title: Straßenmagie am Thames
 prompt: |
-  Gestatten Sie mir die Frage, wie der britische Zauberkünstler heißt, der in seiner Serie 'Magician Impossible' moderne Straßenmagie zeigte und scheinbar über die Themse lief? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie der britische Zauberkünstler heißt, der in seiner Serie 'Magician Impossible' 
+  moderne Straßenmagie zeigte und scheinbar über die Themse lief? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Dynamo

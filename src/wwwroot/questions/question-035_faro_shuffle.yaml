@@ -1,7 +1,9 @@
 id: q-035
 title: Perfektes Mischen
 prompt: |
-  Dürfte ich fragen, wie wir das präzise Ineinanderweben zweier Kartenhälften nennen, bei dem jede Karte exakt zwischen zwei Karten der anderen Hälfte landet? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Dürfte ich fragen, wie wir das präzise Ineinanderweben zweier Kartenhälften nennen, bei dem jede Karte exakt zwischen 
+  zwei Karten der anderen Hälfte landet? Der Name bezieht sich auf ein Casinospiel das im 19. Jahrhundert in USA populär war. Heute aber durch Poker abgelöst wurde.
+  (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Faro Shuffle

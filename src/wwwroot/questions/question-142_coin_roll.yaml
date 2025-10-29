@@ -1,7 +1,8 @@
 id: q-142
 title: Fingerfertige Münzrolle
 prompt: |
-  Gestatten Sie mir die Frage, wie die Fingerfertigkeit heißt, bei der eine Münze kontinuierlich über die Finger der Hand rollt und damit Geschick demonstriert? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie die Fingerfertigkeit heißt, bei der eine Münze kontinuierlich 
+  über die Finger der Hand rollt und damit Geschick demonstriert? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Coin Roll

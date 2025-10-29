@@ -1,7 +1,8 @@
 id: q-154
 title: Schwammkugeln
 prompt: |
-  Hätten Sie die Güte zu erklären, wie die Close-up-Routine heißt, bei der weiche Bälle in den Händen der Zuschauerin verschwinden und sich vermehren? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Güte zu erklären, wie die Close-up-Routine heißt, bei der weiche Bälle in den Händen 
+  der Zuschauerin verschwinden und sich vermehren? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Sponge Balls

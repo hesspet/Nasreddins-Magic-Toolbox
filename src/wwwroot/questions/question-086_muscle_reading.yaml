@@ -1,7 +1,8 @@
 id: q-086
 title: Reaktion durch Mikrobewegungen
 prompt: |
-  Würden Sie mir erläutern, wie die Methode heißt, bei der durch leichte Berührung Muskelreaktionen gespürt werden, um zum Beispiel versteckte Gegenstände zu finden? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir erläutern, wie die Methode heißt, bei der durch leichte Berührung Muskelreaktionen 
+  gespürt werden, um zum Beispiel versteckte Gegenstände zu finden? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Muscle Reading

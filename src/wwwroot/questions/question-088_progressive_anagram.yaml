@@ -1,7 +1,8 @@
 id: q-088
 title: Buchstabierte Enthüllung
 prompt: |
-  Hätten Sie die Freundlichkeit zu erläutern, wie das Prinzip heißt, bei dem durch Ja-Nein-Fragen zu Buchstaben Schritt für Schritt ein Gedanke eingegrenzt wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Freundlichkeit zu erläutern, wie das Prinzip heißt, bei dem durch Ja-Nein-Fragen 
+  zu Buchstaben Schritt für Schritt ein Gedanke eingegrenzt wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Progressive Anagram

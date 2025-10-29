@@ -1,7 +1,8 @@
 id: q-126
 title: Seitlicher Diebstahl
 prompt: |
-  Gestatten Sie mir die Frage, wie die Technik heißt, bei der eine gewählte Karte während des Zusammenführens der Karten seitlich herausgezogen und palmiert wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie die Technik heißt, bei der eine gewählte Karte während des 
+  Zusammenführens der Karten seitlich herausgezogen und palmiert wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Side Steal

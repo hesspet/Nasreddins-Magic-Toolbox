@@ -1,7 +1,8 @@
 id: q-083
 title: Gedankenlesen im Buch
 prompt: |
-  Gestatten Sie mir die Frage, wie wir die Routine nennen, bei der eine zufällig gewählte Seite aus einem Buch gelesen wird und der Zauberer das gedachte Wort benennt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie wir die Routine nennen, bei der eine zufällig gewählte Seite 
+  aus einem Buch gelesen wird und der Zauberer das gedachte Wort benennt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Book Test

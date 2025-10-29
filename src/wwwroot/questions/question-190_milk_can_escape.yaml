@@ -1,7 +1,8 @@
 id: q-190
 title: Gefährliche Milchkanne
 prompt: |
-  Hätten Sie die Güte zu erläutern, wie Houdinis frühe Flucht vor seiner Water Torture Cell hieß, bei der er sich aus einer mit Wasser gefüllten Milchkanne befreite? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Güte zu erläutern, wie Houdinis frühe Flucht vor seiner Water Torture Cell
+  hieß, bei der er sich aus einer mit Wasser gefüllten Milchkanne befreite? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Milk Can Escape

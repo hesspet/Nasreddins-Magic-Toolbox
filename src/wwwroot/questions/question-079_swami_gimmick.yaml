@@ -1,7 +1,8 @@
 id: q-079
 title: Heimlicher Writer
 prompt: |
-  Würden Sie mir sagen, wie das kleine Stift- oder Bleifach heißt, das am Daumen befestigt wird, um heimlich Zahlen oder Worte auf einen Zettel zu schreiben? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir sagen, wie das kleine Stift- oder Bleifach heißt, das am Daumen befestigt 
+  wird, um heimlich Zahlen oder Worte auf einen Zettel zu schreiben? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Swami Gimmick (Nail Writer)

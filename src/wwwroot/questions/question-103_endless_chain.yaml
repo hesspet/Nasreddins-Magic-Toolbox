@@ -1,7 +1,8 @@
 id: q-103
 title: Kettenfangspiel
 prompt: |
-  Gestatten Sie mir die Frage, wie das Gaukler-Spiel heißt, bei dem eine Kette auf dem Tisch gelegt wird und Zuschauende raten, ob sie sich festzieht oder löst? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie das Gaukler-Spiel heißt, bei dem eine Kette auf dem Tisch gelegt 
+  wird und Zuschauende raten, ob sie sich festzieht oder löst? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Endless Chain (Fast and Loose)

@@ -1,7 +1,8 @@
 id: q-196
 title: Anwendungen des Thumb Tips
 prompt: |
-  Wären Sie so freundlich, die Requisiten zu wählen, die klassisch mithilfe eines Thumb Tips zum Erscheinen oder Verschwinden gebracht werden? (Wären Sie so freundlich, 2 Antworten auszuwählen?)
+  Wären Sie so freundlich, die Requisiten zu wählen, die klassisch mithilfe eines Thumb Tips zum 
+  Erscheinen oder Verschwinden gebracht werden? (Wären Sie so freundlich, 2 Antworten auszuwählen?)
 allowsMultiple: true
 options:
   - text: Seidentuch

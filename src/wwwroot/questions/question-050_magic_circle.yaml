@@ -1,7 +1,8 @@
 id: q-050
 title: Britische Zaubervereinigung
 prompt: |
-  Dürfte ich erfahren, wie die renommierte Londoner Gesellschaft heißt, die seit 1905 Zauberkunst fördert und das Motto 'Indocilis Privata Loqui' trägt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Dürfte ich erfahren, wie die renommierte Londoner Gesellschaft heißt, die seit 1905 Zauberkunst
+  fördert und das Motto 'Indocilis Privata Loqui' trägt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: The Magic Circle

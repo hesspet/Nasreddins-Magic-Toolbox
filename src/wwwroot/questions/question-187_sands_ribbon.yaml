@@ -1,7 +1,8 @@
 id: q-187
 title: Endlose Bänder
 prompt: |
-  Würden Sie mir mitteilen, wie die Bühnenroutine heißt, bei der ein Seil scheinbar in immer neue bunte Bänder zerfällt, entwickelt von George Sands? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir mitteilen, wie die Bühnenroutine heißt, bei der ein Seil scheinbar in immer neue 
+  bunte Bänder zerfällt, entwickelt von George Sands? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Sandsational Ropes

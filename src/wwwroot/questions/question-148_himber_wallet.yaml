@@ -1,7 +1,8 @@
 id: q-148
 title: Doppelseitige Geldbörse
 prompt: |
-  Darf ich höflich fragen, wie die Brieftasche heißt, die zwei unterschiedliche Innenseiten besitzt und dadurch einen geheimen Austausch von Karten oder Vorhersagen erlaubt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich höflich fragen, wie die Brieftasche heißt, die zwei unterschiedliche Innenseiten 
+  besitzt und dadurch einen geheimen Austausch von Karten oder Vorhersagen erlaubt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Himber Wallet

@@ -1,7 +1,8 @@
 id: q-093
 title: Rollentausch am Pranger
 prompt: |
-  Gestatten Sie mir die Frage, wie die Illusion heißt, bei der der Assistent die Zauberin in ein Foltergerät schließt, nur um im selben Moment selbst dort gefesselt zu erscheinen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie die Illusion heißt, bei der der Assistent die Zauberin in ein 
+  Foltergerät schließt, nur um im selben Moment selbst dort gefesselt zu erscheinen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Assistant's Revenge

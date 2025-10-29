@@ -1,7 +1,8 @@
 id: q-143
 title: Einhand-Palmierung
 prompt: |
-  Hätten Sie die Güte zu erläutern, wie die Münztechnik heißt, bei der eine Münze auf dem Handrücken nahe der Fingerbasis verborgen gehalten wird, benannt nach T. Nelson Downs? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Güte zu erläutern, wie die Münztechnik heißt, bei der eine Münze auf dem Handrücken 
+  nahe der Fingerbasis verborgen gehalten wird, benannt nach T. Nelson Downs? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Downs Palm

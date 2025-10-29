@@ -1,7 +1,8 @@
 id: q-041
 title: Münzregen aus der Luft
 prompt: |
-  Hätten Sie die Freundlichkeit, den Namen der Routine zu nennen, bei der scheinbar endlos Münzen aus der Luft in einen Eimer fallen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Freundlichkeit, den Namen der Routine zu nennen, bei der scheinbar endlos Münzen 
+  aus der Luft in einen Eimer fallen?  (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Miser's Dream

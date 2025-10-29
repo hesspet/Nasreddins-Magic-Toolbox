@@ -1,7 +1,8 @@
 id: q-173
 title: Eine Hand genügt
 prompt: |
-  Darf ich höflich fragen, wie der argentinische Meister heißt, der trotz Verlust seiner rechten Hand poetische Kartenvorführungen mit der linken Hand präsentierte und den Satz 'No se puede hacer más lento' prägte? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich höflich fragen, wie der argentinische Meister heißt, der trotz Verlust seiner rechten Hand 
+  poetische Kartenvorführungen mit der linken Hand präsentierte und den Satz 'No se puede hacer más lento' prägte? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: René Lavand

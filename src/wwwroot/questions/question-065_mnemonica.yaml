@@ -1,7 +1,8 @@
 id: q-065
 title: Juan Tamariz' Kartenordnung
 prompt: |
-  Würden Sie mir mitteilen, wie die berühmte memorierte Stapelreihenfolge heißt, die Juan Tamariz in seinem Standardwerk veröffentlichte? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir mitteilen, wie die berühmte memorierte Stapelreihenfolge heißt, 
+  die Juan Tamariz in seinem Standardwerk veröffentlichte? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Mnemonica

@@ -5,16 +5,16 @@ prompt: |
   eine Münze scheinbar in die andere Hand wandert, tatsächlich jedoch heimlich gehalten wird? (Bitte wählen Sie 1 Antwort)
 allowsMultiple: false
 options:
-  - text: Franzosenabzug (French Drop)
+  - text: Franzosenabzug
     isCorrect: false
-  - text: Französische Abgabe (French Drop)
+  - text: Französische Abgabe
     isCorrect: true
   - text: Schattenwurf
     isCorrect: false
   - text: Runenwurf
     isCorrect: false
 explanation: |
-  Die Französische Abgabe (French Drop) ist eine klassische Scheingabe der
-  Münzmagie (coin magic), bei der die Münze in der ursprünglichen Hand verbleibt.
+  Die Französische Abgabe ist eine klassische Scheingabe der 
+  Münzmagie, bei der die Münze in der ursprünglichen Hand verbleibt.
 tags:
   - muenzkunst

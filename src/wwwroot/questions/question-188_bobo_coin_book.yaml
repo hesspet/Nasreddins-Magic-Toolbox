@@ -1,7 +1,8 @@
 id: q-188
 title: Münzstandardwerk
 prompt: |
-  Darf ich höflich fragen, welches Buch von J.B. Bobo als grundlegende Sammlung von Münztechniken gilt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich höflich fragen, welches Buch von J.B. Bobo als grundlegende Sammlung von 
+  Münztechniken gilt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Modern Coin Magic

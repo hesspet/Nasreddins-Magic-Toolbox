@@ -1,7 +1,8 @@
 id: q-078
 title: Blick in den Zettel
 prompt: |
-  Hätten Sie die Güte zu erklären, wie die Technik heißt, bei der ein gefalteter Zettel scheinbar zerrissen wird, wobei der mittlere Teil heimlich entnommen wird, um den Inhalt zu lesen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Güte zu erklären, wie die Technik heißt, bei der ein gefalteter Zettel 
+  scheinbar zerrissen wird, wobei der mittlere Teil heimlich entnommen wird, um den Inhalt zu lesen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Center Tear

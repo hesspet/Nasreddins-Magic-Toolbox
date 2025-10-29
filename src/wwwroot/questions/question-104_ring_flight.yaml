@@ -1,7 +1,8 @@
 id: q-104
 title: Ringreise zum Schlüsselbund
 prompt: |
-  Hätten Sie die Güte zu benennen, wie das Close-up-Kunststück heißt, bei dem ein geliehener Ring verschwindet und an einem Schlüsselanhänger wieder auftaucht? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Güte zu benennen, wie das Close-up-Kunststück heißt, bei dem ein geliehener Ring verschwindet und 
+  an einem Schlüsselanhänger wieder auftaucht? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Ring Flight

@@ -1,7 +1,8 @@
 id: q-109
 title: Kasten und Röhre
 prompt: |
-  Dürfte ich erfahren, wie das Produktionsgerät heißt, das aus einem quadratischen Kasten und einer Zylinderröhre besteht, beide leer gezeigt werden und dennoch Bänder hervorbringen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Dürfte ich erfahren, wie das Produktionsgerät heißt, das aus einem quadratischen Kasten und einer Zylinderröhre 
+  besteht, beide leer gezeigt werden und dennoch Bänder hervorbringen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Square Circle

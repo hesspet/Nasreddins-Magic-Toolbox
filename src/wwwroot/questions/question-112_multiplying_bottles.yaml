@@ -1,7 +1,8 @@
 id: q-112
 title: Vermehrende Gefäße
 prompt: |
-  Darf ich höflich fragen, wie die Routine heißt, bei der aus zwei Flaschen schrittweise viele Flaschen entstehen, die unter Röhren erscheinen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich höflich fragen, wie die Routine heißt, bei der aus zwei Flaschen schrittweise 
+  viele Flaschen entstehen, die unter Röhren erscheinen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Multiplying Bottles

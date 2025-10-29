@@ -1,7 +1,8 @@
 id: q-164
 title: Sekundenschneller Kostümwechsel
 prompt: |
-  Hätten Sie die Güte zu erläutern, wie die Spezialdisziplin heißt, bei der Künstler innerhalb von Augenblicken mehrfach komplette Kostüme wechseln, häufig unterstützt durch Helfer? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Güte zu erläutern, wie die Spezialdisziplin heißt, bei der Künstler 
+  innerhalb von Augenblicken mehrfach komplette Kostüme wechseln, häufig unterstützt durch Helfer? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Quick Change

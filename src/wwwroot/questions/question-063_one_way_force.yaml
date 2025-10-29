@@ -1,7 +1,8 @@
 id: q-063
 title: Einseitige Wahlhilfe
 prompt: |
-  Gestatten Sie mir die Frage, wie wir das Kartenspiel nennen, in dem alle Karten identisch sind und das daher zum sicheren Forcieren einer Wahl genutzt wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie wir das Kartenspiel nennen, in dem alle Karten identisch sind und 
+  das daher zum sicheren Forcieren einer Wahl genutzt wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: One-Way Force Deck

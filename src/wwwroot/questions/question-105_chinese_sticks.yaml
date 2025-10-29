@@ -1,7 +1,8 @@
 id: q-105
 title: Stäbe mit verknüpften Bändern
 prompt: |
-  Darf ich fragen, wie das Requisit heißt, bei dem zwei Stäbe scheinbar unabhängig voneinander Schnüre mit Quasten bewegen, die sich jedoch heimlich beeinflussen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich fragen, wie das Requisit heißt, bei dem zwei Stäbe scheinbar unabhängig voneinander Schnüre 
+  mit Quasten bewegen, die sich jedoch heimlich beeinflussen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Chinese Sticks

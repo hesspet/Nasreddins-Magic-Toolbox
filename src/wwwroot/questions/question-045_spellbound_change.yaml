@@ -1,7 +1,8 @@
 id: q-045
 title: Verwandlung der Münzen
 prompt: |
-  Gestatten Sie mir die Frage, wie die Sequenz heißt, in der eine Münze mehrfach ihre Erscheinung wechselt, während sie sichtbar in den Händen gerieben wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie die Sequenz heißt, in der eine Münze 
+  mehrfach ihre Erscheinung wechselt, während sie sichtbar in den Händen gerieben wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Spellbound

@@ -1,7 +1,8 @@
 id: q-097
 title: Schwebender Besen
 prompt: |
-  Gestatten Sie mir die Frage, wie die Levitation heißt, bei der eine Assistentin scheinbar auf einem Besen balanciert und frei im Raum schwebt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie die Levitation heißt, bei der eine Assistentin 
+  scheinbar auf einem Besen balanciert und frei im Raum schwebt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Broom Suspension

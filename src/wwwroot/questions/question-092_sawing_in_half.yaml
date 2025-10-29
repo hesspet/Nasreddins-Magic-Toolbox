@@ -1,7 +1,8 @@
 id: q-092
 title: Zerteilungsklassiker
 prompt: |
-  Würden Sie mir mitteilen, wie die Ikone der Bühnenmagie heißt, bei der eine Person scheinbar in zwei Hälften gesägt und anschließend wieder vereint wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir mitteilen, wie die Ikone der Bühnenmagie heißt, bei der eine Person scheinbar 
+  in zwei Hälften gesägt und anschließend wieder vereint wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Sawing a Woman in Half

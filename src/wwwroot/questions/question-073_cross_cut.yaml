@@ -1,7 +1,8 @@
 id: q-073
 title: Versetztes Abheben
 prompt: |
-  Darf ich fragen, wie das Forcen heißt, bei dem ein abgehobenes Kartenpaket versetzt auf das Deck gelegt wird und nach kurzer Pause die oben liegende Karte als gewählte präsentiert wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich fragen, wie das Forcen heißt, bei dem ein abgehobenes Kartenpaket versetzt auf das Deck 
+  gelegt wird und nach kurzer Pause die oben liegende Karte als gewählte präsentiert wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Cross Cut Force

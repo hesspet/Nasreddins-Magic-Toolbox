@@ -1,7 +1,8 @@
 id: q-049
 title: Reibungsgeheimnis
 prompt: |
-  Wären Sie so freundlich zu benennen, wie das Prinzip heißt, bei dem Karten mit verschiedenen Lackierungen behandelt werden, sodass sie wahlweise zusammenhaften oder sich trennen lassen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Wären Sie so freundlich zu benennen, wie das Prinzip heißt, bei dem Karten mit verschiedenen Lackierungen 
+  behandelt werden, sodass sie wahlweise zusammenhaften oder sich trennen lassen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Rough and Smooth

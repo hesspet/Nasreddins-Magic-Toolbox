@@ -1,7 +1,8 @@
 id: q-101
 title: Ungleiche Seile
 prompt: |
-  Dürfte ich fragen, wie der Klassiker heißt, bei dem drei unterschiedlich lange Seile gleich lang erscheinen und am Ende wieder ihre ursprünglichen Längen annehmen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Dürfte ich fragen, wie der Klassiker heißt, bei dem drei unterschiedlich lange 
+  Seile gleich lang erscheinen und am Ende wieder ihre ursprünglichen Längen annehmen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Professor's Nightmare

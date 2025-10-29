@@ -1,7 +1,8 @@
 id: q-147
 title: Seitliche Klemmhaltung
 prompt: |
-  Hätten Sie die Güte zu erklären, wie die Position heißt, bei der eine Münze zwischen Daumenwurzel und Zeigefingerseite gehalten wird, um sie seitlich vor Blicken zu verbergen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Güte zu erklären, wie die Position heißt, bei der eine Münze zwischen Daumenwurzel 
+  und Zeigefingerseite gehalten wird, um sie seitlich vor Blicken zu verbergen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Tenkai Pinch

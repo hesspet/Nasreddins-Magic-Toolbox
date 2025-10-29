@@ -1,7 +1,8 @@
 id: q-100
 title: Unsichtbare Fadentechnik
 prompt: |
-  Hätten Sie die Güte zu sagen, wie das mechanische Hilfsmittel heißt, das feine Fäden automatisch aufrollt, damit Schwebeeffekte diskret kontrolliert werden können? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Güte zu sagen, wie das mechanische Hilfsmittel heißt, das feine Fäden 
+  automatisch aufrollt, damit Schwebeeffekte diskret kontrolliert werden können? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Invisible Thread Reel (ITR)

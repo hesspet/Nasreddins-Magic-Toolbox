@@ -1,7 +1,8 @@
 id: q-057
 title: Pionier des Maskelyne-Clans
 prompt: |
-  Dürfte ich Sie bitten zu erinnern, welcher britische Illusionist das Egyptian Hall Theatre in London betrieb und frühe Bühnenwunder populär machte? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Dürfte ich Sie bitten zu erinnern, welcher britische Illusionist das Egyptian Hall Theatre in 
+  London betrieb und frühe Bühnenwunder populär machte? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: John Nevil Maskelyne

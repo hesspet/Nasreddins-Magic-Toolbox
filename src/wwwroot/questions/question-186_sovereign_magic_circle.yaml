@@ -1,7 +1,8 @@
 id: q-186
 title: Grade im Magic Circle
 prompt: |
-  Gestatten Sie mir die Frage, wie die höchste Ehrung innerhalb des britischen Magic Circle genannt wird, die an Magier mit außergewöhnlichen Verdiensten vergeben wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie die höchste Ehrung innerhalb des britischen Magic Circle genannt wird, 
+  die an Magier mit außergewöhnlichen Verdiensten vergeben wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Member of the Inner Magic Circle

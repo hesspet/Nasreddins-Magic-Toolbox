@@ -1,7 +1,8 @@
 id: q-169
 title: Taubenmeister
 prompt: |
-  Würden Sie mir mitteilen, welcher US-amerikanische Magier als Meister der Taubenmagie gilt und lange Zeit im Monte Carlo in Las Vegas auftrat? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir mitteilen, welcher US-amerikanische Magier als Meister der Taubenmagie 
+  gilt und lange Zeit im Monte Carlo in Las Vegas auftrat? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Lance Burton

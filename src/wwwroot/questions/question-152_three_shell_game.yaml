@@ -1,7 +1,8 @@
 id: q-152
 title: Muschelschalen-Trick
 prompt: |
-  Darf ich höflich fragen, wie das Straßenspiel heißt, bei dem eine Erbse unter drei Schalen verborgen und durch geschicktes Austauschen vor Zuschauenden verborgen wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich höflich fragen, wie das Straßenspiel heißt, bei dem eine Erbse unter drei Schalen verborgen 
+  und durch geschicktes Austauschen vor Zuschauenden verborgen wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Three Shell Game

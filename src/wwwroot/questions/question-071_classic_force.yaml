@@ -1,7 +1,9 @@
 id: q-071
 title: Feinfühlige Kartenwahl
 prompt: |
-  Wären Sie so freundlich zu schildern, wie wir die Technik nennen, bei der durch Timing und Körperführung eine Zuschauerin aus freien Stücken scheinbar jede Karte greifen darf, tatsächlich aber eine bestimmte Karte nimmt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Wären Sie so freundlich zu schildern, wie wir die Technik nennen, bei der durch Timing und 
+  Körperführung eine Zuschauerin aus freien Stücken scheinbar jede Karte greifen darf, tatsächlich aber eine bestimmte Karte 
+  nimmt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Classic Force

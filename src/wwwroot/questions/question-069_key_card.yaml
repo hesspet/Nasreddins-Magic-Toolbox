@@ -1,7 +1,8 @@
 id: q-069
 title: Orientierungskarte
 prompt: |
-  Würden Sie mir verraten, wie die Methode heißt, bei der eine bekannte Karte als Orientierung genutzt wird, um eine gewählte Karte durch einfaches Abheben wiederzufinden? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir verraten, wie die Methode heißt, bei der eine bekannte Karte als Orientierung 
+  genutzt wird, um eine gewählte Karte durch einfaches Abheben wiederzufinden? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Key Card Prinzip

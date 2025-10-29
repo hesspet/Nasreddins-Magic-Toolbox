@@ -1,7 +1,8 @@
 id: q-059
 title: Geheime Ablage hinter dem Tisch
 prompt: |
-  Darf ich höflich erfragen, wie wir die unsichtbare Ablage nennen, die hinter dem Zaubertisch angebracht wird, um Requisiten zu verstecken oder auszutauschen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich höflich erfragen, wie wir die unsichtbare Ablage nennen, die hinter dem 
+  Zaubertisch angebracht wird, um Requisiten zu verstecken oder auszutauschen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Servante

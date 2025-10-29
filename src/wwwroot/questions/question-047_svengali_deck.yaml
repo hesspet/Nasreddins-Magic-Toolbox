@@ -1,7 +1,8 @@
 id: q-047
 title: Gleichschaltendes Kartenspiel
 prompt: |
-  Hätten Sie die Güte zu erläutern, wie das Deck heißt, bei dem jede zweite Karte kürzer geschnitten und identisch bedruckt ist, um forcierte Effekte zu ermöglichen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Güte zu erläutern, wie das Deck heißt, bei dem jede zweite Karte kürzer 
+  geschnitten und identisch bedruckt ist, um forcierte Effekte zu ermöglichen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Svengali Deck

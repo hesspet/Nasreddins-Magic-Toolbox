@@ -1,7 +1,8 @@
 id: q-124
 title: Palmieren der Oberkarte
 prompt: |
-  Hätten Sie die Güte zu erläutern, wie die Technik heißt, bei der die oberste Karte in die Handfläche geschoben wird, während das Publikum ein vollständiges Deck sieht? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Güte zu erläutern, wie die Technik heißt, bei der die oberste Karte in die Handfläche 
+  geschoben wird, während das Publikum ein vollständiges Deck sieht? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Top Palm

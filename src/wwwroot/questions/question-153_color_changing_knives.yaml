@@ -1,7 +1,8 @@
 id: q-153
 title: Farbenwechselnde Messer
 prompt: |
-  Gestatten Sie mir die Frage, wie das Close-up-Requisit heißt, bei dem Taschenmesser mehrfach die Griff- oder Klingenfarbe wechseln, während sie in der Hand gewendet werden? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie das Close-up-Requisit heißt, bei dem Taschenmesser 
+  mehrfach die Griff- oder Klingenfarbe wechseln, während sie in der Hand gewendet werden? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Color Changing Knives

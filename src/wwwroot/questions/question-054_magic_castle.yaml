@@ -1,7 +1,8 @@
 id: q-054
 title: Schloss der Zauberkunst
 prompt: |
-  Hätten Sie die Freundlichkeit zu sagen, wie das private Clubhaus in Hollywood heißt, das als Sitz der Academy of Magical Arts dient? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Freundlichkeit zu sagen, wie das private Clubhaus in Hollywood heißt, 
+  das als Sitz der Academy of Magical Arts dient? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: The Magic Castle

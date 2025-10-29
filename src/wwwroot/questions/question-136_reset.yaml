@@ -1,7 +1,8 @@
 id: q-136
 title: Rücksetzende Vierlinge
 prompt: |
-  Darf ich höflich fragen, wie die Routine heißt, bei der zwei Vierergruppen sich mehrfach ineinander verwandeln und am Ende zu ihren Ausgangswerten zurückkehren? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich höflich fragen, wie die Routine heißt, bei der zwei Vierergruppen sich mehrfach 
+  ineinander verwandeln und am Ende zu ihren Ausgangswerten zurückkehren? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Reset

@@ -1,7 +1,8 @@
 id: q-166
 title: Spektakulärer Flug
 prompt: |
-  Gestatten Sie mir die Frage, wie die Signaturillusion von David Copperfield heißt, bei der er ohne sichtbare Hilfsmittel über die Bühne schwebt und durch Reifen fliegt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie die Signaturillusion von David Copperfield heißt, 
+  bei der er ohne sichtbare Hilfsmittel über die Bühne schwebt und durch Reifen fliegt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Flying

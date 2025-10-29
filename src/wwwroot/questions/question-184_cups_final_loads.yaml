@@ -1,10 +1,11 @@
 id: q-184
 title: Überraschende Endladungen
 prompt: |
-  Hätten Sie die Güte auszuwählen, welche Gegenstände häufig als finale Erscheinungen beim Cups-and-Balls-Spiel genutzt werden? (Wären Sie so freundlich, 2 Antworten auszuwählen?)
+  Hätten Sie die Güte auszuwählen, welche Gegenstände häufig als finale Erscheinungen beim 
+  Cups-and-Balls-Spiel genutzt werden? (Wären Sie so freundlich, 2 Antworten auszuwählen?)
 allowsMultiple: true
 options:
-  - text: Zitronen
+  - text: Zitronen oder Orangen
     isCorrect: true
   - text: Billiardbälle
     isCorrect: true

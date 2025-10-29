@@ -1,7 +1,8 @@
 id: q-177
 title: Gedankenmeister
 prompt: |
-  Darf ich höflich fragen, wie der US-amerikanische Mentalist heißt, der unter anderem die Serie 'Mindgames' moderierte und für seine analytischen Essays bekannt war? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich höflich fragen, wie der US-amerikanische Mentalist heißt, der unter anderem die Serie 'Mindgames' 
+  moderierte und für seine analytischen Essays bekannt war? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Max Maven

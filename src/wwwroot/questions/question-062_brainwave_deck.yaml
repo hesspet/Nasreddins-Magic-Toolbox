@@ -1,7 +1,8 @@
 id: q-062
 title: Gedankenblitz im Kartenspiel
 prompt: |
-  Wären Sie so freundlich zu benennen, wie das Kartenspiel heißt, bei dem neben der umgedrehten Karte zusätzlich die Rückfarbe abweicht, um eine mentale Vorhersage zu betonen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Wären Sie so freundlich zu benennen, wie das Kartenspiel heißt, bei dem neben der umgedrehten 
+  Karte zusätzlich die Rückfarbe abweicht, um eine mentale Vorhersage zu betonen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Brainwave Deck

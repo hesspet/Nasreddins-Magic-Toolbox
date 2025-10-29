@@ -1,7 +1,8 @@
 id: q-160
 title: Papier-Schneesturm
 prompt: |
-  Darf ich höflich fragen, wie der Bühnenklassiker heißt, bei dem ein gefaltetes Papier zu Schnipseln gerieben wird, die am Ende mithilfe eines Fächers als Schneesturm durch den Saal wirbeln? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich höflich fragen, wie der Bühnenklassiker heißt, bei dem ein gefaltetes Papier zu 
+  Schnipseln gerieben wird, die am Ende mithilfe eines Fächers als Schneesturm durch den Saal wirbeln? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Snowstorm in China

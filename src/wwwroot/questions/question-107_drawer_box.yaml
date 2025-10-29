@@ -1,7 +1,8 @@
 id: q-107
 title: Schubfachproduktion
 prompt: |
-  Gestatten Sie mir die Frage, wie die Box heißt, bei der ein leer gezeigtes Schubfach geschlossen wird und beim erneuten Öffnen Tücher oder Tauben enthält? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie die Box heißt, bei der ein leer gezeigtes Schubfach 
+  geschlossen wird und beim erneuten Öffnen Tücher oder Tauben enthält? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Drawer Box

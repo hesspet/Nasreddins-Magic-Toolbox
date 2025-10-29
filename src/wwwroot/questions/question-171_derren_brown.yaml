@@ -1,7 +1,8 @@
 id: q-171
 title: Psychologische Experimente
 prompt: |
-  Würden Sie mir mitteilen, wie der britische Mentalist heißt, der für psychologische Shows wie 'Mind Control' und aufwendige TV-Experimente bekannt wurde? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir mitteilen, wie der britische Mentalist heißt, der für psychologische Shows wie 'Mind Control' 
+  und aufwendige TV-Experimente bekannt wurde? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Derren Brown

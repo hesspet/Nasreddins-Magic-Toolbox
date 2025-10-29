@@ -1,7 +1,8 @@
 id: q-130
 title: Aufsteigende Lieblingskarte
 prompt: |
-  Hätten Sie die Güte zu beschreiben, wie die Routine heißt, bei der eine gewählte Karte immer wieder nach oben springt, egal wohin sie ins Deck gelegt wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Güte zu beschreiben, wie die Routine heißt, bei der eine gewählte 
+  Karte immer wieder nach oben springt, egal wohin sie ins Deck gelegt wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Ambitious Card

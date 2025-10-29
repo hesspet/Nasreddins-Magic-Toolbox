@@ -1,7 +1,8 @@
 id: q-102
 title: Zerschnittenes Seil
 prompt: |
-  Würden Sie mir erläutern, wie der Effekt heißt, bei dem ein Seil sichtbar zerschnitten und anschließend nahtlos wiederhergestellt wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir erläutern, wie der Effekt heißt, bei dem ein Seil sichtbar zerschnitten und
+  anschließend nahtlos wiederhergestellt wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Cut and Restored Rope

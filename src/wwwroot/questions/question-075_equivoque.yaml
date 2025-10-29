@@ -1,7 +1,8 @@
 id: q-075
 title: Sprachliches Forcieren
 prompt: |
-  Gestatten Sie mir die Frage, wie wir die Technik nennen, bei der durch geschickte Formulierungen mehrere Optionen angeboten, aber gezielt interpretierbar gehalten werden, um ein gewünschtes Ergebnis zu erzwingen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie wir die Technik nennen, bei der durch geschickte Formulierungen 
+  mehrere Optionen angeboten, aber gezielt interpretierbar gehalten werden, um ein gewünschtes Ergebnis zu erzwingen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Equivoque (Magician's Choice)

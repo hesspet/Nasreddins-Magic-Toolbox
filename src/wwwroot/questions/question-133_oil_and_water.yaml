@@ -1,7 +1,8 @@
 id: q-133
 title: Trennung von Farben
 prompt: |
-  Hätten Sie die Güte zu benennen, wie die Routine heißt, bei der rote und schwarze Karten wiederholt gemischt und dennoch voneinander getrennt gezeigt werden? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Güte zu benennen, wie die Routine heißt, bei der rote und schwarze Karten 
+  wiederholt gemischt und dennoch voneinander getrennt gezeigt werden? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Oil and Water

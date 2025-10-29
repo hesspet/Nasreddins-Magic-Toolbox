@@ -1,7 +1,8 @@
 id: q-202
 title: Verantwortung auf der Bühne
 prompt: |
-  Gestatten Sie mir die Frage, wie wir den unerwünschten Vorgang nennen, bei dem Methoden absichtlich vor nicht eingeweihten Personen offengelegt werden? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie wir den unerwünschten Vorgang nennen, bei dem Methoden 
+  absichtlich vor nicht eingeweihten Personen offengelegt werden? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Exposure

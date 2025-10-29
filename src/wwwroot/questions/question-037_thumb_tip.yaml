@@ -1,7 +1,8 @@
 id: q-037
 title: Geheimer Daumenaufsatz
 prompt: |
-  Gestatten Sie mir die Frage, wie wir das hohle Kunststoffkäppchen nennen, das über den Daumen gestülpt wird, um Tücher oder Salz verschwinden zu lassen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie wir das hohle Kunststoffkäppchen nennen, das über den Daumen 
+  gestülpt wird, um Tücher oder Salz verschwinden zu lassen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Thumb Tip

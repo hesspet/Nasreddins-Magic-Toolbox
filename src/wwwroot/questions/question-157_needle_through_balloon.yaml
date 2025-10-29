@@ -1,7 +1,8 @@
 id: q-157
 title: Nadel durch den Ballon
 prompt: |
-  Gestatten Sie mir die Frage, wie der Effekt heißt, bei dem eine lange Nadel durch einen aufgeblasenen Ballon geführt wird, ohne dass dieser platzt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie der Effekt heißt, bei dem eine lange Nadel durch einen 
+  aufgeblasenen Ballon geführt wird, ohne dass dieser platzt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Needle Thru Balloon

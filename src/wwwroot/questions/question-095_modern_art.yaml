@@ -1,7 +1,8 @@
 id: q-095
 title: Diagonal geteilte Bühne
 prompt: |
-  Darf ich fragen, wie die Illusion heißt, bei der der Oberkörper auf einer Staffelei scheinbar seitlich verschoben wird, während Beine sichtbar bleiben? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich fragen, wie die Illusion heißt, bei der der Oberkörper auf einer Staffelei scheinbar 
+  seitlich verschoben wird, während Beine sichtbar bleiben? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Modern Art

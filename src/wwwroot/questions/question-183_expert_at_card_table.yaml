@@ -1,7 +1,8 @@
 id: q-183
 title: Kartenklassiker
 prompt: |
-  Würden Sie mir mitteilen, unter welchem Pseudonym der Autor des Standardwerks 'The Expert at the Card Table' bekannt ist? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir mitteilen, unter welchem Pseudonym der Autor des Standardwerks 'The Expert at the Card Table' 
+  bekannt ist? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: S. W. Erdnase

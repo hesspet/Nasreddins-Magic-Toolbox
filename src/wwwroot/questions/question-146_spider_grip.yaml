@@ -1,7 +1,8 @@
 id: q-146
 title: Spinnenhalt
 prompt: |
-  Gestatten Sie mir die Frage, wie die Münzposition heißt, bei der die Münze zwischen den ersten Gliedern der Finger gehalten wird, sodass die Handflächen scheinbar leer gezeigt werden können? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie die Münzposition heißt, bei der die Münze zwischen den ersten 
+  Gliedern der Finger gehalten wird, sodass die Handflächen scheinbar leer gezeigt werden können? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Spider Grip

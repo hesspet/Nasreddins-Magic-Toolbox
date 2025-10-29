@@ -1,7 +1,8 @@
 id: q-199
 title: Kontrolltechniken
 prompt: |
-  Bitte wählen Sie die Techniken, mit denen eine gewählte Karte zuverlässig an eine gewünschte Position gebracht werden kann. (Wären Sie so freundlich, 3 Antworten auszuwählen?)
+  Bitte wählen Sie die Techniken, mit denen eine gewählte Karte zuverlässig an eine gewünschte 
+  Position gebracht werden kann. (Wären Sie so freundlich, 3 Antworten auszuwählen?)
 allowsMultiple: true
 options:
   - text: Double Undercut

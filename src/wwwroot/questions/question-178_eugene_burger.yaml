@@ -1,7 +1,8 @@
 id: q-178
 title: Philosoph der Magie
 prompt: |
-  Hätten Sie die Güte zu nennen, welcher Chicagoer Magier für seine tiefe Präsentation, philosophischen Betrachtungen und Bücher wie 'Spirit Theater' bekannt war? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Güte zu nennen, welcher Chicagoer Magier für seine tiefe Präsentation, philosophischen Betrachtungen 
+  und Bücher wie 'Spirit Theater' bekannt war? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Eugene Burger

@@ -1,7 +1,8 @@
 id: q-111
 title: Wandernde Flaschen
 prompt: |
-  Gestatten Sie mir die Frage, wie die Comedy-Illusion heißt, bei der unter zwei Röhren Flaschen und Gläser wiederholt die Plätze tauschen und sich vervielfachen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie die Comedy-Illusion heißt, bei der unter zwei Röhren 
+  Flaschen und Gläser wiederholt die Plätze tauschen und sich vervielfachen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Passe Passe Bottles

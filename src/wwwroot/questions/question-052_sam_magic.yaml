@@ -1,7 +1,8 @@
 id: q-052
 title: Traditionsreiche US-Organisation
 prompt: |
-  Darf ich Sie fragen, wie die älteste Zaubervereinigung der Vereinigten Staaten heißt, deren berühmtestes Mitglied Harry Houdini als Präsident diente? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich Sie fragen, wie die älteste Zaubervereinigung der Vereinigten Staaten heißt, deren berühmtestes 
+  Mitglied Harry Houdini als Präsident diente? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Society of American Magicians

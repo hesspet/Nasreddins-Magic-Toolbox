@@ -1,7 +1,8 @@
 id: q-056
 title: Fernsehzauberer in Fransenjacke
 prompt: |
-  Würden Sie mir bitte den Namen des kanadischen Illusionisten nennen, der in den 1970er Jahren mit bunten Kostümen Fernsehen und Broadway verzauberte? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir bitte den Namen des kanadischen Illusionisten nennen, der in den 1970er Jahren mit bunten 
+  Kostümen Fernsehen und Broadway verzauberte? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Doug Henning

@@ -1,7 +1,8 @@
 id: q-165
 title: Ethisches Versprechen
 prompt: |
-  Würden Sie mir mitteilen, wie wir die unausgesprochene Verpflichtung nennen, Geheimnisse der Zauberkunst nur an ernsthaft Lernende weiterzugeben und vor Publikum nicht leichtfertig zu entlarven? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir mitteilen, wie wir die unausgesprochene Verpflichtung nennen, Geheimnisse der 
+  Zauberkunst nur an ernsthaft Lernende weiterzugeben und vor Publikum nicht leichtfertig zu entlarven? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Magician's Oath

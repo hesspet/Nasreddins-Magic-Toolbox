@@ -1,7 +1,8 @@
 id: q-182
 title: Familie hinter dem Schloss
 prompt: |
-  Gestatten Sie mir die Frage, welche Brüder das Magic Castle in Los Angeles gründeten und die Academy of Magical Arts etablierten? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, welche Brüder das Magic Castle in Los Angeles 
+  gründeten und die Academy of Magical Arts etablierten? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Milt und Bill Larsen

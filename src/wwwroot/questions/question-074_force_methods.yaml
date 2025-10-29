@@ -1,7 +1,8 @@
 id: q-074
 title: Begriffe des Forcierens
 prompt: |
-  Würden Sie mir bitte die Begriffe nennen, die etablierte Methoden darstellen, um eine scheinbar freie Wahl auf eine bestimmte Karte zu lenken? (Wären Sie so freundlich, 3 Antworten auszuwählen?)
+  Würden Sie mir bitte die Begriffe nennen, die etablierte Methoden darstellen, 
+  um eine scheinbar freie Wahl auf eine bestimmte Karte zu lenken? (Wären Sie so freundlich, 3 Antworten auszuwählen?)
 allowsMultiple: true
 options:
   - text: Classic Force

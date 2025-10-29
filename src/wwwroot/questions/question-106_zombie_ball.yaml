@@ -1,7 +1,8 @@
 id: q-106
 title: Schwebender Silberball
 prompt: |
-  Würden Sie mir mitteilen, wie die Illusion heißt, bei der ein glänzender Ball unter einem Tuch zu schweben scheint und die Hände des Zauberers umkreist? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir mitteilen, wie die Illusion heißt, bei der ein glänzender Ball unter einem Tuch 
+  zu schweben scheint und die Hände des Zauberers umkreist? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Zombie Ball

@@ -1,7 +1,8 @@
 id: q-128
 title: Hofzinser Auswahl
 prompt: |
-  Darf ich fragen, wie die klassische Technik heißt, bei der eine oder mehrere Karten während eines Fächers heimlich nach oben oder unten gebracht werden, benannt nach einem Wiener Meister? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich fragen, wie die klassische Technik heißt, bei der eine oder mehrere Karten 
+  während eines Fächers heimlich nach oben oder unten gebracht werden, benannt nach einem Wiener Meister? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Hofzinser Cull

@@ -1,7 +1,8 @@
 id: q-085
 title: Frage-und-Antwort-Darbietung
 prompt: |
-  Darf ich fragen, wie wir die klassische Mentalmagie-Routine nennen, bei der Zuschauende Fragen notieren und der Künstler diese scheinbar hellseherisch beantwortet? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich fragen, wie wir die klassische Mentalmagie-Routine nennen, bei der Zuschauende Fragen 
+  notieren und der Künstler diese scheinbar hellseherisch beantwortet? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Q&A Act

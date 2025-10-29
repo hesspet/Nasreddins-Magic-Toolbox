@@ -1,7 +1,8 @@
 id: q-098
 title: Schwebende Assistentin
 prompt: |
-  Darf ich höflich erfragen, wie die klassische Levitation heißt, bei der eine Person unter einem Tuch schwebt und schließlich in der Luft verschwindet? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich höflich erfragen, wie die klassische Levitation heißt, bei der eine Person unter 
+  einem Tuch schwebt und schließlich in der Luft verschwindet? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Asrah Levitation

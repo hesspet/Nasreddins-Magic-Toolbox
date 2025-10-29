@@ -1,7 +1,8 @@
 id: q-034
 title: Kartenkunst der Doppelhebung
 prompt: |
-  Würden Sie mir bitte erläutern, wie wir die Technik nennen, bei der scheinbar eine einzelne Karte gezeigt wird, tatsächlich jedoch zwei Karten als eine präsentiert werden? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir bitte erläutern, wie wir die Technik nennen, bei der scheinbar eine einzelne Karte 
+  gezeigt wird, tatsächlich jedoch zwei Karten als eine präsentiert werden? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Double Lift (Doppelhebung)

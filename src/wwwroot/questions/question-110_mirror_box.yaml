@@ -1,7 +1,8 @@
 id: q-110
 title: Spiegelillusion
 prompt: |
-  Würden Sie mir verraten, wie die Kiste heißt, die innen leer wirkt, in Wahrheit aber durch Spiegeln eine versteckte Kammer verbirgt, um Tücher oder Blumen erscheinen zu lassen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir verraten, wie die Kiste heißt, die innen leer wirkt, in Wahrheit aber durch Spiegeln 
+  eine versteckte Kammer verbirgt, um Tücher oder Blumen erscheinen zu lassen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Mirror Box

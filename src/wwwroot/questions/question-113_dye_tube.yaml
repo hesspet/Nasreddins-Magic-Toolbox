@@ -1,7 +1,8 @@
 id: q-113
 title: Farbwechsel im Tuch
 prompt: |
-  Würden Sie mir mitteilen, wie das kleine Röhrchen heißt, mit dem ein Seidentuch beim Durchziehen scheinbar seine Farbe wechselt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir mitteilen, wie das kleine Röhrchen heißt, mit dem ein 
+  Seidentuch beim Durchziehen scheinbar seine Farbe wechselt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Dye Tube

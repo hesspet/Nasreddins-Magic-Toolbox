@@ -1,7 +1,8 @@
 id: q-162
 title: Verdeckte Dunkeltechnik
 prompt: |
-  Würden Sie mir mitteilen, wie die Bühnentechnik heißt, bei der schwarze Requisiten vor schwarzem Hintergrund unsichtbar werden, um unerwartete Erscheinungen zu ermöglichen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir mitteilen, wie die Bühnentechnik heißt, bei der schwarze Requisiten vor schwarzem 
+  Hintergrund unsichtbar werden, um unerwartete Erscheinungen zu ermöglichen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Black Art

@@ -1,7 +1,8 @@
 id: q-094
 title: Faltender Spiegelschrank
 prompt: |
-  Hätten Sie die Güte zu benennen, wie die Illusion heißt, bei der eine Person in einer kleinen Box Platz findet, die sich wie ein Papierfaltobjekt zusammenlegen lässt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Güte zu benennen, wie die Illusion heißt, bei der eine Person in einer kleinen 
+  Box Platz findet, die sich wie ein Papierfaltobjekt zusammenlegen lässt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Origami Illusion

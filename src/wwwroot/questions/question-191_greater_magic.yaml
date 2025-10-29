@@ -1,7 +1,8 @@
 id: q-191
 title: Voluminöses Nachschlagewerk
 prompt: |
-  Gestatten Sie mir die Frage, welcher Autor das monumentale Werk 'Greater Magic' verfasste, das posthum von Jean Hugard herausgegeben wurde? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, welcher Autor das monumentale Werk 'Greater Magic' verfasste, das posthum
+  von Jean Hugard herausgegeben wurde? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: John Northern Hilliard

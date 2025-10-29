@@ -1,7 +1,8 @@
 id: q-189
 title: Legendärer Wassertank
 prompt: |
-  Gestatten Sie mir die Frage, wie Houdinis Entfesselung heißt, bei der er kopfüber in einem mit Wasser gefüllten Tank angekettet eingetaucht wurde? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie Houdinis Entfesselung heißt, bei der er kopfüber in 
+  einem mit Wasser gefüllten Tank angekettet eingetaucht wurde? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Chinese Water Torture Cell

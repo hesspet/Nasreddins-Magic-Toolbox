@@ -1,7 +1,8 @@
 id: q-151
 title: Magnetischer Becher
 prompt: |
-  Würden Sie mir erläutern, wie die Solo-Variante des Becherspiels heißt, bei der mit nur einem Becher und einem Ball gearbeitet wird, der durch ein verborgenes Prinzip kontrolliert wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir erläutern, wie die Solo-Variante des Becherspiels heißt, bei der mit nur einem 
+  Becher und einem Ball gearbeitet wird, der durch ein verborgenes Prinzip kontrolliert wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Chop Cup

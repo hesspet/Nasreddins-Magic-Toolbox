@@ -1,7 +1,8 @@
 id: q-081
 title: Ein-Schritt-Vorsprung
 prompt: |
-  Darf ich höflich fragen, wie das Prinzip heißt, bei dem der Vortragende stets eine Information mehr weiß als das Publikum glaubt, um scheinbare Vorhersagen nacheinander zu enthüllen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich höflich fragen, wie das Prinzip heißt, bei dem der Vortragende stets eine 
+  Information mehr weiß als das Publikum glaubt, um scheinbare Vorhersagen nacheinander zu enthüllen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: One-Ahead Principle

@@ -1,7 +1,8 @@
 id: q-180
 title: Königin der Magie
 prompt: |
-  Würden Sie mir mitteilen, wie die Zauberin heißt, die nach dem Tod ihres Mannes Alexander Herrmann deren Tournee übernahm und als 'Queen of Magic' gefeiert wurde? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir mitteilen, wie die Zauberin heißt, die nach dem Tod ihres Mannes Alexander Herrmann 
+  deren Tournee übernahm und als 'Queen of Magic' gefeiert wurde? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Adelaide Herrmann

@@ -1,7 +1,8 @@
 id: q-046
 title: Verwandlungssäckchen
 prompt: |
-  Würden Sie so freundlich sein zu sagen, wie wir das Utensil nennen, bei dem ein Stoffbeutel durch Drehen am Holzgriff seinen Inhalt heimlich austauschen kann? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie so freundlich sein zu sagen, wie wir das Utensil nennen, bei dem ein 
+  Stoffbeutel durch Drehen am Holzgriff seinen Inhalt heimlich austauschen kann? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Changing Bag

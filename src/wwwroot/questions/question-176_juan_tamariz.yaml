@@ -1,7 +1,8 @@
 id: q-176
 title: Spanische Schule
 prompt: |
-  Gestatten Sie mir die Frage, wie der charismatische spanische Magier heißt, der den 'Mnemonica'-Stack veröffentlichte und für seine Theorien zum 'Magical Atmosphere' berühmt ist? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie der charismatische spanische Magier heißt, der den 'Mnemonica'-Stack 
+  veröffentlichte und für seine Theorien zum 'Magical Atmosphere' berühmt ist? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Juan Tamariz

@@ -1,7 +1,8 @@
 id: q-089
 title: Berührungen ohne Kontakt
 prompt: |
-  Darf ich höflich fragen, wie der Effekt heißt, bei dem eine Person scheinbar von Geisterhand berührt wird, obwohl die Zauberin in einiger Entfernung steht? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich höflich fragen, wie der Effekt heißt, bei dem eine Person scheinbar 
+  von Geisterhand berührt wird, obwohl die Zauberin in einiger Entfernung steht? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: PK Touches

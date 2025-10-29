@@ -1,7 +1,8 @@
 id: q-053
 title: Weltmeisterschaft der Zauberei
 prompt: |
-  Würden Sie mir mitteilen, wie der internationale Dachverband heißt, der alle drei Jahre Weltmeisterschaften der Zauberkunst ausrichtet? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir mitteilen, wie der internationale Dachverband heißt, der alle drei 
+  Jahre Weltmeisterschaften der Zauberkunst ausrichtet? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Fédération Internationale des Sociétés Magiques (FISM)

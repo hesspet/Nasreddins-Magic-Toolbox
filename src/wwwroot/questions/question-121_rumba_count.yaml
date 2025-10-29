@@ -1,7 +1,8 @@
 id: q-121
 title: Verdeckt getarnte Karten
 prompt: |
-  Darf ich fragen, wie das Falschzählen heißt, bei dem der Eindruck entsteht, alle Karten seien doppelseitig blank, während heimlich Bildkarten verborgen bleiben? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich fragen, wie das Falschzählen heißt, bei dem der Eindruck entsteht, alle Karten seien 
+  doppelseitig blank, während heimlich Bildkarten verborgen bleiben? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Rumba Count

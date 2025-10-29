@@ -1,7 +1,8 @@
 id: q-051
 title: Internationale Bruderschaft
 prompt: |
-  Gestatten Sie mir die Frage, wie die weltweit größte Zaubervereinigung heißt, die 1922 in Buffalo gegründet wurde und heute unter einem blauen Siegel firmiert? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie die weltweit größte Zaubervereinigung heißt, die 1922 in Buffalo 
+  gegründet wurde und heute unter einem blauen Siegel firmiert? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: International Brotherhood of Magicians

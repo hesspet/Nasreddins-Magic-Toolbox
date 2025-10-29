@@ -1,7 +1,8 @@
 id: q-120
 title: Umkehrzählung
 prompt: |
-  Würden Sie mir mitteilen, wie das Kartenzählverfahren heißt, bei dem eine Vierergruppe scheinbar umgedreht wird, tatsächlich aber ihre Reihenfolge beibehält? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir mitteilen, wie das Kartenzählverfahren heißt, bei dem eine 
+  Vierergruppe scheinbar umgedreht wird, tatsächlich aber ihre Reihenfolge beibehält? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Jordan Count

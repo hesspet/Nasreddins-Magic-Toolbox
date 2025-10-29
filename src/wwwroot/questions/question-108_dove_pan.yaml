@@ -1,7 +1,8 @@
 id: q-108
 title: Pfannenzauber
 prompt: |
-  Hätten Sie die Güte zu erläutern, wie das Gerät heißt, bei dem Zutaten in eine Pfanne gegeben werden, diese kurz flambiert wird und anschließend eine Taube oder ein Kuchen erscheint? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Güte zu erläutern, wie das Gerät heißt, bei dem Zutaten in eine Pfanne gegeben 
+  werden, diese kurz flambiert wird und anschließend eine Taube oder ein Kuchen erscheint? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Dove Pan

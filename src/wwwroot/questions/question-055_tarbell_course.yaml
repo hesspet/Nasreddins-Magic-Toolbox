@@ -1,7 +1,8 @@
 id: q-055
 title: Standardwerk der Zauberlehre
 prompt: |
-  Darf ich höflich nach dem Namen des mehrbändigen Lehrwerks fragen, das Harlan Tarbell verfasste und das unzählige Disziplinen der Magie abdeckt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich höflich nach dem Namen des mehrbändigen Lehrwerks fragen, das Harlan Tarbell 
+  verfasste und das unzählige Disziplinen der Magie abdeckt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Tarbell Course in Magic

@@ -1,7 +1,8 @@
 id: q-149
 title: Brieftasche im Einschub
 prompt: |
-  Würden Sie mir mitteilen, wie die Geldbörse heißt, bei der eine zweite Innentasche herausgezogen werden kann, sodass eine unterschriebene Karte scheinbar ohne Palmieren dort landet? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir mitteilen, wie die Geldbörse heißt, bei der eine zweite Innentasche herausgezogen werden 
+  kann, sodass eine unterschriebene Karte scheinbar ohne Palmieren dort landet? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Mullica Wallet

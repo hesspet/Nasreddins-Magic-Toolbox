@@ -1,7 +1,8 @@
 id: q-185
 title: Dandy mit Zigaretten
 prompt: |
-  Darf ich fragen, wie der Varietékünstler hieß, der als 'The Suave Deceiver' elegant Zigaretten und Karten erscheinen ließ und in Abendgarderobe auftrat? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Darf ich fragen, wie der Varietékünstler hieß, der als 'The Suave Deceiver' elegant Zigaretten 
+  und Karten erscheinen ließ und in Abendgarderobe auftrat? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Cardini

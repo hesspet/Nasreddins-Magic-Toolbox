@@ -1,7 +1,8 @@
 id: q-179
 title: Schwebende Glühbirne
 prompt: |
-  Gestatten Sie mir die Frage, welcher US-amerikanische Illusionist des frühen 20. Jahrhunderts für Effekte wie die schwebende Glühbirne und den tanzenden Taschentuch bekannt war? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, welcher US-amerikanische Illusionist des frühen 20. Jahrhunderts für Effekte wie 
+  die schwebende Glühbirne und den tanzenden Taschentuch bekannt war? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Harry Blackstone Sr.

@@ -1,7 +1,8 @@
 id: q-039
 title: Verkettete Metallkreise
 prompt: |
-  Würden Sie mir mitteilen, wie das Kunststück genannt wird, bei dem massive Metallringe scheinbar ineinander gleiten und sich wieder lösen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Würden Sie mir mitteilen, wie das Kunststück genannt wird, bei dem massive Metallringe 
+  scheinbar ineinander gleiten und sich wieder lösen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Linking Rings

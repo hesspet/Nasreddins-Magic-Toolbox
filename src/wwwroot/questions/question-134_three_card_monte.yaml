@@ -1,7 +1,8 @@
 id: q-134
 title: Straßenklassiker mit Königin
 prompt: |
-  Gestatten Sie mir die Frage, wie das Hütchenspiel mit drei Karten heißt, bei dem Zuschauende die Lage der Geldkarte erraten sollen, aber durch falsches Umlegen scheitern? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Gestatten Sie mir die Frage, wie das Hütchenspiel mit drei Karten heißt, bei dem Zuschauende 
+  die Lage der Geldkarte erraten sollen, aber durch falsches Umlegen scheitern? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Three-Card Monte

@@ -1,7 +1,8 @@
 id: q-174
 title: Meister der Misdirection
 prompt: |
-  Hätten Sie die Güte zu nennen, welcher italienisch-amerikanische Zauberkünstler für seine perfekten Timing- und Körperbewegungen bekannt ist und Klassiker wie 'Paper Balls over the Head' entwickelte? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Hätten Sie die Güte zu nennen, welcher italienisch-amerikanische Zauberkünstler für seine perfekten 
+  Timing- und Körperbewegungen bekannt ist und Klassiker wie 'Paper Balls over the Head' entwickelte? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Slydini

@@ -1,7 +1,9 @@
 id: q-061
 title: Unsichtbare Vorhersage
 prompt: |
-  Dürfte ich erfahren, wie das vorbereitete Kartenspiel heißt, bei dem jede Karte mit einem Partner rückwärts liegt, sodass eine gedachte Karte als einzige umgedrehte Karte erscheint? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+  Dürfte ich erfahren, wie das vorbereitete Kartenspiel heißt, bei dem jede Karte mit einem Partner 
+  rückwärts liegt, sodass eine gedachte Karte als einzige umgedrehte Karte erscheint? 
+  (Wären Sie so freundlich, 1 Antwort auszuwählen?)
 allowsMultiple: false
 options:
   - text: Invisible Deck
