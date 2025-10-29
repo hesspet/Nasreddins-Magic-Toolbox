@@ -1,0 +1,19 @@
+id: q-167
+title: Kugelfang-Duo
+prompt: |
+  Dürfte ich erfahren, wie wir den gefährlich wirkenden Effekt nennen, bei dem Penn & Teller scheinbar Patronen fangen, nachdem sie diese gegenseitig abgefeuert haben? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Bullet Catch
+    isCorrect: true
+  - text: Smoke and Mirrors
+    isCorrect: false
+  - text: Double Tap
+    isCorrect: false
+  - text: Catch the Lead
+    isCorrect: false
+explanation: |
+  Der Bullet Catch ist eine legendäre Illusion, die Penn & Teller mit durchsichtigen Schutzschildern interpretieren.
+tags:
+  - grossillusion
+  - persoenlichkeiten

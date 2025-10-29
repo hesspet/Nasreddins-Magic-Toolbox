@@ -1,0 +1,19 @@
+id: q-169
+title: Taubenmeister
+prompt: |
+  Würden Sie mir mitteilen, welcher US-amerikanische Magier als Meister der Taubenmagie gilt und lange Zeit im Monte Carlo in Las Vegas auftrat? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Lance Burton
+    isCorrect: true
+  - text: Doug Henning
+    isCorrect: false
+  - text: David Copperfield
+    isCorrect: false
+  - text: Hans Klok
+    isCorrect: false
+explanation: |
+  Lance Burton gewann 1982 die FISM und ist für elegante Taubenproduktionen bekannt.
+tags:
+  - persoenlichkeiten
+  - buehne

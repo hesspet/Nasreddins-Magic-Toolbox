@@ -1,0 +1,19 @@
+id: q-069
+title: Orientierungskarte
+prompt: |
+  Würden Sie mir verraten, wie die Methode heißt, bei der eine bekannte Karte als Orientierung genutzt wird, um eine gewählte Karte durch einfaches Abheben wiederzufinden? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Key Card Prinzip
+    isCorrect: true
+  - text: Top Control
+    isCorrect: false
+  - text: Glimpse
+    isCorrect: false
+  - text: Double Undercut
+    isCorrect: false
+explanation: |
+  Beim Key-Card-Prinzip merkt sich der Zaubernde eine Nachbarkarte und kann dadurch die Zuschauerkarte später bestimmen.
+tags:
+  - kartenkunst
+  - grundlagen

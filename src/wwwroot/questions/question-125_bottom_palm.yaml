@@ -1,0 +1,19 @@
+id: q-125
+title: Palmieren der Unterkarte
+prompt: |
+  Dürfte ich erfahren, wie die Technik heißt, bei der die unterste Karte des Decks heimlich in die Handfläche gelangt, während das Deck scheinbar unbewegt bleibt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Bottom Palm
+    isCorrect: true
+  - text: Top Palm
+    isCorrect: false
+  - text: Side Steal
+    isCorrect: false
+  - text: Back Palm
+    isCorrect: false
+explanation: |
+  Der Bottom Palm erlaubt das heimliche Entfernen der untersten Karte für spätere Produktionen.
+tags:
+  - kartenkunst
+  - manipulation

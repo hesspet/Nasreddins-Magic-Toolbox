@@ -1,0 +1,19 @@
+id: q-077
+title: Einsicht ins Notizbuch
+prompt: |
+  Darf ich Sie bitten zu beschreiben, wie das Hilfsmittel heißt, das wie eine Brieftasche aussieht und es ermöglicht, heimlich einen geschriebenen Gedanken einzusehen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Peek Wallet
+    isCorrect: true
+  - text: Himber Wallet
+    isCorrect: false
+  - text: Card to Wallet
+    isCorrect: false
+  - text: Switch Wallet
+    isCorrect: false
+explanation: |
+  Eine Peek Wallet enthält ein Fenster oder Prinzip, das den heimlichen Blick auf notierte Informationen erlaubt.
+tags:
+  - mentalmagie
+  - requisiten

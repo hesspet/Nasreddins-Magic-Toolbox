@@ -1,0 +1,19 @@
+id: q-091
+title: Flucht aus dem Sub-Trunk
+prompt: |
+  Darf ich höflich fragen, wie die Houdini-Illusion heißt, bei der Künstler und Assistentin in Sekunden ihre Plätze in einem verschlossenen Kasten tauschen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Metamorphosis (Sub Trunk)
+    isCorrect: true
+  - text: Assistant's Revenge
+    isCorrect: false
+  - text: Jewel of the Nile
+    isCorrect: false
+  - text: Shadow Box
+    isCorrect: false
+explanation: |
+  Metamorphosis, auch Substitution Trunk, war eine Signaturillusion von Houdini und Bess, bei der ein blitzschneller Platzwechsel erfolgt.
+tags:
+  - grossillusion
+  - geschichte

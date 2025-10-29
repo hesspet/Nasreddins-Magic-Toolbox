@@ -1,0 +1,19 @@
+id: q-057
+title: Pionier des Maskelyne-Clans
+prompt: |
+  Dürfte ich Sie bitten zu erinnern, welcher britische Illusionist das Egyptian Hall Theatre in London betrieb und frühe Bühnenwunder populär machte? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: John Nevil Maskelyne
+    isCorrect: true
+  - text: Robert-Houdin
+    isCorrect: false
+  - text: Jean Eugène Robert-Houdin
+    isCorrect: false
+  - text: Harry Kellar
+    isCorrect: false
+explanation: |
+  John Nevil Maskelyne führte gemeinsam mit George Cooke das Egyptian Hall und entwickelte Illusionen wie die levitierende Lady.
+tags:
+  - geschichte
+  - grossillusion

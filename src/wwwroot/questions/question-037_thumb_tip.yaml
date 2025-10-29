@@ -1,0 +1,19 @@
+id: q-037
+title: Geheimer Daumenaufsatz
+prompt: |
+  Gestatten Sie mir die Frage, wie wir das hohle Kunststoffkäppchen nennen, das über den Daumen gestülpt wird, um Tücher oder Salz verschwinden zu lassen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Thumb Tip
+    isCorrect: true
+  - text: Finger Shell
+    isCorrect: false
+  - text: False Thumb
+    isCorrect: false
+  - text: Utility Tip
+    isCorrect: false
+explanation: |
+  Der Thumb Tip ist eines der vielseitigsten Hilfsmittel der Zauberkunst und ermöglicht zahlreiche Erscheinungs- und Verschwinderoutinen.
+tags:
+  - close-up
+  - requisiten

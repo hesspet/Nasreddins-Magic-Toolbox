@@ -1,0 +1,19 @@
+id: q-106
+title: Schwebender Silberball
+prompt: |
+  Würden Sie mir mitteilen, wie die Illusion heißt, bei der ein glänzender Ball unter einem Tuch zu schweben scheint und die Hände des Zauberers umkreist? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Zombie Ball
+    isCorrect: true
+  - text: Floating Table
+    isCorrect: false
+  - text: Dancing Cane
+    isCorrect: false
+  - text: Sphere Flight
+    isCorrect: false
+explanation: |
+  Der Zombie Ball nutzt einen Stab und geschickte Körperhaltung, um eine schwebende Kugel zu zeigen.
+tags:
+  - buehne
+  - levitation

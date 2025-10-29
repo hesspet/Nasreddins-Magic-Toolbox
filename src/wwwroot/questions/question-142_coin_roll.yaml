@@ -1,0 +1,19 @@
+id: q-142
+title: Fingerfertige Münzrolle
+prompt: |
+  Gestatten Sie mir die Frage, wie die Fingerfertigkeit heißt, bei der eine Münze kontinuierlich über die Finger der Hand rollt und damit Geschick demonstriert? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Coin Roll
+    isCorrect: true
+  - text: Butterfly Roll
+    isCorrect: false
+  - text: Back Palm Roll
+    isCorrect: false
+  - text: Charlier Roll
+    isCorrect: false
+explanation: |
+  Die Coin Roll dient oft als Flourish, um Geschicklichkeit mit Münzen zu zeigen.
+tags:
+  - muenzen
+  - manipulation

@@ -1,0 +1,19 @@
+id: q-137
+title: Glaubhaftes Verschwinden
+prompt: |
+  Hätten Sie die Güte zu erläutern, wie die Münztechnik heißt, bei der eine Münze scheinbar in die andere Hand gelegt wird, während das Auge noch den letzten Moment der Sichtbarkeit wahrnimmt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Retention Vanish
+    isCorrect: true
+  - text: French Drop
+    isCorrect: false
+  - text: Shuttle Pass
+    isCorrect: false
+  - text: Click Pass
+    isCorrect: false
+explanation: |
+  Der Retention Vanish nutzt Nachbild-Effekte, sodass die Münze noch sichtbar scheint, obwohl sie bereits verborgen ist.
+tags:
+  - muenzen
+  - techniken

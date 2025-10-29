@@ -1,0 +1,19 @@
+id: q-042
+title: Kartenhandhabung hinter der Hand
+prompt: |
+  Würden Sie mir bitte erläutern, wie wir die Technik nennen, bei der eine Karte unsichtbar auf der Handrückseite gehalten wird, um eine scheinbare Produktion zu ermöglichen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Back Palm
+    isCorrect: true
+  - text: Front Palm
+    isCorrect: false
+  - text: Classic Palm
+    isCorrect: false
+  - text: Side Steal
+    isCorrect: false
+explanation: |
+  Beim Back Palm wird die Karte zwischen den Fingern auf der Handrückseite fixiert und kann auf Kommando erscheinen oder verschwinden.
+tags:
+  - kartenkunst
+  - manipulation

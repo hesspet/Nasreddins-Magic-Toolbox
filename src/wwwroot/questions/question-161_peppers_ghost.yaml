@@ -1,0 +1,19 @@
+id: q-161
+title: Geisterprojektion
+prompt: |
+  Gestatten Sie mir die Frage, wie das Theaterprinzip heißt, bei dem eine Glasscheibe und verdeckte Beleuchtung genutzt werden, um geisterhafte Erscheinungen auf der Bühne zu erzeugen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Pepper's Ghost
+    isCorrect: true
+  - text: Musion Hologram
+    isCorrect: false
+  - text: Ghost Cabinet
+    isCorrect: false
+  - text: Shadowgraph
+    isCorrect: false
+explanation: |
+  Pepper's Ghost reflektiert eine versteckte Szene auf eine Glasfläche und erzeugt transparente Figuren.
+tags:
+  - buehne
+  - prinzipien

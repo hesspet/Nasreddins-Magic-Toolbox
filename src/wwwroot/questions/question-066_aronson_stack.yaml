@@ -1,0 +1,19 @@
+id: q-066
+title: Simon Aronsons Ordnung
+prompt: |
+  Hätten Sie die Güte zu sagen, wie die memorierte Kartenfolge heißt, die Simon Aronson in seinen Büchern etablierte und die viele kombinatorische Effekte ermöglicht? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Aronson Stack
+    isCorrect: true
+  - text: Mnemonica
+    isCorrect: false
+  - text: Si Stebbins
+    isCorrect: false
+  - text: Eight Kings
+    isCorrect: false
+explanation: |
+  Der Aronson Stack ist ein memorierter Stapel, der zahlreiche eingebaute Effekte wie Poker-Deals und Vorhersagen enthält.
+tags:
+  - kartenkunst
+  - memory

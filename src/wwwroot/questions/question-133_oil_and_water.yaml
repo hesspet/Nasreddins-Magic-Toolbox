@@ -1,0 +1,19 @@
+id: q-133
+title: Trennung von Farben
+prompt: |
+  Hätten Sie die Güte zu benennen, wie die Routine heißt, bei der rote und schwarze Karten wiederholt gemischt und dennoch voneinander getrennt gezeigt werden? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Oil and Water
+    isCorrect: true
+  - text: Water and Wine
+    isCorrect: false
+  - text: Fusion
+    isCorrect: false
+  - text: Mixed Monte
+    isCorrect: false
+explanation: |
+  Oil and Water demonstriert scheinbar unmögliche Separierungen von Farben trotz Mischens.
+tags:
+  - kartenkunst
+  - routinen

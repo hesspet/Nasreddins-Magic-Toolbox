@@ -1,0 +1,19 @@
+id: q-186
+title: Grade im Magic Circle
+prompt: |
+  Gestatten Sie mir die Frage, wie die höchste Ehrung innerhalb des britischen Magic Circle genannt wird, die an Magier mit außergewöhnlichen Verdiensten vergeben wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Member of the Inner Magic Circle
+    isCorrect: true
+  - text: Master of Mystery
+    isCorrect: false
+  - text: Keeper of Secrets
+    isCorrect: false
+  - text: Circle Grandmaster
+    isCorrect: false
+explanation: |
+  Der Titel 'Member of the Inner Magic Circle' mit Gold Star ist die höchste Auszeichnung des Magic Circle.
+tags:
+  - organisationen
+  - geschichte

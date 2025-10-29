@@ -1,0 +1,19 @@
+id: q-040
+title: Geteilte Assistentin
+prompt: |
+  Darf ich höflich fragen, wie die Illusion heißt, bei der eine Person in einer stehenden Box scheinbar in drei Teile verschoben wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Zig Zag Girl
+    isCorrect: true
+  - text: Thin Model Sawing
+    isCorrect: false
+  - text: Modern Art
+    isCorrect: false
+  - text: Blade Box
+    isCorrect: false
+explanation: |
+  Robert Harbin entwickelte die Zig Zag Girl Illusion, bei der mit optischer Täuschung eine zerteilte Person präsentiert wird.
+tags:
+  - grossillusion
+  - geschichte

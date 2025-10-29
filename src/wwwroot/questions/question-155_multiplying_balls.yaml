@@ -1,0 +1,19 @@
+id: q-155
+title: Billiardball-Manipulation
+prompt: |
+  Würden Sie mir mitteilen, wie die Bühnenroutine heißt, bei der ein einzelner Ball sich in mehrere identische Bälle vervielfacht und wieder verschwindet? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Multiplying Balls
+    isCorrect: true
+  - text: Ball and Vase
+    isCorrect: false
+  - text: Fantasia Balls
+    isCorrect: false
+  - text: Sphere Cascade
+    isCorrect: false
+explanation: |
+  Multiplying Billiard Balls erfordert Shells und Fingerfertigkeit, um Bälle erscheinen zu lassen.
+tags:
+  - manipulation
+  - buehne

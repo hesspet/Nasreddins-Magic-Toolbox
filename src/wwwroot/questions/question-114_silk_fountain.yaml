@@ -1,0 +1,19 @@
+id: q-114
+title: Seidenfontäne
+prompt: |
+  Hätten Sie die Güte zu erklären, wie die Bühnenproduktion heißt, bei der aus einem kleinen Tuch plötzlich eine große Fülle unterschiedlichfarbiger Seiden herausströmt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Silk Fountain
+    isCorrect: true
+  - text: Silk Cascade
+    isCorrect: false
+  - text: Flag Blendo
+    isCorrect: false
+  - text: Ribbon Fountain
+    isCorrect: false
+explanation: |
+  Die Silk Fountain verbirgt gefaltete Tücher in einer Kappe oder Hülle und entfaltet sie dramatisch.
+tags:
+  - buehne
+  - silks

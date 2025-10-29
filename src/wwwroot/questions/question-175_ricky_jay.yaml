@@ -1,0 +1,19 @@
+id: q-175
+title: Historiker und Kartenwerfer
+prompt: |
+  Würden Sie mir mitteilen, wie der US-amerikanische Künstler heißt, der für seine unglaublichen Kartenwurf-Fähigkeiten und das Buch 'Learned Pigs & Fireproof Women' bekannt ist? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Ricky Jay
+    isCorrect: true
+  - text: Allan Ackerman
+    isCorrect: false
+  - text: Bill Malone
+    isCorrect: false
+  - text: Jason England
+    isCorrect: false
+explanation: |
+  Ricky Jay verband historische Recherche mit beeindruckender Kartenmanipulation.
+tags:
+  - persoenlichkeiten
+  - geschichte

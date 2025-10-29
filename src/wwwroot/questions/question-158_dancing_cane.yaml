@@ -1,0 +1,19 @@
+id: q-158
+title: Tanzender Stock
+prompt: |
+  Würden Sie mir erläutern, wie die Illusion heißt, bei der ein Spazierstock scheinbar eigenständig in der Luft tanzt und der Zauberer nur leicht führt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Dancing Cane
+    isCorrect: true
+  - text: Zombie Cane
+    isCorrect: false
+  - text: Floating Wand
+    isCorrect: false
+  - text: Levitating Baton
+    isCorrect: false
+explanation: |
+  Der Dancing Cane verwendet feine Fäden und Balancepunkte, um den Eindruck eines schwebenden Stocks zu erzeugen.
+tags:
+  - buehne
+  - levitation

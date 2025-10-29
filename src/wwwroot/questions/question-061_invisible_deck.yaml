@@ -1,0 +1,19 @@
+id: q-061
+title: Unsichtbare Vorhersage
+prompt: |
+  Dürfte ich erfahren, wie das vorbereitete Kartenspiel heißt, bei dem jede Karte mit einem Partner rückwärts liegt, sodass eine gedachte Karte als einzige umgedrehte Karte erscheint? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Invisible Deck
+    isCorrect: true
+  - text: Svengali Deck
+    isCorrect: false
+  - text: Stripper Deck
+    isCorrect: false
+  - text: Ultra Mental Pack
+    isCorrect: false
+explanation: |
+  Das Invisible Deck, auch Ultra Mental Pack genannt, erlaubt es, eine gedachte Karte als einzige umgedrehte Karte im Spiel zu präsentieren.
+tags:
+  - kartenkunst
+  - gaff

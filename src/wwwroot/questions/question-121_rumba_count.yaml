@@ -1,0 +1,19 @@
+id: q-121
+title: Verdeckt getarnte Karten
+prompt: |
+  Darf ich fragen, wie das Falschzählen heißt, bei dem der Eindruck entsteht, alle Karten seien doppelseitig blank, während heimlich Bildkarten verborgen bleiben? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Rumba Count
+    isCorrect: true
+  - text: Flushtration Count
+    isCorrect: false
+  - text: Hammond Count
+    isCorrect: false
+  - text: Biddle Count
+    isCorrect: false
+explanation: |
+  Der Rumba Count zeigt die Rückseiten mehrfach und versteckt dadurch Vorderseiten.
+tags:
+  - kartenkunst
+  - techniken

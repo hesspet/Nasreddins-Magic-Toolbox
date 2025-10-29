@@ -1,0 +1,19 @@
+id: q-144
+title: Verborgene Münzkante
+prompt: |
+  Darf ich fragen, wie die Position heißt, bei der eine Münze zwischen Zeige- und Mittelfinger an der Kante gehalten wird, sodass die Vorderseite zur Handfläche zeigt und vor Publikum verborgen bleibt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Edge Grip
+    isCorrect: true
+  - text: JW Grip
+    isCorrect: false
+  - text: Tenkai Pinch
+    isCorrect: false
+  - text: Downs Palm
+    isCorrect: false
+explanation: |
+  Edge Grip, popularisiert durch David Roth, versteckt eine Münze entlang der Handkante.
+tags:
+  - muenzen
+  - techniken

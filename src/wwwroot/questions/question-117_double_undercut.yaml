@@ -1,0 +1,19 @@
+id: q-117
+title: Doppeltes Unterheben
+prompt: |
+  Gestatten Sie mir die Frage, wie die Kontrolle heißt, bei der ein Packet zweimal unter das Deck geschoben wird, um eine Karte nach oben oder unten zu bringen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Double Undercut
+    isCorrect: true
+  - text: Pass
+    isCorrect: false
+  - text: Hofzinser Spread
+    isCorrect: false
+  - text: Shuffle Control
+    isCorrect: false
+explanation: |
+  Der Double Undercut nutzt zwei Packettransfers, um Karten unauffällig zu kontrollieren.
+tags:
+  - kartenkunst
+  - techniken

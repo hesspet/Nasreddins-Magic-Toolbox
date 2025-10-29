@@ -1,0 +1,19 @@
+id: q-054
+title: Schloss der Zauberkunst
+prompt: |
+  Hätten Sie die Freundlichkeit zu sagen, wie das private Clubhaus in Hollywood heißt, das als Sitz der Academy of Magical Arts dient? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: The Magic Castle
+    isCorrect: true
+  - text: Mystic Manor
+    isCorrect: false
+  - text: Wizard's Keep
+    isCorrect: false
+  - text: Arcane Hall
+    isCorrect: false
+explanation: |
+  The Magic Castle beherbergt mehrere Showrooms, eine Bibliothek und ist Treffpunkt für professionelle Magierinnen und Magier.
+tags:
+  - orte
+  - geschichte

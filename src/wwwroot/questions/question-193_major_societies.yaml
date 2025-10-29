@@ -1,0 +1,21 @@
+id: q-193
+title: Internationale Verbände
+prompt: |
+  Hätten Sie die Güte, die weltweit bedeutenden Zaubervereinigungen auszuwählen, die seit Jahrzehnten Mitgliederzeitschriften herausgeben? (Wären Sie so freundlich, 3 Antworten auszuwählen?)
+allowsMultiple: true
+options:
+  - text: International Brotherhood of Magicians
+    isCorrect: true
+  - text: Society of American Magicians
+    isCorrect: true
+  - text: The Magic Circle
+    isCorrect: true
+  - text: Global Illusion Confederation
+    isCorrect: false
+  - text: Alliance of Arcane Arts
+    isCorrect: false
+explanation: |
+  IBM, S.A.M. und The Magic Circle publizieren Magazine wie 'The Linking Ring', 'M-U-M' und 'The Magic Circular'.
+tags:
+  - organisationen
+  - geschichte

@@ -1,0 +1,19 @@
+id: q-084
+title: Geworfenes Kartenspiel
+prompt: |
+  Hätten Sie die Güte zu erläutern, wie der Mentalismuseffekt heißt, bei dem ein Kartenspiel ins Publikum geworfen wird, mehrere Personen sich eine Karte merken und alle Gedanken schließlich benannt werden? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Tossed Out Deck
+    isCorrect: true
+  - text: Invisible Toss
+    isCorrect: false
+  - text: Mental Epic
+    isCorrect: false
+  - text: Three-Card Monte
+    isCorrect: false
+explanation: |
+  Beim Tossed Out Deck wird ein speziell vorbereitetes Spiel verwendet, damit mehrere Zuschauer gedanklich kontrolliert werden können.
+tags:
+  - mentalmagie
+  - kartenkunst

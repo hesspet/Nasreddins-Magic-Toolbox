@@ -1,0 +1,19 @@
+id: q-055
+title: Standardwerk der Zauberlehre
+prompt: |
+  Darf ich höflich nach dem Namen des mehrbändigen Lehrwerks fragen, das Harlan Tarbell verfasste und das unzählige Disziplinen der Magie abdeckt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Tarbell Course in Magic
+    isCorrect: true
+  - text: Greater Magic
+    isCorrect: false
+  - text: Mark Wilson's Complete Course
+    isCorrect: false
+  - text: Art of Astonishment
+    isCorrect: false
+explanation: |
+  Der Tarbell Course in Magic zählt zu den umfangreichsten Nachschlagewerken und vermittelt Grundlagen wie fortgeschrittene Routinen.
+tags:
+  - literatur
+  - ausbildung

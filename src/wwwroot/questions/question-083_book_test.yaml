@@ -1,0 +1,19 @@
+id: q-083
+title: Gedankenlesen im Buch
+prompt: |
+  Gestatten Sie mir die Frage, wie wir die Routine nennen, bei der eine zufällig gewählte Seite aus einem Buch gelesen wird und der Zauberer das gedachte Wort benennt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Book Test
+    isCorrect: true
+  - text: Memory Stack
+    isCorrect: false
+  - text: Story Deck
+    isCorrect: false
+  - text: Billet Reading
+    isCorrect: false
+explanation: |
+  Book Tests nutzen markierte Bücher, Vorbereitungen oder Peeks, um scheinbar zufällige Wörter zu erraten.
+tags:
+  - mentalmagie
+  - klassiker

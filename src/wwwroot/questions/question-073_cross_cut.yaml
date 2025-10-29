@@ -1,0 +1,19 @@
+id: q-073
+title: Versetztes Abheben
+prompt: |
+  Darf ich fragen, wie das Forcen heißt, bei dem ein abgehobenes Kartenpaket versetzt auf das Deck gelegt wird und nach kurzer Pause die oben liegende Karte als gewählte präsentiert wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Cross Cut Force
+    isCorrect: true
+  - text: Hofzinser Toss
+    isCorrect: false
+  - text: Cut and Turnover
+    isCorrect: false
+  - text: Dribble Force
+    isCorrect: false
+explanation: |
+  Die Cross-Cut-Force nutzt ein zeitliches Delay, damit Zuschauende die Abhebestelle vergessen und die forcierte Karte akzeptieren.
+tags:
+  - kartenkunst
+  - forcen

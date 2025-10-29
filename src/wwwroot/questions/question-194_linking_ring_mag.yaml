@@ -1,0 +1,19 @@
+id: q-194
+title: Zeitschrift der IBM
+prompt: |
+  Darf ich fragen, wie das Mitgliederjournal der International Brotherhood of Magicians heißt, das seit 1922 erscheint? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: The Linking Ring
+    isCorrect: true
+  - text: Genii
+    isCorrect: false
+  - text: M-U-M
+    isCorrect: false
+  - text: Arcane Review
+    isCorrect: false
+explanation: |
+  'The Linking Ring' ist das monatliche Magazin der IBM.
+tags:
+  - literatur
+  - organisationen

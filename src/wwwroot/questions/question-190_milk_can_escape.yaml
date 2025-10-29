@@ -1,0 +1,19 @@
+id: q-190
+title: Gefährliche Milchkanne
+prompt: |
+  Hätten Sie die Güte zu erläutern, wie Houdinis frühe Flucht vor seiner Water Torture Cell hieß, bei der er sich aus einer mit Wasser gefüllten Milchkanne befreite? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Milk Can Escape
+    isCorrect: true
+  - text: Barrel Escape
+    isCorrect: false
+  - text: Steel Drum Release
+    isCorrect: false
+  - text: Coffin Challenge
+    isCorrect: false
+explanation: |
+  Der Milk Can Escape machte Houdinis Entfesselungen ab 1901 berühmt.
+tags:
+  - geschichte
+  - entfesselung

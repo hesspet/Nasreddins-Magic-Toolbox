@@ -1,0 +1,19 @@
+id: q-174
+title: Meister der Misdirection
+prompt: |
+  Hätten Sie die Güte zu nennen, welcher italienisch-amerikanische Zauberkünstler für seine perfekten Timing- und Körperbewegungen bekannt ist und Klassiker wie 'Paper Balls over the Head' entwickelte? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Slydini
+    isCorrect: true
+  - text: Charlie Miller
+    isCorrect: false
+  - text: Tony Clark
+    isCorrect: false
+  - text: Cellini
+    isCorrect: false
+explanation: |
+  Slydini, geb. Tony Slydini, perfektionierte das Offbeat und listige Handbewegungen.
+tags:
+  - persoenlichkeiten
+  - close-up

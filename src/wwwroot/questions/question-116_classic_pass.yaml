@@ -1,0 +1,19 @@
+id: q-116
+title: Verdeckter Kartendurchgang
+prompt: |
+  Würden Sie mir erläutern, wie die Technik heißt, bei der zwei Kartenteile in einem Moment überdeckt vertauscht werden, um eine Karte heimlich nach oben zu bringen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Classic Pass
+    isCorrect: true
+  - text: Double Undercut
+    isCorrect: false
+  - text: Side Steal
+    isCorrect: false
+  - text: Turnover Pass
+    isCorrect: false
+explanation: |
+  Der Classic Pass gilt als Königin der Kartentechniken und erlaubt unsichtbare Kontrollen.
+tags:
+  - kartenkunst
+  - techniken

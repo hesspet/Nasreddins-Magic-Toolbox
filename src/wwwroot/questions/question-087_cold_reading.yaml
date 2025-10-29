@@ -1,0 +1,19 @@
+id: q-087
+title: Eindrucksvolle Charakteranalyse
+prompt: |
+  Gestatten Sie mir die Frage, wie wir die Gesprächstechnik nennen, bei der allgemeine Aussagen gemacht und passend interpretiert werden, um persönliche Erkenntnisse zu suggerieren? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Cold Reading
+    isCorrect: true
+  - text: Hot Reading
+    isCorrect: false
+  - text: Barnum Statement
+    isCorrect: false
+  - text: Stack Reading
+    isCorrect: false
+explanation: |
+  Cold Reading nutzt universelle Aussagen und Feedback, um persönliche Eindrücke zu vermitteln.
+tags:
+  - mentalmagie
+  - techniken

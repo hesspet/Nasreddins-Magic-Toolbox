@@ -1,0 +1,19 @@
+id: q-089
+title: Berührungen ohne Kontakt
+prompt: |
+  Darf ich höflich fragen, wie der Effekt heißt, bei dem eine Person scheinbar von Geisterhand berührt wird, obwohl die Zauberin in einiger Entfernung steht? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: PK Touches
+    isCorrect: true
+  - text: Pseudo Psychometry
+    isCorrect: false
+  - text: PK Time
+    isCorrect: false
+  - text: Living and Dead Test
+    isCorrect: false
+explanation: |
+  PK Touches erzeugen die Illusion, dass unsichtbare Kräfte leichte Berührungen auslösen.
+tags:
+  - mentalmagie
+  - effekte

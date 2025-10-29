@@ -1,0 +1,19 @@
+id: q-149
+title: Brieftasche im Einschub
+prompt: |
+  Würden Sie mir mitteilen, wie die Geldbörse heißt, bei der eine zweite Innentasche herausgezogen werden kann, sodass eine unterschriebene Karte scheinbar ohne Palmieren dort landet? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Mullica Wallet
+    isCorrect: true
+  - text: Himber Wallet
+    isCorrect: false
+  - text: Real Man's Wallet
+    isCorrect: false
+  - text: Switch Wallet
+    isCorrect: false
+explanation: |
+  Die Mullica Wallet besitzt eine entnehmbare Innenbörse, in der eine Karte ohne Palmieren erscheinen kann.
+tags:
+  - requisiten
+  - kartenkunst

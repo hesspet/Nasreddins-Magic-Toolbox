@@ -1,0 +1,19 @@
+id: q-109
+title: Kasten und Röhre
+prompt: |
+  Dürfte ich erfahren, wie das Produktionsgerät heißt, das aus einem quadratischen Kasten und einer Zylinderröhre besteht, beide leer gezeigt werden und dennoch Bänder hervorbringen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Square Circle
+    isCorrect: true
+  - text: Strat-O-Sphere
+    isCorrect: false
+  - text: Crystal Casket
+    isCorrect: false
+  - text: Ghost Tube
+    isCorrect: false
+explanation: |
+  Beim Square Circle ist eine geheime Kammer verborgen, die Produktionsmaterialien hält.
+tags:
+  - buehne
+  - produktionen

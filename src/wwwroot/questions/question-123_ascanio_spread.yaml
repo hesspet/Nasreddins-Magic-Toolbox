@@ -1,0 +1,19 @@
+id: q-123
+title: Eleganter Fächer
+prompt: |
+  Gestatten Sie mir die Frage, wie die Technik heißt, bei der Karten in einem Fächer präsentiert werden, während eine Karte verborgen zwischen Daumen und Finger verbleibt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Ascanio Spread
+    isCorrect: true
+  - text: Ribbon Spread
+    isCorrect: false
+  - text: Herman Count
+    isCorrect: false
+  - text: Buckle Spread
+    isCorrect: false
+explanation: |
+  Der Ascanio Spread erzeugt ein luftiges Bild, während Karten verborgen bleiben.
+tags:
+  - kartenkunst
+  - techniken
