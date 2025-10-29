@@ -1,0 +1,19 @@
+id: q-120
+title: Umkehrzählung
+prompt: |
+  Würden Sie mir mitteilen, wie das Kartenzählverfahren heißt, bei dem eine Vierergruppe scheinbar umgedreht wird, tatsächlich aber ihre Reihenfolge beibehält? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Jordan Count
+    isCorrect: true
+  - text: Elmsley Count
+    isCorrect: false
+  - text: Rumba Count
+    isCorrect: false
+  - text: Ascanio Spread
+    isCorrect: false
+explanation: |
+  Der Jordan Count ermöglicht, eine Karte scheinbar zu drehen, ohne ihre Lage zu verändern.
+tags:
+  - kartenkunst
+  - techniken

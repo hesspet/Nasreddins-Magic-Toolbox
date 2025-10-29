@@ -1,0 +1,19 @@
+id: q-090
+title: Verbogenes Besteck
+prompt: |
+  Würden Sie mir mitteilen, wie wir die Psychokinese-Demonstration nennen, bei der ein Löffel scheinbar durch mentale Kraft verbogen wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Spoon Bend
+    isCorrect: true
+  - text: Key Bend
+    isCorrect: false
+  - text: Metal Melt
+    isCorrect: false
+  - text: Crystal Gazing
+    isCorrect: false
+explanation: |
+  Beim Spoon Bend wird Besteck mittels Hebeltechnik oder Vorpräparation sichtbar verbogen.
+tags:
+  - mentalmagie
+  - effekte

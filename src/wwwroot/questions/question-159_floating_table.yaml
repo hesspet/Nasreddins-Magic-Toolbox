@@ -1,0 +1,19 @@
+id: q-159
+title: Schwebender Tisch
+prompt: |
+  Hätten Sie die Güte zu erklären, wie die Illusion heißt, bei der ein leichter Tisch scheinbar vom Boden abhebt und gemeinsam mit der Vorführenden durch den Raum schwebt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Floating Table
+    isCorrect: true
+  - text: Zombie Table
+    isCorrect: false
+  - text: Levitation Platform
+    isCorrect: false
+  - text: Glide Table
+    isCorrect: false
+explanation: |
+  Floating Tables, etwa von Losander, nutzen Verbindungsstäbe und Fäden, um schwerelos zu wirken.
+tags:
+  - buehne
+  - levitation

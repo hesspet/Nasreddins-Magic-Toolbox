@@ -1,0 +1,19 @@
+id: q-141
+title: Schwebende Münzen
+prompt: |
+  Würden Sie mir mitteilen, wie die Routine heißt, bei der Münzen nacheinander in die Luft geworfen und unsichtbar dort hängen gelassen werden, bevor sie wieder erscheinen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Hanging Coins
+    isCorrect: true
+  - text: Coins Thru Table
+    isCorrect: false
+  - text: 3 Fly
+    isCorrect: false
+  - text: Coin Roll
+    isCorrect: false
+explanation: |
+  Hanging Coins, populär durch Chris Kenner, lässt Münzen scheinbar in der Luft verschwinden und wieder erscheinen.
+tags:
+  - muenzen
+  - routinen

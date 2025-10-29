@@ -1,0 +1,21 @@
+id: q-181
+title: Sparten der Weltmeisterschaft
+prompt: |
+  Dürfte ich Sie bitten, die Kategorien zu wählen, in denen bei FISM-Wettbewerben traditionell Bühnenmagierinnen antreten? (Wären Sie so freundlich, 3 Antworten auszuwählen?)
+allowsMultiple: true
+options:
+  - text: General Magic
+    isCorrect: true
+  - text: Manipulation
+    isCorrect: true
+  - text: Grand Illusion
+    isCorrect: true
+  - text: Pyrotechnics
+    isCorrect: false
+  - text: Balloon Twisting
+    isCorrect: false
+explanation: |
+  FISM vergibt unter anderem Preise in den Bühnenkategorien General Magic, Manipulation und Grand Illusion.
+tags:
+  - events
+  - organisationen

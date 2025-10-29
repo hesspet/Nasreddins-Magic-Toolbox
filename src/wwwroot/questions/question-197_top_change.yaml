@@ -1,0 +1,19 @@
+id: q-197
+title: Geheimer Kartentausch
+prompt: |
+  Darf ich höflich fragen, wie die Technik heißt, bei der während des Zeigens einer Karte heimlich die oberste Karte des Decks ausgetauscht wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Top Change
+    isCorrect: true
+  - text: Double Lift
+    isCorrect: false
+  - text: Second Deal
+    isCorrect: false
+  - text: Slip Cut
+    isCorrect: false
+explanation: |
+  Beim Top Change wird eine gezeigte Karte in einem Moment der Ablenkung gegen die oberste Karte getauscht.
+tags:
+  - kartenkunst
+  - techniken

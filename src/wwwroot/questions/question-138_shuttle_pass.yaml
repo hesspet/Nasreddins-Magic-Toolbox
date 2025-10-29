@@ -1,0 +1,19 @@
+id: q-138
+title: Münztransfer
+prompt: |
+  Gestatten Sie mir die Frage, wie der Münzgriff heißt, bei dem zwei Hände scheinbar Münzen austauschen, tatsächlich jedoch die Anzahl unverändert bleibt, um den Eindruck wandernder Münzen zu erzeugen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Shuttle Pass
+    isCorrect: true
+  - text: Click Pass
+    isCorrect: false
+  - text: Mutobe Palm
+    isCorrect: false
+  - text: Downs Palm
+    isCorrect: false
+explanation: |
+  Der Shuttle Pass ersetzt Münzen während eines Transfers und ist Basis vieler Coins-Across-Routinen.
+tags:
+  - muenzen
+  - techniken

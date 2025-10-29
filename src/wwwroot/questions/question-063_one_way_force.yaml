@@ -1,0 +1,19 @@
+id: q-063
+title: Einseitige Wahlhilfe
+prompt: |
+  Gestatten Sie mir die Frage, wie wir das Kartenspiel nennen, in dem alle Karten identisch sind und das daher zum sicheren Forcieren einer Wahl genutzt wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: One-Way Force Deck
+    isCorrect: true
+  - text: One-Way Back Deck
+    isCorrect: false
+  - text: Rough Deck
+    isCorrect: false
+  - text: Stacked Pack
+    isCorrect: false
+explanation: |
+  Ein One-Way Force Deck besteht aus 52 gleichen Karten und ermöglicht zuverlässige Vorhersage- und Divinationskunststücke.
+tags:
+  - kartenkunst
+  - forcen

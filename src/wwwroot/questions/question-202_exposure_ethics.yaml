@@ -1,0 +1,19 @@
+id: q-202
+title: Verantwortung auf der Bühne
+prompt: |
+  Gestatten Sie mir die Frage, wie wir den unerwünschten Vorgang nennen, bei dem Methoden absichtlich vor nicht eingeweihten Personen offengelegt werden? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Exposure
+    isCorrect: true
+  - text: Revelation
+    isCorrect: false
+  - text: Preview
+    isCorrect: false
+  - text: Unmasking
+    isCorrect: false
+explanation: |
+  Exposure wird in der Magierszene als unethische Entlarvung von Methoden betrachtet.
+tags:
+  - ethik
+  - tradition

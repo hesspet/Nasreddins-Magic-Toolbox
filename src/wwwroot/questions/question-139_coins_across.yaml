@@ -1,0 +1,19 @@
+id: q-139
+title: Wandernde Münzen
+prompt: |
+  Würden Sie mir mitteilen, wie die Routine heißt, bei der Münzen unsichtbar von einer Hand in die andere wandern, oft nacheinander oder über Zuschauerhände hinweg? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Coins Across
+    isCorrect: true
+  - text: Hanging Coins
+    isCorrect: false
+  - text: Coin Matrix
+    isCorrect: false
+  - text: Coin Roll
+    isCorrect: false
+explanation: |
+  Coins Across nutzt Transfers wie Shuttle Pass oder Gimmicks, um Wanderungen zu zeigen.
+tags:
+  - muenzen
+  - routinen

@@ -1,0 +1,19 @@
+id: q-157
+title: Nadel durch den Ballon
+prompt: |
+  Gestatten Sie mir die Frage, wie der Effekt heißt, bei dem eine lange Nadel durch einen aufgeblasenen Ballon geführt wird, ohne dass dieser platzt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Needle Thru Balloon
+    isCorrect: true
+  - text: Spike the Balloon
+    isCorrect: false
+  - text: Balloon Sword
+    isCorrect: false
+  - text: Elastic Pierce
+    isCorrect: false
+explanation: |
+  Needle Thru Balloon nutzt den unelastischen Bereich nahe den Knoten, um ein Platzen zu verhindern.
+tags:
+  - buehne
+  - klassiker

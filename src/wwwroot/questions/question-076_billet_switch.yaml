@@ -1,0 +1,19 @@
+id: q-076
+title: Zetteltausch
+prompt: |
+  Wären Sie so freundlich zu schildern, wie die Technik heißt, bei der ein beschriebener Zettel heimlich gegen einen anderen getauscht wird, um Informationen zu kontrollieren? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Billet Switch
+    isCorrect: true
+  - text: Center Tear
+    isCorrect: false
+  - text: Peek Wallet
+    isCorrect: false
+  - text: Swami Writer
+    isCorrect: false
+explanation: |
+  Beim Billet Switch wird ein gefalteter Zettel unbemerkt ausgetauscht, um Vorhersagen oder Offenbarungen zu steuern.
+tags:
+  - mentalmagie
+  - techniken

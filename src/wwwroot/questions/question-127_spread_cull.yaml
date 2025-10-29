@@ -1,0 +1,19 @@
+id: q-127
+title: Aus dem Fächer gesammelt
+prompt: |
+  Hätten Sie die Güte zu erklären, wie die Technik heißt, bei der während eines Kartenfächers bestimmte Karten unter das Deck geschoben werden, um sie für ein Set-up zu kontrollieren? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Spread Cull
+    isCorrect: true
+  - text: Fan Control
+    isCorrect: false
+  - text: Hofzinser Spread
+    isCorrect: false
+  - text: Strip-Out
+    isCorrect: false
+explanation: |
+  Der Spread Cull sammelt benötigte Karten während einer scheinbar freien Durchsicht.
+tags:
+  - kartenkunst
+  - techniken

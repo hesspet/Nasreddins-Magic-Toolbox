@@ -1,0 +1,19 @@
+id: q-099
+title: Straßenlevitation
+prompt: |
+  Würden Sie mir mitteilen, wie die Close-up-Illusion heißt, bei der der Künstler scheinbar wenige Zentimeter vom Boden schwebt, während das Publikum auf seine Fersen blickt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Balducci Levitation
+    isCorrect: true
+  - text: King Rising
+    isCorrect: false
+  - text: Elevator
+    isCorrect: false
+  - text: Hezarfen Float
+    isCorrect: false
+explanation: |
+  Die Balducci Levitation nutzt eine geschickte Körperhaltung und Blickwinkelkontrolle, um Schwerkraft zu trotzen.
+tags:
+  - close-up
+  - levitation

@@ -1,0 +1,19 @@
+id: q-112
+title: Vermehrende Gefäße
+prompt: |
+  Darf ich höflich fragen, wie die Routine heißt, bei der aus zwei Flaschen schrittweise viele Flaschen entstehen, die unter Röhren erscheinen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Multiplying Bottles
+    isCorrect: true
+  - text: Passe Passe Bottles
+    isCorrect: false
+  - text: Milk Pitcher
+    isCorrect: false
+  - text: Liqui-Trans
+    isCorrect: false
+explanation: |
+  Multiplying Bottles baut auf Nested Flaschen auf, die unter Hüllen nach und nach erscheinen.
+tags:
+  - buehne
+  - produktionen

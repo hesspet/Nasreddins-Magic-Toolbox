@@ -1,0 +1,19 @@
+id: q-095
+title: Diagonal geteilte Bühne
+prompt: |
+  Darf ich fragen, wie die Illusion heißt, bei der der Oberkörper auf einer Staffelei scheinbar seitlich verschoben wird, während Beine sichtbar bleiben? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Modern Art
+    isCorrect: true
+  - text: Interlude
+    isCorrect: false
+  - text: Bisection
+    isCorrect: false
+  - text: Clearly Impossible
+    isCorrect: false
+explanation: |
+  Modern Art von Jim Steinmeyer nutzt eine schräge Zersägensoptik mit modernen Bühnenelementen.
+tags:
+  - grossillusion
+  - moderne

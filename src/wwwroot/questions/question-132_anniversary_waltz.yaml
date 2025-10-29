@@ -1,0 +1,19 @@
+id: q-132
+title: Vereintes Kartenpaar
+prompt: |
+  Dürfte ich erfahren, wie die romantische Paar-Routine heißt, bei der zwei signierte Karten letztlich zu einer einzigen verschmelzen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Anniversary Waltz
+    isCorrect: true
+  - text: Two Card Monte
+    isCorrect: false
+  - text: Lovers' Leap
+    isCorrect: false
+  - text: Heartstrings
+    isCorrect: false
+explanation: |
+  Anniversary Waltz kombiniert Gaff-Karten und Doppelunterschriften für einen emotionalen Effekt.
+tags:
+  - kartenkunst
+  - routinen

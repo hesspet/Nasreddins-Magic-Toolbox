@@ -1,0 +1,19 @@
+id: q-101
+title: Ungleiche Seile
+prompt: |
+  Dürfte ich fragen, wie der Klassiker heißt, bei dem drei unterschiedlich lange Seile gleich lang erscheinen und am Ende wieder ihre ursprünglichen Längen annehmen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Professor's Nightmare
+    isCorrect: true
+  - text: Fiber Optics
+    isCorrect: false
+  - text: Tabary Routine
+    isCorrect: false
+  - text: Sandsational
+    isCorrect: false
+explanation: |
+  Professor's Nightmare nutzt geschicktes Handling, um Seile scheinbar identisch werden zu lassen.
+tags:
+  - seil
+  - klassiker

@@ -1,0 +1,19 @@
+id: q-119
+title: Falsches Viererzählen
+prompt: |
+  Hätten Sie die Güte zu beschreiben, wie das Zählverfahren heißt, bei dem vier Karten als vier gezeigt werden, obwohl heimlich eine Karte verborgen bleibt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Elmsley Count
+    isCorrect: true
+  - text: Jordan Count
+    isCorrect: false
+  - text: Flushtration Count
+    isCorrect: false
+  - text: Ascanio Spread
+    isCorrect: false
+explanation: |
+  Der Elmsley Count, auch Ghost Count, lässt eine Karte verborgen, während vier gezeigt werden.
+tags:
+  - kartenkunst
+  - techniken

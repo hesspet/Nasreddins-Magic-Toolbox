@@ -1,0 +1,19 @@
+id: q-145
+title: Täuschender Handblick
+prompt: |
+  Würden Sie mir erläutern, wie die Münzverdeckung heißt, bei der die leere Hand mit einer Münze auf den Fingerspitzen präsentiert wird, um die andere Hand scheinbar leer erscheinen zu lassen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Ramsay Subtlety
+    isCorrect: true
+  - text: Goshman Pinch
+    isCorrect: false
+  - text: JW Grip
+    isCorrect: false
+  - text: Kaps Subtlety
+    isCorrect: false
+explanation: |
+  Die Ramsay Subtlety zeigt eine Münze auf den Fingerspitzen, um zu suggerieren, dass keine weitere verborgen ist.
+tags:
+  - muenzen
+  - techniken

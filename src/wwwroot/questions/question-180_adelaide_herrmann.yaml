@@ -1,0 +1,19 @@
+id: q-180
+title: Königin der Magie
+prompt: |
+  Würden Sie mir mitteilen, wie die Zauberin heißt, die nach dem Tod ihres Mannes Alexander Herrmann deren Tournee übernahm und als 'Queen of Magic' gefeiert wurde? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Adelaide Herrmann
+    isCorrect: true
+  - text: Dell O'Dell
+    isCorrect: false
+  - text: Talma
+    isCorrect: false
+  - text: Fay Presto
+    isCorrect: false
+explanation: |
+  Adelaide Herrmann führte eine der größten Illusionsshows ihrer Zeit und setzte Maßstäbe für Frauen in der Magie.
+tags:
+  - geschichte
+  - persoenlichkeiten

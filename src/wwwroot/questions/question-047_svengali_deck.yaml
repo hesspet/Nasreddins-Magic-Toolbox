@@ -1,0 +1,19 @@
+id: q-047
+title: Gleichschaltendes Kartenspiel
+prompt: |
+  Hätten Sie die Güte zu erläutern, wie das Deck heißt, bei dem jede zweite Karte kürzer geschnitten und identisch bedruckt ist, um forcierte Effekte zu ermöglichen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Svengali Deck
+    isCorrect: true
+  - text: Invisible Deck
+    isCorrect: false
+  - text: Brainwave Deck
+    isCorrect: false
+  - text: Mirage Deck
+    isCorrect: false
+explanation: |
+  Das Svengali Deck kombiniert normale und kürzere Karten und ermöglicht damit scheinbar freie Wahl und Wiederholung einer Karte.
+tags:
+  - kartenkunst
+  - gaff

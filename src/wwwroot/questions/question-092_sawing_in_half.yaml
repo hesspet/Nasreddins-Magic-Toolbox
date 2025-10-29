@@ -1,0 +1,19 @@
+id: q-092
+title: Zerteilungsklassiker
+prompt: |
+  Würden Sie mir mitteilen, wie die Ikone der Bühnenmagie heißt, bei der eine Person scheinbar in zwei Hälften gesägt und anschließend wieder vereint wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Sawing a Woman in Half
+    isCorrect: true
+  - text: Modern Art
+    isCorrect: false
+  - text: Origami
+    isCorrect: false
+  - text: Interlude
+    isCorrect: false
+explanation: |
+  Die Zersägensillusion existiert in vielen Varianten seit P.T. Selbit und Horace Goldin und ist ein Symbol der Großillusion.
+tags:
+  - grossillusion
+  - klassiker

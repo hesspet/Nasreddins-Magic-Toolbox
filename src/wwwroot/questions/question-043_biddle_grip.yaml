@@ -1,0 +1,19 @@
+id: q-043
+title: Kontrollierter Kartenhalt
+prompt: |
+  Dürfte ich erfahren, wie wir den Griff nennen, bei dem ein kleines Packet zwischen Daumen und Mittelfinger gehalten wird, um Karten zu zählen oder heimlich zu kontrollieren? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Biddle Grip
+    isCorrect: true
+  - text: Mechanic's Grip
+    isCorrect: false
+  - text: End Grip
+    isCorrect: false
+  - text: Straddle Grip
+    isCorrect: false
+explanation: |
+  Der Biddle Grip ermöglicht das verdeckte Stehlen oder Zählen von Kartenpaketen und ist Grundlage zahlreicher Close-up-Routinen.
+tags:
+  - kartenkunst
+  - techniken

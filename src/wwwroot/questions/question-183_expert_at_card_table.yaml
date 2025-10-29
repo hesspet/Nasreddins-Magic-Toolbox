@@ -1,0 +1,19 @@
+id: q-183
+title: Kartenklassiker
+prompt: |
+  Würden Sie mir mitteilen, unter welchem Pseudonym der Autor des Standardwerks 'The Expert at the Card Table' bekannt ist? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: S. W. Erdnase
+    isCorrect: true
+  - text: Jean Hugard
+    isCorrect: false
+  - text: Henry Hay
+    isCorrect: false
+  - text: R. Paul Wilson
+    isCorrect: false
+explanation: |
+  S. W. Erdnase veröffentlichte 1902 das bis heute einflussreiche Kartenmanipulationswerk.
+tags:
+  - literatur
+  - kartenkunst

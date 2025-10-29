@@ -1,0 +1,19 @@
+id: q-034
+title: Kartenkunst der Doppelhebung
+prompt: |
+  Würden Sie mir bitte erläutern, wie wir die Technik nennen, bei der scheinbar eine einzelne Karte gezeigt wird, tatsächlich jedoch zwei Karten als eine präsentiert werden? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Double Lift (Doppelhebung)
+    isCorrect: true
+  - text: Second Deal
+    isCorrect: false
+  - text: Top Change
+    isCorrect: false
+  - text: Braue Reversal
+    isCorrect: false
+explanation: |
+  Die Double Lift ist eine Grundtechnik der Kartenmagie, bei der zwei Karten gemeinsam aufgenommen werden, um einen geheimen Kartentausch zu ermöglichen.
+tags:
+  - kartenkunst
+  - grundlagen

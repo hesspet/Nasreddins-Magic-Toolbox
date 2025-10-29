@@ -1,0 +1,19 @@
+id: q-198
+title: Manipuliertes Austeilen
+prompt: |
+  Gestatten Sie mir die Frage, wie das Falschgeben heißt, bei dem die oberste Karte beibehalten wird, während scheinbar vom Deck verteilt wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Second Deal
+    isCorrect: true
+  - text: Bottom Deal
+    isCorrect: false
+  - text: Greek Deal
+    isCorrect: false
+  - text: Multiple Shift
+    isCorrect: false
+explanation: |
+  Beim Second Deal wird die zweite Karte des Decks ausgeteilt, um die oberste zu behalten.
+tags:
+  - kartenkunst
+  - techniken

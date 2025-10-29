@@ -1,0 +1,19 @@
+id: q-060
+title: Blitzendes Papier
+prompt: |
+  Wären Sie so freundlich zu sagen, wie das nitrierte Papier heißt, das ohne Rückstände aufblitzt und häufig zum dramatischen Effekt eingesetzt wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Flash Paper
+    isCorrect: true
+  - text: Spark Sheet
+    isCorrect: false
+  - text: Phantom Paper
+    isCorrect: false
+  - text: Fire Tissue
+    isCorrect: false
+explanation: |
+  Flash Paper besteht aus nitrierter Zellulose und verbrennt extrem schnell, wodurch ein überraschender Lichtblitz entsteht.
+tags:
+  - buehne
+  - effekte

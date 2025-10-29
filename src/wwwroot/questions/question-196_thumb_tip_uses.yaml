@@ -1,0 +1,21 @@
+id: q-196
+title: Anwendungen des Thumb Tips
+prompt: |
+  Wären Sie so freundlich, die Requisiten zu wählen, die klassisch mithilfe eines Thumb Tips zum Erscheinen oder Verschwinden gebracht werden? (Wären Sie so freundlich, 2 Antworten auszuwählen?)
+allowsMultiple: true
+options:
+  - text: Seidentuch
+    isCorrect: true
+  - text: Salz
+    isCorrect: true
+  - text: Holzstäbchen
+    isCorrect: false
+  - text: Faltfächer
+    isCorrect: false
+  - text: Spielkartenbox
+    isCorrect: false
+explanation: |
+  Thumb Tips werden häufig für Tücher, Salz, Zigaretten oder Konfetti eingesetzt.
+tags:
+  - close-up
+  - requisiten

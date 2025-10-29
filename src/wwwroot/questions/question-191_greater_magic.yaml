@@ -1,0 +1,19 @@
+id: q-191
+title: Voluminöses Nachschlagewerk
+prompt: |
+  Gestatten Sie mir die Frage, welcher Autor das monumentale Werk 'Greater Magic' verfasste, das posthum von Jean Hugard herausgegeben wurde? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: John Northern Hilliard
+    isCorrect: true
+  - text: Jean Hugard
+    isCorrect: false
+  - text: Walter Gibson
+    isCorrect: false
+  - text: Cliff Green
+    isCorrect: false
+explanation: |
+  John Northern Hilliard schrieb 'Greater Magic', das nach seinem Tod von Jean Hugard vollendet wurde.
+tags:
+  - literatur
+  - geschichte

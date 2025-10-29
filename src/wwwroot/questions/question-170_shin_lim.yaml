@@ -1,0 +1,19 @@
+id: q-170
+title: Rauchige Kartenkunst
+prompt: |
+  Gestatten Sie mir die Frage, wie der kanadisch-singapurische Kartenkünstler heißt, der Americas Got Talent gewann und für visuelle Close-up-Routinen mit Rauch bekannt ist? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Shin Lim
+    isCorrect: true
+  - text: Dynamo
+    isCorrect: false
+  - text: Rick Lax
+    isCorrect: false
+  - text: Cyril Takayama
+    isCorrect: false
+explanation: |
+  Shin Lim kombiniert Kartenkunst mit Musik und Rauch-Produktionen und gewann AGT 2018.
+tags:
+  - persoenlichkeiten
+  - close-up

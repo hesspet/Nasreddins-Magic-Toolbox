@@ -1,0 +1,19 @@
+id: q-115
+title: Fingerknips-Farbwechsel
+prompt: |
+  Darf ich fragen, wie die visuelle Kartenverwandlung heißt, bei der eine Karte zwischen den Fingern gehalten wird und mit einem Fingerschnippen zur anderen Karte wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Snap Change
+    isCorrect: true
+  - text: Bertram Change
+    isCorrect: false
+  - text: Color Change Pass
+    isCorrect: false
+  - text: Clip Shift
+    isCorrect: false
+explanation: |
+  Der Snap Change nutzt zwei Karten, die eng zusammengehalten werden, um einen blitzschnellen Farbwechsel zu erzeugen.
+tags:
+  - kartenkunst
+  - manipulation

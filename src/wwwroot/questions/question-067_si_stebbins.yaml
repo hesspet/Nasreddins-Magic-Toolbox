@@ -1,0 +1,19 @@
+id: q-067
+title: Zyklische Reihenfolge
+prompt: |
+  Dürfte ich fragen, wie das bekannte Kartenmuster heißt, bei dem Werte in Abständen von drei steigen und die Farben rot-schwarz alternieren? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Si Stebbins
+    isCorrect: true
+  - text: Eight Kings
+    isCorrect: false
+  - text: Stay Stack
+    isCorrect: false
+  - text: Redford Mnemonica
+    isCorrect: false
+explanation: |
+  Die Si-Stebbins-Folge ist eine leicht zu lernende zyklische Ordnung, die Vorhersagen und Divinationskunststücke unterstützt.
+tags:
+  - kartenkunst
+  - stacks

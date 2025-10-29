@@ -1,0 +1,19 @@
+id: q-154
+title: Schwammkugeln
+prompt: |
+  Hätten Sie die Güte zu erklären, wie die Close-up-Routine heißt, bei der weiche Bälle in den Händen der Zuschauerin verschwinden und sich vermehren? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Sponge Balls
+    isCorrect: true
+  - text: Balls and Vase
+    isCorrect: false
+  - text: Sponge Rabbits
+    isCorrect: false
+  - text: Foam Cascade
+    isCorrect: false
+explanation: |
+  Sponge Balls erlauben direkte Interaktion und unerwartete Vermehrungen in Zuschauerhänden.
+tags:
+  - close-up
+  - klassiker

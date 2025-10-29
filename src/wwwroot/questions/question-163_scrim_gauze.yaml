@@ -1,0 +1,19 @@
+id: q-163
+title: Halbdurchsichtiger Vorhang
+prompt: |
+  Darf ich höflich fragen, wie wir den Gaze-Vorhang nennen, der bei frontaler Beleuchtung opak wirkt, bei Hinterbeleuchtung jedoch transparent wird und so Erscheinungen erlaubt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Scrim
+    isCorrect: true
+  - text: Drop Cloth
+    isCorrect: false
+  - text: Kabuki Curtain
+    isCorrect: false
+  - text: Grand Drape
+    isCorrect: false
+explanation: |
+  Ein Scrim oder Gaze reagiert stark auf Lichtwinkel und eignet sich für verschwimmende Erscheinungen.
+tags:
+  - buehne
+  - prinzipien

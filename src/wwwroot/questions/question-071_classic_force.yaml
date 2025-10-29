@@ -1,0 +1,19 @@
+id: q-071
+title: Feinfühlige Kartenwahl
+prompt: |
+  Wären Sie so freundlich zu schildern, wie wir die Technik nennen, bei der durch Timing und Körperführung eine Zuschauerin aus freien Stücken scheinbar jede Karte greifen darf, tatsächlich aber eine bestimmte Karte nimmt? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Classic Force
+    isCorrect: true
+  - text: Riffle Force
+    isCorrect: false
+  - text: Cross Cut Force
+    isCorrect: false
+  - text: Slip Force
+    isCorrect: false
+explanation: |
+  Die Classic Force erfordert viel Übung in Misdirection und Timing, um eine gewählte Karte natürlich zu forcieren.
+tags:
+  - kartenkunst
+  - forcen

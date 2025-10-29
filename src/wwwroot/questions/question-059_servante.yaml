@@ -1,0 +1,19 @@
+id: q-059
+title: Geheime Ablage hinter dem Tisch
+prompt: |
+  Darf ich höflich erfragen, wie wir die unsichtbare Ablage nennen, die hinter dem Zaubertisch angebracht wird, um Requisiten zu verstecken oder auszutauschen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Servante
+    isCorrect: true
+  - text: Load Chamber
+    isCorrect: false
+  - text: Topit
+    isCorrect: false
+  - text: Trap Box
+    isCorrect: false
+explanation: |
+  Die Servante ist eine diskrete Stoff- oder Lederablage, die den schnellen Austausch von Gegenständen ermöglicht.
+tags:
+  - buehne
+  - requisiten

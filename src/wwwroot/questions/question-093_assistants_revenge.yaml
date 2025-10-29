@@ -1,0 +1,19 @@
+id: q-093
+title: Rollentausch am Pranger
+prompt: |
+  Gestatten Sie mir die Frage, wie die Illusion heißt, bei der der Assistent die Zauberin in ein Foltergerät schließt, nur um im selben Moment selbst dort gefesselt zu erscheinen? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Assistant's Revenge
+    isCorrect: true
+  - text: Pendragons' Switch
+    isCorrect: false
+  - text: Substitution Trunk
+    isCorrect: false
+  - text: Escape Cabinet
+    isCorrect: false
+explanation: |
+  Assistant's Revenge nutzt einen schnellen Kostüm- und Positionstausch, um Dominanzverhältnisse humorvoll umzukehren.
+tags:
+  - grossillusion
+  - duo

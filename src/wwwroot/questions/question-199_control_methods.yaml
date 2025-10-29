@@ -1,0 +1,21 @@
+id: q-199
+title: Kontrolltechniken
+prompt: |
+  Bitte wählen Sie die Techniken, mit denen eine gewählte Karte zuverlässig an eine gewünschte Position gebracht werden kann. (Wären Sie so freundlich, 3 Antworten auszuwählen?)
+allowsMultiple: true
+options:
+  - text: Double Undercut
+    isCorrect: true
+  - text: Classic Pass
+    isCorrect: true
+  - text: Side Steal
+    isCorrect: true
+  - text: Riffle Shuffle Cascade
+    isCorrect: false
+  - text: Ribbon Spread Turnover
+    isCorrect: false
+explanation: |
+  Double Undercut, Classic Pass und Side Steal sind Standardmethoden zur Kartenkontrolle.
+tags:
+  - kartenkunst
+  - techniken

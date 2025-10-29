@@ -1,0 +1,19 @@
+id: q-068
+title: Merkspruch für Kartenfolge
+prompt: |
+  Gestatten Sie mir die Frage, wie die klassische Kartenordnung heißt, die mit dem Merksatz 'Eight Kings threatened to save' gelernt wird? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Eight Kings Stack
+    isCorrect: true
+  - text: Si Stebbins
+    isCorrect: false
+  - text: Mnemonica
+    isCorrect: false
+  - text: Stay Stack
+    isCorrect: false
+explanation: |
+  Der Eight-Kings-Stack nutzt einen Merkspruch, um eine vorbereitete Reihenfolge zu behalten und Kartenpositionen zu kontrollieren.
+tags:
+  - kartenkunst
+  - stacks

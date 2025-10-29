@@ -1,0 +1,19 @@
+id: q-053
+title: Weltmeisterschaft der Zauberei
+prompt: |
+  Würden Sie mir mitteilen, wie der internationale Dachverband heißt, der alle drei Jahre Weltmeisterschaften der Zauberkunst ausrichtet? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Fédération Internationale des Sociétés Magiques (FISM)
+    isCorrect: true
+  - text: European Magic Council
+    isCorrect: false
+  - text: World Illusion League
+    isCorrect: false
+  - text: Global Conjurers Guild
+    isCorrect: false
+explanation: |
+  Die FISM vereint nationale Verbände und vergibt Titel in Sparten wie Close-up, Parlour und Grand Illusion.
+tags:
+  - organisationen
+  - events

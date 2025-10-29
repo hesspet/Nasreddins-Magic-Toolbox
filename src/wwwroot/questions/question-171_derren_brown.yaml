@@ -1,0 +1,19 @@
+id: q-171
+title: Psychologische Experimente
+prompt: |
+  Würden Sie mir mitteilen, wie der britische Mentalist heißt, der für psychologische Shows wie 'Mind Control' und aufwendige TV-Experimente bekannt wurde? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Derren Brown
+    isCorrect: true
+  - text: Marc Salem
+    isCorrect: false
+  - text: Banachek
+    isCorrect: false
+  - text: Lior Suchard
+    isCorrect: false
+explanation: |
+  Derren Brown verbindet Suggestion, Hypnose und klassische Mentalmagie zu modernen Bühnenshows.
+tags:
+  - persoenlichkeiten
+  - mentalmagie

@@ -1,0 +1,19 @@
+id: q-065
+title: Juan Tamariz' Kartenordnung
+prompt: |
+  Würden Sie mir mitteilen, wie die berühmte memorierte Stapelreihenfolge heißt, die Juan Tamariz in seinem Standardwerk veröffentlichte? (Wären Sie so freundlich, 1 Antwort auszuwählen?)
+allowsMultiple: false
+options:
+  - text: Mnemonica
+    isCorrect: true
+  - text: Aronson Stack
+    isCorrect: false
+  - text: Redford Stack
+    isCorrect: false
+  - text: Si Stebbins
+    isCorrect: false
+explanation: |
+  Mnemonica ist eine flexible Kartenreihenfolge, die Tamariz als Ausgangspunkt für zahlreiche Wunder einsetzt.
+tags:
+  - kartenkunst
+  - memory
