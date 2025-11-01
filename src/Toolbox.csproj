@@ -9,6 +9,7 @@
 		<Version>1.0.0</Version>
 		<FileVersion>1.0.0.0</FileVersion>
 		<AssemblyVersion>1.1.0.2</AssemblyVersion>
+		<WasmEnableSIMD>false</WasmEnableSIMD>
 	</PropertyGroup>
 
         <ItemGroup>
@@ -206,6 +207,12 @@
 		<Resource Include="Resources\Images\TarotDeck_Wikipedia\W13_WQ_Wands13.md" />
 		<Resource Include="Resources\Images\TarotDeck_Wikipedia\W14_WK_Wands14.jpg" />
 		<Resource Include="Resources\Images\TarotDeck_Wikipedia\W14_WK_Wands14.md" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Update="wwwroot\web.config">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
 	</ItemGroup>
 
 
